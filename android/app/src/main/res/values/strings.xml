@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">zentao</string>
+    <string name="app_name">禅道</string>
+    <string name="action_settings">设置</string>
+    <string name="hint_zentao_address">禅道地址，如zentao.com</string>
+    <string name="hint_account">用户名/邮箱</string>
+    <string name="hint_password">密码</string>
+    <string name="button_login">登录</string>
+    <string name="title_activity_login">LoginActivity</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
 
 </resources>
