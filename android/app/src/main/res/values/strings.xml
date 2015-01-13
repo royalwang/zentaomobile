@@ -7,7 +7,16 @@
     <string name="hint_account">用户名/邮箱</string>
     <string name="hint_password">密码</string>
     <string name="button_login">登录</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="button_loging">正在登录...</string>
+    <string name="title_activity_login">登录</string>
 
+    <string name="message_login_failed">登录失败</string>
+
+    <string-array name="login_messages">
+        <item name="login_message_success">登录成功</item>
+        <item name="login_message_connect_failed">无法连接到服务器。</item>
+        <item name="login_message_wrong_account">用户名或密码不正确。</item>
+        <item name="login_message_wrong_version">不支持此禅道版本（仅支持禅道专业版4.4+）。</item>
+        <item name="login_message_server_error">服务器错误。</item>
+    </string-array>
 </resources>
