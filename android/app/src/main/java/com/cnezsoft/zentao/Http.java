@@ -33,6 +33,7 @@ public class Http {
     }
 
     public static String httpGet(URL url) {
+        Log.v("HTTPGET", "url:" + url.toString());
         try {
             HttpURLConnection c = (HttpURLConnection) url.openConnection();
             c.setRequestMethod("GET");
@@ -55,7 +56,9 @@ public class Http {
                         sb.append(line + "\n");
                     }
                     br.close();
-                    return sb.toString();
+                    String responseText = sb.toString();
+                    Log.v("HTTPGET", "responseText:" + responseText);
+                    return responseText;
             }
 
         } catch (IOException e) {
