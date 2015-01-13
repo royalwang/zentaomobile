@@ -1,7 +1,5 @@
 package com.cnezsoft.zentao;
 
-import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
@@ -9,11 +7,13 @@ import org.json.JSONStringer;
 import java.util.Date;
 
 /**
+ * The zentao configuration
  * Created by Catouse on 2015/1/12.
  * config as json like: {"version":"6.3","requestType":"PATH_INFO","pathType":"clean",
  * "requestFix":"-","moduleVar":"m","methodVar":"f","viewVar":"t","sessionVar":"sid",
  * "sessionName":"sid","sessionID":"joj7nhuq6mk0snot551oaju405","rand":4396,"expiredTime":"1440"}
  */
+
 public class ZentaoConfig {
     private String version;
     private RequestType requestType;
@@ -29,6 +29,10 @@ public class ZentaoConfig {
     private float versionNumber;
     private Date sessionTime;
 
+    /**
+     * Construct with an jsonData
+     * @param jsonData
+     */
     public ZentaoConfig(JSONObject jsonData) {
         this.version = jsonData.optString("version").toLowerCase();
         this.requestType = getRequestTypeFromName(jsonData.optString("requestType"));
@@ -36,7 +40,7 @@ public class ZentaoConfig {
         this.moduleVar = jsonData.optString("moduleVar");
         this.methodVar = jsonData.optString("methodVar");
         this.viewVar = jsonData.optString("viewVar");
-        this.sessionName = jsonData.optString("sessionName");
+        this.sessionName = jsonData.optString("sessionName", "sid");
         this.sessionID = jsonData.optString("sessionID");
         this.rand = jsonData.optInt("rand");
         this.expiredTime = jsonData.optString("expiredTime");
@@ -48,9 +52,17 @@ public class ZentaoConfig {
         this.versionNumber = Float.parseFloat((verStr.length > 0 ? verStr[0] : "0") + "." + (verStr.length > 1 ? verStr[1] : "0"));
     }
 
+    public boolean isPro() {
+        return pro;
+    }
+
+    public float getVersionNumber() {
+        return versionNumber;
+    }
+
     public boolean isExpired()
     {
-        return true;
+        return false;
     }
 
     public String toJSONString() throws JSONException {
@@ -113,6 +125,6 @@ public class ZentaoConfig {
 
     public static RequestType getRequestTypeFromName(String name)
     {
-        return (name == "PATH_INFO") ? RequestType.PATH_INFO : RequestType.GET;
+        return (name.equals("PATH_INFO")) ? RequestType.PATH_INFO : RequestType.GET;
     }
 }
