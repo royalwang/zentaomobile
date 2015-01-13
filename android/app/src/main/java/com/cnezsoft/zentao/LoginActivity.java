@@ -1,6 +1,7 @@
 package com.cnezsoft.zentao;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -81,9 +82,15 @@ public class LoginActivity extends ActionBarActivity {
         else
         {
             new AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.message_login_failed))
-                    .setMessage(loginMessages[result.getCode()])
-                    .show();
+                .setTitle(getString(R.string.message_login_failed))
+                .setMessage(loginMessages[result.getCode()])
+                .setNeutralButton(android.R.string.ok,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                            }
+                        })
+                .show();
         }
     }
 

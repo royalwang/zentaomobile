@@ -51,7 +51,6 @@
             android:id="@+id/edit_address"
             android:layout_gravity="center_horizontal"
             android:hint="@string/hint_zentao_address"
-            android:text="http://xirang.5upm.com"
             android:drawableStart="@drawable/ic_action_globe"
             android:drawablePadding="5dip"
             android:drawableLeft="@drawable/ic_action_globe" />
@@ -61,7 +60,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/edit_account"
             android:hint="@string/hint_account"
-            android:text="sunhao"
             android:drawableStart="@drawable/ic_action_user"
             android:drawablePadding="5dip"
             android:drawableLeft="@drawable/ic_action_user" />
@@ -73,7 +71,6 @@
             android:ems="10"
             android:id="@+id/edit_password"
             android:hint="@string/hint_password"
-            android:text="MYBMG96"
             android:drawableStart="@drawable/ic_action_lock_closed"
             android:drawablePadding="5dip"
             android:drawableLeft="@drawable/ic_action_lock_closed" />
