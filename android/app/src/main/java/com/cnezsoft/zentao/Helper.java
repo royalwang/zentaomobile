@@ -32,6 +32,16 @@ public class Helper {
     }
 
     /**
+     * Determine a string variable is null or empty string
+     * @param s
+     * @return
+     */
+    public static boolean isNullOrEmpty(String s)
+    {
+        return s == null || s.isEmpty();
+    }
+
+    /**
      * Return a value from the given map and remove it from the map
      * @param map
      * @param key
