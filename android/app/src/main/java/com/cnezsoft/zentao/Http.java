@@ -1,6 +1,5 @@
 package com.cnezsoft.zentao;
 
-import android.os.AsyncTask;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -14,24 +13,44 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
+ * Hppt helpers
  * Created by Catouse on 2015/1/13.
  */
 public class Http {
 
     private static int timeout = 15000;
 
+    /**
+     * Timeout getter
+     * @return
+     */
     public static int getTimeout() {
         return timeout;
     }
 
+    /**
+     * Timeout setter
+     * @param timeout
+     */
     public static void setTimeout(int timeout) {
         Http.timeout = timeout;
     }
 
+    /**
+     * Return response string with http 'GET' method
+     * @param url
+     * @return
+     * @throws MalformedURLException
+     */
     public static String httpGet(String url) throws MalformedURLException {
         return httpGet(new URL(url));
     }
 
+    /**
+     * Return response string with http 'GET' method
+     * @param url
+     * @return
+     */
     public static String httpGet(URL url) {
         Log.v("HTTPGET", "url:" + url.toString());
         try {
@@ -67,10 +86,22 @@ public class Http {
         return null;
     }
 
+    /**
+     * Return json object with http 'GET' method
+     * @param url
+     * @return
+     * @throws JSONException
+     */
     public static JSONObject httpGetJSON(URL url) throws JSONException {
         return new JSONObject(httpGet(url));
     }
 
+    /**
+     * Return json object with http 'GET' method
+     * @param url
+     * @return
+     * @throws JSONException
+     */
     public static JSONObject httpGetJSON(String url) throws MalformedURLException, JSONException {
         return httpGetJSON(new URL(url));
     }

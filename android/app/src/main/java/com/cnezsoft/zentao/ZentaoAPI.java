@@ -1,10 +1,5 @@
 package com.cnezsoft.zentao;
 
-import android.app.Activity;
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.ResultReceiver;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -18,25 +13,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Zentao API helpers
  * Created by Catouse on 2015/1/12.
  */
 public class ZentaoAPI
 {
-//    private Activity activity;
-//
-//    public ZentaoAPI(Activity activity) {
-//        this.activity = activity;
-//    }
-//
-//    public int networkStatus()
-//    {
-//        Context context = this.activity.getApplicationContext();
-//        ConnectivityManager connectivityManager = (ConnectivityManager) context
-//                .getSystemService(Context.CONNECTIVITY_SERVICE);
-//        NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
-//        return activeNetInfo.getType();
-//    }
-
+    /**
+     * Encrypted string with 'md5' algorithm
+     * @param s
+     * @return
+     */
     public static String md5(String s)
     {
         try
@@ -52,6 +38,13 @@ public class ZentaoAPI
         return "";
     }
 
+    /**
+     * Concat zentao api url with params
+     * @param params
+     * @param config
+     * @param user
+     * @return
+     */
     public static String concatUrl(Map<String, String> params, ZentaoConfig config, User user)
     {
         String moduleName = params.get("module");
@@ -143,10 +136,27 @@ public class ZentaoAPI
         return url;
     }
 
+    /**
+     * Get zentao config
+     * The method should called in async task
+     *
+     * @param userAddress
+     * @return
+     * @throws MalformedURLException
+     * @throws JSONException
+     */
     public static ZentaoConfig getConfig(String userAddress) throws MalformedURLException, JSONException {
         return new ZentaoConfig(Http.httpGetJSON(userAddress + "/index.php?mode=getconfig&test=1"));
     }
 
+    /**
+     * Login in zentao
+     * The method should called in async task
+     *
+     * @param config
+     * @param user
+     * @return
+     */
     public static OperateResult<Boolean> login(ZentaoConfig config, User user)
     {
         boolean result = false;
@@ -171,6 +181,13 @@ public class ZentaoAPI
         return new OperateResult<Boolean>(result, message){{setCode(finalCode);}};
     }
 
+    /**
+     * Get zentao config then login in zentao
+     * The method should called in async task
+     *
+     * @param user
+     * @return
+     */
     public static OperateBundle<Boolean, ZentaoConfig> tryLogin(User user)
     {
         try {

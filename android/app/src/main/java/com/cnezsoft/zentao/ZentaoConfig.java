@@ -13,7 +13,6 @@ import java.util.Date;
  * "requestFix":"-","moduleVar":"m","methodVar":"f","viewVar":"t","sessionVar":"sid",
  * "sessionName":"sid","sessionID":"joj7nhuq6mk0snot551oaju405","rand":4396,"expiredTime":"1440"}
  */
-
 public class ZentaoConfig {
     private String version;
     private RequestType requestType;
@@ -52,19 +51,36 @@ public class ZentaoConfig {
         this.versionNumber = Float.parseFloat((verStr.length > 0 ? verStr[0] : "0") + "." + (verStr.length > 1 ? verStr[1] : "0"));
     }
 
+    /**
+     * "isPro" getter
+     * @return
+     */
     public boolean isPro() {
         return pro;
     }
 
+    /**
+     * Version number getter
+     * @return
+     */
     public float getVersionNumber() {
         return versionNumber;
     }
 
+    /**
+     * Determine whether the session is expired
+     * @return
+     */
     public boolean isExpired()
     {
         return false;
     }
 
+    /**
+     * Return the config with json string
+     * @return
+     * @throws JSONException
+     */
     public String toJSONString() throws JSONException {
         return new JSONStringer().object()
                 .key("version").value(this.version)
@@ -83,46 +99,91 @@ public class ZentaoConfig {
                 .endObject().toString();
     }
 
+    /**
+     * Version getter
+     * @return
+     */
     public String getVersion() {
         return version;
     }
 
+    /**
+     * "RequestType" gtter
+     * @return
+     */
     public RequestType getRequestType() {
         return requestType;
     }
 
+    /**
+     * "RequestFix" getter
+     * @return
+     */
     public String getRequestFix() {
         return requestFix;
     }
 
+    /**
+     * "ModuleVar" getter
+     * @return
+     */
     public String getModuleVar() {
         return moduleVar;
     }
 
+    /**
+     * "MethodVar" getter
+     * @return
+     */
     public String getMethodVar() {
         return methodVar;
     }
 
+    /**
+     * "ViewVar" getter
+     * @return
+     */
     public String getViewVar() {
         return viewVar;
     }
 
+    /**
+     * "SessionID" getter
+     * @return
+     */
     public String getSessionID() {
         return sessionID;
     }
 
+    /**
+     * "SessionName" getter
+     * @return
+     */
     public String getSessionName() {
         return sessionName;
     }
 
+    /**
+     * Rand getter
+     * @return
+     */
     public int getRand() {
         return rand;
     }
 
+    /**
+     * "ExpiredTime" getter
+     * @return
+     */
     public String getExpiredTime() {
         return expiredTime;
     }
 
+    /**
+     * Get RequestType from name
+     * @param name
+     * @return
+     */
     public static RequestType getRequestTypeFromName(String name)
     {
         return (name.equals("PATH_INFO")) ? RequestType.PATH_INFO : RequestType.GET;

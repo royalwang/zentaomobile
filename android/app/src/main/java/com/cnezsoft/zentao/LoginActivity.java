@@ -3,20 +3,14 @@ package com.cnezsoft.zentao;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import org.json.JSONException;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class LoginActivity extends ActionBarActivity {
 
@@ -54,6 +48,10 @@ public class LoginActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Handle the login button click event
+     * @param view
+     */
     public void onLogin(View view) {
         if(user == null)
         {
@@ -68,6 +66,10 @@ public class LoginActivity extends ActionBarActivity {
         new tryLoginTask().execute(user);
     }
 
+    /**
+     * Handle the login task result
+     * @param result
+     */
     private void handleLoginResult(OperateBundle<Boolean, ZentaoConfig> result){
         loginButton.setText(getString(R.string.button_login));
         loginButton.setEnabled(true);
@@ -94,6 +96,9 @@ public class LoginActivity extends ActionBarActivity {
         }
     }
 
+    /**
+     * The async task for login in Zentao server
+     */
     private class tryLoginTask extends AsyncTask<User, Integer, OperateBundle<Boolean, ZentaoConfig>> {
         protected OperateBundle<Boolean, ZentaoConfig> doInBackground(User... users) {
             return ZentaoAPI.tryLogin(users[0]);
