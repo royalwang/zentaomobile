@@ -146,7 +146,7 @@ public class ZentaoAPI
      * @throws JSONException
      */
     public static ZentaoConfig getConfig(String userAddress) throws MalformedURLException, JSONException {
-        return new ZentaoConfig(Http.httpGetJSON(userAddress + "/index.php?mode=getconfig&test=1"));
+        return new ZentaoConfig(Http.httpGetJSON(userAddress + "/index.php?mode=getconfig"));
     }
 
     /**
@@ -169,7 +169,7 @@ public class ZentaoAPI
             String status = jsonResult.optString("status", "failed");
             result = status.equals("success");
             code = result ? 0 : 2;
-            message = jsonResult.optString("reason", status);
+            message = jsonResult.optString("reason");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (JSONException e) {
@@ -177,8 +177,9 @@ public class ZentaoAPI
             code = 4;
         }
 
-        final int finalCode = code;
-        return new OperateResult<Boolean>(result, message){{setCode(finalCode);}};
+        OperateResult<Boolean> operateResult = new OperateResult<>(result, message);
+        operateResult.setCode(code);
+        return operateResult;
     }
 
     /**

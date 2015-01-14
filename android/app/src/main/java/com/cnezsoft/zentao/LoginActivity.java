@@ -85,7 +85,7 @@ public class LoginActivity extends ActionBarActivity {
         {
             new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.message_login_failed))
-                .setMessage(loginMessages[result.getCode()])
+                .setMessage(Helper.ifNullOrEmptyThen(result.getMessage(), loginMessages[result.getCode()]))
                 .setNeutralButton(android.R.string.ok,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
