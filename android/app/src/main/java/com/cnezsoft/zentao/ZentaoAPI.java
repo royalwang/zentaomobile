@@ -54,11 +54,7 @@ public class ZentaoAPI
         String url = user.getAddress();
         if(!url.endsWith("/")) url += "/";
 
-        try {
-            Log.v("concatUrl", config.toJSONString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        Log.v("concatUrl", config.toJSONString());
         if(config.getRequestType() == RequestType.PATH_INFO)
         {
             if(moduleName.equals("user") && methodName.equals("login"))

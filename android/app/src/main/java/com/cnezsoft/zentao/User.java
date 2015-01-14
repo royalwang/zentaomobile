@@ -1,5 +1,7 @@
 package com.cnezsoft.zentao;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONStringer;
 
@@ -17,6 +19,7 @@ public class User {
         Online
     };
 
+    private final String PASSWORD_WITH_MD5_FLAG = "%PASSWORD_WITH_MD5_FLAG% ";
     private String account;
     private String address;
     private String passwordMD5;
@@ -87,6 +90,15 @@ public class User {
     }
 
     /**
+     * Get PasswordMd5 with prefix flag
+     * @return
+     */
+    public String getPasswordMD5WithFlag()
+    {
+        return PASSWORD_WITH_MD5_FLAG + passwordMD5;
+    }
+
+    /**
      * Check and save data after user info changed
      */
     private void onChange(boolean saveData)
@@ -127,6 +139,7 @@ public class User {
                     .putLong(LASTLOGINTIME, getLastLoginTime().getTime())
                     .commit();
         }
+        Log.v("USER", "SAVE:" + toJSONString());
     }
 
     /**
@@ -152,7 +165,7 @@ public class User {
      * @param address
      */
     public void setAddress(String address, boolean saveData) {
-        if(!address.startsWith("http://") && !address.startsWith("https://"))
+        if(address !=null && !address.startsWith("http://") && !address.startsWith("https://"))
         {
             address = "http://" + address;
         }
@@ -174,6 +187,14 @@ public class User {
      * @param passwordMD5
      */
     public void setPasswordMD5(String passwordMD5, boolean saveData) {
+        if(passwordMD5 != null && passwordMD5.startsWith(PASSWORD_WITH_MD5_FLAG))
+        {
+            passwordMD5 = passwordMD5.substring(PASSWORD_WITH_MD5_FLAG.length());
+        }
+        else
+        {
+            passwordMD5 = ZentaoAPI.md5(passwordMD5);
+        }
         this.passwordMD5 = passwordMD5;
         if(saveData) onChange();
     }
@@ -275,13 +296,18 @@ public class User {
      * @return
      * @throws JSONException
      */
-    public String toJSONString() throws JSONException {
-        return new JSONStringer().object()
-                .key("account").value(this.account)
-                .key("address").value(this.address)
-                .key("passwordMD5").value(this.passwordMD5)
-                .key("lastLoginTime").value(this.lastLoginTime)
-                .key("status").value(this.status)
-                .endObject().toString();
+    public String toJSONString() {
+        try {
+            return new JSONStringer().object()
+                    .key("account").value(this.account)
+                    .key("address").value(this.address)
+                    .key("passwordMD5").value(this.passwordMD5)
+                    .key("lastLoginTime").value(this.lastLoginTime)
+                    .key("status").value(this.status)
+                    .endObject().toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return "[EMPTY USER]";
+        }
     }
 }

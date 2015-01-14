@@ -1,6 +1,7 @@
 package com.cnezsoft.zentao;
 
 import android.app.Application;
+import android.util.Log;
 
 /**
  * Zentao application
@@ -12,6 +13,7 @@ public class ZentaoApplication extends Application {
     private UserPreferences userPreferences;
 
     public User getUser() {
+        Log.v("GET USER", user.toJSONString());
         return user;
     }
 
