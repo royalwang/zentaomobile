@@ -81,22 +81,27 @@ public class ZentaoConfig {
      * @return
      * @throws JSONException
      */
-    public String toJSONString() throws JSONException {
-        return new JSONStringer().object()
-                .key("version").value(this.version)
-                .key("pro").value(this.pro)
-                .key("sessionTime").value(this.sessionTime)
-                .key("versionNumber").value(this.versionNumber)
-                .key("requestType").value(this.requestType)
-                .key("requestFix").value(this.requestFix)
-                .key("moduleVar").value(this.moduleVar)
-                .key("methodVar").value(this.methodVar)
-                .key("viewVar").value(this.viewVar)
-                .key("sessionName").value(this.sessionName)
-                .key("sessionID").value(this.sessionID)
-                .key("rand").value(this.rand)
-                .key("expiredTime").value(this.expiredTime)
-                .endObject().toString();
+    public String toJSONString() {
+        try {
+            return new JSONStringer().object()
+                    .key("version").value(this.version)
+                    .key("pro").value(this.pro)
+                    .key("sessionTime").value(this.sessionTime)
+                    .key("versionNumber").value(this.versionNumber)
+                    .key("requestType").value(this.requestType)
+                    .key("requestFix").value(this.requestFix)
+                    .key("moduleVar").value(this.moduleVar)
+                    .key("methodVar").value(this.methodVar)
+                    .key("viewVar").value(this.viewVar)
+                    .key("sessionName").value(this.sessionName)
+                    .key("sessionID").value(this.sessionID)
+                    .key("rand").value(this.rand)
+                    .key("expiredTime").value(this.expiredTime)
+                    .endObject().toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return "[EMPTY]";
+        }
     }
 
     /**
