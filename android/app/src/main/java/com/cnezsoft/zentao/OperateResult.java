@@ -76,6 +76,8 @@ public class OperateResult<T> {
      */
     public <V> OperateBundle<T, V> toOperateBundle(V value)
     {
-        return new OperateBundle<>(this.result, this.message, value);
+        OperateBundle<T,V> operateBundle = new OperateBundle<>(this.result, this.message, value);
+        operateBundle.setCode(code);
+        return operateBundle;
     }
 }
