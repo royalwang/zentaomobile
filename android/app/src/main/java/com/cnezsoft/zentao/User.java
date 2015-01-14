@@ -57,6 +57,10 @@ public class User {
      * @param address
      */
     public void setAddress(String address) {
+        if(!address.startsWith("http://") && !address.startsWith("https://"))
+        {
+            address = "http://" + address;
+        }
         this.address = address;
     }
 
