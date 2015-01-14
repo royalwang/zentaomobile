@@ -64,6 +64,7 @@ public class Http {
 
             c.connect();
             int status = c.getResponseCode();
+            Log.v("HTTPGET", "responseCode:" + status);
 
             switch (status) {
                 case 200:

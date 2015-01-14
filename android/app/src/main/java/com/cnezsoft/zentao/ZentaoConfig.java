@@ -46,7 +46,7 @@ public class ZentaoConfig {
 
         // Analysis configurations
         this.sessionTime = new Date();
-        this.pro = this.version.indexOf("pro") > -1;
+        this.pro = this.version.contains("pro");
         String[] verStr = this.version.replaceAll("[^0-9.]*([0-9.]*)[^0-9.]*", "$1").split("[.]", 2);
         this.versionNumber = Float.parseFloat((verStr.length > 0 ? verStr[0] : "0") + "." + (verStr.length > 1 ? verStr[1] : "0"));
     }
