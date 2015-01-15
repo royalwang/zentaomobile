@@ -1,7 +1,5 @@
 package com.cnezsoft.zentao;
 
-import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -54,7 +52,6 @@ public class ZentaoAPI
         String url = user.getAddress();
         if(!url.endsWith("/")) url += "/";
 
-        Log.v("concatUrl", config.toJSONString());
         if(config.getRequestType() == RequestType.PATH_INFO)
         {
             if(moduleName.equals("user") && methodName.equals("login"))

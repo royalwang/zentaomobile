@@ -95,6 +95,9 @@ public class LoginActivity extends ActionBarActivity {
             ZentaoConfig zentaoConfig = result.getValue();
             ((ZentaoApplication) getApplicationContext()).setZentaoConfig(zentaoConfig);
             Toast.makeText(getApplicationContext(), loginMessages[0], Toast.LENGTH_SHORT).show();
+
+            setResult(RESULT_OK);
+            finish();
         }
         else
         {

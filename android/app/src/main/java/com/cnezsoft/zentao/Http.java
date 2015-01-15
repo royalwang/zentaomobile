@@ -52,7 +52,7 @@ public class Http {
      * @return
      */
     public static String httpGet(URL url) {
-        Log.v("HTTPGET", "url:" + url.toString());
+        Log.v("HTTP GET", "url:" + url.toString());
         try {
             HttpURLConnection c = (HttpURLConnection) url.openConnection();
             c.setRequestMethod("GET");
@@ -64,7 +64,7 @@ public class Http {
 
             c.connect();
             int status = c.getResponseCode();
-            Log.v("HTTPGET", "responseCode:" + status);
+            Log.v("HTTP GET", "responseCode:" + status);
 
             switch (status) {
                 case 200:
@@ -77,7 +77,7 @@ public class Http {
                     }
                     br.close();
                     String responseText = sb.toString();
-                    Log.v("HTTPGET", "responseText:" + responseText);
+                    Log.v("HTTP GET", "responseText:" + responseText);
                     return responseText;
             }
 

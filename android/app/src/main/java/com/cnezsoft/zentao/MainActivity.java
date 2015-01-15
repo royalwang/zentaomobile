@@ -1,5 +1,6 @@
 package com.cnezsoft.zentao;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -10,10 +11,15 @@ import android.view.View;
 
 public class MainActivity extends ActionBarActivity {
 
+    private ZentaoApplication application;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        application = (ZentaoApplication) getApplicationContext();
+        application.checkUserStatus(this);
     }
 
 
@@ -39,12 +45,20 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == ZentaoApplication.LOGIN_REQUEST)
+        {
+            new AlertDialog.Builder(this).setTitle(requestCode + "> 登录界面结果:" + resultCode).setMessage(((ZentaoApplication) getApplicationContext()).getUser().toJSONString()).show();
+        }
+    }
+
     /**
      * Handle the click event: open the login activity
      * @param view
      */
     public void openLoginActivity(View view) {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+        application.login(this);
     }
 }
