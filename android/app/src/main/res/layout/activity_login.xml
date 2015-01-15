@@ -78,11 +78,12 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/button_login"
+            android:text="@string/label_login"
             android:id="@+id/button_login"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="20dp"
-            android:onClick="onLogin" />
+            android:onClick="onLogin"
+            style="@style/PositiveButton" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -17,7 +17,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_login"
+        android:text="@string/label_login"
         android:onClick="openLoginActivity"
         android:layout_gravity="center" />
 </LinearLayout>

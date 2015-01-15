@@ -116,7 +116,7 @@ public class LoginActivity extends ActionBarActivity {
      * @param result
      */
     private void handleLoginResult(OperateBundle<Boolean, ZentaoConfig> result){
-        loginButton.setText(getString(R.string.button_login));
+        loginButton.setText(getString(R.string.label_login));
         loginButton.setEnabled(true);
 
         String[] loginMessages = getResources().getStringArray(R.array.login_messages);

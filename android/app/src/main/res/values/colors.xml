@@ -277,8 +277,10 @@
     <color name="blue_grey_800">#37474f</color>
     <color name="blue_grey_900">#263238</color>
 
-
     <!-- Colors for the app -->
+    <color name="white">@color/grey_white_1000</color>
+    <color name="black">@color/grey_900</color>
+
     <color name="primary">@color/blue_500</color>
     <color name="primary_dark">@color/blue_700</color>
     <color name="primary_light">@color/blue_100</color>

@@ -6,7 +6,7 @@
     <string name="hint_zentao_address">禅道地址，如zentao.com</string>
     <string name="hint_account">用户名/邮箱</string>
     <string name="hint_password">密码</string>
-    <string name="button_login">登录</string>
+    <string name="label_login">登录</string>
     <string name="button_loging">正在登录...</string>
     <string name="title_activity_login">登录</string>
 
