@@ -2,6 +2,7 @@ package com.cnezsoft.zentao;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -10,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 /**
  * Login activity
@@ -22,6 +22,7 @@ public class LoginActivity extends ActionBarActivity {
     private EditText editAddress;
     private EditText editAccount;
     private EditText editPasswordMd5;
+    private boolean autoLogin = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,25 @@ public class LoginActivity extends ActionBarActivity {
             editAccount.setText(user.getAccount());
             editAddress.setText(user.getAddress());
             editPasswordMd5.setText(user.getPasswordMD5WithFlag());
+        }
+
+        Intent intent = getIntent();
+        if(intent != null)
+        {
+            autoLogin = intent.getBooleanExtra(ZentaoApplication.EXTRA_AUTO_LOGIN, false);
+        }
+    }
+
+    /**
+     * Dispatch onStart() to all fragments.  Ensure any created loaders are
+     * now started.
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(autoLogin)
+        {
+            onLogin(null);
         }
     }
 
@@ -64,6 +84,17 @@ public class LoginActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Call this when your activity is done and should be closed.  The
+     * ActivityResult is propagated back to whoever launched you via
+     * onActivityResult().
+     */
+    @Override
+    public void finish() {
+        setResult(user.getStatus() == User.Status.Online ? RESULT_OK : RESULT_CANCELED);
+        super.finish();
     }
 
     /**
@@ -94,9 +125,7 @@ public class LoginActivity extends ActionBarActivity {
             user.online();
             ZentaoConfig zentaoConfig = result.getValue();
             ((ZentaoApplication) getApplicationContext()).setZentaoConfig(zentaoConfig);
-            Toast.makeText(getApplicationContext(), loginMessages[0], Toast.LENGTH_SHORT).show();
 
-            setResult(RESULT_OK);
             finish();
         }
         else

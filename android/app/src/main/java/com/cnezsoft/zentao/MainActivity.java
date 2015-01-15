@@ -1,12 +1,12 @@
 package com.cnezsoft.zentao;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -50,7 +50,8 @@ public class MainActivity extends ActionBarActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ZentaoApplication.LOGIN_REQUEST)
         {
-            new AlertDialog.Builder(this).setTitle(requestCode + "> 登录界面结果:" + resultCode).setMessage(((ZentaoApplication) getApplicationContext()).getUser().toJSONString()).show();
+            Toast.makeText(application, getText(resultCode == RESULT_OK ? R.string.message_login_success : R.string.message_login_failed), Toast.LENGTH_SHORT).show();
+//            new AlertDialog.Builder(this).setTitle(requestCode + "> 登录界面结果:" + resultCode).setMessage(((ZentaoApplication) getApplicationContext()).getUser().toJSONString()).show();
         }
     }
 
@@ -59,6 +60,6 @@ public class MainActivity extends ActionBarActivity {
      * @param view
      */
     public void openLoginActivity(View view) {
-        application.login(this);
+        application.login(this, false);
     }
 }

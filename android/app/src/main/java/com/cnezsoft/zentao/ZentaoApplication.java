@@ -12,6 +12,7 @@ import android.util.Log;
 public class ZentaoApplication extends Application {
 
     public static final int LOGIN_REQUEST = 1;
+    public static final String EXTRA_AUTO_LOGIN = "com.cnezsoft.zentao.extra.auto-login";
     private User user;
     private ZentaoConfig zentaoConfig;
     private UserPreferences userPreferences;
@@ -46,9 +47,9 @@ public class ZentaoApplication extends Application {
      * @param activity
      */
     public void checkUserStatus(Activity activity) {
-        if(user.getStatus() == User.Status.Unknown)
+        if(user.getStatus() != User.Status.Online)
         {
-            login(activity);
+            login(activity, true);
         }
     }
 
@@ -56,11 +57,16 @@ public class ZentaoApplication extends Application {
      * Open login active and login
      * @param activity
      */
-    public void login(Activity activity)
-    {
+    public void login(Activity activity, boolean autoLogin) {
         Intent intent = new Intent(activity, LoginActivity.class);
 //        activity.startActivity(intent);
+
+        intent.putExtra(EXTRA_AUTO_LOGIN, autoLogin);
         activity.startActivityForResult(intent, LOGIN_REQUEST);
+    }
+
+    public void login(Activity activity) {
+        login(activity, false);
     }
 
     @Override
