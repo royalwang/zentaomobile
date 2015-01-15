@@ -12,13 +12,17 @@ public class ZentaoApplication extends Application {
     private ZentaoConfig zentaoConfig;
     private UserPreferences userPreferences;
 
+    public ZentaoConfig getZentaoConfig() {
+        return zentaoConfig;
+    }
+
+    public void setZentaoConfig(ZentaoConfig zentaoConfig) {
+        this.zentaoConfig = zentaoConfig;
+    }
+
     public User getUser() {
         Log.v("GET USER", user.toJSONString());
         return user;
-    }
-
-    public ZentaoConfig getZentaoConfig() {
-        return zentaoConfig;
     }
 
     @Override

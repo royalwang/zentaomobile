@@ -12,9 +12,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+/**
+ * Login activity
+ */
 public class LoginActivity extends ActionBarActivity {
 
-    private ZentaoConfig zentaoConfig;
     private User user;
     private Button loginButton;
     private EditText editAddress;
@@ -30,9 +32,11 @@ public class LoginActivity extends ActionBarActivity {
         editAddress = (EditText) findViewById(R.id.edit_address);
         editAccount = (EditText) findViewById(R.id.edit_account);
         editPasswordMd5 = (EditText) findViewById(R.id.edit_password);
-        user = ((ZentaoApplication) getApplicationContext()).getUser();
 
-        if(user.getStatus() == User.Status.Offline)
+        ZentaoApplication context = (ZentaoApplication) getApplicationContext();
+        user = context.getUser();
+
+        if(user.getStatus() != User.Status.Unknown)
         {
             editAccount.setText(user.getAccount());
             editAddress.setText(user.getAddress());
@@ -67,9 +71,9 @@ public class LoginActivity extends ActionBarActivity {
      * @param view
      */
     public void onLogin(View view) {
-        user.set(editAccount.getText().toString(),
-                editAddress.getText().toString(),
-                editPasswordMd5.getText().toString());
+        user.setAddress(editAddress.getText().toString(), false)
+            .setAccount(editAccount.getText().toString(), false)
+            .setPassword(editPasswordMd5.getText().toString());
 
         loginButton.setText(getString(R.string.button_loging));
         loginButton.setEnabled(false);
@@ -88,7 +92,8 @@ public class LoginActivity extends ActionBarActivity {
         if(result.getResult())
         {
             user.online();
-            zentaoConfig = result.getValue();
+            ZentaoConfig zentaoConfig = result.getValue();
+            ((ZentaoApplication) getApplicationContext()).setZentaoConfig(zentaoConfig);
             Toast.makeText(getApplicationContext(), loginMessages[0], Toast.LENGTH_SHORT).show();
         }
         else
@@ -110,6 +115,7 @@ public class LoginActivity extends ActionBarActivity {
      * The async task for login in Zentao server
      */
     private class tryLoginTask extends AsyncTask<User, Integer, OperateBundle<Boolean, ZentaoConfig>> {
+
         protected OperateBundle<Boolean, ZentaoConfig> doInBackground(User... users) {
             return ZentaoAPI.tryLogin(users[0]);
         }

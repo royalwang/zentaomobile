@@ -101,7 +101,7 @@ public class User {
     /**
      * Check and save data after user info changed
      */
-    private void onChange(boolean saveData)
+    private void checkChange(boolean saveData)
     {
         if(status == Status.Unknown
                 && !Helper.isNullOrEmpty(account)
@@ -119,9 +119,9 @@ public class User {
     /**
      * Check and save data after user info changed
      */
-    private void onChange()
+    private void checkChange()
     {
-        onChange(true);
+        checkChange(true);
     }
 
     /**
@@ -139,91 +139,111 @@ public class User {
                     .putLong(LASTLOGINTIME, getLastLoginTime().getTime())
                     .commit();
         }
-        Log.v("USER", "SAVE:" + toJSONString());
     }
 
     /**
      * Account setter
      * @param account
      */
-    public void setAccount(String account, boolean saveData) {
+    public User setAccount(String account, boolean saveData) {
         this.account = account;
-        if(saveData) onChange();
+        if(saveData) checkChange();
+        return this;
     }
 
     /**
      * Account setter
      * @param account
      */
-    public void setAccount(String account)
+    public User setAccount(String account)
     {
-        this.setAccount(account, true);
+        return this.setAccount(account, true);
     }
 
     /**
      * Address setter
      * @param address
      */
-    public void setAddress(String address, boolean saveData) {
+    public User setAddress(String address, boolean saveData) {
         if(address !=null && !address.startsWith("http://") && !address.startsWith("https://"))
         {
             address = "http://" + address;
         }
         this.address = address;
-        if(saveData) onChange();
+        if(saveData) checkChange();
+        return this;
     }
 
     /**
      * Address setter
      * @param address
      */
-    public void setAddress(String address)
+    public User setAddress(String address)
     {
-        setAddress(address, true);
+        return setAddress(address, true);
     }
 
     /**
      * PasswordMD5 setter
      * @param passwordMD5
      */
-    public void setPasswordMD5(String passwordMD5, boolean saveData) {
-        if(passwordMD5 != null && passwordMD5.startsWith(PASSWORD_WITH_MD5_FLAG))
-        {
-            passwordMD5 = passwordMD5.substring(PASSWORD_WITH_MD5_FLAG.length());
-        }
-        else
-        {
-            passwordMD5 = ZentaoAPI.md5(passwordMD5);
-        }
+    public User setPasswordMD5(String passwordMD5, boolean saveData) {
         this.passwordMD5 = passwordMD5;
-        if(saveData) onChange();
+        if(saveData) checkChange();
+        return this;
+    }
+
+    /**
+     * Passwrod setter
+     * @param password
+     * @param saveData
+     */
+    public User setPassword(String password, boolean saveData) {
+        if(password != null)
+        {
+            if(password.startsWith(PASSWORD_WITH_MD5_FLAG))
+            {
+                password = password.substring(PASSWORD_WITH_MD5_FLAG.length());
+            }
+            else
+            {
+                password = ZentaoAPI.md5(password);
+            }
+        }
+        setPasswordMD5(password, saveData);
+        return this;
+    }
+
+    public User setPassword(String password) {
+        return setPassword(password, true);
     }
 
     /**
      * PasswordMD5 setter
      * @param passwordMD5
      */
-    public void setPasswordMD5(String passwordMD5)
+    public User setPasswordMD5(String passwordMD5)
     {
-        setPasswordMD5(passwordMD5, true);
+        return setPasswordMD5(passwordMD5, true);
     }
 
     /**
      * 'LastLoginTime' setter
      * @param lastLoginTime
      */
-    public void setLastLoginTime(Date lastLoginTime, boolean saveData) {
+    public User setLastLoginTime(Date lastLoginTime, boolean saveData) {
         this.lastLoginTime = lastLoginTime;
-        if(saveData) onChange();
+        if(saveData) checkChange();
+        return this;
     }
 
     /**
      * 'LastLoginTime' setter
      * @param lastLoginTime
      */
-    public void setLastLoginTime(Date lastLoginTime)
+    public User setLastLoginTime(Date lastLoginTime)
     {
-        setLastLoginTime(lastLoginTime, true);
+        return setLastLoginTime(lastLoginTime, true);
     }
 
     /**
@@ -244,31 +264,6 @@ public class User {
     }
 
     /**
-     * Set account, address and passwordMD5
-     * @param account
-     * @param address
-     * @param passwordMD5
-     * @param save
-     */
-    public void set(String account, String address, String passwordMD5, boolean save) {
-        this.setAccount(account, false);
-        this.setAddress(address, false);
-        this.setPasswordMD5(passwordMD5, false);
-        onChange(save);
-    }
-
-    /**
-     * Set account, address and passwordMD5
-     * @param account
-     * @param address
-     * @param passwordMD5
-     */
-    public void set(String account, String address, String passwordMD5)
-    {
-        set(account, address, passwordMD5, true);
-    }
-
-    /**
      * Constructor with account, address, passwordMD5 and userPreferences
      * @param account
      * @param address
@@ -277,7 +272,7 @@ public class User {
     public User(String account, String address, String passwordMD5, UserPreferences userPreferences) {
         this.userPreferences = userPreferences;
         this.userPreferences.setIdentify(getAccount());
-        set(account, address, passwordMD5);
+        this.setAccount(account, false).setPasswordMD5(passwordMD5, false).setAddress(address);
     }
 
     /**
@@ -285,10 +280,11 @@ public class User {
      */
     public User(UserPreferences userPreferences) {
         this.userPreferences = userPreferences;
-        set(this.userPreferences.getString(ACCOUNT, null),
-                this.userPreferences.getString(ADDRESS, null),
-                this.userPreferences.getString(PASSWORDMD5, null), false);
-        setLastLoginTime(new Date(this.userPreferences.getLong(LASTLOGINTIME, 0)), false);
+        this.setAccount(this.userPreferences.getString(ACCOUNT, null), false)
+                .setPasswordMD5(this.userPreferences.getString(PASSWORDMD5, null), false)
+                .setAddress(this.userPreferences.getString(ADDRESS, null), false)
+                .setLastLoginTime(new Date(this.userPreferences.getLong(LASTLOGINTIME, 0)), false)
+                .checkChange(false);
     }
 
     /**

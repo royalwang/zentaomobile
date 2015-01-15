@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import java.util.Set;
 
 /**
+ * User preferences
  * Created by Catouse on 2015/1/14.
  */
 public class UserPreferences {
