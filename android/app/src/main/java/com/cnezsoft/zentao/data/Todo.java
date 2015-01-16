@@ -6,7 +6,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -29,14 +28,17 @@ public class Todo extends DataEntry {
     }
 
     @Override
-    public void createColumns(HashMap<String, String> columns) {
-        super.createColumns(columns);
-        columns.put("pri", TYPE_INT);
-        columns.put("begin", TYPE_DATETIME);
-        columns.put("end", TYPE_DATETIME);
-        columns.put("type", TYPE_STRING);
-        columns.put("name", TYPE_STRING);
-        columns.put("status", TYPE_STRING);
+    public void onCreate() {
+        super.onCreate();
+
+        addColumn("pri", TYPE_INT);
+        addColumn("begin", TYPE_DATETIME);
+        addColumn("end", TYPE_DATETIME);
+        addColumn("type", TYPE_STRING);
+        addColumn("name", TYPE_STRING);
+        addColumn("status", TYPE_STRING);
+
+        setType(Types.TODO);
     }
 
     @Override

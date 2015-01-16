@@ -39,13 +39,25 @@ public abstract class DataEntry {
     protected HashMap<String, String> columns = new HashMap<>();
     protected Types type = Types.UNKNOWN;
 
+    public Types getType() {
+        return type;
+    }
+
+    protected void setType(Types type) {
+        this.type = type;
+    }
+
+    protected void setType(String type) {
+        setType(Enum.valueOf(Types.class, type.trim().toUpperCase()));
+    }
+
     protected DataEntry() {
-        createColumns();
+        onCreate();
         values = new ContentValues();
     }
 
     protected DataEntry(ContentValues values) {
-        createColumns();
+        onCreate();
         this.values = values;
     }
 
@@ -136,12 +148,12 @@ public abstract class DataEntry {
         return put(key, value.getTime());
     }
 
-    protected void createColumns(HashMap<String, String> columns) {
-        values.put("id", TYPE_INT);
+    protected void onCreate() {
+        addColumn("id", TYPE_INT);
     }
 
-    private void createColumns() {
-        createColumns(columns);
+    protected void addColumn(String name, String colType) {
+        columns.put(name, colType);
     }
 
     protected void afterFromJSON(JSONObject json, HashSet<String> excepts) {
