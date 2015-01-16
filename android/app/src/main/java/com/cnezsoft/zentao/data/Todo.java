@@ -1,5 +1,7 @@
 package com.cnezsoft.zentao.data;
 
+import android.database.Cursor;
+
 import org.json.JSONObject;
 
 import java.text.DateFormat;
@@ -17,15 +19,18 @@ public class Todo extends DataEntry {
     public enum Status {WAIT, DONE, DOING}
 
     public Status getStatus() {
-        return Enum.valueOf(Status.class, getAsString("status").trim().toUpperCase());
+        return Enum.valueOf(Status.class, getAsString(TodoColumn.status).trim().toUpperCase());
     }
 
     public Todo() {
+
     }
 
     public Todo(JSONObject json) {
         super(json);
     }
+
+    public Todo(Cursor cursor) {super(cursor);}
 
     @Override
     public void onCreate() {
@@ -57,8 +62,8 @@ public class Todo extends DataEntry {
                 end = formatter.parse(json.optString("end", "23:59:59"));
             }
 
-            put("begin", begin);
-            put("end", end);
+            put(TodoColumn.begin, begin);
+            put(TodoColumn.end, end);
 
         } catch (ParseException e) {
             e.printStackTrace();

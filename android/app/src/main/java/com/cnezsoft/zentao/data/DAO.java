@@ -4,14 +4,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.util.Set;
+import java.util.Collection;
 
 /**
  * Created by Catouse on 2015/1/15.
  */
 public class DAO {
-    private DbHelper helper;
-    private SQLiteDatabase db;
+    protected DbHelper helper;
+    protected SQLiteDatabase db;
 
     public DAO(Context context) {
         helper = new DbHelper(context);
@@ -22,7 +22,7 @@ public class DAO {
         return db.insert(entry.getType().name(), null, entry.getValues());
     }
 
-    public void add(Set<DataEntry> entries) {
+    public void add(Collection<DataEntry> entries) {
         db.beginTransaction();
         try {
             for(DataEntry entry: entries) {
@@ -39,7 +39,7 @@ public class DAO {
                 entry.keyName() + " = ?", new String[]{entry.key()});
     }
 
-    public void update(Set<DataEntry> entries) {
+    public void update(Collection<DataEntry> entries) {
         db.beginTransaction();
         try {
             for(DataEntry entry: entries) {
@@ -60,7 +60,7 @@ public class DAO {
         }
     }
 
-    public void save(Set<DataEntry> entries) {
+    public void save(Collection<DataEntry> entries) {
         db.beginTransaction();
         try {
             for(DataEntry entry: entries) {
@@ -81,7 +81,7 @@ public class DAO {
         return delete(entry.getType(), entry.key());
     }
 
-    public void delete(Set<DataEntry> entries) {
+    public void delete(Collection<DataEntry> entries) {
         db.beginTransaction();
         try {
             for(DataEntry entry: entries) {
@@ -119,6 +119,10 @@ public class DAO {
         Cursor cursor = db.query(true, type.name(), type.getColumnNames(), selection,
                 selectionArgs, groupBy, having, orderBy, limit);
         return cursor;
+    }
+
+    public Cursor query(EntryType type) {
+        return db.rawQuery("SELECT * FROM " + type.name() + " ORDER BY " + type.primaryKey().name() + " DESC", null);
     }
 
     public void close() {

@@ -51,4 +51,22 @@ public enum EntryType {
         }
         return cols;
     }
+
+    public boolean containsColumn(IColumn column) {
+        for(IColumn col: columns()) {
+            if(column == col) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean containsColumn(String name) {
+        for(String colName: getColumnNames()) {
+            if(name.equals(colName)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

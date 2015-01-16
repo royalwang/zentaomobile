@@ -3,11 +3,12 @@ package com.cnezsoft.zentao.data;
 public enum TodoColumn implements IColumn {
     id(DataType.INT, false),
     pri(DataType.INT),
-    begin(DataType.DATETIME, false),
-    end(DataType.DATETIME, false),
+    begin(DataType.DATETIME),
+    end(DataType.DATETIME),
     type(DataType.STRING),
     name(DataType.STRING),
-    status(DataType.STRING);
+    status(DataType.STRING),
+    desc(DataType.STRING);
 
     @Override
     public Boolean isPrimaryKey() {
