@@ -29,7 +29,7 @@ public class Todo extends DataEntry {
 
     @Override
     public void onCreate() {
-        setType(Types.Todo);
+        setType(EntryType.Todo);
     }
 
     @Override

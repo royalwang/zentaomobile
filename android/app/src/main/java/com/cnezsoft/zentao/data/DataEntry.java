@@ -15,80 +15,19 @@ import java.util.HashSet;
  */
 public abstract class DataEntry {
 
-    public interface IColumn {
-        public DataType getType();
-        public String name();
-    }
-
-    public enum DataType {
-        STRING,
-        BOOLEAN,
-        INT,
-        LONG,
-        FLOAT,
-        DOUBLE,
-        DATETIME
-    }
-
-    public enum TodoColumns implements IColumn {
-        id(DataType.INT),
-        pri(DataType.INT),
-        begin(DataType.DATETIME),
-        end(DataType.DATETIME),
-        type(DataType.STRING),
-        name(DataType.STRING),
-        status(DataType.STRING);
-
-        private DataType dataType;
-
-        public DataType getType() {
-            return dataType;
-        }
-
-        TodoColumns(DataType dataType) {
-            this.dataType = dataType;
-        }
-    }
-
-    public enum Types {
-        Unknown,
-        Product,
-        Project,
-        Todo,
-        Task,
-        Story,
-        Bug;
-
-        private IColumn[] columns = null;
-
-        public IColumn[] getColumns()
-        {
-            if(columns == null)
-            {
-                switch (this)
-                {
-                    case Todo:
-                        columns = TodoColumns.values();
-                        break;
-                }
-            }
-            return columns;
-        }
-    }
-
     private ContentValues values;
-    protected Types type = Types.Unknown;
+    protected EntryType type = EntryType.Unknown;
 
-    public Types getType() {
+    public EntryType getType() {
         return type;
     }
 
-    protected void setType(Types type) {
+    protected void setType(EntryType type) {
         this.type = type;
     }
 
     protected void setType(String typeName) {
-        setType(Enum.valueOf(Types.class, typeName.trim().toUpperCase()));
+        setType(Enum.valueOf(EntryType.class, typeName.trim().toUpperCase()));
     }
 
     protected DataEntry() {
@@ -199,7 +138,7 @@ public abstract class DataEntry {
         for(IColumn column: type.getColumns()) {
             name = column.name();
             try {
-                switch (column.getType()) {
+                switch (column.type()) {
                     case LONG:
                     case DATETIME:
                         values.put(name, json.getLong(name));
@@ -223,7 +162,7 @@ public abstract class DataEntry {
                 if(exceptColumns == null) exceptColumns = new HashSet<>();
                 exceptColumns.add(column);
                 Log.w("DataEntry", type.toString() + "->fromJSON(): value of '" + name
-                        + "' can't convert to " + column.getType());
+                        + "' can't convert to " + column.type());
             }
         }
 
@@ -238,7 +177,7 @@ public abstract class DataEntry {
             for(IColumn column: type.getColumns()) {
                 name = column.name();
                 jsonStringer.key(name);
-                switch (column.getType()) {
+                switch (column.type()) {
                     case LONG:
                     case DATETIME:
                         jsonStringer.value(getAsLong(name));
