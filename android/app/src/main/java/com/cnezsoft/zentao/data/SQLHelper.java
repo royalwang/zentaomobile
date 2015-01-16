@@ -11,8 +11,8 @@ public class SQLHelper {
                     "id INTEGER PRIMARY KEY, " +
                     "pri INTEGER" +
                     "status INTEGER" +
-                    "begin TIMESTAMP, " +
-                    "end TIMESTAMP" +
+                    "begin INTEGER, " +
+                    "end INTEGER" +
                     "type TEXT" +
                     "name TEXT" +
                     ");";
