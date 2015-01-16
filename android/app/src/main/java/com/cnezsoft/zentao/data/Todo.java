@@ -1,75 +1,74 @@
 package com.cnezsoft.zentao.data;
 
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONStringer;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * Todo
  * Created by Catouse on 2015/1/15.
  */
-public class Todo {
+public class Todo extends DataEntry {
 
     public enum Status {WAIT, DONE, DOING}
 
-    public int pri;
-    public Date begin;
-    public Date end;
-    public String type;
-    public String name;
-    public Status status;
+    public Status getStatus() {
+        return Enum.valueOf(Status.class, getAsString("status").trim().toUpperCase());
+    }
 
     public Todo() {
     }
 
-    public Todo(JSONObject json) throws ParseException {
-        id = json.optInt("id");
-        type = json.optString("type");
-        pri = json.optInt("pri");
-        name = json.optString("name");
-        status = Enum.valueOf(Status.class, json.optString("status").trim().toUpperCase());
-
-        String date = json.optString("date", null);
-        DateFormat formatter = DateFormat.getDateTimeInstance();
-        if(date != null)
-        {
-            begin = formatter.parse(date + " " + json.optString("begin", "00:00:00"));
-            end = formatter.parse(date + " " + json.optString("end", "23:59:59"));
-
-            if(end.before(begin))
-            {
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(end);
-                cal.add(Calendar.DATE, 1);
-                end = cal.getTime();
-            }
-        }
-        else
-        {
-            begin = formatter.parse(json.optString("begin", "00:00:00"));
-            end = formatter.parse(json.optString("end", "23:59:59"));
-        }
+    public Todo(JSONObject json) {
+        super(json);
     }
 
-    public String toJSONString() {
+    @Override
+    public void createColumns(HashMap<String, String> columns) {
+        super.createColumns(columns);
+        columns.put("pri", TYPE_INT);
+        columns.put("begin", TYPE_DATETIME);
+        columns.put("end", TYPE_DATETIME);
+        columns.put("type", TYPE_STRING);
+        columns.put("name", TYPE_STRING);
+        columns.put("status", TYPE_STRING);
+    }
+
+    @Override
+    public void afterFromJSON(JSONObject json, HashSet<String> excepts) {
         try {
-            return new JSONStringer().object()
-                    .key("id").value(this.id)
-                    .key("begin").value(this.begin)
-                    .key("end").value(this.end)
-                    .key("type").value(this.type)
-                    .key("pri").value(this.pri)
-                    .key("name").value(this.name)
-                    .key("status").value(this.status.name())
-                    .endObject().toString();
-        } catch (JSONException e) {
+            String date = json.optString("date", null);
+            DateFormat formatter = DateFormat.getDateTimeInstance();
+            Date begin, end;
+            if(date != null)
+            {
+                begin = formatter.parse(date + " " + json.optString("begin", "00:00:00"));
+                end = formatter.parse(date + " " + json.optString("end", "23:59:59"));
+
+                if(end.before(begin))
+                {
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(end);
+                    cal.add(Calendar.DATE, 1);
+                    end = cal.getTime();
+                }
+            }
+            else
+            {
+                begin = formatter.parse(json.optString("begin", "00:00:00"));
+                end = formatter.parse(json.optString("end", "23:59:59"));
+            }
+
+            put("begin", begin);
+            put("end", end);
+
+        } catch (ParseException e) {
             e.printStackTrace();
-            return "[Empty todo]";
         }
     }
 }
