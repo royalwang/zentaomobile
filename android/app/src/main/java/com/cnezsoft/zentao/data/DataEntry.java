@@ -50,11 +50,19 @@ public abstract class DataEntry {
     }
 
     public int getId() {
-        if(values != null)
-        {
-            return values.getAsInteger("id");
-        }
-        return -1;
+        return values.getAsInteger("id");
+    }
+
+    public String typeName() {
+        return type.name();
+    }
+
+    public String keyName() {
+        return type.primaryKey().name();
+    }
+
+    public String key() {
+        return getAsString(keyName());
     }
 
     public Object get(String key) {
@@ -135,7 +143,7 @@ public abstract class DataEntry {
     public void fromJSON(JSONObject json) {
         String name;
         HashSet<IColumn> exceptColumns = null;
-        for(IColumn column: type.getColumns()) {
+        for(IColumn column: type.columns()) {
             name = column.name();
             try {
                 switch (column.type()) {
@@ -174,7 +182,7 @@ public abstract class DataEntry {
         try {
             jsonStringer = new JSONStringer().object();
             String name;
-            for(IColumn column: type.getColumns()) {
+            for(IColumn column: type.columns()) {
                 name = column.name();
                 jsonStringer.key(name);
                 switch (column.type()) {

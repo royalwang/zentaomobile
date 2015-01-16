@@ -1,6 +1,8 @@
 package com.cnezsoft.zentao.data;
 
 
+import java.util.ArrayList;
+
 public enum EntryType {
     Unknown,
     Product,
@@ -10,19 +12,43 @@ public enum EntryType {
     Story,
     Bug;
 
-    private IColumn[] columns = null;
+    private IColumn[] cols = null;
+    private IColumn primaryColumn = null;
+    private String[] columnNames = null;
 
-    public IColumn[] getColumns()
-    {
-        if(columns == null)
+    public String[] getColumnNames() {
+        if(columnNames == null) {
+            ArrayList<String> names = new ArrayList<>();
+            for(IColumn column: columns()) {
+                names.add(column.name());
+            }
+            columnNames = names.toArray(new String[names.size()]);
+        }
+        return columnNames;
+    }
+
+    public IColumn primaryKey() {
+        if(primaryColumn == null) {
+            for(IColumn column: columns()) {
+                if(column.isPrimaryKey()) {
+                    primaryColumn = column;
+                    break;
+                }
+            }
+        }
+        return primaryColumn;
+    }
+
+    public IColumn[] columns() {
+        if(cols == null)
         {
             switch (this)
             {
                 case Todo:
-                    columns = TodoColumn.values();
+                    cols = TodoColumn.values();
                     break;
             }
         }
-        return columns;
+        return cols;
     }
 }
