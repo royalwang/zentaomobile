@@ -1,10 +1,10 @@
 package com.cnezsoft.zentao.data;
 
 public enum TodoColumn implements IColumn {
-    id(DataType.INT),
+    id(DataType.INT, false),
     pri(DataType.INT),
-    begin(DataType.DATETIME),
-    end(DataType.DATETIME),
+    begin(DataType.DATETIME, false),
+    end(DataType.DATETIME, false),
     type(DataType.STRING),
     name(DataType.STRING),
     status(DataType.STRING);
@@ -12,6 +12,13 @@ public enum TodoColumn implements IColumn {
     @Override
     public Boolean isPrimaryKey() {
         return this == id;
+    }
+
+    private boolean isNullable = true;
+
+    @Override
+    public boolean nullable() {
+        return isNullable;
     }
 
     @Override
@@ -26,6 +33,10 @@ public enum TodoColumn implements IColumn {
         return dataType;
     }
 
+    TodoColumn(DataType dataType, boolean isNullable) {
+        this.dataType = dataType;
+        this.isNullable = isNullable;
+    }
     TodoColumn(DataType dataType) {
         this.dataType = dataType;
     }

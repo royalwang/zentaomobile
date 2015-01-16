@@ -9,4 +9,5 @@ public interface IColumn {
     public int index();
     public String name();
     public Boolean isPrimaryKey();
+    public boolean nullable();
 }

@@ -30,13 +30,14 @@ public class SQLHelper {
     public static String getCreateTableSql(EntryType type)
     {
         String sql = "";
-        IColumn[] columns = type.getColumns();
+        IColumn[] columns = type.columns();
         if(columns != null) {
             sql = "CREATE TABLE " + type.name() + " (";
-            for(IColumn column: type.getColumns()) {
+            for(IColumn column: type.columns()) {
                 sql += column.name() + " "
                         + column.type().sqlType().name() + " "
-                        + (column.isPrimaryKey() ? "PRIMARY KEY " : "") + ", ";
+                        + (column.isPrimaryKey() ? "PRIMARY KEY " : "")
+                        + (column.nullable() ? "" : "NOT NULL ") + ", ";
             }
             sql = sql.substring(0, sql.length() - 2) + ");";
         }
