@@ -29,20 +29,11 @@ public class Todo extends DataEntry {
 
     @Override
     public void onCreate() {
-        super.onCreate();
-
-        addColumn("pri", TYPE_INT);
-        addColumn("begin", TYPE_DATETIME);
-        addColumn("end", TYPE_DATETIME);
-        addColumn("type", TYPE_STRING);
-        addColumn("name", TYPE_STRING);
-        addColumn("status", TYPE_STRING);
-
-        setType(Types.TODO);
+        setType(Types.Todo);
     }
 
     @Override
-    public void afterFromJSON(JSONObject json, HashSet<String> excepts) {
+    public void afterFromJSON(JSONObject json, HashSet<IColumn> excepts) {
         try {
             String date = json.optString("date", null);
             DateFormat formatter = DateFormat.getDateTimeInstance();

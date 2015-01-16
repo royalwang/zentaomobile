@@ -8,36 +8,76 @@ import org.json.JSONObject;
 import org.json.JSONStringer;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 
 /**
  * Created by Catouse on 2015/1/15.
  */
 public abstract class DataEntry {
 
-    public enum Types {
-        UNKNOWN,
-        PRODUCT,
-        PROJECT,
-        TODO,
-        TASK,
-        STORY,
-        BUG
+    public interface IColumn {
+        public DataType getType();
+        public String name();
     }
 
-    public static final String TYPE_STRING = "string";
-    public static final String TYPE_BOOLEAN = "bool";
-    public static final String TYPE_INT = "int";
-    public static final String TYPE_LONG = "long";
-    public static final String TYPE_FLOAT = "flat";
-    public static final String TYPE_DOUBLE = "double";
-    public static final String TYPE_DATETIME = "datetime";
+    public enum DataType {
+        STRING,
+        BOOLEAN,
+        INT,
+        LONG,
+        FLOAT,
+        DOUBLE,
+        DATETIME
+    }
+
+    public enum TodoColumns implements IColumn {
+        id(DataType.INT),
+        pri(DataType.INT),
+        begin(DataType.DATETIME),
+        end(DataType.DATETIME),
+        type(DataType.STRING),
+        name(DataType.STRING),
+        status(DataType.STRING);
+
+        private DataType dataType;
+
+        public DataType getType() {
+            return dataType;
+        }
+
+        TodoColumns(DataType dataType) {
+            this.dataType = dataType;
+        }
+    }
+
+    public enum Types {
+        Unknown,
+        Product,
+        Project,
+        Todo,
+        Task,
+        Story,
+        Bug;
+
+        private IColumn[] columns = null;
+
+        public IColumn[] getColumns()
+        {
+            if(columns == null)
+            {
+                switch (this)
+                {
+                    case Todo:
+                        columns = TodoColumns.values();
+                        break;
+                }
+            }
+            return columns;
+        }
+    }
 
     private ContentValues values;
-    protected HashMap<String, String> columns = new HashMap<>();
-    protected Types type = Types.UNKNOWN;
+    protected Types type = Types.Unknown;
 
     public Types getType() {
         return type;
@@ -47,8 +87,8 @@ public abstract class DataEntry {
         this.type = type;
     }
 
-    protected void setType(String type) {
-        setType(Enum.valueOf(Types.class, type.trim().toUpperCase()));
+    protected void setType(String typeName) {
+        setType(Enum.valueOf(Types.class, typeName.trim().toUpperCase()));
     }
 
     protected DataEntry() {
@@ -148,49 +188,42 @@ public abstract class DataEntry {
         return put(key, value.getTime());
     }
 
-    protected void onCreate() {
-        addColumn("id", TYPE_INT);
-    }
+    public abstract void onCreate();
 
-    protected void addColumn(String name, String colType) {
-        columns.put(name, colType);
-    }
-
-    protected void afterFromJSON(JSONObject json, HashSet<String> excepts) {
-
+    protected void afterFromJSON(JSONObject json, HashSet<IColumn> excepts) {
     }
 
     public void fromJSON(JSONObject json) {
         String name;
-        HashSet<String> exceptColumns = null;
-        for (Map.Entry<String, String> entry : columns.entrySet()) {
-            name = entry.getKey();
+        HashSet<IColumn> exceptColumns = null;
+        for(IColumn column: type.getColumns()) {
+            name = column.name();
             try {
-                switch (entry.getValue()) {
-                    case TYPE_LONG:
-                    case TYPE_DATETIME:
+                switch (column.getType()) {
+                    case LONG:
+                    case DATETIME:
                         values.put(name, json.getLong(name));
                         break;
-                    case TYPE_INT:
+                    case INT:
                         values.put(name, json.getInt(name));
                         break;
-                    case TYPE_FLOAT:
-                    case TYPE_DOUBLE:
+                    case FLOAT:
+                    case DOUBLE:
                         values.put(name, json.getDouble(name));
                         break;
-                    case TYPE_BOOLEAN:
+                    case BOOLEAN:
                         values.put(name, json.getBoolean(name));
                         break;
-                    case TYPE_STRING:
+                    case STRING:
                     default:
                         values.put(name, json.getString(name));
                         break;
                 }
             } catch (JSONException e) {
                 if(exceptColumns == null) exceptColumns = new HashSet<>();
-                exceptColumns.add(name);
+                exceptColumns.add(column);
                 Log.w("DataEntry", type.toString() + "->fromJSON(): value of '" + name
-                        + "' can't convert to " + entry.getValue());
+                        + "' can't convert to " + column.getType());
             }
         }
 
@@ -202,27 +235,27 @@ public abstract class DataEntry {
         try {
             jsonStringer = new JSONStringer().object();
             String name;
-            for (Map.Entry<String, String> entry : columns.entrySet()) {
-                name = entry.getKey();
+            for(IColumn column: type.getColumns()) {
+                name = column.name();
                 jsonStringer.key(name);
-                switch (entry.getValue()) {
-                    case TYPE_LONG:
-                    case TYPE_DATETIME:
+                switch (column.getType()) {
+                    case LONG:
+                    case DATETIME:
                         jsonStringer.value(getAsLong(name));
                         break;
-                    case TYPE_INT:
+                    case INT:
                         jsonStringer.value(getAsInteger(name));
                         break;
-                    case TYPE_BOOLEAN:
+                    case BOOLEAN:
                         jsonStringer.value(getAsBoolean(name));
                         break;
-                    case TYPE_FLOAT:
+                    case FLOAT:
                         jsonStringer.value(getAsFloat(name));
                         break;
-                    case TYPE_DOUBLE:
+                    case DOUBLE:
                         jsonStringer.value(getAsDouble(name));
                         break;
-                    case TYPE_STRING:
+                    case STRING:
                         jsonStringer.value(getAsString(name));
                         break;
                     default:
