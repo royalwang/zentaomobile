@@ -42,8 +42,8 @@ public class Http {
      * @return
      * @throws MalformedURLException
      */
-    public static String httpGet(String url) throws MalformedURLException {
-        return httpGet(new URL(url));
+    public static String get(String url) throws MalformedURLException {
+        return get(new URL(url));
     }
 
     /**
@@ -51,7 +51,7 @@ public class Http {
      * @param url
      * @return
      */
-    public static String httpGet(URL url) {
+    public static String get(URL url) {
         Log.v("HTTP GET", "url:" + url.toString());
         try {
             HttpURLConnection c = (HttpURLConnection) url.openConnection();
@@ -93,8 +93,8 @@ public class Http {
      * @return
      * @throws JSONException
      */
-    public static JSONObject httpGetJSON(URL url) throws JSONException {
-        return new JSONObject(httpGet(url));
+    public static JSONObject getJSON(URL url) throws JSONException {
+        return new JSONObject(get(url));
     }
 
     /**
@@ -103,7 +103,7 @@ public class Http {
      * @return
      * @throws JSONException
      */
-    public static JSONObject httpGetJSON(String url) throws MalformedURLException, JSONException {
-        return httpGetJSON(new URL(url));
+    public static JSONObject getJSON(String url) throws MalformedURLException, JSONException {
+        return getJSON(new URL(url));
     }
 }
