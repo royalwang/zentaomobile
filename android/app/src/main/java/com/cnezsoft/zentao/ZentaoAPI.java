@@ -1,5 +1,7 @@
 package com.cnezsoft.zentao;
 
+import com.cnezsoft.zentao.data.EntryType;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -7,6 +9,7 @@ import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,7 +71,7 @@ public class ZentaoAPI
 
             if(moduleName.equals("api"))
             {
-                if(methodName.equals("mobilegetlist"))
+                if(methodName.toLowerCase().equals("mobilegetlist"))
                 {
                     url += Helper.ifNullOrEmptyThen(params.get("type"), "full") + "-"
                         + Helper.ifNullOrEmptyThen(params.get("object"), "all") + "-"
@@ -78,7 +81,7 @@ public class ZentaoAPI
                         + Helper.ifNullOrEmptyThen(params.get("format"), "index") + "-"
                         + Helper.ifNullOrEmptyThen(params.get("zip"), "0");
                 }
-                else if(methodName.equals("mobilegetinfo"))
+                else if(methodName.toLowerCase().equals("mobilegetinfo"))
                 {
                     url += params.get("id") + "-" + params.get("type");
                 }
@@ -107,7 +110,7 @@ public class ZentaoAPI
 
             if(moduleName.equals("api"))
             {
-                if(methodName.equals("mobilegetlist"))
+                if(methodName.toLowerCase().equals("mobilegetlist"))
                 {
                     url += "&type=" + Helper.ifNullOrEmptyThen(params.get("type"), "full")
                         + "&object=" + Helper.ifNullOrEmptyThen(params.get("object"), "all")
@@ -117,7 +120,7 @@ public class ZentaoAPI
                         + "&format=" + Helper.ifNullOrEmptyThen(params.get("format"), "index")
                         + "&zip=" + Helper.ifNullOrEmptyThen(params.get("zip"), "0");
                 }
-                else if(methodName.equals("mobilegetinfo"))
+                else if(methodName.toLowerCase().equals("mobilegetinfo"))
                 {
                     url += "&id=" + params.get("id")
                         + "&type=" + params.get("type");
@@ -139,7 +142,7 @@ public class ZentaoAPI
      * @throws JSONException
      */
     public static ZentaoConfig getConfig(String userAddress) throws MalformedURLException, JSONException {
-        return new ZentaoConfig(Http.httpGetJSON(userAddress + "/index.php?mode=getconfig"));
+        return new ZentaoConfig(Http.getJSON(userAddress + "/index.php?mode=getconfig"));
     }
 
     /**
@@ -157,7 +160,7 @@ public class ZentaoAPI
         int code = 1;
         Map<String, String> params = new HashMap<String, String>(){{put("module", "user"); put("method", "login");}};
         try {
-            JSONObject jsonResult = Http.httpGetJSON(concatUrl(params, config, user));
+            JSONObject jsonResult = Http.getJSON(concatUrl(params, config, user));
 
             String status = jsonResult.optString("status", "failed");
             result = status.equals("success");
@@ -203,5 +206,94 @@ public class ZentaoAPI
             e.printStackTrace();
             return new OperateBundle<Boolean, ZentaoConfig>(false){{setCode(4);}};
         }
+    }
+
+    /**
+     * Get data list
+     * @param config
+     * @param user
+     * @param type
+     * @param entryType
+     * @param range
+     * @param last
+     * @param records
+     * @param format
+     * @param zip
+     * @return
+     */
+    public static OperateBundle<Boolean, JSONObject> getDataList(ZentaoConfig config, User user, String type, EntryType entryType,
+        int range, Date last, int records, String format, boolean zip) {
+        JSONObject json;
+        boolean result;
+        String message;
+        Map<String, String> parmas = new HashMap<String, String>();
+        parmas.put("module", "api");
+        parmas.put("method", "mobileGetList");
+        parmas.put("type", type);
+        parmas.put("object", entryType == EntryType.Default ? "all" : entryType.name().toLowerCase());
+        parmas.put("range", range + "");
+        parmas.put("last", ((int) Math.floor(last.getTime()/1000)) + "");
+        parmas.put("records", records + "");
+        parmas.put("zip", zip ? "1" : "0");
+        parmas.put("format", format);
+        try {
+            json = Http.getJSON(concatUrl(parmas, config, user));
+            String status = json.optString("status", "failed");
+            result = status.equals("success");
+            message = json.optString("reason");
+
+            if(result) {
+                json = new JSONObject(json.optString("data"));
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return new OperateBundle<>(false);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return new OperateBundle<>(false);
+        }
+        return new OperateBundle<>(result, message, json);
+    }
+
+    /**
+     * Get data list
+     * @param config
+     * @param user
+     * @param type
+     * @param entryType
+     * @param range
+     * @param last
+     * @param records
+     * @param format
+     * @return
+     */
+    public static OperateBundle<Boolean, JSONObject> getDataList(ZentaoConfig config, User user,
+            String type, EntryType entryType, int range, Date last, int records, String format) {
+        return getDataList(config, user, type, entryType, range, last, records, format, false);
+    }
+
+    /**
+     * Get data list
+     * @param config
+     * @param user
+     * @param entryType
+     * @param last
+     * @return
+     */
+    public static OperateBundle<Boolean, JSONObject> getDataList(ZentaoConfig config,
+            User user, EntryType entryType, Date last) {
+        return getDataList(config, user, "increment", entryType, 0, last, 500, "index", false);
+    }
+
+    /**
+     * Get data list
+     * @param config
+     * @param user
+     * @param last
+     * @return
+     */
+    public static OperateBundle<Boolean, JSONObject> getDataList(ZentaoConfig config,
+            User user, Date last) {
+        return getDataList(config, user, "increment", EntryType.Default, 0, last, 1000, "index", false);
     }
 }
