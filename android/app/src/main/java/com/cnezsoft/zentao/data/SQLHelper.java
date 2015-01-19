@@ -4,7 +4,11 @@ package com.cnezsoft.zentao.data;
  * Created by Catouse on 2015/1/15.
  */
 public class SQLHelper {
-    public static String getCreateDatatableSql()
+    /**
+     * Get create database sql
+     * @return
+     */
+    public static String getCreateDatabaseSql()
     {
         String sql = "";
         for(EntryType type: EntryType.values()) {
@@ -13,7 +17,11 @@ public class SQLHelper {
         return sql;
     }
 
-    public static String getDeleteDatatableSql()
+    /**
+     * Get delete database sql
+     * @return
+     */
+    public static String getDeleteDatabaseSql()
     {
         String sql = "";
         for(EntryType type: EntryType.values()) {
@@ -22,11 +30,21 @@ public class SQLHelper {
         return sql;
     }
 
+    /**
+     * Get delete table sql
+     * @param type
+     * @return
+     */
     public static String getDeleteTableSql(EntryType type)
     {
         return "DROP TABLE IF EXISTS " + type.name();
     }
 
+    /**
+     * Get create table sql
+     * @param type
+     * @return
+     */
     public static String getCreateTableSql(EntryType type)
     {
         String sql = "";

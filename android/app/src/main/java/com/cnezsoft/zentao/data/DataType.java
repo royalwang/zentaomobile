@@ -1,5 +1,8 @@
 package com.cnezsoft.zentao.data;
 
+/**
+ * Data type enum
+ */
 public enum DataType {
     STRING(SqlDataType.TEXT),
     BOOLEAN(SqlDataType.INTEGER),
@@ -11,6 +14,10 @@ public enum DataType {
 
     private SqlDataType type;
 
+    /**
+     * Get sql type
+     * @return
+     */
     public SqlDataType sqlType() {
         return type;
     }

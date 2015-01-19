@@ -1,5 +1,8 @@
 package com.cnezsoft.zentao.data;
 
+/**
+ * Todo columns
+ */
 public enum TodoColumn implements IColumn {
     id(DataType.INT, false),
     pri(DataType.INT),
@@ -10,6 +13,10 @@ public enum TodoColumn implements IColumn {
     status(DataType.STRING),
     desc(DataType.STRING);
 
+    /**
+     * Judge the column whether is the primary key
+     * @return
+     */
     @Override
     public Boolean isPrimaryKey() {
         return this == id;
@@ -17,11 +24,19 @@ public enum TodoColumn implements IColumn {
 
     private boolean isNullable = true;
 
+    /**
+     * Judge the column whether is nullable
+     * @return
+     */
     @Override
     public boolean nullable() {
         return isNullable;
     }
 
+    /**
+     * Get the column index
+     * @return
+     */
     @Override
     public int index() {
         return this.ordinal();
@@ -29,6 +44,10 @@ public enum TodoColumn implements IColumn {
 
     private DataType dataType;
 
+    /**
+     * Get data ;type
+     * @return
+     */
     @Override
     public DataType type() {
         return dataType;

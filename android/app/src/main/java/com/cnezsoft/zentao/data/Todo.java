@@ -16,27 +16,53 @@ import java.util.HashSet;
  */
 public class Todo extends DataEntry {
 
+    /**
+     * Todo status enum
+     */
     public enum Status {WAIT, DONE, DOING}
 
+    /**
+     * Get todo status
+     * @return
+     */
     public Status getStatus() {
         return Enum.valueOf(Status.class, getAsString(TodoColumn.status).trim().toUpperCase());
     }
 
+    /**
+     * Constructor without params
+     */
     public Todo() {
 
     }
 
+    /**
+     * Constructor with JSONObject
+     * @param json
+     */
     public Todo(JSONObject json) {
         super(json);
     }
 
+    /**
+     * Constructor with Cursor
+     * @param cursor
+     */
     public Todo(Cursor cursor) {super(cursor);}
 
+    /**
+     * Set entry type
+     */
     @Override
     public void onCreate() {
         setType(EntryType.Todo);
     }
 
+    /**
+     * Handle excepts attributes after init values form JSONObject
+     * @param json
+     * @param excepts
+     */
     @Override
     public void afterFromJSON(JSONObject json, HashSet<IColumn> excepts) {
         try {

@@ -3,6 +3,9 @@ package com.cnezsoft.zentao.data;
 
 import java.util.ArrayList;
 
+/**
+ * Entry type
+ */
 public enum EntryType {
     Unknown,
     Product,
@@ -16,6 +19,10 @@ public enum EntryType {
     private IColumn primaryColumn = null;
     private String[] columnNames = null;
 
+    /**
+     * Get all columns names
+     * @return
+     */
     public String[] getColumnNames() {
         if(columnNames == null) {
             ArrayList<String> names = new ArrayList<>();
@@ -27,6 +34,10 @@ public enum EntryType {
         return columnNames;
     }
 
+    /**
+     * Get primary key
+     * @return
+     */
     public IColumn primaryKey() {
         if(primaryColumn == null) {
             for(IColumn column: columns()) {
@@ -39,6 +50,10 @@ public enum EntryType {
         return primaryColumn;
     }
 
+    /**
+     * Get all columns
+     * @return
+     */
     public IColumn[] columns() {
         if(cols == null)
         {
@@ -52,15 +67,25 @@ public enum EntryType {
         return cols;
     }
 
+    /**
+     * Judge the entry whether has the given column
+     * @param column
+     * @return
+     */
     public boolean containsColumn(IColumn column) {
         for(IColumn col: columns()) {
-            if(column == col) {
+            if(column.equals(col)) {
                 return true;
             }
         }
         return false;
     }
 
+    /**
+     * Judge the entry whether has the column with given column name
+     * @param name
+     * @return
+     */
     public boolean containsColumn(String name) {
         for(String colName: getColumnNames()) {
             if(name.equals(colName)) {

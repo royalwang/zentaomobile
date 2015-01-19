@@ -12,136 +12,285 @@ import java.util.Date;
 import java.util.HashSet;
 
 /**
+ * Data entry
+ *
  * Created by Catouse on 2015/1/15.
  */
 public abstract class DataEntry {
 
     private ContentValues values;
+
+    /**
+     * Entry type
+     */
     protected EntryType type = EntryType.Unknown;
 
+    /**
+     * Get entry type
+     * @return
+     */
     public EntryType getType() {
         return type;
     }
 
+    /**
+     * Set entry type
+     * @param type
+     */
     protected void setType(EntryType type) {
         this.type = type;
     }
 
+    /**
+     * Set entry type by name
+     * @param typeName
+     */
     protected void setType(String typeName) {
         setType(Enum.valueOf(EntryType.class, typeName.trim().toUpperCase()));
     }
 
+    /**
+     * Constructor without params
+     */
     protected DataEntry() {
         onCreate();
         values = new ContentValues();
     }
 
+    /**
+     * Constructor with Contentvalues
+     * @param values
+     */
     protected DataEntry(ContentValues values) {
         onCreate();
         this.values = values;
     }
 
+    /**
+     * Constructor with json
+     * @param json
+     */
     protected DataEntry(JSONObject json) {
         this();
         fromJSON(json);
     }
 
+    /**
+     * Constructor with cursor
+     * @param cursor
+     */
     protected DataEntry(Cursor cursor) {
         this();
         fromCursor(cursor);
     }
 
+    /**
+     * Get values
+     * @return
+     */
     public ContentValues getValues() {
         return values;
     }
 
+    /**
+     * Get type name
+     * @return
+     */
     public String typeName() {
         return type.name();
     }
 
+    /**
+     * Get key attribute name
+     * @return
+     */
     public String keyName() {
         return type.primaryKey().name();
     }
 
+    /**
+     * Get key attribute value
+     * @return
+     */
     public String key() {
         return getAsString(type.primaryKey());
     }
 
+    /**
+     * Get value
+     * @param col
+     * @return
+     */
     public Object get(IColumn col) {
         return values.get(col.name());
     }
 
+    /**
+     * Get attribute value as string
+     * @param col
+     * @return
+     */
     public String getAsString(IColumn col) {
         return values.getAsString(col.name());
     }
 
+    /**
+     * Get attribute value as integer
+     * @param col
+     * @return
+     */
     public Integer getAsInteger(IColumn col) {
         return values.getAsInteger(col.name());
     }
 
+    /**
+     * Get attribute value as long
+     * @param col
+     * @return
+     */
     public Long getAsLong(IColumn col) {
         return values.getAsLong(col.name());
     }
 
+    /**
+     * Get attribute value as float
+     * @param col
+     * @return
+     */
     public Float getAsFloat(IColumn col) {
         return values.getAsFloat(col.name());
     }
 
+    /**
+     * Get attribute value as double
+     * @param col
+     * @return
+     */
     public Double getAsDouble(IColumn col) {
         return values.getAsDouble(col.name());
     }
 
+    /**
+     * Get attribute value as boolean
+     * @param col
+     * @return
+     */
     public Boolean getAsBoolean(IColumn col) {
         return values.getAsBoolean(col.name());
     }
 
+    /**
+     * Get attribute value as date
+     * @param col
+     * @return
+     */
     public Date getAsDate(IColumn col) {
         return new Date(getAsLong(col));
     }
 
+    /**
+     * Put an object value to attribute
+     * @param col
+     * @param value
+     * @return
+     */
     public DataEntry put(IColumn col, Object value) {
         return put(col, value.toString());
     }
 
+    /**
+     * Put a string value to attribute
+     * @param col
+     * @param value
+     * @return
+     */
     public DataEntry put(IColumn col, String value) {
         values.put(col.name(), value);
         return this;
     }
 
+    /**
+     * Put an integer value to attribute
+     * @param col
+     * @param value
+     * @return
+     */
     public DataEntry put(IColumn col, Integer value) {
         values.put(col.name(), value);
         return this;
     }
 
+    /**
+     * Put a float value to attribute
+     * @param col
+     * @param value
+     * @return
+     */
     public DataEntry put(IColumn col, Float value) {
         values.put(col.name(), value);
         return this;
     }
 
+    /**
+     * Put double value to attribute
+     * @param col
+     * @param value
+     * @return
+     */
     public DataEntry put(IColumn col, Double value) {
         values.put(col.name(), value);
         return this;
     }
 
+    /**
+     * Put long value to attribute
+     * @param col
+     * @param value
+     * @return
+     */
     public DataEntry put(IColumn col, Long value) {
         values.put(col.name(), value);
         return this;
     }
 
+    /**
+     * Put boolean value to attribute
+     * @param col
+     * @param value
+     * @return
+     */
     public DataEntry put(IColumn col, Boolean value) {
         values.put(col.name(), value);
         return this;
     }
 
+    /**
+     * Put date value to attribute
+     * @param col
+     * @param value
+     * @return
+     */
     public DataEntry put(IColumn col, Date value) {
         return put(col, value.getTime());
     }
 
-    public abstract void onCreate();
+    /**
+     * The method for inherited classes to init settings
+     */
+    protected abstract void onCreate();
 
+    /**
+     * The method for inherited classes to handle excepts attributes after init form JSONObject
+     * @param json
+     * @param excepts
+     */
     protected void afterFromJSON(JSONObject json, HashSet<IColumn> excepts) {
     }
 
+    /**
+     * Init attributes from JSONObject
+     * @param json
+     */
     public void fromJSON(JSONObject json) {
         String name;
         HashSet<IColumn> exceptColumns = null;
@@ -179,6 +328,10 @@ public abstract class DataEntry {
         afterFromJSON(json, exceptColumns);
     }
 
+    /**
+     * Init attributes form cursor
+     * @param cursor
+     */
     public void fromCursor(Cursor cursor) {
         String name;
         int index;
@@ -210,6 +363,10 @@ public abstract class DataEntry {
         }
     }
 
+    /**
+     * Convert to JSON string
+     * @return
+     */
     public String toJSONString() {
         JSONStringer jsonStringer = null;
         try {
