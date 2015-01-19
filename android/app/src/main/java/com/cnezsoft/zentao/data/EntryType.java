@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * Entry type
  */
 public enum EntryType {
-    Unknown,
+    Default,
     Product,
     Project,
     Todo,

@@ -23,7 +23,7 @@ public abstract class DataEntry {
     /**
      * Entry type
      */
-    protected EntryType type = EntryType.Unknown;
+    protected EntryType type = EntryType.Default;
 
     /**
      * Get entry type
