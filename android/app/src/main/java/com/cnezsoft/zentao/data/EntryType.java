@@ -50,6 +50,15 @@ public enum EntryType {
         return primaryColumn;
     }
 
+    public IColumn getColumn(String name) {
+        for(IColumn column: columns()) {
+            if(column.name().equals(name)) {
+                return column;
+            }
+        }
+        return null;
+    }
+
     /**
      * Get all columns
      * @return
