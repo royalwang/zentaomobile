@@ -141,8 +141,10 @@ public class ZentaoAPI
      * @throws MalformedURLException
      * @throws JSONException
      */
-    public static ZentaoConfig getConfig(String userAddress) throws MalformedURLException, JSONException {
-        return new ZentaoConfig(Http.getJSON(userAddress + "/index.php?mode=getconfig"));
+    public static ZentaoConfig getConfig(String userAddress) {
+        JSONObject jsonConfig = Http.getJSON(userAddress + "/index.php?mode=getconfig");
+        if(jsonConfig == null) return null;
+        return new ZentaoConfig(jsonConfig);
     }
 
     /**
@@ -159,23 +161,33 @@ public class ZentaoAPI
         String message = null;
         int code = 1;
         Map<String, String> params = new HashMap<String, String>(){{put("module", "user"); put("method", "login");}};
-        try {
-            JSONObject jsonResult = Http.getJSON(concatUrl(params, config, user));
+        JSONObject jsonResult = Http.getJSON(concatUrl(params, config, user));
 
+        if(jsonResult != null) {
             String status = jsonResult.optString("status", "failed");
             result = status.equals("success");
             code = result ? 0 : 2;
             message = jsonResult.optString("reason");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-            code = 4;
-        }
 
-        OperateResult<Boolean> operateResult = new OperateResult<>(result, message);
-        operateResult.setCode(code);
-        return operateResult;
+            if(result) {
+                try {
+                    JSONObject jsonUser = jsonResult.getJSONObject("user");
+                    user.setEmail(jsonUser.optString("email"), false)
+                        .setRealname(jsonUser.optString("realname"), false)
+                        .setId(jsonUser.optString("realname"), false)
+                        .setRole(jsonUser.optString("role"), false)
+                        .setGender(jsonUser.optString("gender"), true);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            OperateResult<Boolean> operateResult = new OperateResult<>(result, message);
+            operateResult.setCode(code);
+            return operateResult;
+        } else {
+            return new OperateResult<Boolean>(false, "Can't get data from remote server.") {{setCode(4);}};
+        }
     }
 
     /**
@@ -187,25 +199,21 @@ public class ZentaoAPI
      */
     public static OperateBundle<Boolean, ZentaoConfig> tryLogin(User user)
     {
-        try {
-            ZentaoConfig config = getConfig(user.getAddress());
+        ZentaoConfig config = getConfig(user.getAddress());
 
-            // Check zentao version
-            if(!config.isPro() || config.getVersionNumber() < 4.3f )
-            {
-                return new OperateBundle<Boolean, ZentaoConfig>(false, config){{setCode(3);}};
-            }
-
-            OperateResult<Boolean> result = login(config, user);
-
-            return result.toOperateBundle(config);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+        // Check zentao version
+        if(config == null) {
+            // Can't connect to the zentao server.
             return new OperateBundle<Boolean, ZentaoConfig>(false){{setCode(1);}};
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return new OperateBundle<Boolean, ZentaoConfig>(false){{setCode(4);}};
         }
+        else if(!config.isPro() || config.getVersionNumber() < 4.3f ) {
+            // Zentao version is not correct
+            return new OperateBundle<Boolean, ZentaoConfig>(false, config){{setCode(3);}};
+        }
+
+        OperateResult<Boolean> result = login(config, user);
+
+        return result.toOperateBundle(config);
     }
 
     /**
@@ -236,21 +244,23 @@ public class ZentaoAPI
         parmas.put("records", records + "");
         parmas.put("zip", zip ? "1" : "0");
         parmas.put("format", format);
-        try {
-            json = Http.getJSON(concatUrl(parmas, config, user));
+
+        json = Http.getJSON(concatUrl(parmas, config, user));
+        if(json != null) {
             String status = json.optString("status", "failed");
             result = status.equals("success");
             message = json.optString("reason");
 
             if(result) {
-                json = new JSONObject(json.optString("data"));
+                json = json.optJSONObject("data");
+                if(json == null && Helper.isNullOrEmpty(message)) {
+                    message = "No new data.";
+                }
             }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            return new OperateBundle<>(false);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return new OperateBundle<>(false);
+        }
+        else {
+            result = false;
+            message = "Cant' get data from remote server.";
         }
         return new OperateBundle<>(result, message, json);
     }
