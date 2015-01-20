@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.cnezsoft.zentao.OperateResult;
+
 import java.util.Collection;
 
 /**
@@ -98,19 +100,29 @@ public class DAO {
      * Save entry to database, add new items or update exists items
      * @param entries
      */
-    public boolean save(Collection<DataEntry> entries) {
+    public OperateResult<Boolean> save(Collection<DataEntry> entries) {
         boolean result = false;
+        int addCount = 0, updateCount = 0;
         db.beginTransaction();
         try {
             for(DataEntry entry: entries) {
-                save(entry);
+                if(contains(entry)) {
+                    if(update(entry) > 0) {
+                        updateCount++;
+                    }
+                }
+                else {
+                    if(add(entry) > 0) {
+                        addCount++;
+                    }
+                }
             }
             db.setTransactionSuccessful();
             result = true;
         } finally {
             db.endTransaction();
         }
-        return result;
+        return new OperateResult<>(result, "Add " + addCount + ", update " + updateCount + ".");
     }
 
     /**

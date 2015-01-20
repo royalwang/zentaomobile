@@ -2,6 +2,7 @@ package com.cnezsoft.zentao.data;
 
 import android.database.Cursor;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
@@ -42,6 +43,13 @@ public class Todo extends DataEntry {
      */
     public Todo(JSONObject json) {
         super(json);
+    }
+
+    /**
+     * Constructor with JSONObject
+     */
+    public Todo(JSONArray jsonArray, String[] keys) {
+        super(jsonArray, keys);
     }
 
     /**

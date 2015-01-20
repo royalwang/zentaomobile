@@ -80,4 +80,9 @@ public class OperateResult<T> {
         operateBundle.setCode(code);
         return operateBundle;
     }
+
+    @Override
+    public String toString() {
+        return "OperateResult: {result=" + result + ", message=" + message + ", code=" + code + "}";
+    }
 }
