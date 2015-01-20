@@ -1,5 +1,7 @@
 package com.cnezsoft.zentao.data;
 
+import java.util.ArrayList;
+
 /**
  * Created by Catouse on 2015/1/15.
  */
@@ -8,26 +10,28 @@ public class SQLHelper {
      * Get create database sql
      * @return
      */
-    public static String getCreateDatabaseSql()
+    public static ArrayList<String> getCreateDatabaseSql()
     {
-        String sql = "";
+        ArrayList<String> sqls = new ArrayList<>();
         for(EntryType type: EntryType.values()) {
-            sql += getCreateTableSql(type);
+            if(type == EntryType.Default) continue;
+            sqls.add(getCreateTableSql(type));
         }
-        return sql;
+        return sqls;
     }
 
     /**
      * Get delete database sql
      * @return
      */
-    public static String getDeleteDatabaseSql()
+    public static ArrayList<String> getDeleteDatabaseSql()
     {
-        String sql = "";
+        ArrayList<String> sqls = new ArrayList<>();
         for(EntryType type: EntryType.values()) {
-            sql += getDeleteTableSql(type);
+            if(type == EntryType.Default) continue;
+            sqls.add(getDeleteTableSql(type));
         }
-        return sql;
+        return sqls;
     }
 
     /**
@@ -37,7 +41,7 @@ public class SQLHelper {
      */
     public static String getDeleteTableSql(EntryType type)
     {
-        return "DROP TABLE IF EXISTS " + type.name();
+        return "DROP TABLE IF EXISTS " + type.name() + ";";
     }
 
     /**

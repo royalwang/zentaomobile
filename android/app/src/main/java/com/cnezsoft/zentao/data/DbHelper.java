@@ -3,6 +3,7 @@ package com.cnezsoft.zentao.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * Database helpers
@@ -10,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by Catouse on 2015/1/15.
  */
 public class DbHelper extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "com.cnezsoft.zentao.db";
 
     /**
@@ -33,7 +34,9 @@ public class DbHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQLHelper.getCreateDatabaseSql());
+        for(String sql: SQLHelper.getCreateDatabaseSql()) {
+            db.execSQL(sql);
+        }
     }
 
     /**
@@ -60,7 +63,9 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // This database is only a cache for online data, so its upgrade policy is
         // to simply to discard the data and start over
-        db.execSQL(SQLHelper.getDeleteDatabaseSql());
+        for(String sql: SQLHelper.getDeleteDatabaseSql()) {
+            db.execSQL(sql);
+        }
         onCreate(db);
     }
 }
