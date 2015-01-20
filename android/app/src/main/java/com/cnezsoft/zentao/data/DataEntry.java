@@ -4,11 +4,15 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -64,6 +68,11 @@ public abstract class DataEntry {
     protected DataEntry(ContentValues values) {
         onCreate();
         this.values = values;
+    }
+
+    protected DataEntry(JSONArray jsonArray, String[] keys) {
+        this();
+        fromJSONArray(jsonArray, keys);
     }
 
     /**
@@ -300,7 +309,17 @@ public abstract class DataEntry {
                 switch (column.type()) {
                     case LONG:
                     case DATETIME:
-                        values.put(name, json.getLong(name));
+                        Long d = json.getLong(name);
+                        if(d == null) {
+                            try {
+                                d = DateFormat.getDateTimeInstance().parse(json.getString(name)).getTime();
+                            } catch (ParseException e) {
+                                continue;
+                            }
+                        } else if(d < 100000000000l) {
+                            d *= 1000;
+                        }
+                        values.put(name, d);
                         break;
                     case INT:
                         values.put(name, json.getInt(name));
@@ -326,6 +345,58 @@ public abstract class DataEntry {
         }
 
         afterFromJSON(json, exceptColumns);
+    }
+
+    public void fromJSONArray(JSONArray jsonArray, String[] keys) {
+        HashMap<String, Integer> keysMap = new HashMap<>();
+        for(int i = 0; i < keys.length; ++i) {
+            keysMap.put(keys[i], i);
+        }
+
+        String name;
+        Integer index;
+        for(IColumn column: type.columns()) {
+            name = column.name();
+            index = keysMap.get(name);
+            if(index == null) {
+                continue;
+            }
+            try {
+                switch (column.type()) {
+                    case LONG:
+                    case DATETIME:
+                        Long d = jsonArray.getLong(index);
+                        if(d == null) {
+                            try {
+                                d = DateFormat.getDateTimeInstance().parse(jsonArray.getString(index)).getTime();
+                            } catch (ParseException e) {
+                                continue;
+                            }
+                        } else if(d < 100000000000l) {
+                            d *= 1000;
+                        }
+                        values.put(name, d);
+                        break;
+                    case INT:
+                        values.put(name, jsonArray.getInt(index));
+                        break;
+                    case FLOAT:
+                    case DOUBLE:
+                        values.put(name, jsonArray.getDouble(index));
+                        break;
+                    case BOOLEAN:
+                        values.put(name, jsonArray.getBoolean(index));
+                        break;
+                    case STRING:
+                    default:
+                        values.put(name, jsonArray.getString(index));
+                        break;
+                }
+            } catch (JSONException e) {
+                Log.w("DataEntry", type.toString() + "->fromJSONArray(): value of '" + name
+                        + "' can't convert to " + column.type());
+            }
+        }
     }
 
     /**
