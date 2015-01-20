@@ -19,6 +19,16 @@ public enum EntryType {
     private IColumn primaryColumn = null;
     private String[] columnNames = null;
 
+    public static EntryType fromName(String name) {
+        name = name.toLowerCase();
+        for(EntryType entryType: EntryType.values()) {
+            if(name.equals(entryType.name().toLowerCase())) {
+                return entryType;
+            }
+        }
+        return null;
+    }
+
     /**
      * Get all columns names
      * @return
