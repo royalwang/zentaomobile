@@ -1,7 +1,5 @@
 package com.cnezsoft.zentao;
 
-import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONStringer;
 
@@ -19,7 +17,16 @@ public class User {
         Online
     };
 
-    private final String PASSWORD_WITH_MD5_FLAG = "%PASSWORD_WITH_MD5_FLAG% ";
+    public static final String PASSWORD_WITH_MD5_FLAG = "%PASSWORD_WITH_MD5_FLAG% ";
+    public static final String ACCOUNT = "ACCOUNT";
+    public static final String PASSWORDMD5 = "PASSWORDMD5";
+    public static final String ADDRESS = "ADDRESS";
+    public static final String LASTLOGINTIME = "LASTLOGINTIME";
+    public static final String EMAIL = "EMAIL";
+    public static final String REALNAME = "REALNAME";
+    public static final String ROLE = "ROLE";
+    public static final String GENDER = "GENDER";
+    public static final String ID = "ID";
     private String account;
     private String address;
     private String passwordMD5;
@@ -27,10 +34,101 @@ public class User {
     private Status status = Status.Unknown;
     private UserPreferences userPreferences;
     private String identify;
-    private final String ACCOUNT = "ACCOUNT";
-    private final String PASSWORDMD5 = "PASSWORDMD5";
-    private final String ADDRESS = "ADDRESS";
-    private final String LASTLOGINTIME = "LASTLOGINTIME";
+    private String email;
+    private String realname;
+    private String role;
+    private String gender;
+    private String id;
+
+    /**
+     * Get id
+     * @return
+     */
+    public String getId() {
+        return  this.id;
+    }
+
+    /**
+     * Set gender
+     * @param id
+     */
+    public User setId(String id, boolean saveData) {
+        this.id = id;
+        if(saveData) checkChange();
+        return this;
+    }
+
+    /**
+     * Get gender
+     * @return
+     */
+    public String getGender() {
+        return gender;
+    }
+
+    /**
+     * Set gender
+     * @param gender
+     */
+    public User setGender(String gender, boolean saveData) {
+        this.gender = gender;
+        if(saveData) checkChange();
+        return this;
+    }
+
+    /**
+     * Get role
+     * @return
+     */
+    public String getRole() {
+        return role;
+    }
+
+    /**
+     * Set role
+     * @param role
+     */
+    public User setRole(String role, boolean saveData) {
+        this.role = role;
+        if(saveData) checkChange();
+        return this;
+    }
+
+    /**
+     * Get realname
+     * @return
+     */
+    public String getRealname() {
+        return realname;
+    }
+
+    /**
+     * Set realname
+     * @param realname
+     */
+    public User setRealname(String realname, boolean saveData) {
+        this.realname = realname;
+        if(saveData) checkChange();
+        return this;
+    }
+
+    /**
+     * Get email
+     * @return
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * Set email
+     * @param email
+     */
+    public User setEmail(String email, boolean saveData) {
+        this.email = email;
+        if(saveData) checkChange();
+        return this;
+    }
 
     /**
      * Get current user identify
@@ -136,6 +234,11 @@ public class User {
                     .putString(ACCOUNT, getAccount())
                     .putString(ADDRESS, getAddress())
                     .putString(PASSWORDMD5, getPasswordMD5())
+                    .putString(REALNAME, getRealname())
+                    .putString(EMAIL, getEmail())
+                    .putString(ROLE, getRole())
+                    .putString(GENDER, getGender())
+                    .putString(ID, getId())
                     .putLong(LASTLOGINTIME, getLastLoginTime().getTime())
                     .commit();
         }
@@ -284,6 +387,11 @@ public class User {
                 .setPasswordMD5(this.userPreferences.getString(PASSWORDMD5, null), false)
                 .setAddress(this.userPreferences.getString(ADDRESS, null), false)
                 .setLastLoginTime(new Date(this.userPreferences.getLong(LASTLOGINTIME, 0)), false)
+                .setEmail(this.userPreferences.getString(EMAIL, null), false)
+                .setRealname(this.userPreferences.getString(REALNAME, ""), false)
+                .setGender(this.userPreferences.getString(GENDER, ""), false)
+                .setRole(this.userPreferences.getString(ROLE, ""), false)
+                .setId(this.userPreferences.getString(ID, ""), false)
                 .checkChange(false);
     }
 
@@ -300,6 +408,11 @@ public class User {
                     .key("passwordMD5").value(this.passwordMD5)
                     .key("lastLoginTime").value(this.lastLoginTime)
                     .key("status").value(this.status)
+                    .key("email").value(this.email)
+                    .key("realname").value(this.realname)
+                    .key("gender").value(this.gender)
+                    .key("role").value(this.role)
+                    .key("id").value(this.id)
                     .endObject().toString();
         } catch (JSONException e) {
             e.printStackTrace();
