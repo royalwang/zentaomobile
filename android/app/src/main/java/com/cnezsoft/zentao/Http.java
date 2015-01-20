@@ -93,8 +93,16 @@ public class Http {
      * @return
      * @throws JSONException
      */
-    public static JSONObject getJSON(URL url) throws JSONException {
-        return new JSONObject(get(url));
+    public static JSONObject getJSON(URL url) {
+        String responseText = get(url);
+        if(responseText != null) {
+            try {
+                return new JSONObject(responseText);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     /**
@@ -103,7 +111,14 @@ public class Http {
      * @return
      * @throws JSONException
      */
-    public static JSONObject getJSON(String url) throws MalformedURLException, JSONException {
-        return getJSON(new URL(url));
+    public static JSONObject getJSON(String url) {
+        URL address = null;
+        try {
+            address = new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return getJSON(address);
     }
 }
