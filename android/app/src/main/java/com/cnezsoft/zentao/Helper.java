@@ -1,5 +1,7 @@
 package com.cnezsoft.zentao;
 
+import org.json.JSONArray;
+
 import java.util.Map;
 
 /**
@@ -54,5 +56,22 @@ public class Helper {
         V value = map.get(key);
         map.remove(key);
         return value;
+    }
+
+    /**
+     *
+     * @param jsonArray
+     * @return
+     */
+    public static String[] getStringArrayFromJSON(JSONArray jsonArray){
+        String[] stringArray = null;
+        int length = jsonArray.length();
+        if(jsonArray != null) {
+            stringArray = new String[length];
+            for(int i=0; i < length; i++) {
+                stringArray[i]= jsonArray.optString(i);
+            }
+        }
+        return stringArray;
     }
 }
