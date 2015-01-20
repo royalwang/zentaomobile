@@ -175,7 +175,7 @@ public class DAO {
         Cursor cursor = db.rawQuery("SELECT count(*) FROM " + type.name()
                 + " WHERE " + type.primaryKey() + " = " + key, null);
         if (cursor.moveToNext()) {
-            return true;
+            return cursor.getLong(0) > 0;
         }
         return false;
     }
