@@ -138,6 +138,8 @@ public class DAO {
      * @return
      */
     public long delete(EntryType type, String key) {
+        IColumn primaryKey = type.primaryKey();
+        if(primaryKey == null) return 0;
         return db.delete(type.name(), type.primaryKey().name() + " = ?",
                 new String[]{key});
     }

@@ -49,8 +49,11 @@ public enum EntryType {
      * @return
      */
     public IColumn primaryKey() {
+        IColumn[] cs = columns();
+        if(cs == null) return null;
+
         if(primaryColumn == null) {
-            for(IColumn column: columns()) {
+            for(IColumn column: cs) {
                 if(column.isPrimaryKey()) {
                     primaryColumn = column;
                     break;

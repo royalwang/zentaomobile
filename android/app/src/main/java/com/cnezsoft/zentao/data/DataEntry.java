@@ -154,6 +154,7 @@ public class DataEntry {
      * @return
      */
     public String getAsString(IColumn col) {
+        if(col == null) return null;
         return values.getAsString(col.name());
     }
 
