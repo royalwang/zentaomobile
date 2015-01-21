@@ -19,7 +19,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Synchronizer
+ * Zentao Synchronizer
  *
  * Created by Catouse on 2015/1/19.
  */
@@ -31,10 +31,14 @@ public class Synchronizer {
     private Timer timer;//计时器声明
     private TimerTask timerTask;//计时器Task声明
     private int counter = 0;
-    private final int maxLoginInterval = 1000*60*5;
+    private final int maxLoginInterval = 1000*60*2;
     private long lastLoginTime = 0;
     private Date lastSyncTime = new Date(0);
 
+    /**
+     * Constructor with context
+     * @param context
+     */
     public Synchronizer(Context context) {
         this.context = context;
         ZentaoApplication application = (ZentaoApplication) context.getApplicationContext();
@@ -42,8 +46,11 @@ public class Synchronizer {
         zentaoConfig = application.getZentaoConfig();
     }
 
+    /**
+     * Sync data
+     * @return
+     */
     public boolean sync() {
-        Log.v("SYNC", "============================");
         User.Status userStatus = user.getStatus();
         if(userStatus == User.Status.Offline) {
             Long thisLoginTime = new Date().getTime();
@@ -53,17 +60,21 @@ public class Synchronizer {
             } else {
                 lastLoginTime = thisLoginTime;
             }
-            if(!ZentaoAPI.tryLogin(user).getResult()) {
+            Log.v("SYNC", "The user is offline, now login again.");
+            ZentaoApplication application = (ZentaoApplication) context.getApplicationContext();
+            if(application.login()) {
+                user = application.getUser();
+                zentaoConfig = application.getZentaoConfig();
+            } else {
                 return false;
             }
         }
         else if(userStatus == User.Status.Unknown) {
+            Log.w("SYNC", "Unknown user, sync stopped!");
             return false;
         }
 
         Date thisSyncTime = new Date();
-        Log.v("SYNC", "lastSyncTime:" + lastSyncTime + " -> " + lastSyncTime.getTime());
-        Log.v("SYNC", "thisSyncTime:" + thisSyncTime + " -> " + thisSyncTime.getTime());
 
         OperateBundle<Boolean, JSONObject> result = ZentaoAPI.getDataList(zentaoConfig, user, lastSyncTime);
         if(result.getResult()) {
@@ -80,12 +91,17 @@ public class Synchronizer {
             lastSyncTime = thisSyncTime;
             return true;
         }
-        Log.v("SYNC", "result: " + "false");
 
+        Log.v("SYNC", "result: " + "false");
         return false;
     }
 
-    public ArrayList<DataEntry> getEntriesFromJSON(JSONObject jsonData) {
+    /**
+     * Get entries from JSON data
+     * @param jsonData
+     * @return
+     */
+    private ArrayList<DataEntry> getEntriesFromJSON(JSONObject jsonData) {
         Log.v("SYNC", "getEntriesFromJSON: " + jsonData.toString());
         ArrayList<DataEntry> entries = new ArrayList<>();
         String name;
@@ -135,6 +151,9 @@ public class Synchronizer {
         return  entries;
     }
 
+    /**
+     * Start sync
+     */
     public void start() {
         if(timer == null) {
             timer = new Timer();
@@ -150,6 +169,9 @@ public class Synchronizer {
         }
     }
 
+    /**
+     * Stop sync
+     */
     public void stop() {
         if(timer != null)
         {
