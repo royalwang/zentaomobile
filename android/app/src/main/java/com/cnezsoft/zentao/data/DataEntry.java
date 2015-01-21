@@ -20,7 +20,7 @@ import java.util.HashSet;
  *
  * Created by Catouse on 2015/1/15.
  */
-public abstract class DataEntry {
+public class DataEntry {
 
     private ContentValues values;
 
@@ -56,21 +56,26 @@ public abstract class DataEntry {
     /**
      * Constructor without params
      */
-    protected DataEntry() {
+    public DataEntry() {
         onCreate();
         values = new ContentValues();
+    }
+
+    public DataEntry(EntryType type) {
+        this();
+        setType(type);
     }
 
     /**
      * Constructor with Contentvalues
      * @param values
      */
-    protected DataEntry(ContentValues values) {
+    public DataEntry(ContentValues values) {
         onCreate();
         this.values = values;
     }
 
-    protected DataEntry(JSONArray jsonArray, String[] keys) {
+    public DataEntry(JSONArray jsonArray, String[] keys) {
         this();
         fromJSONArray(jsonArray, keys);
     }
@@ -79,7 +84,7 @@ public abstract class DataEntry {
      * Constructor with json
      * @param json
      */
-    protected DataEntry(JSONObject json) {
+    public DataEntry(JSONObject json) {
         this();
         fromJSON(json);
     }
@@ -88,7 +93,7 @@ public abstract class DataEntry {
      * Constructor with cursor
      * @param cursor
      */
-    protected DataEntry(Cursor cursor) {
+    public DataEntry(Cursor cursor) {
         this();
         fromCursor(cursor);
     }
@@ -99,6 +104,14 @@ public abstract class DataEntry {
      */
     public ContentValues getValues() {
         return values;
+    }
+
+    public void markDeleting() {
+        values.put("deleting", true);
+    }
+
+    public boolean deleting() {
+        return values.getAsBoolean("deleting") == true;
     }
 
     /**
@@ -286,7 +299,9 @@ public abstract class DataEntry {
     /**
      * The method for inherited classes to init settings
      */
-    protected abstract void onCreate();
+    protected void onCreate() {
+
+    }
 
     /**
      * The method for inherited classes to handle excepts attributes after init form JSONObject
