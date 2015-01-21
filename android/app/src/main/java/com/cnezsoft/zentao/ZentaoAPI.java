@@ -19,6 +19,8 @@ import java.util.Map;
  */
 public class ZentaoAPI
 {
+    public static final boolean GZIP_REQUEST = true;
+
     /**
      * Encrypted string with 'md5' algorithm
      * @param s
@@ -78,8 +80,7 @@ public class ZentaoAPI
                         + Helper.ifNullOrEmptyThen(params.get("range"), "0") + "-"
                         + Helper.ifNullThen(params.get("last"), "") + "-"
                         + Helper.ifNullOrEmptyThen(params.get("records"), "1000") + "-"
-                        + Helper.ifNullOrEmptyThen(params.get("format"), "index") + "-"
-                        + Helper.ifNullOrEmptyThen(params.get("zip"), "0");
+                        + Helper.ifNullOrEmptyThen(params.get("format"), "index");
                 }
                 else if(methodName.toLowerCase().equals("mobilegetinfo"))
                 {
@@ -117,8 +118,7 @@ public class ZentaoAPI
                         + "&range=" + Helper.ifNullOrEmptyThen(params.get("range"), "0")
                         + "&last=" + Helper.ifNullThen(params.get("last"), "")
                         + "&records=" + Helper.ifNullOrEmptyThen(params.get("records"), "all")
-                        + "&format=" + Helper.ifNullOrEmptyThen(params.get("format"), "index")
-                        + "&zip=" + Helper.ifNullOrEmptyThen(params.get("zip"), "0");
+                        + "&format=" + Helper.ifNullOrEmptyThen(params.get("format"), "index");
                 }
                 else if(methodName.toLowerCase().equals("mobilegetinfo"))
                 {
@@ -245,7 +245,7 @@ public class ZentaoAPI
         parmas.put("zip", zip ? "1" : "0");
         parmas.put("format", format);
 
-        json = Http.getJSON(concatUrl(parmas, config, user));
+        json = Http.getJSON(concatUrl(parmas, config, user), GZIP_REQUEST);
         if(json != null) {
             String status = json.optString("status", "failed");
             result = status.equals("success");
