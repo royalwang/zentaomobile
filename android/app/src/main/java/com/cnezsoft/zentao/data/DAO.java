@@ -88,7 +88,10 @@ public class DAO {
      * @return
      */
     public long save(DataEntry entry) {
-        if(contains(entry)) {
+        if(entry.deleting()) {
+            return delete(entry);
+        }
+        else if(contains(entry)) {
             return update(entry);
         }
         else {
@@ -102,16 +105,19 @@ public class DAO {
      */
     public OperateResult<Boolean> save(Collection<DataEntry> entries) {
         boolean result = false;
-        int addCount = 0, updateCount = 0;
+        int addCount = 0, updateCount = 0, deleteCount = 0;
         db.beginTransaction();
         try {
             for(DataEntry entry: entries) {
-                if(contains(entry)) {
+                if(entry.deleting()) {
+                    if(delete(entry) > 0) {
+                        deleteCount++;
+                    }
+                } else if(contains(entry)) {
                     if(update(entry) > 0) {
                         updateCount++;
                     }
-                }
-                else {
+                } else {
                     if(add(entry) > 0) {
                         addCount++;
                     }
@@ -122,7 +128,7 @@ public class DAO {
         } finally {
             db.endTransaction();
         }
-        return new OperateResult<>(result, "Add " + addCount + ", update " + updateCount + ".");
+        return new OperateResult<>(result, "ADD " + addCount + ", UPDATE " + updateCount + ", DELETE " + deleteCount + ".");
     }
 
     /**
@@ -151,15 +157,17 @@ public class DAO {
      */
     public boolean delete(Collection<DataEntry> entries) {
         boolean result = false;
-        db.beginTransaction();
-        try {
-            for(DataEntry entry: entries) {
-                delete(entry);
+        if(entries != null) {
+            db.beginTransaction();
+            try {
+                for(DataEntry entry: entries) {
+                    delete(entry);
+                }
+                db.setTransactionSuccessful();
+                result = true;
+            } finally {
+                db.endTransaction();
             }
-            db.setTransactionSuccessful();
-            result = true;
-        } finally {
-            db.endTransaction();
         }
         return result;
     }
