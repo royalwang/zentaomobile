@@ -108,7 +108,7 @@ public class Synchronizer {
         EntryType entryType;
         DataEntry entry;
         JSONObject data;
-        JSONArray set;
+        JSONArray set, deletes;
         String[] keys;
         int setLength;
         Iterator<String> names = jsonData.keys();
@@ -119,6 +119,11 @@ public class Synchronizer {
                 Log.v("SYNC", "handle json data: " + entryType.toString());
                 try {
                     data = jsonData.getJSONObject(name);
+                    deletes = data.getJSONArray("delete");
+                    for(int i = 0; i < deletes.length(); ++i) {
+                        entries.add(new DataEntry(entryType) {{markDeleting();}});
+                    }
+
                     set = data.getJSONArray("set");
                     setLength = set.length();
                     Log.v("SYNC", "data set length: " + setLength);
