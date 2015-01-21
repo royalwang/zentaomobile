@@ -54,6 +54,25 @@ public class ZentaoApplication extends Application {
     }
 
     /**
+     * Login in background
+     * @return
+     */
+    public boolean login() {
+        if(user.getStatus() != User.Status.Unknown) {
+            OperateBundle<Boolean, ZentaoConfig> loginResult = ZentaoAPI.tryLogin(user);
+            boolean result = loginResult.getResult();
+
+            if(result) {
+                user.online();
+                setZentaoConfig(loginResult.getValue());
+            }
+            return result;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Open login active and login
      * @param activity
      */
@@ -65,6 +84,10 @@ public class ZentaoApplication extends Application {
         activity.startActivityForResult(intent, LOGIN_REQUEST);
     }
 
+    /**
+     * Login in front
+     * @param activity
+     */
     public void login(Activity activity) {
         login(activity, false);
     }
