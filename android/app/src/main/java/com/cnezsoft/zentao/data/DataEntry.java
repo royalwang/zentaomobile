@@ -111,7 +111,8 @@ public class DataEntry {
     }
 
     public boolean deleting() {
-        return values.getAsBoolean("deleting") == true;
+        Boolean result = values.getAsBoolean("deleting") == true;
+        return result != null && result == true;
     }
 
     /**
