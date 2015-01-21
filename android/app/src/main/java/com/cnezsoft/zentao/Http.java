@@ -7,10 +7,12 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.zip.GZIPInputStream;
 
 /**
  * Hppt helpers
@@ -42,8 +44,18 @@ public class Http {
      * @return
      * @throws MalformedURLException
      */
+    public static String get(String url, boolean gizip) throws MalformedURLException {
+        return get(new URL(url), gizip);
+    }
+
+    /**
+     * Return response string with http 'GET' method, gzip disabled
+     * @param url
+     * @return
+     * @throws MalformedURLException
+     */
     public static String get(String url) throws MalformedURLException {
-        return get(new URL(url));
+        return get(new URL(url), false);
     }
 
     /**
@@ -51,7 +63,7 @@ public class Http {
      * @param url
      * @return
      */
-    public static String get(URL url) {
+    public static String get(URL url, boolean gzip) {
         Log.v("HTTP GET", "url:" + url.toString());
         try {
             HttpURLConnection c = (HttpURLConnection) url.openConnection();
@@ -61,7 +73,7 @@ public class Http {
             c.setAllowUserInteraction(false);
             c.setConnectTimeout(timeout);
             c.setReadTimeout(timeout);
-
+            if(gzip) c.setRequestProperty("Accept-Encoding", "gzip");
             c.connect();
             int status = c.getResponseCode();
             Log.v("HTTP GET", "responseCode:" + status);
@@ -69,7 +81,13 @@ public class Http {
             switch (status) {
                 case 200:
                 case 201:
-                    BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
+                    InputStream inputStream = c.getInputStream();
+                    String contentEncoding = c.getContentEncoding();
+                    Log.v("HTTP GET", "contentEncoding:" + contentEncoding);
+                    if(contentEncoding != null && contentEncoding.indexOf("gzip") != -1) {
+                        inputStream = new GZIPInputStream(inputStream);
+                    }
+                    BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
                     StringBuilder sb = new StringBuilder();
                     String line;
                     while ((line = br.readLine()) != null) {
@@ -88,13 +106,22 @@ public class Http {
     }
 
     /**
+     * Return response string with http 'GET' method, gzip disabled
+     * @param url
+     * @return
+     */
+    public static String get(URL url) {
+        return get(url, false);
+    }
+
+    /**
      * Return json object with http 'GET' method
      * @param url
      * @return
      * @throws JSONException
      */
-    public static JSONObject getJSON(URL url) {
-        String responseText = get(url);
+    public static JSONObject getJSON(URL url, boolean gzip) {
+        String responseText = get(url, gzip);
         if(responseText != null) {
             try {
                 return new JSONObject(responseText);
@@ -106,12 +133,21 @@ public class Http {
     }
 
     /**
+     * Return json object with http 'GET' method, gzip disabled
+     * @param url
+     * @return
+     */
+    public static JSONObject getJSON(URL url) {
+        return getJSON(url, false);
+    }
+
+    /**
      * Return json object with http 'GET' method
      * @param url
      * @return
      * @throws JSONException
      */
-    public static JSONObject getJSON(String url) {
+    public static JSONObject getJSON(String url, boolean gzip) {
         URL address = null;
         try {
             address = new URL(url);
@@ -119,6 +155,16 @@ public class Http {
             e.printStackTrace();
             return null;
         }
-        return getJSON(address);
+        return getJSON(address, gzip);
     }
+
+    /**
+     * Return json object with http 'GET' method, gzip disabled
+     * @param url
+     * @return
+     */
+    public static JSONObject getJSON(String url) {
+        return getJSON(url, false);
+    }
+
 }
