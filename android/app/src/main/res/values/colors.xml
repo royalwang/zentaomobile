@@ -278,6 +278,7 @@
     <color name="blue_grey_900">#263238</color>
 
     <!-- Colors for the app -->
+    <color name="transparent">#00000000</color>
     <color name="white">@color/grey_white_1000</color>
     <color name="black">@color/grey_900</color>
 
@@ -289,5 +290,4 @@
     <color name="secondary_text">@color/grey_600</color>
     <color name="icons">@color/grey_white_1000</color>
     <color name="divider">@color/grey_400</color>
-
 </resources>

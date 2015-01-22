@@ -83,7 +83,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="20dp"
             android:onClick="onLogin"
-            style="@style/PositiveButton" />
+            style="@style/primaryButton" />
 
         <TextView
             android:layout_width="wrap_content"

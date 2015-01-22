@@ -6,6 +6,18 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="content_horizontal_margin">32dp</dimen>
     <dimen name="content_vertical_margin">32dp</dimen>
+
     <dimen name="navigation_drawer_width">240dp</dimen>
 
+    <dimen name="control_padding">8dp</dimen>
+    <dimen name="control_horizontal_padding">8dp</dimen>
+    <dimen name="control_vertical_padding">8dp</dimen>
+
+    <!-- Dimen for buttons -->
+    <dimen name="button_inset_horizontal_flat">6dp</dimen>
+    <dimen name="button_inset_vertical_flat">6dp</dimen>
+    <dimen name="button_padding_horizontal_flat">6dp</dimen>
+    <dimen name="button_padding_vertical_flat">6dp</dimen>
+
+    <dimen name="control_corner_material">2dp</dimen>
 </resources>
