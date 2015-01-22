@@ -20,7 +20,7 @@ public class ZentaoSyncService extends Service {
         super.onCreate();
         syncer = new Synchronizer(this);
         syncer.start();
-        Log.v("SYNC", "禅道服务启动");
+        Log.v("SYNC", "Zentao sync server is running.");
     }
 
     /**
@@ -31,7 +31,7 @@ public class ZentaoSyncService extends Service {
      */
     @Override
     public void onDestroy() {
-        Log.v("SYNC", "禅道服务销毁");
+        Log.v("SYNC", "Zentao sync server destroyed.");
         super.onDestroy();
     }
 

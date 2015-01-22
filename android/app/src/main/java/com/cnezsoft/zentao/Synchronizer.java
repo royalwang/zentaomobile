@@ -28,9 +28,8 @@ public class Synchronizer {
     private User user;
     private ZentaoConfig zentaoConfig;
 
-    private Timer timer;//计时器声明
-    private TimerTask timerTask;//计时器Task声明
-    private int counter = 0;
+    private Timer timer;
+    private TimerTask timerTask;
     private final int maxLoginInterval = 1000*60*2;
     private long lastLoginTime = 0;
 
@@ -54,7 +53,7 @@ public class Synchronizer {
         if(userStatus == User.Status.Offline) {
             Long thisLoginTime = new Date().getTime();
             if((thisLoginTime - lastLoginTime) < maxLoginInterval) {
-                Log.w("SYNC", "虽然需要重新登录，但为了避免频繁登录，取消了尝试");
+                Log.w("SYNC", "Login required, but abort this time to prevent server lock.");
                 return false;
             } else {
                 lastLoginTime = thisLoginTime;
@@ -148,9 +147,6 @@ public class Synchronizer {
 
         // todo items
         Log.v("SYNC", entries.size() + " data to save in the database.");
-//        for(DataEntry entry1: entries) {
-//            Log.v("SYNC", entry1.getType().name() + ": " + entry1.toJSONString());
-//        }
 
         return  entries;
     }
@@ -164,7 +160,6 @@ public class Synchronizer {
             timerTask = new TimerTask() {
                 @Override
                 public void run() {
-                    counter++;
                     sync();
                 }
             };
