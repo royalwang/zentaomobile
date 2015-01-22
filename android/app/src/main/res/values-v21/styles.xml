@@ -13,8 +13,25 @@
         <!--<item name="android:navigationBarColor">@color/primary</item>-->
     </style>
 
-    <style name="PositiveButton" parent="android:Widget.Material.Button">
-        <item name="android:colorButtonNormal">@color/accent</item>
+    <style name="flatButton">
+        <item name="android:shadowColor">@null</item>
     </style>
 
+    <style name="transparentButton" parent="flatButton">
+        <item name="android:background">@drawable/ripple_transparent</item>
+    </style>
+
+    <style name="transparentButtonOval" parent="flatButton">
+        <item name="android:background">@drawable/ripple_transparent_oval</item>
+    </style>
+
+    <style name="primaryButton" parent="flatButton">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/ripple_primary</item>
+    </style>
+
+    <style name="primaryButtonOval" parent="flatButton">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/ripple_primary_oval</item>
+    </style>
 </resources>

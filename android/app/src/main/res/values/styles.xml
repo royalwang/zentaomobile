@@ -11,9 +11,4 @@
         <item name="android:icon">@color/icons</item>
         <item name="android:divider">@color/divider</item>
     </style>
-
-    <style name="PositiveButton">
-        <item name="android:background">@color/accent</item>
-    </style>
-
 </resources>
