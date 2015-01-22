@@ -19,9 +19,10 @@ public class User {
 
     public static final String PASSWORD_WITH_MD5_FLAG = "%PASSWORD_WITH_MD5_FLAG% ";
     public static final String ACCOUNT = "ACCOUNT";
-    public static final String PASSWORDMD5 = "PASSWORDMD5";
+    public static final String PASSWORD_MD5 = "PASSWORD_MD5";
     public static final String ADDRESS = "ADDRESS";
-    public static final String LASTLOGINTIME = "LASTLOGINTIME";
+    public static final String LAST_LOGIN_TIME = "LAST_LOGIN_TIME";
+    public static final String LAST_SYNC_TIME = "LAST_SYNC_TIME";
     public static final String EMAIL = "EMAIL";
     public static final String REALNAME = "REALNAME";
     public static final String ROLE = "ROLE";
@@ -39,6 +40,27 @@ public class User {
     private String role;
     private String gender;
     private String id;
+    private Date lastSyncTime;
+
+    public Date getLastSyncTime() {
+        return lastSyncTime;
+    }
+
+    /**
+     * Set last sync time with a date
+     * @param lastSyncTime
+     */
+    public User setLastSyncTime(Date lastSyncTime) {
+        this.lastSyncTime = lastSyncTime;
+        return this;
+    }
+
+    /**
+     * Set last sync time with current time
+     */
+    public User setLastSyncTime() {
+        return setLastSyncTime(new Date());
+    }
 
     /**
      * Get id
@@ -197,17 +219,26 @@ public class User {
     }
 
     /**
+     * Check user status
+     * @return
+     */
+    public Status checkUserStatus() {
+        if(Helper.isNullOrEmpty(account)
+                || Helper.isNullOrEmpty(address)
+                || Helper.isNullOrEmpty(passwordMD5)) {
+            setStatus(Status.Unknown);
+        } else if(status == Status.Unknown) {
+            setStatus(Status.Offline);
+        }
+        return status;
+    }
+
+    /**
      * Check and save data after user info changed
      */
     private void checkChange(boolean saveData)
     {
-        if(status == Status.Unknown
-                && !Helper.isNullOrEmpty(account)
-                && !Helper.isNullOrEmpty(address)
-                && !Helper.isNullOrEmpty(passwordMD5))
-        {
-            setStatus(Status.Offline);
-        }
+        checkUserStatus();
 
         identify = account + "@" + address;
 
@@ -233,13 +264,14 @@ public class User {
                     .setIdentify(getIdentify())
                     .putString(ACCOUNT, getAccount())
                     .putString(ADDRESS, getAddress())
-                    .putString(PASSWORDMD5, getPasswordMD5())
+                    .putString(PASSWORD_MD5, getPasswordMD5())
                     .putString(REALNAME, getRealname())
                     .putString(EMAIL, getEmail())
                     .putString(ROLE, getRole())
                     .putString(GENDER, getGender())
                     .putString(ID, getId())
-                    .putLong(LASTLOGINTIME, getLastLoginTime().getTime())
+                    .putLong(LAST_LOGIN_TIME, getLastLoginTime().getTime())
+                    .putLong(LAST_SYNC_TIME, getLastSyncTime().getTime())
                     .commit();
         }
     }
@@ -268,7 +300,7 @@ public class User {
      * @param address
      */
     public User setAddress(String address, boolean saveData) {
-        if(address !=null && !address.startsWith("http://") && !address.startsWith("https://"))
+        if(!Helper.isNullOrEmpty(address) && !address.startsWith("http://") && !address.startsWith("https://"))
         {
             address = "http://" + address;
         }
@@ -384,14 +416,15 @@ public class User {
     public User(UserPreferences userPreferences) {
         this.userPreferences = userPreferences;
         this.setAccount(this.userPreferences.getString(ACCOUNT, null), false)
-                .setPasswordMD5(this.userPreferences.getString(PASSWORDMD5, null), false)
+                .setPasswordMD5(this.userPreferences.getString(PASSWORD_MD5, null), false)
                 .setAddress(this.userPreferences.getString(ADDRESS, null), false)
-                .setLastLoginTime(new Date(this.userPreferences.getLong(LASTLOGINTIME, 0)), false)
+                .setLastLoginTime(new Date(this.userPreferences.getLong(LAST_LOGIN_TIME, 0)), false)
                 .setEmail(this.userPreferences.getString(EMAIL, null), false)
                 .setRealname(this.userPreferences.getString(REALNAME, ""), false)
                 .setGender(this.userPreferences.getString(GENDER, ""), false)
                 .setRole(this.userPreferences.getString(ROLE, ""), false)
                 .setId(this.userPreferences.getString(ID, ""), false)
+                .setLastSyncTime(new Date(this.userPreferences.getLong(LAST_SYNC_TIME, 0)))
                 .checkChange(false);
     }
 
@@ -407,6 +440,7 @@ public class User {
                     .key("address").value(this.address)
                     .key("passwordMD5").value(this.passwordMD5)
                     .key("lastLoginTime").value(this.lastLoginTime)
+                    .key("lastSyncTime").value(this.getLastSyncTime())
                     .key("status").value(this.status)
                     .key("email").value(this.email)
                     .key("realname").value(this.realname)

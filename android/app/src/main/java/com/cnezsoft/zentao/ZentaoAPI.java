@@ -9,7 +9,6 @@ import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -197,8 +196,11 @@ public class ZentaoAPI
      * @param user
      * @return
      */
-    public static OperateBundle<Boolean, ZentaoConfig> tryLogin(User user)
-    {
+    public static OperateBundle<Boolean, ZentaoConfig> tryLogin(User user) {
+        if(user.checkUserStatus() == User.Status.Unknown) {
+            return new OperateBundle<Boolean, ZentaoConfig>(false){{setCode(5);}};
+        }
+
         ZentaoConfig config = getConfig(user.getAddress());
 
         // Check zentao version
@@ -223,14 +225,13 @@ public class ZentaoAPI
      * @param type
      * @param entryType
      * @param range
-     * @param last
      * @param records
      * @param format
      * @param zip
      * @return
      */
     public static OperateBundle<Boolean, JSONObject> getDataList(ZentaoConfig config, User user, String type, EntryType entryType,
-        int range, Date last, int records, String format, boolean zip) {
+        int range, int records, String format, boolean zip) {
         JSONObject json;
         boolean result;
         String message;
@@ -240,7 +241,7 @@ public class ZentaoAPI
         parmas.put("type", type);
         parmas.put("object", entryType == EntryType.Default ? "all" : entryType.name().toLowerCase());
         parmas.put("range", range + "");
-        parmas.put("last", ((int) Math.floor(last.getTime()/1000)) + "");
+        parmas.put("last", ((int) Math.floor(user.getLastSyncTime().getTime()/1000)) + "");
         parmas.put("records", records + "");
         parmas.put("zip", zip ? "1" : "0");
         parmas.put("format", format);
@@ -272,14 +273,13 @@ public class ZentaoAPI
      * @param type
      * @param entryType
      * @param range
-     * @param last
      * @param records
      * @param format
      * @return
      */
     public static OperateBundle<Boolean, JSONObject> getDataList(ZentaoConfig config, User user,
-            String type, EntryType entryType, int range, Date last, int records, String format) {
-        return getDataList(config, user, type, entryType, range, last, records, format, false);
+            String type, EntryType entryType, int range, int records, String format) {
+        return getDataList(config, user, type, entryType, range, records, format, false);
     }
 
     /**
@@ -287,23 +287,21 @@ public class ZentaoAPI
      * @param config
      * @param user
      * @param entryType
-     * @param last
      * @return
      */
     public static OperateBundle<Boolean, JSONObject> getDataList(ZentaoConfig config,
-            User user, EntryType entryType, Date last) {
-        return getDataList(config, user, "increment", entryType, 0, last, 500, "index", false);
+            User user, EntryType entryType) {
+        return getDataList(config, user, "increment", entryType, 0, 500, "index", false);
     }
 
     /**
      * Get data list
      * @param config
      * @param user
-     * @param last
      * @return
      */
     public static OperateBundle<Boolean, JSONObject> getDataList(ZentaoConfig config,
-            User user, Date last) {
-        return getDataList(config, user, "increment", EntryType.Default, 0, last, 1000, "index", false);
+            User user) {
+        return getDataList(config, user, "increment", EntryType.Default, 0, 1000, "index", false);
     }
 }

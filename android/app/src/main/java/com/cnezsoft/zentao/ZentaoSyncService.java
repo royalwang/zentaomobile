@@ -31,8 +31,8 @@ public class ZentaoSyncService extends Service {
      */
     @Override
     public void onDestroy() {
-        super.onDestroy();
         Log.v("SYNC", "禅道服务销毁");
+        super.onDestroy();
     }
 
     @Override

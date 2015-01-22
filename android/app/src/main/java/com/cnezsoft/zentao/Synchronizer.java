@@ -33,7 +33,6 @@ public class Synchronizer {
     private int counter = 0;
     private final int maxLoginInterval = 1000*60*2;
     private long lastLoginTime = 0;
-    private Date lastSyncTime = new Date(0);
 
     /**
      * Constructor with context
@@ -76,7 +75,7 @@ public class Synchronizer {
 
         Date thisSyncTime = new Date();
 
-        OperateBundle<Boolean, JSONObject> result = ZentaoAPI.getDataList(zentaoConfig, user, lastSyncTime);
+        OperateBundle<Boolean, JSONObject> result = ZentaoAPI.getDataList(zentaoConfig, user);
         if(result.getResult()) {
             JSONObject data = result.getValue();
             Log.v("SYNC", "success: " + result.getMessage() + ", data: " + (data != null ? data.toString() : "no data."));
@@ -88,7 +87,7 @@ public class Synchronizer {
                 Log.v("SYNC", "dao result: " + daoResult.toString());
             }
 
-            lastSyncTime = thisSyncTime;
+            user.setLastSyncTime(thisSyncTime).save();
             return true;
         }
 

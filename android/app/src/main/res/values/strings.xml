@@ -18,6 +18,7 @@
         <item name="login_message_wrong_account">用户名或密码不正确。</item>
         <item name="login_message_wrong_version">不支持此禅道版本（仅支持禅道专业版4.4+）。</item>
         <item name="login_message_server_error">服务器错误。</item>
+        <item name="login_message_user_info_required">用户信息不完整。</item>
     </string-array>
 
     <string name="title_activity_todo_list">我的待办</string>
