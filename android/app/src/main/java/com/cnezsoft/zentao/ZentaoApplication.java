@@ -54,6 +54,16 @@ public class ZentaoApplication extends Application {
     }
 
     /**
+     * Logout and change user
+     * @param activity
+     */
+    public void logout(Activity activity) {
+        user.offline();
+        user.save();
+        login(activity, false);
+    }
+
+    /**
      * Login in background
      * @return
      */

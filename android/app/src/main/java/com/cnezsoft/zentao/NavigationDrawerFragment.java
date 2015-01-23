@@ -20,8 +20,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -55,6 +57,12 @@ public class NavigationDrawerFragment extends Fragment {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerListView;
     private View mFragmentContainerView;
+
+    private TextView textViewUserAccount;
+    private TextView textViewUserAddress;
+    private TextView textViewUserLastSyncTime;
+    private Button buttonChangeUser;
+    private Button buttonSyncNow;
 
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
@@ -102,18 +110,73 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
 
+        String[] drawerList = getResources().getStringArray(R.array.drawer_list);
         mDrawerListView.setAdapter(new ArrayAdapter<String>(
                 getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_activated_1,
+                android.R.layout.simple_list_item_1,
                 android.R.id.text1,
-                new String[]{
-                        getString(R.string.title_section1),
-                        getString(R.string.title_section2),
-                        getString(R.string.title_section3),
-                }));
+                drawerList));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 
+        // Store controls
+        textViewUserAccount = ((TextView) view.findViewById(R.id.text_user_account));
+        textViewUserAddress = ((TextView) view.findViewById(R.id.text_user_address));
+        textViewUserLastSyncTime = ((TextView) view.findViewById(R.id.text_user_last_sync_time));
+        buttonChangeUser = (Button) view.findViewById(R.id.button_change_user);
+        buttonSyncNow = (Button) view.findViewById(R.id.button_sync_now);
+
+        // Init user info
+        updateUserInfo();
+
+        // Bind event
+        bindMenuEvents(view);
+
         return view;
+    }
+
+    private User.Status updateUserInfo() {
+        User user = ((ZentaoApplication) getActivity().getApplicationContext()).getUser();
+        User.Status status = user.getStatus();
+        if(status != User.Status.Unknown) {
+            textViewUserAccount.setText(user.getName()
+                    + (status == User.Status.Offline ? (" [" + (getString(R.string.text_offline)) + "]") : ""));
+            textViewUserAddress.setText(user.getAddress());
+            textViewUserLastSyncTime.setText(user.getLastLoginTime().toString());
+        } else {
+            textViewUserAccount.setText(getText(R.string.message_please_login));
+            textViewUserAddress.setText("...");
+            textViewUserLastSyncTime.setText("...");
+        }
+        return status;
+    }
+
+    private void bindMenuEvents(View view) {
+        buttonChangeUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Activity activity = getActivity();
+                ((ZentaoApplication) activity.getApplicationContext()).logout(activity);
+            }
+        });
+
+        textViewUserAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                User.Status status = updateUserInfo();
+                if(status != User.Status.Online) {
+                    Activity activity = getActivity();
+                    ZentaoApplication application = ((ZentaoApplication) activity.getApplicationContext());
+                    application.login(activity, status == User.Status.Offline);
+                }
+            }
+        });
+
+        buttonSyncNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     public boolean isDrawerOpen() {
@@ -260,6 +323,8 @@ public class NavigationDrawerFragment extends Fragment {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 
     /**
      * Per the navigation drawer design guidelines, updates the action bar to show the global app

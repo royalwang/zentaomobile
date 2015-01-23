@@ -117,6 +117,14 @@ public class User {
     }
 
     /**
+     * Get user name for display
+     * @return
+     */
+    public String getName() {
+        return Helper.isNullOrEmpty(realname) ? account : realname;
+    }
+
+    /**
      * Get realname
      * @return
      */
