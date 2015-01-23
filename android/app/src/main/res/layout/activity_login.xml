@@ -81,16 +81,20 @@
             android:text="@string/label_login"
             android:id="@+id/button_login"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:onClick="onLogin"
             style="@style/primaryButton" />
 
-        <TextView
+        <android.widget.IconTextView
+            style="@style/transparentButton"
+            android:padding="@dimen/control_padding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
+            android:text="@string/button_explore_zentao_pro"
             android:id="@+id/textView"
+            android:textColor="@color/secondary_text"
             android:layout_gravity="right"
+            android:onClick="exploreZentaoPro"
             android:clickable="true" />
 
     </LinearLayout>

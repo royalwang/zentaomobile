@@ -3,6 +3,7 @@ package com.cnezsoft.zentao;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 
 /**
@@ -108,5 +109,14 @@ public class ZentaoApplication extends Application {
 
         userPreferences = new UserPreferences(this);
         user = new User(userPreferences);
+    }
+
+    /**
+     * Open url with browser
+     * @param url
+     */
+    public static void openBrowser(Activity activity, String url) {
+        Intent viewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        activity.startActivity(viewIntent);
     }
 }

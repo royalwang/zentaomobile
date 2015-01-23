@@ -144,6 +144,14 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     /**
+     * Open zentao pro website
+     * @param view
+     */
+    public void exploreZentaoPro(View view) {
+        ZentaoApplication.openBrowser(this, "http://www.zentao.net/book/zentaoprohelp.html");
+    }
+
+    /**
      * The async task for login in Zentao server
      */
     private class tryLoginTask extends AsyncTask<User, Integer, OperateBundle<Boolean, ZentaoConfig>> {
