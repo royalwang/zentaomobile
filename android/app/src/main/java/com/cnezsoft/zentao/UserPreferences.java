@@ -167,7 +167,29 @@ public class UserPreferences {
      */
     public UserPreferences(Context context) {
         preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+        preferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+
+            }
+        });
         getIdentify(true);
+    }
+
+    /**
+     * Register on user change listener
+     * @param listener
+     */
+    public void registerOnUserChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
+        preferences.registerOnSharedPreferenceChangeListener(listener);
+    }
+
+    /**
+     * Unregister on user change listener
+     * @param listener
+     */
+    public void unregisterOnUserChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
+        preferences.unregisterOnSharedPreferenceChangeListener(listener);
     }
 
     /**
