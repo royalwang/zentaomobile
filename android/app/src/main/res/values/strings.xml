@@ -21,7 +21,6 @@
         <item name="login_message_server_error">服务器错误。</item>
         <item name="login_message_user_info_required">用户信息不完整。</item>
     </string-array>
-    
     <string-array name="drawer_list">
         <item>首页</item>
         <item>待办</item>
@@ -41,4 +40,6 @@
     <string name="text_medium_datetime_format">M月d日 HH:mm:ss</string>
     <string name="button_explore_zentao_pro">了解专业版 {fa-external-link}</string>
     <string name="action_search">搜索</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

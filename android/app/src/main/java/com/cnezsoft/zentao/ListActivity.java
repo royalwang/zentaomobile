@@ -1,14 +1,12 @@
 package com.cnezsoft.zentao;
 
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -17,7 +15,7 @@ import com.joanzapata.android.iconify.Iconify;
 
 
 public class ListActivity extends ActionBarActivity
-        implements  NavigationDrawerFragment.ActivityWithDrawerMenu
+        implements  NavigationDrawerFragment.ActivityWithDrawerMenu, TodoListFragment.OnFragmentInteractionListener
 {
 
     /**
@@ -73,9 +71,23 @@ public class ListActivity extends ActionBarActivity
             if(button.getTag().equals(tag)) {
                 button.setSelected(true);
                 currentNavItem = tag;
+                changeList(tag);
             } else {
                 button.setSelected(false);
             }
+        }
+    }
+
+    private void changeList(String tag) {
+        TodoListFragment fragment = null;
+        switch (tag) {
+            case "todo":
+                fragment = new TodoListFragment();
+                break;
+        }
+
+        if(fragment != null) {
+            getFragmentManager().beginTransaction().replace(R.id.list_container, fragment).commit();
         }
     }
 
@@ -113,40 +125,8 @@ public class ListActivity extends ActionBarActivity
         return NavigationDrawerFragment.STATE_LIST;
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        /**
-         * Default constructor
-         */
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_todo_list, container, false);
-            return rootView;
-        }
     }
-
 }
