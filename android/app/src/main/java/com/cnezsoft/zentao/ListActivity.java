@@ -13,8 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class TodoListActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks
+public class ListActivity extends ActionBarActivity
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, NavigationDrawerFragment.ActivityWithDrawerMenu
 {
 
     /**
@@ -30,7 +30,7 @@ public class TodoListActivity extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_todo_list);
+        setContentView(R.layout.activity_list);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -64,14 +64,13 @@ public class TodoListActivity extends ActionBarActivity
         actionBar.setTitle(mTitle);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.todo_list, menu);
+            getMenuInflater().inflate(R.menu.menu_list, menu);
             restoreActionBar();
             return true;
         }
@@ -91,6 +90,11 @@ public class TodoListActivity extends ActionBarActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public int getMenuId() {
+        return NavigationDrawerFragment.STATE_LIST;
     }
 
     /**
@@ -115,6 +119,9 @@ public class TodoListActivity extends ActionBarActivity
             return fragment;
         }
 
+        /**
+         * Default constructor
+         */
         public PlaceholderFragment() {
         }
 
@@ -128,7 +135,7 @@ public class TodoListActivity extends ActionBarActivity
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-            ((TodoListActivity) activity).onSectionAttached(
+            ((ListActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }

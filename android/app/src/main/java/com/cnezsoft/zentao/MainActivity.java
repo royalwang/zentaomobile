@@ -21,7 +21,7 @@ import java.util.Set;
 /**
  * Main activity
  */
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.ActivityWithDrawerMenu{
     /**
      * Used to store Zentao application context
      */
@@ -97,5 +97,10 @@ public class MainActivity extends ActionBarActivity {
         for(Todo td: dao.query()) {
             Log.d(logKey, "todo: " + td.toJSONString());
         }
+    }
+
+    @Override
+    public int getMenuId() {
+        return NavigationDrawerFragment.STATE_MAIN;
     }
 }

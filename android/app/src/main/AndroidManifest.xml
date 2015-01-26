@@ -35,7 +35,7 @@
         </service>
 
         <activity
-            android:name=".TodoListActivity"
+            android:name=".ListActivity"
             android:label="@string/title_activity_todo_list"
             android:parentActivityName=".MainActivity" >
             <meta-data

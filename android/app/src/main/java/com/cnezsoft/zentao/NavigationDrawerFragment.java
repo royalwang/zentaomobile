@@ -1,6 +1,7 @@
 package com.cnezsoft.zentao;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -26,7 +27,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -34,6 +34,9 @@ import android.widget.Toast;
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
 public class NavigationDrawerFragment extends Fragment {
+
+    public static final int STATE_MAIN = 0;
+    public static final int STATE_LIST = 1;
 
     /**
      * Remember the position of the selected item.
@@ -82,13 +85,15 @@ public class NavigationDrawerFragment extends Fragment {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
 
-        if (savedInstanceState != null) {
-            mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
-            mFromSavedInstanceState = true;
+        try {
+            mCurrentSelectedPosition = ((NavigationDrawerFragment.ActivityWithDrawerMenu) getActivity()).getMenuId();
+        } catch (ClassCastException e) {
+            mCurrentSelectedPosition = STATE_MAIN;
+            Log.w("Drawer", "Activity must implement ActivityWithDrawerMenu.");
         }
 
         // Select either the default item (0) or the last selected item.
-        selectItem(mCurrentSelectedPosition);
+        setStateSelectedPosition(mCurrentSelectedPosition);
     }
 
     @Override
@@ -196,6 +201,10 @@ public class NavigationDrawerFragment extends Fragment {
         });
     }
 
+    /**
+     * Judge whether the drawer is opening
+     * @return
+     */
     public boolean isDrawerOpen() {
         return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
     }
@@ -288,9 +297,8 @@ public class NavigationDrawerFragment extends Fragment {
     private void setStateSelectedPosition(int position) {
         Log.v("DRAWER", "position:" + position);
         if(position > -1) {
-            mCurrentSelectedPosition = position;
             if(mDrawerListView != null) {
-                Log.v("DRAWER", "mDrawerListView.getChilxxdCount():" + mDrawerListView.getChildCount());
+                Log.v("DRAWER", "mDrawerListView.getChildCount():" + mDrawerListView.getChildCount());
                 for(int i = 0; i < mDrawerListView.getChildCount(); ++i) {
                     if(i == position) {
                         Log.v("DRAWER", "setStateSelectedPosition:" + position);
@@ -315,10 +323,20 @@ public class NavigationDrawerFragment extends Fragment {
             mCallbacks.onNavigationDrawerItemSelected(position);
         }
 
-        // handle menu item select
-        switch (position) {
-            case 0:
-
+        Activity activity = getActivity();
+        if(mCurrentSelectedPosition != position) {
+            Intent intent = null;
+            switch (position) {
+                case 0:
+                    intent = new Intent(activity, MainActivity.class);
+                    break;
+                case 1:
+                    intent = new Intent(activity, ListActivity.class);
+                    break;
+            }
+            if(intent != null) {
+                activity.startActivity(intent);
+            }
         }
     }
 
@@ -370,11 +388,6 @@ public class NavigationDrawerFragment extends Fragment {
             return true;
         }
 
-        if (item.getItemId() == R.id.action_example) {
-            Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -401,5 +414,12 @@ public class NavigationDrawerFragment extends Fragment {
          * Called when an item in the navigation drawer is selected.
          */
         void onNavigationDrawerItemSelected(int position);
+    }
+
+    /**
+     * Activity with drawer menu
+     */
+    public static interface ActivityWithDrawerMenu {
+        int getMenuId();
     }
 }
