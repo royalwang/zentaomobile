@@ -167,12 +167,15 @@ public class UserPreferences {
      */
     public UserPreferences(Context context) {
         preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
-        preferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        getIdentify(true);
+    }
 
-            }
-        });
+    /**
+     * Constructor with application context and name
+     * @param context
+     */
+    public UserPreferences(Context context, String name) {
+        preferences = context.getSharedPreferences(name, Context.MODE_PRIVATE);
         getIdentify(true);
     }
 

@@ -1,5 +1,8 @@
 package com.cnezsoft.zentao;
 
+import android.content.SharedPreferences;
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONStringer;
 
@@ -17,6 +20,22 @@ public class User {
         Online
     };
 
+    public interface  OnLastSyncTimeChangeListener {
+        void onLastSyncTimeChange(Date thisSyncTime);
+    }
+
+    public interface  OnAccountChangeListener {
+        void onAccountChange(String account);
+    }
+
+    public interface OnUserInfoChangeListener {
+        void onUserInfoChnage(String name);
+    }
+
+    public interface OnStatusChangeListner {
+        void onStatusChange(Status status);
+    }
+
     public static final String PASSWORD_WITH_MD5_FLAG = "%PASSWORD_WITH_MD5_FLAG% ";
     public static final String ACCOUNT = "ACCOUNT";
     public static final String PASSWORD_MD5 = "PASSWORD_MD5";
@@ -28,6 +47,12 @@ public class User {
     public static final String ROLE = "ROLE";
     public static final String GENDER = "GENDER";
     public static final String ID = "ID";
+
+    private OnLastSyncTimeChangeListener onLastSyncTimeChangeListener;
+    private OnAccountChangeListener onAccountChangeListener;
+    private OnUserInfoChangeListener onUserInfoChangeListener;
+    private OnStatusChangeListner onStatusChangeListner;
+
     private String account;
     private String address;
     private String passwordMD5;
@@ -42,7 +67,27 @@ public class User {
     private String id;
     private Date lastSyncTime;
 
+    private Long lastLoadTime = 0l;
+    private Long lastChangeTime = 0l;
+
+    public void setOnLastSyncTimeChangeListener(OnLastSyncTimeChangeListener listener) {
+        onLastSyncTimeChangeListener = listener;
+    }
+
+    public void setOnAccountChangeListener(OnAccountChangeListener listener) {
+        onAccountChangeListener = listener;
+    }
+
+    public void setOnUserInfoChangeListener(OnUserInfoChangeListener listener) {
+        onUserInfoChangeListener = listener;
+    }
+
     public Date getLastSyncTime() {
+        return lastSyncTime;
+    }
+
+    public Date getLastSyncTime(boolean load) {
+        if(load) setLastSyncTime(new Date(this.userPreferences.getLong(LAST_SYNC_TIME, 0)));
         return lastSyncTime;
     }
 
@@ -182,7 +227,12 @@ public class User {
      * @param status
      */
     private void setStatus(Status status) {
-        this.status = status;
+        if(status != this.status) {
+            this.status = status;
+            if(onStatusChangeListner != null) {
+                onStatusChangeListner.onStatusChange(status);
+            }
+        }
     }
 
     /**
@@ -198,6 +248,13 @@ public class User {
      * @return
      */
     public String getAccount() {
+        return account;
+    }
+
+    public String getAccount(boolean load) {
+        if(load) {
+            setAccount(this.userPreferences.getString(ACCOUNT, null));
+        }
         return account;
     }
 
@@ -406,34 +463,76 @@ public class User {
         setStatus(Status.Offline);
     }
 
-    /**
-     * Constructor with account, address, passwordMD5 and userPreferences
-     * @param account
-     * @param address
-     * @param passwordMD5
-     */
-    public User(String account, String address, String passwordMD5, UserPreferences userPreferences) {
-        this.userPreferences = userPreferences;
-        this.userPreferences.setIdentify(getAccount());
-        this.setAccount(account, false).setPasswordMD5(passwordMD5, false).setAddress(address);
+//    /**
+//     * Constructor with account, address, passwordMD5 and userPreferences
+//     * @param account
+//     * @param address
+//     * @param passwordMD5
+//     */
+//    public User(String account, String address, String passwordMD5, UserPreferences userPreferences) {
+//        this.userPreferences = userPreferences;
+//        this.userPreferences.setIdentify(getAccount());
+//        this.setAccount(account, false).setPasswordMD5(passwordMD5, false).setAddress(address);
+//    }
+
+    public void load() {
+        if(lastChangeTime > lastLoadTime) {
+            this.setAccount(this.userPreferences.getString(ACCOUNT, null), false)
+                    .setPasswordMD5(this.userPreferences.getString(PASSWORD_MD5, null), false)
+                    .setAddress(this.userPreferences.getString(ADDRESS, null), false)
+                    .setLastLoginTime(new Date(this.userPreferences.getLong(LAST_LOGIN_TIME, 0)), false)
+                    .setEmail(this.userPreferences.getString(EMAIL, null), false)
+                    .setRealname(this.userPreferences.getString(REALNAME, ""), false)
+                    .setGender(this.userPreferences.getString(GENDER, ""), false)
+                    .setRole(this.userPreferences.getString(ROLE, ""), false)
+                    .setId(this.userPreferences.getString(ID, ""), false)
+                    .setLastSyncTime(new Date(this.userPreferences.getLong(LAST_SYNC_TIME, 0)))
+                    .checkChange(false);
+            Log.v("USER", "load: " + toJSONString());
+        }
+
+        lastLoadTime = lastChangeTime;
     }
 
     /**
      * Constructor with userPreferences
      */
-    public User(UserPreferences userPreferences) {
+    public User(final UserPreferences userPreferences) {
         this.userPreferences = userPreferences;
-        this.setAccount(this.userPreferences.getString(ACCOUNT, null), false)
-                .setPasswordMD5(this.userPreferences.getString(PASSWORD_MD5, null), false)
-                .setAddress(this.userPreferences.getString(ADDRESS, null), false)
-                .setLastLoginTime(new Date(this.userPreferences.getLong(LAST_LOGIN_TIME, 0)), false)
-                .setEmail(this.userPreferences.getString(EMAIL, null), false)
-                .setRealname(this.userPreferences.getString(REALNAME, ""), false)
-                .setGender(this.userPreferences.getString(GENDER, ""), false)
-                .setRole(this.userPreferences.getString(ROLE, ""), false)
-                .setId(this.userPreferences.getString(ID, ""), false)
-                .setLastSyncTime(new Date(this.userPreferences.getLong(LAST_SYNC_TIME, 0)))
-                .checkChange(false);
+        lastChangeTime = 1l;
+        this.load();
+
+        this.userPreferences.registerOnUserChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                Log.v("USER", "changed: " + key + " | " + toJSONString());
+                lastChangeTime = new Date().getTime();
+
+                key = key.replace(getIdentify() + "::", "");
+                switch (key) {
+                    case LAST_SYNC_TIME:
+                        Date date = getLastSyncTime(true);
+                        if(onLastSyncTimeChangeListener != null) {
+                            onLastSyncTimeChangeListener.onLastSyncTimeChange(date);
+                        }
+                        lastLoadTime = lastChangeTime;
+                        break;
+                    case ACCOUNT:
+                        String account = getAccount(true);
+                        if(onAccountChangeListener != null) {
+                            onAccountChangeListener.onAccountChange(account);
+                        }
+                        lastLoadTime = lastChangeTime;
+                        break;
+                    default:
+                        load();
+                        if(onUserInfoChangeListener != null) {
+                            onUserInfoChangeListener.onUserInfoChnage(key);
+                        }
+                        break;
+                }
+            }
+        });
     }
 
     /**

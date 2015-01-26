@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 
 /**
  * Zentao application
@@ -19,7 +18,7 @@ public class ZentaoApplication extends Application {
     private UserPreferences userPreferences;
 
     /**
-     * Zentaoconfig getter
+     * ZentaoConfig getter
      * @return
      */
     public ZentaoConfig getZentaoConfig() {
@@ -39,7 +38,7 @@ public class ZentaoApplication extends Application {
      * @return
      */
     public User getUser() {
-        Log.v("GET USER", user.toJSONString());
+        user.load();
         return user;
     }
 
@@ -89,7 +88,6 @@ public class ZentaoApplication extends Application {
      */
     public void login(Activity activity, boolean autoLogin) {
         Intent intent = new Intent(activity, LoginActivity.class);
-//        activity.startActivity(intent);
 
         intent.putExtra(EXTRA_AUTO_LOGIN, autoLogin);
         activity.startActivityForResult(intent, LOGIN_REQUEST);
