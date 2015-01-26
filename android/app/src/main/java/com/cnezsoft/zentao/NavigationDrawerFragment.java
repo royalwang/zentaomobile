@@ -162,7 +162,7 @@ public class NavigationDrawerFragment extends Fragment {
             textViewUserAccount.setText(user.getName()
                     + (status == User.Status.Offline ? (" [" + (getString(R.string.text_offline)) + "]") : ""));
             textViewUserAddress.setText(user.getAddress());
-            textViewUserLastSyncTime.setText(user.getLastSyncTime().toString());
+            textViewUserLastSyncTime.setText(user.getLastSyncTimeStr(getActivity()));
         } else {
             textViewUserAccount.setText(getText(R.string.message_please_login));
             textViewUserAddress.setText("...");

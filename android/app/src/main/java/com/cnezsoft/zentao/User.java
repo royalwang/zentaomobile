@@ -1,11 +1,14 @@
 package com.cnezsoft.zentao;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONStringer;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -84,6 +87,16 @@ public class User {
 
     public Date getLastSyncTime() {
         return lastSyncTime;
+    }
+
+    public String getLastSyncTimeStr(Context context) {
+        Calendar now = Calendar.getInstance();
+        now.setTime(new Date());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(lastSyncTime);
+        return new SimpleDateFormat(now.get(Calendar.YEAR) == calendar.get(Calendar.YEAR) ?
+                context.getString(R.string.text_medium_datetime_format)
+                : context.getString(R.string.text_long_datetime_format)).format(lastSyncTime);
     }
 
     public Date getLastSyncTime(boolean load) {
