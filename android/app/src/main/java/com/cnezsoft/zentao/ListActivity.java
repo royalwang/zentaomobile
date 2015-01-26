@@ -1,9 +1,7 @@
 package com.cnezsoft.zentao;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
@@ -11,10 +9,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+
+import com.joanzapata.android.iconify.IconDrawable;
+import com.joanzapata.android.iconify.Iconify;
 
 
 public class ListActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, NavigationDrawerFragment.ActivityWithDrawerMenu
+        implements  NavigationDrawerFragment.ActivityWithDrawerMenu
 {
 
     /**
@@ -22,10 +25,7 @@ public class ListActivity extends ActionBarActivity
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
-    private CharSequence mTitle;
+    private String currentNavItem = "todo";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,34 +34,49 @@ public class ListActivity extends ActionBarActivity
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
     }
 
-    @Override
-    public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
-    }
+    /**
+     * Restore action bar
+     */
+    public void restoreActionBar(Menu menu) {
+        // set icon to menu items
+        menu.getItem(0).setIcon(new IconDrawable(this, Iconify.IconValue.fa_search){{
+            sizeRes(R.dimen.action_bar_icon_size); colorRes(R.color.icons);}});
 
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-        }
-    }
-
-    public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
+
+        actionBar.setDisplayShowTitleEnabled(false);
+
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setCustomView(R.layout.list_navigation);
+
+        LinearLayout navView = (LinearLayout) actionBar.getCustomView();
+        for(int i = 0; i < navView.getChildCount(); ++i) {
+            navView.getChildAt(i).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectNavItem(v.getTag().toString());
+                }
+            });
+        }
+
+        selectNavItem(currentNavItem);
+//        actionBar.setElevation(0); // remove actions bar shadow
+    }
+
+    private void selectNavItem(String tag) {
+        ActionBar actionBar = getSupportActionBar();
+        LinearLayout navView = (LinearLayout) actionBar.getCustomView();
+        for(int i = 0; i < navView.getChildCount(); ++i) {
+            Button button = (Button) navView.getChildAt(i);
+            if(button.getTag().equals(tag)) {
+                button.setSelected(true);
+                currentNavItem = tag;
+            } else {
+                button.setSelected(false);
+            }
+        }
     }
 
     @Override
@@ -71,9 +86,10 @@ public class ListActivity extends ActionBarActivity
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
             getMenuInflater().inflate(R.menu.menu_list, menu);
-            restoreActionBar();
+            restoreActionBar(menu);
             return true;
         }
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -130,13 +146,6 @@ public class ListActivity extends ActionBarActivity
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_todo_list, container, false);
             return rootView;
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((ListActivity) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
 

@@ -21,22 +21,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/label_login"
-            android:onClick="openLoginActivity"
-            android:layout_gravity="center" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="查询数据库"
             android:onClick="showDatabase"
-            android:layout_gravity="center" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="待办列表"
-            android:onClick="openTodoListActivity"
             android:layout_gravity="center" />
     </LinearLayout>
 

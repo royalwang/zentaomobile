@@ -113,12 +113,12 @@ public class User {
         return this;
     }
 
-    /**
-     * Set last sync time with current time
-     */
-    public User setLastSyncTime() {
-        return setLastSyncTime(new Date());
-    }
+//    /**
+//     * Set last sync time with current time
+//     */
+//    public User setLastSyncTime() {
+//        return setLastSyncTime(new Date());
+//    }
 
     /**
      * Get id

@@ -31,12 +31,14 @@
         <item>设置</item>
     </string-array>
 
+    <string name="title_activity_list">我的地盘</string>
     <string name="title_activity_todo_list">我的待办</string>
     <string name="navigation_drawer_open">打开导航</string>
     <string name="navigation_drawer_close">关闭导航</string>
     <string name="text_last_sync">上次同步</string>
     <string name="text_offline">离线</string>
-    <string name="text_long_datetime_format">yyyy年M月d日 hh:mm</string>
-    <string name="text_medium_datetime_format">M月d日 hh:mm:ss</string>
+    <string name="text_long_datetime_format">yyyy年M月d日 HH:mm</string>
+    <string name="text_medium_datetime_format">M月d日 HH:mm:ss</string>
     <string name="button_explore_zentao_pro">了解专业版 {fa-external-link}</string>
+    <string name="action_search">搜索</string>
 </resources>

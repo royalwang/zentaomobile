@@ -5,4 +5,11 @@
             <solid android:color="?android:colorControlActivated" />
         </shape>
     </item>
+    <item>
+        <selector>
+            <item android:state_selected="true">
+                <color android:color="#30FFFFFF" />
+            </item>
+        </selector>
+    </item>
 </ripple>

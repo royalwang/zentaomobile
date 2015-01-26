@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -300,12 +299,7 @@ public class NavigationDrawerFragment extends Fragment {
             if(mDrawerListView != null) {
                 Log.v("DRAWER", "mDrawerListView.getChildCount():" + mDrawerListView.getChildCount());
                 for(int i = 0; i < mDrawerListView.getChildCount(); ++i) {
-                    if(i == position) {
-                        Log.v("DRAWER", "setStateSelectedPosition:" + position);
-                        mDrawerListView.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.blue_grey_100));
-                    } else {
-                        mDrawerListView.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
-                    }
+                    mDrawerListView.getChildAt(i).setSelected(i == position);
                 }
             }
         }
@@ -346,7 +340,6 @@ public class NavigationDrawerFragment extends Fragment {
         try {
             mCallbacks = (NavigationDrawerCallbacks) activity;
         } catch (ClassCastException e) {
-//            throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
             Log.w("Drawer", "Activity must implement NavigationDrawerCallbacks.");
         }
     }
@@ -398,8 +391,8 @@ public class NavigationDrawerFragment extends Fragment {
     private void showGlobalContextActionBar() {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
-//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setTitle(R.string.app_name);
+        actionBar.setDisplayShowCustomEnabled(false);
     }
 
     private ActionBar getActionBar() {
