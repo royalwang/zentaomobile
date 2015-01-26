@@ -3,8 +3,10 @@ package com.cnezsoft.zentao;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -94,6 +96,8 @@ public class NavigationDrawerFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);
+        setUp();
+        updateUserInfo();
     }
 
     @Override
@@ -111,9 +115,9 @@ public class NavigationDrawerFragment extends Fragment {
         });
 
         String[] drawerList = getResources().getStringArray(R.array.drawer_list);
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
+        mDrawerListView.setAdapter(new ArrayAdapter<>(
                 getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_1,
+                android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
                 drawerList));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
@@ -125,13 +129,25 @@ public class NavigationDrawerFragment extends Fragment {
         buttonChangeUser = (Button) view.findViewById(R.id.button_change_user);
         buttonSyncNow = (Button) view.findViewById(R.id.button_sync_now);
 
-        // Init user info
-        updateUserInfo();
-
         // Bind event
         bindMenuEvents(view);
 
         return view;
+    }
+
+    /**
+     * Called immediately after {@link #onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)}
+     * has returned, but before any saved state has been restored in to the view.
+     * This gives subclasses a chance to initialize themselves once
+     * they know their view hierarchy has been completely created.  The fragment's
+     * view hierarchy is not however attached to its parent at this point.
+     *
+     * @param view               The View returned by {@link #onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)}.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     */
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     private User.Status updateUserInfo() {
@@ -174,7 +190,7 @@ public class NavigationDrawerFragment extends Fragment {
         buttonSyncNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                updateUserInfo();
             }
         });
     }
@@ -186,10 +202,11 @@ public class NavigationDrawerFragment extends Fragment {
     /**
      * Users of this fragment must call this method to set up the navigation drawer interactions.
      *
-     * @param fragmentId   The android:id of this fragment in its activity's layout.
-     * @param drawerLayout The DrawerLayout containing this fragment's UI.
      */
-    public void setUp(int fragmentId, DrawerLayout drawerLayout) {
+    private void setUp() {
+        int fragmentId = R.id.navigation_drawer;
+        DrawerLayout drawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+
         mFragmentContainerView = getActivity().findViewById(fragmentId);
         mDrawerLayout = drawerLayout;
 
@@ -236,6 +253,8 @@ public class NavigationDrawerFragment extends Fragment {
                 }
 
                 getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
+
+                handleDrawerOpened();
             }
         };
 
@@ -256,8 +275,35 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
+    private void handleDrawerOpened() {
+        updateUserInfo();
+        setStateSelectedPosition();
+    }
+
+    private void setStateSelectedPosition() {
+        setStateSelectedPosition(mCurrentSelectedPosition);
+    }
+
+    private void setStateSelectedPosition(int position) {
+        Log.v("DRAWER", "position:" + position);
+        if(position > -1) {
+            mCurrentSelectedPosition = position;
+            if(mDrawerListView != null) {
+                Log.v("DRAWER", "mDrawerListView.getChilxxdCount():" + mDrawerListView.getChildCount());
+                for(int i = 0; i < mDrawerListView.getChildCount(); ++i) {
+                    if(i == position) {
+                        Log.v("DRAWER", "setStateSelectedPosition:" + position);
+                        mDrawerListView.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.blue_grey_100));
+                    } else {
+                        mDrawerListView.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
+                    }
+                }
+            }
+        }
+    }
+
     private void selectItem(int position) {
-        mCurrentSelectedPosition = position;
+        setStateSelectedPosition(position);
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(position, true);
         }
@@ -266,6 +312,12 @@ public class NavigationDrawerFragment extends Fragment {
         }
         if (mCallbacks != null) {
             mCallbacks.onNavigationDrawerItemSelected(position);
+        }
+
+        // handle menu item select
+        switch (position) {
+            case 0:
+
         }
     }
 
@@ -290,6 +342,7 @@ public class NavigationDrawerFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
+        Log.v("DRAWER", "onSaveInstanceState");
     }
 
     @Override
@@ -323,8 +376,6 @@ public class NavigationDrawerFragment extends Fragment {
 
         return super.onOptionsItemSelected(item);
     }
-
-
 
     /**
      * Per the navigation drawer design guidelines, updates the action bar to show the global app

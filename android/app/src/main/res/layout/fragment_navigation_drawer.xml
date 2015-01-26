@@ -73,6 +73,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:choiceMode="singleChoice"
+        android:listSelector="@color/blue_grey_100"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp"/>
 
