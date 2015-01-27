@@ -18,6 +18,11 @@ import java.util.Map;
  */
 public class ZentaoAPI
 {
+    public enum RequestType {
+        GET,
+        PATH_INFO
+    }
+
     public static final boolean GZIP_REQUEST = true;
 
     /**

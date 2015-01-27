@@ -15,7 +15,7 @@ import java.util.Date;
  */
 public class ZentaoConfig {
     private String version;
-    private RequestType requestType;
+    private ZentaoAPI.RequestType requestType;
     private String requestFix;
     private String moduleVar;
     private String methodVar;
@@ -116,7 +116,7 @@ public class ZentaoConfig {
      * "RequestType" gtter
      * @return
      */
-    public RequestType getRequestType() {
+    public ZentaoAPI.RequestType getRequestType() {
         return requestType;
     }
 
@@ -189,8 +189,8 @@ public class ZentaoConfig {
      * @param name
      * @return
      */
-    public static RequestType getRequestTypeFromName(String name)
+    public static ZentaoAPI.RequestType getRequestTypeFromName(String name)
     {
-        return (name.equals("PATH_INFO")) ? RequestType.PATH_INFO : RequestType.GET;
+        return (name.equals("PATH_INFO")) ? ZentaoAPI.RequestType.PATH_INFO : ZentaoAPI.RequestType.GET;
     }
 }
