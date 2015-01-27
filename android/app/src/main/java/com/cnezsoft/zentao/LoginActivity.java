@@ -58,7 +58,7 @@ public class LoginActivity extends ActionBarActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if(autoLogin)
+        if(autoLogin && user.getStatus() != User.Status.Unknown)
         {
             onLogin(null);
         }

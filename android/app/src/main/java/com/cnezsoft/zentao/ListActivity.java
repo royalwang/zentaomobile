@@ -79,10 +79,10 @@ public class ListActivity extends ActionBarActivity
     }
 
     private void changeList(String tag) {
-        TodoListFragment fragment = null;
+        android.app.Fragment fragment = null;
         switch (tag) {
             case "todo":
-                fragment = new TodoListFragment();
+                fragment = TodoListFragment.newInstance(TodoListWrapperFragment.PageTab.Wait);
                 break;
         }
 

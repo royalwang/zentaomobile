@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,31 +23,29 @@ import com.astuetz.PagerSlidingTabStrip;
  * create an instance of this fragment.
  */
 public class TodoListFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private TodoListWrapperFragment.PageTab page;
+    private TodoListWrapperFragment.Order order;
+    private TodoListWrapperFragment.Group group;
 
     private OnFragmentInteractionListener mListener;
+
+    public static TodoListFragment newInstance(TodoListWrapperFragment.PageTab page) {
+        return newInstance(page, TodoListWrapperFragment.Order.Pri, TodoListWrapperFragment.Group.Time);
+    }
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment Todo_List_Fragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static TodoListFragment newInstance(String param1, String param2) {
+    public static TodoListFragment newInstance(TodoListWrapperFragment.PageTab page, TodoListWrapperFragment.Order order, TodoListWrapperFragment.Group group) {
         TodoListFragment fragment = new TodoListFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(TodoListWrapperFragment.ARG_PAGE, page.toString());
+        args.putString(TodoListWrapperFragment.ARG_ORDER, order.toString());
+        args.putString(TodoListWrapperFragment.ARG_GROUP, group.toString());
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,8 +58,9 @@ public class TodoListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            page  = TodoListWrapperFragment.PageTab.valueOf(getArguments().getString(TodoListWrapperFragment.ARG_PAGE)) ;
+            order = TodoListWrapperFragment.Order.valueOf(getArguments().getString(TodoListWrapperFragment.ARG_ORDER)) ;
+            group = TodoListWrapperFragment.Group.valueOf(getArguments().getString(TodoListWrapperFragment.ARG_GROUP)) ;
         }
     }
 
@@ -75,22 +73,13 @@ public class TodoListFragment extends Fragment {
         // Initialize the ViewPager and set an adapter
         ViewPager pager = (ViewPager) view.findViewById(R.id.view_pager_list);
         FragmentManager fragmentManager = getFragmentManager();
-        pager.setAdapter(new FragmentPagerAdapter(fragmentManager) {
-            @Override
-            public android.support.v4.app.Fragment getItem(int position) {
-                return null;
-            }
-
-            @Override
-            public int getCount() {
-                return 0;
-            }
-        });
+        pager.setAdapter(new TodoFragmentPagerAdapter(getActivity(), fragmentManager));
 
         // Bind the tabs to the ViewPager
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs_nav);
+        tabs.setIndicatorColorResource(R.color.primary);
+        tabs.setIndicatorHeight(6);
         tabs.setViewPager(pager);
-
         return view;
     }
 
@@ -132,5 +121,4 @@ public class TodoListFragment extends Fragment {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
-
 }

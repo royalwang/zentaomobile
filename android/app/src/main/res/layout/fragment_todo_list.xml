@@ -3,15 +3,18 @@
     android:orientation="vertical"
     android:layout_height="match_parent" tools:context="com.cnezsoft.zentao.TodoListFragment">
 
-    <com.astuetz.PagerSlidingTabStrip
-        android:id="@+id/tabs_nav"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="48dip" />
+        android:layout_height="wrap_content">
+        <com.astuetz.PagerSlidingTabStrip
+            android:id="@+id/tabs_nav"
+            android:layout_width="match_parent"
+            android:layout_height="48dip" />
+    </RelativeLayout>
 
-    <ViewPager
+    <android.support.v4.view.ViewPager
         android:id="@+id/view_pager_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tabs_nav"
-        tools:context=".MainActivity" />
+        android:layout_below="@+id/tabs_nav"/>
 </LinearLayout>

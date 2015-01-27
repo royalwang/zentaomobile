@@ -42,4 +42,9 @@
     <string name="action_search">搜索</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+
+    <string-array name="todo_list_names">
+        <item>未完成</item>
+        <item>已完成</item>
+    </string-array>
 </resources>
