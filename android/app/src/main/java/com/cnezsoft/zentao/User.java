@@ -68,7 +68,7 @@ public class User {
     private String role;
     private String gender;
     private String id;
-    private Date lastSyncTime;
+    private Date lastSyncTime = new Date(0);
 
     private Long lastLoadTime = 0l;
     private Long lastChangeTime = 0l;
