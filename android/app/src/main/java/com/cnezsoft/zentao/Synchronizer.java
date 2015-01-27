@@ -50,6 +50,7 @@ public class Synchronizer {
      */
     public boolean sync() {
         User.Status userStatus = user.getStatus();
+        Log.v("SYNC", "userStatus: " + userStatus.toString());
         if(userStatus == User.Status.Offline) {
             Long thisLoginTime = new Date().getTime();
             if((thisLoginTime - lastLoginTime) < maxLoginInterval) {

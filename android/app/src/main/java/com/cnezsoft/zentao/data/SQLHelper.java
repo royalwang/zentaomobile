@@ -15,7 +15,10 @@ public class SQLHelper {
         ArrayList<String> sqls = new ArrayList<>();
         for(EntryType type: EntryType.values()) {
             if(type == EntryType.Default) continue;
-            sqls.add(getCreateTableSql(type));
+            String sql = getCreateTableSql(type);
+            if(sql != null) {
+                sqls.add(getCreateTableSql(type));
+            }
         }
         return sqls;
     }
@@ -51,7 +54,7 @@ public class SQLHelper {
      */
     public static String getCreateTableSql(EntryType type)
     {
-        String sql = "";
+        String sql = null;
         IColumn[] columns = type.columns();
         if(columns != null) {
             sql = "CREATE TABLE " + type.name() + " (";
