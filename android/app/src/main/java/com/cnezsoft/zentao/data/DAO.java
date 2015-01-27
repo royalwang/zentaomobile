@@ -239,6 +239,11 @@ public class DAO {
         return cursor;
     }
 
+    public Cursor query(EntryType type, String selection, String[] selectionArgs, String orderBy) {
+        return db.query(true, type.name(), type.getColumnNames(), selection,
+                selectionArgs, null, null, orderBy, null);
+    }
+
     /**
      * Query all entries
      * @param type

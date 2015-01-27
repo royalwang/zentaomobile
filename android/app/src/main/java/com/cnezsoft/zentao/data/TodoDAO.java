@@ -20,6 +20,11 @@ public class TodoDAO extends DAO {
         super(context);
     }
 
+    public Cursor query(Todo.PageTab pageTab, Todo.Order order) {
+//        return query(EntryType.Todo);
+        return query(EntryType.Todo, TodoColumn.status.name() + "=?", new String[]{pageTab.name()}, order.name() + " DESC");
+    }
+
     /**
      * Query all todos
      * @return
