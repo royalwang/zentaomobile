@@ -32,7 +32,7 @@ public class TodoListFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     public static TodoListFragment newInstance(Todo.PageTab page) {
-        return newInstance(page, Todo.Order.pri, Todo.Group.time);
+        return newInstance(page, Todo.Order._id, Todo.Group.time);
     }
 
     /**
@@ -74,7 +74,7 @@ public class TodoListFragment extends Fragment {
         // Initialize the ViewPager and set an adapter
         ViewPager pager = (ViewPager) view.findViewById(R.id.view_pager_list);
         FragmentManager fragmentManager = getChildFragmentManager();
-        pager.setAdapter(new TodoFragmentPagerAdapter(getActivity(), fragmentManager));
+        pager.setAdapter(new TodoFragmentPagerAdapter(getActivity(), fragmentManager, order, group));
 
         // Bind the tabs to the ViewPager
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs_nav);

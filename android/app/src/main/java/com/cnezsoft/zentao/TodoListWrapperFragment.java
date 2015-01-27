@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ListFragment;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ListView;
@@ -69,6 +70,10 @@ public class TodoListWrapperFragment extends ListFragment {
 
         final Activity activity = getActivity();
         TodoDAO dao = new TodoDAO(activity);
+
+        Log.v("TodoListWrapperFragment", "page: " + page.toString());
+        Log.v("TodoListWrapperFragment", "order: " + order.toString());
+        Log.v("TodoListWrapperFragment", "group: " + group.toString());
 
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(activity,
                 R.layout.list_item_todo,

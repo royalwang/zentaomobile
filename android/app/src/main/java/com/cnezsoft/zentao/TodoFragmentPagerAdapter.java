@@ -12,15 +12,19 @@ import com.cnezsoft.zentao.data.Todo;
  */
 public class TodoFragmentPagerAdapter extends FragmentPagerAdapter {
     private Context context;
+    private Todo.Order order;
+    private Todo.Group group;
 
-    public TodoFragmentPagerAdapter(Context context, FragmentManager fm) {
+    public TodoFragmentPagerAdapter(Context context, FragmentManager fm, Todo.Order order, Todo.Group group) {
         super(fm);
         this.context = context;
+        this.order = order;
+        this.group = group;
     }
 
     @Override
     public Fragment getItem(int i) {
-        return TodoListWrapperFragment.newInstance(Todo.PageTab.values()[i]);
+        return TodoListWrapperFragment.newInstance(Todo.PageTab.values()[i], order, group);
     }
 
     @Override
