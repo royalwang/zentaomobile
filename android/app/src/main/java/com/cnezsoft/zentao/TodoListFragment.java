@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.cnezsoft.zentao.data.Todo;
 
 
 /**
@@ -24,14 +25,14 @@ import com.astuetz.PagerSlidingTabStrip;
  */
 public class TodoListFragment extends Fragment {
 
-    private TodoListWrapperFragment.PageTab page;
-    private TodoListWrapperFragment.Order order;
-    private TodoListWrapperFragment.Group group;
+    private Todo.PageTab page;
+    private Todo.Order order;
+    private Todo.Group group;
 
     private OnFragmentInteractionListener mListener;
 
-    public static TodoListFragment newInstance(TodoListWrapperFragment.PageTab page) {
-        return newInstance(page, TodoListWrapperFragment.Order.Pri, TodoListWrapperFragment.Group.Time);
+    public static TodoListFragment newInstance(Todo.PageTab page) {
+        return newInstance(page, Todo.Order.pri, Todo.Group.time);
     }
 
     /**
@@ -40,7 +41,7 @@ public class TodoListFragment extends Fragment {
      *
      * @return A new instance of fragment Todo_List_Fragment.
      */
-    public static TodoListFragment newInstance(TodoListWrapperFragment.PageTab page, TodoListWrapperFragment.Order order, TodoListWrapperFragment.Group group) {
+    public static TodoListFragment newInstance(Todo.PageTab page, Todo.Order order, Todo.Group group) {
         TodoListFragment fragment = new TodoListFragment();
         Bundle args = new Bundle();
         args.putString(TodoListWrapperFragment.ARG_PAGE, page.toString());
@@ -58,9 +59,9 @@ public class TodoListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            page  = TodoListWrapperFragment.PageTab.valueOf(getArguments().getString(TodoListWrapperFragment.ARG_PAGE)) ;
-            order = TodoListWrapperFragment.Order.valueOf(getArguments().getString(TodoListWrapperFragment.ARG_ORDER)) ;
-            group = TodoListWrapperFragment.Group.valueOf(getArguments().getString(TodoListWrapperFragment.ARG_GROUP)) ;
+            page  = Todo.PageTab.valueOf(getArguments().getString(TodoListWrapperFragment.ARG_PAGE)) ;
+            order = Todo.Order.valueOf(getArguments().getString(TodoListWrapperFragment.ARG_ORDER)) ;
+            group = Todo.Group.valueOf(getArguments().getString(TodoListWrapperFragment.ARG_GROUP)) ;
         }
     }
 

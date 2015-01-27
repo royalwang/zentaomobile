@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.cnezsoft.zentao.data.Todo;
 import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
 
@@ -17,7 +18,6 @@ import com.joanzapata.android.iconify.Iconify;
 public class ListActivity extends ActionBarActivity
         implements  NavigationDrawerFragment.ActivityWithDrawerMenu, TodoListFragment.OnFragmentInteractionListener
 {
-
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -82,7 +82,7 @@ public class ListActivity extends ActionBarActivity
         android.app.Fragment fragment = null;
         switch (tag) {
             case "todo":
-                fragment = TodoListFragment.newInstance(TodoListWrapperFragment.PageTab.Wait);
+                fragment = TodoListFragment.newInstance(Todo.PageTab.wait);
                 break;
         }
 

@@ -18,6 +18,33 @@ import java.util.HashSet;
 public class Todo extends DataEntry {
 
     /**
+     * Page tabs
+     */
+    public enum PageTab {
+        wait,
+        done
+    }
+
+    /**
+     * Group
+     */
+    public enum Group {
+        none,
+        time,
+        pri,
+        type
+    }
+
+    /**
+     * Order
+     */
+    public enum Order {
+        begin,
+        pri,
+        _id
+    }
+
+    /**
      * Todo status enum
      */
     public enum Status {WAIT, DONE, DOING}

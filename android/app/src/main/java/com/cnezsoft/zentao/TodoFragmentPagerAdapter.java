@@ -5,6 +5,8 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.support.v13.app.FragmentPagerAdapter;
 
+import com.cnezsoft.zentao.data.Todo;
+
 /**
  * Created by Catouse on 2015/1/27.
  */
@@ -18,12 +20,12 @@ public class TodoFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
-        return TodoListWrapperFragment.newInstance(TodoListWrapperFragment.PageTab.values()[i]);
+        return TodoListWrapperFragment.newInstance(Todo.PageTab.values()[i]);
     }
 
     @Override
     public int getCount() {
-        return TodoListWrapperFragment.PageTab.values().length;
+        return Todo.PageTab.values().length;
     }
 
     @Override
