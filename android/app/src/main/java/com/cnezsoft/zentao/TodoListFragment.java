@@ -72,7 +72,7 @@ public class TodoListFragment extends Fragment {
 
         // Initialize the ViewPager and set an adapter
         ViewPager pager = (ViewPager) view.findViewById(R.id.view_pager_list);
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getChildFragmentManager();
         pager.setAdapter(new TodoFragmentPagerAdapter(getActivity(), fragmentManager));
 
         // Bind the tabs to the ViewPager
