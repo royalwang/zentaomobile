@@ -1,14 +1,21 @@
 package com.cnezsoft.zentao;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.app.ListFragment;
+import android.database.Cursor;
+import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
+import com.cnezsoft.zentao.data.Todo;
+import com.cnezsoft.zentao.data.TodoColumn;
+import com.cnezsoft.zentao.data.TodoDAO;
 
-import com.cnezsoft.zentao.dummy.DummyContent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * A fragment representing a list of Items.
@@ -18,51 +25,22 @@ import com.cnezsoft.zentao.dummy.DummyContent;
  * interface.
  */
 public class TodoListWrapperFragment extends ListFragment {
-
-    /**
-     * Page tabs
-     */
-    public enum PageTab {
-        Wait,
-        Done
-    }
-
-    /**
-     * Group
-     */
-    public enum Group {
-        None,
-        Time,
-        Pri,
-        Type
-    }
-
-    /**
-     * Order
-     */
-    public enum Order {
-        Time,
-        Pri,
-        ID
-    }
-
-
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     public static final String ARG_PAGE = "page";
     public static final String ARG_GROUP = "group";
     public static final String ARG_ORDER = "order";
 
-    private PageTab page;
-    private Order order;
-    private Group group;
+    private Todo.PageTab page;
+    private Todo.Order order;
+    private Todo.Group group;
 
     private OnFragmentInteractionListener mListener;
 
-    public static TodoListWrapperFragment newInstance(PageTab page) {
-        return newInstance(page, Order.Pri, Group.Time);
+    public static TodoListWrapperFragment newInstance(Todo.PageTab page) {
+        return newInstance(page, Todo.Order.pri, Todo.Group.time);
     }
 
-    public static TodoListWrapperFragment newInstance(PageTab page, Order order, Group group) {
+    public static TodoListWrapperFragment newInstance(Todo.PageTab page, Todo.Order order, Todo.Group group) {
         TodoListWrapperFragment fragment = new TodoListWrapperFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PAGE, page.toString());
@@ -84,16 +62,41 @@ public class TodoListWrapperFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            page  = PageTab.valueOf(getArguments().getString(ARG_PAGE));
-            order = Order.valueOf(getArguments().getString(ARG_ORDER));
-            group = Group.valueOf(getArguments().getString(ARG_GROUP));
+            page  = Todo.PageTab.valueOf(getArguments().getString(ARG_PAGE));
+            order = Todo.Order.valueOf(getArguments().getString(ARG_ORDER));
+            group = Todo.Group.valueOf(getArguments().getString(ARG_GROUP));
         }
 
-        // TODO: Change Adapter to display your content
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS));
-    }
+        final Activity activity = getActivity();
+        TodoDAO dao = new TodoDAO(activity);
 
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(activity,
+                R.layout.list_item_todo,
+                dao.query(page, order),
+                new String[]{TodoColumn.name.name(), TodoColumn.begin.name(), TodoColumn.status.name(), TodoColumn.pri.name()},
+                new int[]{R.id.text_todo, R.id.text_time, R.id.checkbox_todo, R.id.color_pri});
+
+        final int[] priColors = activity.getResources().getIntArray(R.array.pri_colors);
+        adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
+            @Override
+            public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+                switch (view.getId()) {
+                    case R.id.text_time:
+                        ((TextView) view).setText(new SimpleDateFormat("HH:mm").format(new Date(cursor.getLong(columnIndex))));
+                        return true;
+                    case R.id.checkbox_todo:
+                        ((CheckBox) view).setChecked(cursor.getString(columnIndex).toUpperCase().equals(Todo.Status.DONE.name()));
+                        return true;
+                    case R.id.color_pri:
+                        view.setBackgroundColor(priColors[cursor.getInt(columnIndex)]);
+                        return true;
+                }
+                return false;
+            }
+        });
+
+        setListAdapter(adapter);
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -112,7 +115,6 @@ public class TodoListWrapperFragment extends ListFragment {
         mListener = null;
     }
 
-
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
@@ -120,7 +122,7 @@ public class TodoListWrapperFragment extends ListFragment {
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
+            mListener.onFragmentInteraction(id + "");
         }
     }
 
