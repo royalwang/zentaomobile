@@ -366,8 +366,13 @@ public class DataEntry {
 
     public void fromJSONArray(JSONArray jsonArray, String[] keys) {
         HashMap<String, Integer> keysMap = new HashMap<>();
+        String key;
         for(int i = 0; i < keys.length; ++i) {
-            keysMap.put(keys[i], i);
+            key = keys[i];
+            if(key.equals("id")) {
+                key = "_id";
+            }
+            keysMap.put(key, i);
         }
 
         String name;

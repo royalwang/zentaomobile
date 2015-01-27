@@ -4,7 +4,7 @@ package com.cnezsoft.zentao.data;
  * Todo columns
  */
 public enum TodoColumn implements IColumn {
-    id(DataType.INT, false),
+    _id(DataType.INT, false),
     pri(DataType.INT),
     begin(DataType.DATETIME),
     end(DataType.DATETIME),
@@ -19,7 +19,7 @@ public enum TodoColumn implements IColumn {
      */
     @Override
     public Boolean isPrimaryKey() {
-        return this == id;
+        return this == _id;
     }
 
     private boolean isNullable = true;
