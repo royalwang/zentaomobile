@@ -34,9 +34,6 @@ import android.widget.TextView;
  */
 public class NavigationDrawerFragment extends Fragment {
 
-    public static final int STATE_MAIN = 0;
-    public static final int STATE_LIST = 1;
-
     /**
      * Remember the position of the selected item.
      */
@@ -68,8 +65,7 @@ public class NavigationDrawerFragment extends Fragment {
     private Button buttonChangeUser;
     private Button buttonSyncNow;
 
-    private int mCurrentSelectedPosition = 0;
-    private boolean mFromSavedInstanceState;
+    private AppNav currentNav = AppNav.home;
     private boolean mUserLearnedDrawer;
 
     public NavigationDrawerFragment() {
@@ -83,21 +79,17 @@ public class NavigationDrawerFragment extends Fragment {
         // drawer. See PREF_USER_LEARNED_DRAWER for details.
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
-
-        try {
-            mCurrentSelectedPosition = ((NavigationDrawerFragment.ActivityWithDrawerMenu) getActivity()).getMenuId();
-        } catch (ClassCastException e) {
-            mCurrentSelectedPosition = STATE_MAIN;
-            Log.w("Drawer", "Activity must implement ActivityWithDrawerMenu.");
-        }
-
-        // Select either the default item (0) or the last selected item.
-        setStateSelectedPosition(mCurrentSelectedPosition);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        getAppNavFromActivity();
+
+        // Select either the default item (0) or the last selected item.
+        setStateSelectedPosition();
+
         // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);
         setUp();
@@ -114,7 +106,7 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position);
+                selectItem(AppNav.fromPosition(position));
             }
         });
 
@@ -124,7 +116,8 @@ public class NavigationDrawerFragment extends Fragment {
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
                 drawerList));
-        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+
+        mDrawerListView.setItemChecked(currentNav.getPosition(), true);
 
         // Store controls
         textViewUserAccount = ((TextView) view.findViewById(R.id.text_user_account));
@@ -152,6 +145,19 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    private boolean getAppNavFromActivity() {
+        try {
+            AppNav nav = ((ActivityWithDrawerMenu) getActivity()).getAppNav();
+            if(nav != currentNav) {
+                currentNav = nav;
+                return true;
+            }
+        } catch (ClassCastException e) {
+            Log.w("Drawer", "Activity must implement ActivityWithDrawerMenu.");
+        }
+        return false;
     }
 
     private User.Status updateUserInfo() {
@@ -269,7 +275,7 @@ public class NavigationDrawerFragment extends Fragment {
 
         // If the user hasn't 'learned' about the drawer, open it to introduce them to the drawer,
         // per the navigation drawer design guidelines.
-        if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
+        if (!mUserLearnedDrawer) {
             mDrawerLayout.openDrawer(mFragmentContainerView);
         }
 
@@ -286,30 +292,29 @@ public class NavigationDrawerFragment extends Fragment {
 
     private void handleDrawerOpened() {
         updateUserInfo();
-        setStateSelectedPosition();
+        if(getAppNavFromActivity()) {
+            setStateSelectedPosition();
+        }
     }
 
     private void setStateSelectedPosition() {
-        setStateSelectedPosition(mCurrentSelectedPosition);
+        setSelectNav(currentNav);
     }
 
-    private void setStateSelectedPosition(int position) {
-        Log.v("DRAWER", "position:" + position);
-        if(position > -1) {
-            if(mDrawerListView != null) {
-                Log.v("DRAWER", "mDrawerListView.getChildCount():" + mDrawerListView.getChildCount());
-                for(int i = 0; i < mDrawerListView.getChildCount(); ++i) {
-                    mDrawerListView.getChildAt(i).setSelected(i == position);
-                }
-            }
-        }
-    }
-
-    private void selectItem(int position) {
-        setStateSelectedPosition(position);
-        if (mDrawerListView != null) {
+    private void setSelectNav(AppNav nav) {
+        int position = nav.getPosition();
+        currentNav = nav;
+        Log.v("DRAWER", "nav:" + nav.name() + ", position:" + position);
+        if(mDrawerListView != null) {
             mDrawerListView.setItemChecked(position, true);
         }
+    }
+
+    private void selectItem(AppNav nav) {
+        int position = nav.getPosition();
+//        if (mDrawerListView != null) {
+//            mDrawerListView.setItemChecked(position, true);
+//        }
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
         }
@@ -318,14 +323,19 @@ public class NavigationDrawerFragment extends Fragment {
         }
 
         Activity activity = getActivity();
-        if(mCurrentSelectedPosition != position) {
+        if(currentNav.getPosition() != position) {
+            setSelectNav(nav);
             Intent intent = null;
-            switch (position) {
-                case 0:
+            switch (nav) {
+                case home:
                     intent = new Intent(activity, MainActivity.class);
                     break;
-                case 1:
+                case todo:
+                case task:
+                case bug:
+                case story:
                     intent = new Intent(activity, ListActivity.class);
+                    intent.putExtra(ListActivity.NAV_CURRENT, nav.toDashboardNav().ordinal());
                     break;
             }
             if(intent != null) {
@@ -353,7 +363,7 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
+        outState.putInt(STATE_SELECTED_POSITION, currentNav.getPosition());
         Log.v("DRAWER", "onSaveInstanceState");
     }
 
@@ -413,6 +423,6 @@ public class NavigationDrawerFragment extends Fragment {
      * Activity with drawer menu
      */
     public static interface ActivityWithDrawerMenu {
-        int getMenuId();
+        AppNav getAppNav();
     }
 }

@@ -48,8 +48,6 @@ public class TodoListWrapperFragment extends ListFragment implements LoaderManag
 
     private SimpleCursorAdapter adapter;
 
-    private OnFragmentInteractionListener mListener;
-
     public static TodoListWrapperFragment newInstance(Todo.PageTab page) {
         return newInstance(page, Todo.Order.pri, Todo.Group.time);
     }
@@ -118,33 +116,11 @@ public class TodoListWrapperFragment extends ListFragment implements LoaderManag
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-//            throw new ClassCastException(activity.toString()
-//                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        Log.v("LIST VIEW", "onListItemClick=" + position + ":" + id);
         super.onListItemClick(l, v, position, id);
 
+        Log.v("LIST VIEW", "onListItemClick=" + position + ":" + id);
 
-        if (null != mListener) {
-            // Notify the active callbacks interface (the activity, if the
-            // fragment is attached to one) that an item has been selected.
-            mListener.onFragmentInteraction(id + "");
-        }
     }
 
     /**
@@ -229,20 +205,4 @@ public class TodoListWrapperFragment extends ListFragment implements LoaderManag
     public void onLoaderReset(Loader<Cursor> loader) {
         adapter.changeCursor(null);
     }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(String id);
-    }
-
 }

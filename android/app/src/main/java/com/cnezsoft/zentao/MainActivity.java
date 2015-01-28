@@ -21,7 +21,7 @@ import java.util.Set;
 /**
  * Main activity
  */
-public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.ActivityWithDrawerMenu{
+public class MainActivity extends ActionBarActivity {
     /**
      * Used to store Zentao application context
      */
@@ -68,8 +68,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
             // Start syncService
             startService(new Intent(this, ZentaoSyncService.class));
-
-//            new AlertDialog.Builder(this).setTitle(requestCode + "> 登录界面结果:" + resultCode).setMessage(((ZentaoApplication) getApplicationContext()).getUser().toJSONString()).show();
         }
     }
 
@@ -97,10 +95,5 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         for(Todo td: dao.query()) {
             Log.d(logKey, "todo: " + td.toJSONString());
         }
-    }
-
-    @Override
-    public int getMenuId() {
-        return NavigationDrawerFragment.STATE_MAIN;
     }
 }

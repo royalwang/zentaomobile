@@ -18,17 +18,21 @@ import com.joanzapata.android.iconify.Iconify;
 public class ListActivity extends ActionBarActivity
         implements  NavigationDrawerFragment.ActivityWithDrawerMenu, TodoListFragment.OnFragmentInteractionListener
 {
+    public static final String NAV_CURRENT = "NAV_CURRENT";
+
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
-    private String currentNavItem = "todo";
+    private DashboardNav currentNav = DashboardNav.todo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        currentNav = DashboardNav.values()[getIntent().getIntExtra(NAV_CURRENT, 0)];
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -59,18 +63,23 @@ public class ListActivity extends ActionBarActivity
             });
         }
 
-        selectNavItem(currentNavItem);
+        selectNavItem(currentNav);
 //        actionBar.setElevation(0); // remove actions bar shadow
     }
 
-    private void selectNavItem(String tag) {
+    private void selectNavItem(String name) {
+        selectNavItem(DashboardNav.valueOf(name.toLowerCase()));
+    }
+
+    private void selectNavItem(DashboardNav nav) {
+        String tag = nav.name();
         ActionBar actionBar = getSupportActionBar();
         LinearLayout navView = (LinearLayout) actionBar.getCustomView();
         for(int i = 0; i < navView.getChildCount(); ++i) {
             Button button = (Button) navView.getChildAt(i);
             if(button.getTag().equals(tag)) {
                 button.setSelected(true);
-                currentNavItem = tag;
+                currentNav = nav;
                 changeList(tag);
             } else {
                 button.setSelected(false);
@@ -121,12 +130,11 @@ public class ListActivity extends ActionBarActivity
     }
 
     @Override
-    public int getMenuId() {
-        return NavigationDrawerFragment.STATE_LIST;
+    public AppNav getAppNav() {
+        return AppNav.valueOf(currentNav.name());
     }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-
     }
 }
