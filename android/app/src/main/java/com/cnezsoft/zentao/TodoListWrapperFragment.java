@@ -136,7 +136,9 @@ public class TodoListWrapperFragment extends ListFragment implements LoaderManag
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
+        Log.v("LIST VIEW", "onListItemClick=" + position + ":" + id);
         super.onListItemClick(l, v, position, id);
+
 
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the

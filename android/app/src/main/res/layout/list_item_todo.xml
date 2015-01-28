@@ -16,12 +16,12 @@
         android:layout_marginLeft="4dp"
         android:paddingRight="4dp"
         android:text="@null"
+        android:focusable="false"
         android:layout_gravity="center"
         android:tag="status"
         android:id="@+id/checkbox_todo"/>
 
     <TextView
-        style="@style/transparentButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -30,8 +30,7 @@
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
         android:minHeight="?android:attr/listPreferredItemHeightSmall"
         android:id="@+id/text_todo"
-        android:tag="name"
-        android:clickable="true" />
+        android:tag="name" />
 
     <TextView
         android:tag="time"
@@ -45,5 +44,4 @@
         android:minHeight="?android:attr/listPreferredItemHeightSmall"
         android:gravity="center_vertical"
         android:layout_gravity="center_horizontal" />
-
 </LinearLayout>
