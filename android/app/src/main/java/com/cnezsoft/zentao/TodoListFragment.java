@@ -81,6 +81,12 @@ public class TodoListFragment extends Fragment {
         tabs.setIndicatorColorResource(R.color.primary);
         tabs.setIndicatorHeight(6);
         tabs.setViewPager(pager);
+
+        // Bind spinners
+//        Spinner orderSpinner = (Spinner) view.findViewById(R.id.spinner_order);
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.todo_list_orders));
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        orderSpinner.setAdapter(adapter);
         return view;
     }
 
