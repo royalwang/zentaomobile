@@ -3,8 +3,7 @@ package com.cnezsoft.zentao.data;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
-import com.cnezsoft.zentao.OperateResult;
+import android.net.Uri;
 
 import java.util.Collection;
 
@@ -13,14 +12,22 @@ import java.util.Collection;
  * Created by Catouse on 2015/1/15.
  */
 public class DAO {
+    private static final String uriPrefix = "sqlite://com.cnezsoft.zentao/";
+
+    public static Uri getUri(EntryType type) {
+        return Uri.parse(uriPrefix + type.name());
+    }
+
     protected DbHelper helper;
     protected SQLiteDatabase db;
+    protected Context context;
 
     /**
      * Constructor with context
      * @param context
      */
     public DAO(Context context) {
+        this.context = context;
         helper = new DbHelper(context);
         db = helper.getWritableDatabase();
     }
@@ -103,32 +110,35 @@ public class DAO {
      * Save entry to database, add new items or update exists items
      * @param entries
      */
-    public OperateResult<Boolean> save(Collection<DataEntry> entries) {
-        boolean result = false;
-        int addCount = 0, updateCount = 0, deleteCount = 0;
+    public DAOResult save(Collection<DataEntry> entries) {
+        DAOResult result = new DAOResult();
         db.beginTransaction();
         try {
             for(DataEntry entry: entries) {
                 if(entry.deleting()) {
                     if(delete(entry) > 0) {
-                        deleteCount++;
+                        result.setDelete(entry.getType());
                     }
                 } else if(contains(entry)) {
                     if(update(entry) > 0) {
-                        updateCount++;
+                        result.setUpdate(entry.getType());
                     }
                 } else {
                     if(add(entry) > 0) {
-                        addCount++;
+                        result.setAdd(entry.getType());
                     }
                 }
             }
             db.setTransactionSuccessful();
-            result = true;
+            result.setResult(true);
         } finally {
             db.endTransaction();
         }
-        return new OperateResult<>(result, "ADD " + addCount + ", UPDATE " + updateCount + ", DELETE " + deleteCount + ".");
+
+        if(result.getResult()) {
+            result.notifyChange(context);
+        }
+        return result;
     }
 
     /**

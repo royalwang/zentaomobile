@@ -9,6 +9,7 @@ import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -241,12 +242,13 @@ public class ZentaoAPI
         boolean result;
         String message;
         Map<String, String> parmas = new HashMap<String, String>();
+        Date lastSyncTime = user.getLastSyncTime();
         parmas.put("module", "api");
         parmas.put("method", "mobileGetList");
         parmas.put("type", type);
         parmas.put("object", entryType == EntryType.Default ? "all" : entryType.name().toLowerCase());
         parmas.put("range", range + "");
-        parmas.put("last", ((int) Math.floor(user.getLastSyncTime().getTime()/1000)) + "");
+        parmas.put("last", ((int) Math.floor(lastSyncTime.getTime()/1000)) + "");
         parmas.put("records", records + "");
         parmas.put("zip", zip ? "1" : "0");
         parmas.put("format", format);
@@ -260,7 +262,9 @@ public class ZentaoAPI
             if(result) {
                 json = json.optJSONObject("data");
                 if(json == null && Helper.isNullOrEmpty(message)) {
-                    message = "No new data.";
+                    message = "No new data. last sync time=" + lastSyncTime.toString();
+                } else {
+                    message = "last sync time=" + lastSyncTime.toString();
                 }
             }
         }

@@ -84,7 +84,7 @@ public class Synchronizer {
                 DAO dao = new DAO(context);
                 OperateResult<Boolean> daoResult = dao.save(getEntriesFromJSON(data));
                 dao.close();
-                Log.v("SYNC", "dao result: " + daoResult.toString());
+                Log.v("SYNC", daoResult.toString());
             }
 
             user.setLastSyncTime(thisSyncTime).save();

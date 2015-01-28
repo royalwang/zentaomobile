@@ -10,6 +10,10 @@ public class OperateResult<T> {
     private String message;
     private int code;
 
+    protected void setResult(T result) {
+        this.result = result;
+    }
+
     /**
      * Code getter
      * @return
