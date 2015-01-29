@@ -1,7 +1,6 @@
 package com.cnezsoft.zentao;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -325,22 +324,7 @@ public class NavigationDrawerFragment extends Fragment {
         Activity activity = getActivity();
         if(currentNav.getPosition() != position) {
             setSelectNav(nav);
-            Intent intent = null;
-            switch (nav) {
-                case home:
-                    intent = new Intent(activity, MainActivity.class);
-                    break;
-                case todo:
-                case task:
-                case bug:
-                case story:
-                    intent = new Intent(activity, ListActivity.class);
-                    intent.putExtra(ListActivity.NAV_CURRENT, nav.toDashboardNav().ordinal());
-                    break;
-            }
-            if(intent != null) {
-                activity.startActivity(intent);
-            }
+            ((ZentaoApplication) activity.getApplicationContext()).openActivity(activity, nav);
         }
     }
 

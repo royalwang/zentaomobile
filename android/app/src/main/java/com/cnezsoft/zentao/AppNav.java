@@ -20,11 +20,7 @@ public enum AppNav {
     }
 
     public String text(Context context) {
-        return context.getResources().getStringArray(R.array.drawer_list)[ordinal()];
-    }
-
-    public String text(String[] texts) {
-        return texts[ordinal()];
+        return ZentaoApplication.getEnumText(context, this);
     }
 
     AppNav(int position) {

@@ -120,7 +120,8 @@ public class TodoListWrapperFragment extends ListFragment implements LoaderManag
         super.onListItemClick(l, v, position, id);
 
         Log.v("LIST VIEW", "onListItemClick=" + position + ":" + id);
-
+        Activity activity = getActivity();
+        ((ZentaoApplication) activity.getApplicationContext()).openDetailActivity(activity, EntryType.Todo, id);
     }
 
     /**

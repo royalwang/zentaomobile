@@ -2,8 +2,12 @@ package com.cnezsoft.zentao;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
+
+import com.cnezsoft.zentao.data.EntryType;
 
 /**
  * Zentao application
@@ -99,6 +103,39 @@ public class ZentaoApplication extends Application {
      */
     public void login(Activity activity) {
         login(activity, false);
+    }
+
+    public void openActivity(Activity activity, AppNav nav, Bundle extras) {
+        Intent intent = null;
+        switch (nav) {
+            case home:
+                intent = new Intent(activity, MainActivity.class);
+                break;
+            case todo:
+            case task:
+            case bug:
+            case story:
+                intent = new Intent(activity, ListActivity.class);
+                intent.putExtra(ListActivity.NAV_CURRENT, nav.toDashboardNav().ordinal());
+                break;
+        }
+        if(intent != null) {
+            if(extras != null) {
+                intent.putExtras(extras);
+            }
+            activity.startActivity(intent);
+        }
+    }
+
+    public void openDetailActivity(Activity activity, EntryType type, long id) {
+        Intent intent = new Intent(activity, EntryDetailActivity.class);
+        intent.putExtra(EntryDetailActivity.ARG_ENTRY_TYPE, type.name());
+        intent.putExtra(EntryDetailActivity.ARG_ID, id);
+        activity.startActivity(intent);
+    }
+
+    public void openActivity(Activity activity, AppNav nav) {
+        openActivity(activity, nav, null);
     }
 
     @Override
