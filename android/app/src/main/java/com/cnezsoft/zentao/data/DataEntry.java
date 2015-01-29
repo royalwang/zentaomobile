@@ -4,6 +4,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.util.Log;
 
+import com.cnezsoft.zentao.DateFormatType;
+import com.cnezsoft.zentao.Helper;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -146,6 +149,16 @@ public class DataEntry {
      */
     public Object get(IColumn col) {
         return values.get(col.name());
+    }
+
+    public String getFriendlyString(IColumn col) {
+        switch (col.type()) {
+            case DATETIME:
+                return Helper.formatDate(getAsDate(col), DateFormatType.DateTime);
+            default:
+                Object value = get(col);
+                return value != null ? value.toString() : null;
+        }
     }
 
     /**
