@@ -2,6 +2,7 @@ package com.cnezsoft.zentao;
 
 import org.json.JSONArray;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -73,5 +74,9 @@ public class Helper {
             }
         }
         return stringArray;
+    }
+
+    public static String formatDate(Date date, DateFormatType formatType) {
+        return formatType.getFormat().format(date);
     }
 }
