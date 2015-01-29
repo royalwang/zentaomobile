@@ -41,6 +41,11 @@
             android:enabled="true"
             android:exported="true" >
         </service>
+
+        <activity
+            android:name=".EntryDetailActivity"
+            android:label="@string/title_activity_entry_detail" >
+        </activity>
     </application>
 
 </manifest>
