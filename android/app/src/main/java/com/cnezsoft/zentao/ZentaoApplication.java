@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.cnezsoft.zentao.data.EntryType;
 
@@ -182,6 +181,8 @@ public class ZentaoApplication extends Application {
         return resId;
     }
 
+//    public static int get
+
     /**
      * Get enum text string from resources
      * @param context
@@ -212,5 +213,21 @@ public class ZentaoApplication extends Application {
             list.add(getEnumText(context, var));
         }
         return list.toArray(new String[list.size()]);
+    }
+
+    private static int[] priColors;
+
+    /**
+     * Get pri accent color
+     * @param context
+     * @param pri
+     * @return
+     */
+    public static int getPriAccentColor(Context context, int pri) {
+        if(priColors == null) {
+            priColors = context.getResources().getIntArray(R.array.pri_colors);
+        }
+        pri = Math.max(0, Math.min(pri, priColors.length));
+        return priColors[pri];
     }
 }

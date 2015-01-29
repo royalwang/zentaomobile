@@ -118,6 +118,12 @@ public class DataEntry {
         return result != null && result == true;
     }
 
+    public int getAccentPri() {
+        Integer pri = values.getAsInteger("pri");
+        if(pri == null) return -1;
+        else return pri;
+    }
+
     /**
      * Get type name
      * @return

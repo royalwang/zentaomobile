@@ -18,6 +18,8 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import com.cnezsoft.zentao.colorswatch.MaterialColorName;
+import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
 import com.cnezsoft.zentao.data.DataLoader;
 import com.cnezsoft.zentao.data.EntryType;
 import com.cnezsoft.zentao.data.Todo;
@@ -91,7 +93,6 @@ public class TodoListWrapperFragment extends ListFragment implements LoaderManag
                 new String[]{TodoColumn.name.name(), TodoColumn.begin.name(), TodoColumn.status.name(), TodoColumn.pri.name()},
                 new int[]{R.id.text_todo, R.id.text_time, R.id.checkbox_todo, R.id.color_pri}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
-        final int[] priColors = activity.getResources().getIntArray(R.array.pri_colors);
         adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
             @Override
             public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
@@ -103,7 +104,7 @@ public class TodoListWrapperFragment extends ListFragment implements LoaderManag
                         ((CheckBox) view).setChecked(cursor.getString(columnIndex).toUpperCase().equals(Todo.Status.DONE.name()));
                         return true;
                     case R.id.color_pri:
-                        view.setBackgroundColor(priColors[cursor.getInt(columnIndex)]);
+                        view.setBackgroundColor(MaterialColorSwatch.PriAccentSwatches[cursor.getInt(columnIndex)].color(MaterialColorName.A200).getColor());
                         return true;
                 }
                 return false;

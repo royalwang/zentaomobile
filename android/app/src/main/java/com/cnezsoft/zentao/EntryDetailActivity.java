@@ -7,12 +7,12 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
 import com.cnezsoft.zentao.data.DataEntry;
 import com.cnezsoft.zentao.data.DataLoader;
 import com.cnezsoft.zentao.data.EntryType;
@@ -197,7 +197,18 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
         return list;
     }
 
+    @Override
+    protected void setAccentSwatch(MaterialColorSwatch swatch) {
+        super.setAccentSwatch(swatch);
+        
+    }
+
     private void displayEntry() {
+        int accentPri = entry.getAccentPri();
+        if(accentPri > 0 && accentPri < MaterialColorSwatch.PriAccentSwatches.length) {
+            setAccentSwatch(MaterialColorSwatch.PriAccentSwatches[accentPri]);
+        }
+
         if(layout == R.layout.activity_entry_detail) {
             ListView listView = (ListView) findViewById(R.id.listView_default);
             SimpleAdapter adapter = (SimpleAdapter) listView.getAdapter();
