@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,7 +14,7 @@ import android.widget.EditText;
 /**
  * Login activity
  */
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends ZentaoActivity {
 
     private User user;
     private Button loginButton;

@@ -3,7 +3,6 @@ package com.cnezsoft.zentao;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,7 +14,7 @@ import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
 
 
-public class ListActivity extends ActionBarActivity
+public class ListActivity extends ZentaoActivity
         implements  NavigationDrawerFragment.ActivityWithDrawerMenu, TodoListFragment.OnFragmentInteractionListener
 {
     public static final String NAV_CURRENT = "NAV_CURRENT";
@@ -64,7 +63,6 @@ public class ListActivity extends ActionBarActivity
         }
 
         selectNavItem(currentNav);
-//        actionBar.setElevation(0); // remove actions bar shadow
     }
 
     private void selectNavItem(String name) {
