@@ -1,5 +1,9 @@
 package com.cnezsoft.zentao.data;
 
+import android.content.Context;
+
+import com.cnezsoft.zentao.ZentaoApplication;
+
 /**
  * Todo columns
  */
@@ -12,6 +16,11 @@ public enum TodoColumn implements IColumn {
     name(DataType.STRING),
     status(DataType.STRING),
     desc(DataType.STRING);
+
+    @Override
+    public String text(Context context) {
+        return ZentaoApplication.getEnumText(context, this);
+    }
 
     /**
      * Judge the column whether is the primary key

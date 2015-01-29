@@ -109,7 +109,7 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
 
-        String[] drawerList = getResources().getStringArray(R.array.drawer_list);
+        String[] drawerList = ZentaoApplication.getEnumTexts(getActivity(), AppNav.values());
         mDrawerListView.setAdapter(new ArrayAdapter<>(
                 getActionBar().getThemedContext(),
                 android.R.layout.simple_list_item_activated_1,

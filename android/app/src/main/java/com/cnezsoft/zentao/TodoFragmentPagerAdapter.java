@@ -34,6 +34,6 @@ public class TodoFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return context.getResources().getStringArray(R.array.todo_list_names)[position];
+        return ZentaoApplication.getEnumText(context, Todo.PageTab.values()[position]);
     }
 }

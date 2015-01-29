@@ -1,6 +1,10 @@
 package com.cnezsoft.zentao.data;
 
 
+import android.content.Context;
+
+import com.cnezsoft.zentao.ZentaoApplication;
+
 import java.util.ArrayList;
 
 /**
@@ -42,6 +46,10 @@ public enum EntryType {
             columnNames = names.toArray(new String[names.size()]);
         }
         return columnNames;
+    }
+
+    public String text(Context context) {
+        return ZentaoApplication.getEnumText(context, this);
     }
 
     /**

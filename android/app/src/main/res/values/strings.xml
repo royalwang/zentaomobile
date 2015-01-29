@@ -21,14 +21,6 @@
         <item name="login_message_server_error">服务器错误。</item>
         <item name="login_message_user_info_required">用户信息不完整。</item>
     </string-array>
-    <string-array name="drawer_list">
-        <item>首页</item>
-        <item>待办</item>
-        <item>任务</item>
-        <item>Bug</item>
-        <item>需求</item>
-        <item>设置</item>
-    </string-array>
 
     <string name="title_activity_list">我的地盘</string>
     <string name="title_activity_todo_list">我的待办</string>
@@ -40,17 +32,10 @@
     <string name="text_medium_datetime_format">M月d日 HH:mm:ss</string>
     <string name="button_explore_zentao_pro">了解专业版 {fa-external-link}</string>
     <string name="action_search">搜索</string>
+    <string name="action_detail_format">%s详情</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="title_activity_entry_detail">EntryDetailActivity</string>
+    <string name="hello_world">Hello world!</string>
 
-    <string-array name="todo_list_names">
-        <item>未完成</item>
-        <item>已完成</item>
-    </string-array>
-
-    <string-array name="todo_list_orders">
-        <item>时间</item>
-        <item>优先级</item>
-        <item>编号</item>
-    </string-array>
 </resources>

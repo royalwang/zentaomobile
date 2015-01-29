@@ -6,8 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.cnezsoft.zentao.data.EntryType;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Zentao application
@@ -153,5 +158,59 @@ public class ZentaoApplication extends Application {
     public static void openBrowser(Activity activity, String url) {
         Intent viewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         activity.startActivity(viewIntent);
+    }
+
+
+    /**
+     * @author Lonkly
+     * @param variableName - name of drawable, e.g R.drawable.<b>image</b>
+     * @param с - class of resource, e.g R.drawable.class or R.raw.class
+     * @return integer id of resource
+     */
+    public static int getResId(String variableName, Class<?> с) {
+        int resId = -1;
+        try {
+            Field field = с.getField(variableName);
+            try {
+                resId = field.getInt(null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resId;
+    }
+
+    /**
+     * Get enum text string from resources
+     * @param context
+     * @param var
+     * @return
+     */
+    public static String getEnumText(Context context, Enum var) {
+        String name = var.name();
+        Class<? extends Enum> cls = var.getClass();
+        Class<?> dclCls = cls.getDeclaringClass();
+        String resourceName = "enum_"
+                + (dclCls != null ? (dclCls.getSimpleName() + "_") : "")
+                + cls.getSimpleName() + "_" + var.name();
+
+        int resId = getResId(resourceName, R.string.class);
+        return resId >= 0 ? context.getString(resId) : name;
+    }
+
+    /**
+     * Get enum text strings from resources as a array
+     * @param context
+     * @param enums
+     * @return
+     */
+    public static String[] getEnumTexts(Context context, Enum[] enums) {
+        List<String> list = new ArrayList<>(enums.length);
+        for(Enum var: enums) {
+            list.add(getEnumText(context, var));
+        }
+        return list.toArray(new String[list.size()]);
     }
 }

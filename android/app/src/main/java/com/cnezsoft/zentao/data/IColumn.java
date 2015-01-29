@@ -1,5 +1,7 @@
 package com.cnezsoft.zentao.data;
 
+import android.content.Context;
+
 /**
  * Column interface
  *
@@ -7,6 +9,8 @@ package com.cnezsoft.zentao.data;
  */
 
 public interface IColumn {
+
+    public String text(Context context);
     /**
      * Get data type
      * @return
