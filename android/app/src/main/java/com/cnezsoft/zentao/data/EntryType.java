@@ -21,6 +21,7 @@ public enum EntryType {
 
     private IColumn[] cols = null;
     private IColumn primaryColumn = null;
+    private IPageTab[] pageTabs = null;
     private String[] columnNames = null;
 
     public static EntryType fromName(String name) {
@@ -92,9 +93,57 @@ public enum EntryType {
                 case Todo:
                     cols = TodoColumn.values();
                     break;
+                case Task:
+                    cols = TaskColumn.values();
+                    break;
             }
         }
         return cols;
+    }
+
+    public IColumn defaultOrderColumn() {
+        switch (this)
+        {
+            case Todo:
+                return TodoColumn._id;
+            case Task:
+                return TodoColumn._id;
+        }
+        return null;
+    }
+
+    /**
+     * get all page tabs
+     * @return
+     */
+    public IPageTab[] tabs() {
+        if(pageTabs == null)
+        {
+            switch (this)
+            {
+                case Todo:
+                    pageTabs = com.cnezsoft.zentao.data.Todo.PageTab.values();
+                    break;
+                case Task:
+                    pageTabs =  com.cnezsoft.zentao.data.Task.PageTab.values();
+                    break;
+            }
+        }
+        return pageTabs;
+    }
+
+    /**
+     * Get PageTab by name
+     * @param name
+     * @return
+     */
+    public IPageTab getTab(String name) {
+        for(IPageTab pageTab: tabs()) {
+            if(pageTab.name().equals(name)) {
+                return pageTab;
+            }
+        }
+        return null;
     }
 
     /**
