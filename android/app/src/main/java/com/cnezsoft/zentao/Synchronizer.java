@@ -6,6 +6,7 @@ import android.util.Log;
 import com.cnezsoft.zentao.data.DAO;
 import com.cnezsoft.zentao.data.DataEntry;
 import com.cnezsoft.zentao.data.EntryType;
+import com.cnezsoft.zentao.data.Task;
 import com.cnezsoft.zentao.data.Todo;
 
 import org.json.JSONArray;
@@ -86,7 +87,7 @@ public class Synchronizer {
                 Log.v("SYNC", daoResult.toString());
             }
 
-            user.setLastSyncTime(thisSyncTime).save();
+            user.setSyncTime(thisSyncTime);
             return true;
         }
 
@@ -115,13 +116,24 @@ public class Synchronizer {
             entryType = EntryType.fromName(name);
             if(entryType != null) {
                 Log.v("SYNC", "handle json data: " + entryType.toString());
+
                 try {
                     data = jsonData.getJSONObject(name);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.w("SYNC", "'" + name + "' JSON data's format is not correct.");
+                    continue;
+                }
+
+                try {
                     deletes = data.getJSONArray("delete");
                     for(int i = 0; i < deletes.length(); ++i) {
                         entries.add(new DataEntry(entryType) {{markDeleting();}});
                     }
+                } catch (JSONException e) {
+                }
 
+                try {
                     set = data.getJSONArray("set");
                     setLength = set.length();
                     Log.v("SYNC", "data set length: " + setLength);
@@ -136,11 +148,14 @@ public class Synchronizer {
                                 entries.add(entry);
                             }
                             break;
+                        case Task:
+                            for (int i = 0; i < setLength; ++i) {
+                                entry = new Task(set.getJSONArray(i), keys);
+                                entries.add(entry);
+                            }
+                            break;
                     }
-
                 } catch (JSONException e) {
-                    Log.w("SYNC", "'" + name + "' JSON data's format is not correct.");
-                    e.printStackTrace();
                 }
             }
         }
