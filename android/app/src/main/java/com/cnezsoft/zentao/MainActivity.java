@@ -1,6 +1,7 @@
 package com.cnezsoft.zentao;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -8,10 +9,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.cnezsoft.zentao.data.DAO;
 import com.cnezsoft.zentao.data.DataEntry;
 import com.cnezsoft.zentao.data.EntryType;
 import com.cnezsoft.zentao.data.Todo;
-import com.cnezsoft.zentao.data.TodoDAO;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -85,14 +86,19 @@ public class MainActivity extends ZentaoActivity {
         long counter = 0;
         Set<Todo> todos;
         Set<DataEntry> entries = new HashSet<>();
-        TodoDAO dao = new TodoDAO(this);
+        DAO dao = new DAO(this);
 
-        Log.d(logKey, "******************************");
-        Log.d(logKey, "== show database ==");
-        counter = dao.count(EntryType.Todo);
-        Log.d(logKey, "count: " + counter);
-        for(Todo td: dao.query()) {
-            Log.d(logKey, "todo: " + td.toJSONString());
+        Log.d(logKey, "*************** show database ***************");
+        for(EntryType type: new EntryType[] {EntryType.Todo, EntryType.Task}) {
+            counter = dao.count(type);
+            Log.d(logKey, type.name() + " count: " + counter);
+            if(counter > 0) {
+                final Cursor cursor = dao.query(type);
+                while (cursor.moveToNext()) {
+                    Log.d(logKey, type.name() + ": " + new DataEntry(type){{fromCursor(cursor);}}.toJSONString());
+                }
+            }
+            Log.d(logKey, "---------------------------------------------");
         }
     }
 }

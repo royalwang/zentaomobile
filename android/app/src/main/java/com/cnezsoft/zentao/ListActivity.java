@@ -1,6 +1,5 @@
 package com.cnezsoft.zentao;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
@@ -9,13 +8,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.cnezsoft.zentao.data.Task;
 import com.cnezsoft.zentao.data.Todo;
 import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
 
 
 public class ListActivity extends ZentaoActivity
-        implements  NavigationDrawerFragment.ActivityWithDrawerMenu, TodoListFragment.OnFragmentInteractionListener
+        implements  NavigationDrawerFragment.ActivityWithDrawerMenu//, TodoListFragment.OnFragmentInteractionListener
 {
     public static final String NAV_CURRENT = "NAV_CURRENT";
 
@@ -89,8 +89,10 @@ public class ListActivity extends ZentaoActivity
         android.app.Fragment fragment = null;
         switch (tag) {
             case "todo":
-                fragment = TodoListFragment.newInstance(Todo.PageTab.wait);
+                fragment = EntryListFragment.newInstance(Todo.PageTab.undone);
                 break;
+            case "task":
+                fragment = EntryListFragment.newInstance(Task.PageTab.assignedTo);
         }
 
         if(fragment != null) {
@@ -132,7 +134,7 @@ public class ListActivity extends ZentaoActivity
         return AppNav.valueOf(currentNav.name());
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-    }
+//    @Override
+//    public void onFragmentInteraction(Uri uri) {
+//    }
 }
