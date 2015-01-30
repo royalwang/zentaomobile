@@ -28,7 +28,7 @@
     <string name="enum_EntryType_Bug">Bug</string>
 
     <!-- Todo.PageTab -->
-    <string name="enum_Todo_PageTab_wait">未完成</string>
+    <string name="enum_Todo_PageTab_undone">未完成</string>
     <string name="enum_Todo_PageTab_done">已完成</string>
 
     <!-- Todo.Order -->
@@ -41,8 +41,38 @@
     <string name="enum_Todo_Types_bug">Bug</string>
     <string name="enum_Todo_Types_task">项目任务</string>
 
-    <!-- Todo.Types -->
+    <!-- Todo.Status -->
     <string name="enum_Todo_Status_wait">未开始</string>
     <string name="enum_Todo_Status_doing">进行中</string>
     <string name="enum_Todo_Status_done">已完成</string>
+
+    <!-- Task.Status -->
+    <string name="enum_Task_Status__">未定义</string>
+    <string name="enum_Task_Status_wait">未开始</string>
+    <string name="enum_Task_Status_doing">进行中</string>
+    <string name="enum_Task_Status_done">已完成</string>
+    <string name="enum_Task_Status_pause">已暂停</string>
+    <string name="enum_Task_Status_cancel">已取消</string>
+    <string name="enum_Task_Status_closed">已关闭</string>
+
+    <!-- Task.Type -->
+    <string name="enum_Task_Type__">未定义</string>
+    <string name="enum_Task_Type_design">设计</string>
+    <string name="enum_Task_Type_devel">开发</string>
+    <string name="enum_Task_Type_test">测试</string>
+    <string name="enum_Task_Type_study">研究</string>
+    <string name="enum_Task_Type_discuss">讨论</string>
+    <string name="enum_Task_Type_ui">界面</string>
+    <string name="enum_Task_Type_affair">事务</string>
+    <string name="enum_Task_Type_misc">其他</string>
+
+    <!-- Task.CloseReason -->
+    <string name="enum_Task_CloseReason__">未知</string>
+    <string name="enum_Task_CloseReason_done">已完成</string>
+    <string name="enum_Task_CloseReason_cancel">已取消</string>
+
+    <!-- Task.PageTab -->
+    <string name="enum_Task_PageTab_assignedTo">指派给我</string>
+    <string name="enum_Task_PageTab_openedBy">由我创建</string>
+    <string name="enum_Task_PageTab_finishedBy">由我完成</string>
 </resources>
