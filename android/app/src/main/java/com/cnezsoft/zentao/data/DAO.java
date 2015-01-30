@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
+import com.cnezsoft.zentao.User;
+
 import java.util.Collection;
 
 /**
@@ -227,8 +229,12 @@ public class DAO {
      * @param key
      * @return
      */
-    public Cursor queryByKey(EntryType type, String key) {
+    public Cursor query(EntryType type, String key) {
         return db.rawQuery("SELECT * FROM " + type.name() + " WHERE " + type.primaryKey().name() + " = " + key, null);
+    }
+
+    public Cursor query(EntryType type, int key) {
+        return query(type, key + "");
     }
 
     /**
@@ -261,6 +267,42 @@ public class DAO {
      */
     public Cursor query(EntryType type) {
         return db.rawQuery("SELECT * FROM " + type.name() + " ORDER BY " + type.primaryKey().name() + " DESC", null);
+    }
+
+    public Cursor query(IPageTab pageTab, User user, IColumn order, OrderType orderType) {
+        EntryType entryType = pageTab.getEntryType();
+        switch (entryType) {
+            case Todo:
+                Todo.PageTab todoTab = (Todo.PageTab) pageTab;
+                switch (todoTab) {
+                    case undone:
+                        return query(entryType, TodoColumn.status.name() +  " IS NOT ?", new String[]{Todo.Status.done.name()}, order.name() + " " + orderType.name());
+                    case done:
+                        return query(entryType, TodoColumn.status.name() +  " =?", new String[]{Todo.Status.done.name()}, order.name() + " " + orderType.name());
+                }
+                break;
+            case Task:
+                if(user == null) break;
+                Task.PageTab taskTab = (Task.PageTab) pageTab;
+                switch (taskTab) {
+                    case assignedTo:
+                        return query(entryType, TaskColumn.assignedTo.name() +  " =?", new String[]{user.getAccount()}, order.name() + " " + orderType.name());
+                    case openedBy:
+                        return query(entryType, TaskColumn.openedBy.name() +  " =?", new String[]{user.getAccount()}, order.name() + " " + orderType.name());
+                    case finishedBy:
+                        return query(entryType, TaskColumn.finishedBy.name() +  " =?", new String[]{user.getAccount()}, order.name() + " " + orderType.name());
+                }
+                break;
+        }
+        return null;
+    }
+
+    public Cursor query(IPageTab pageTab, User user, IColumn order) {
+        return query(pageTab, user, order, OrderType.ASC);
+    }
+
+    public Cursor query(IPageTab pageTab, User user) {
+        return query(pageTab, user, pageTab.getEntryType().defaultOrderColumn(), OrderType.ASC);
     }
 
     /**

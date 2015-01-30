@@ -11,6 +11,8 @@ public class DataEntryFactory {
         switch (type) {
             case Todo:
                 return new Todo();
+            case Task:
+                return new Task();
             default:
                 return new DataEntry();
         }

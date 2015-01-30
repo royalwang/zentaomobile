@@ -1,6 +1,9 @@
 package com.cnezsoft.zentao.data;
 
+import android.content.Context;
 import android.database.Cursor;
+
+import com.cnezsoft.zentao.ZentaoApplication;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,28 +29,63 @@ public class Todo extends DataEntry {
     /**
      * Page tabs
      */
-    public enum PageTab {
-        wait,
-        done
+    public enum PageTab implements IPageTab {
+        undone,
+        done;
+
+        @Override
+        public String text(Context context) {
+            return ZentaoApplication.getEnumText(context, this);
+        }
+
+        @Override
+        public PageTab[] tabs() {
+            return values();
+        }
+
+        @Override
+        public EntryType getEntryType() {
+            return EntryType.Todo;
+        }
     }
 
     /**
      * Group
      */
-    public enum Group {
+    public enum Group implements IListFilter {
         none,
         time,
         pri,
-        type
+        type;
+
+        @Override
+        public String text(Context context) {
+            return ZentaoApplication.getEnumText(context, this);
+        }
+
+        @Override
+        public Group[] all() {
+            return values();
+        }
     }
 
     /**
      * Order
      */
-    public enum Order {
+    public enum Order implements IListFilter {
         begin,
         pri,
-        _id
+        _id;
+
+        @Override
+        public String text(Context context) {
+            return ZentaoApplication.getEnumText(context, this);
+        }
+
+        @Override
+        public Order[] all() {
+            return values();
+        }
     }
 
     /**
