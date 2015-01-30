@@ -390,6 +390,9 @@ public class DataEntry {
             key = keys[i];
             if(key.equals("id")) {
                 key = "_id";
+            } else if(key.equals("deleted") && jsonArray.optInt(i) > 0) {
+                markDeleting();
+                return;
             }
             keysMap.put(key, i);
         }
@@ -406,8 +409,8 @@ public class DataEntry {
                 switch (column.type()) {
                     case LONG:
                     case DATETIME:
-                        Long d = jsonArray.getLong(index);
-                        if(d == null) {
+                        Long d = jsonArray.optLong(index);
+                        if(d == 0) {
                             try {
                                 d = DateFormat.getDateTimeInstance().parse(jsonArray.getString(index)).getTime();
                             } catch (ParseException e) {

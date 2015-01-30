@@ -30,6 +30,7 @@
     <string name="text_offline">离线</string>
     <string name="text_long_datetime_format">yyyy年M月d日 HH:mm</string>
     <string name="text_medium_datetime_format">M月d日 HH:mm:ss</string>
+    <string name="text_todo_date_format">计划开始于 M月d日 HH:mm 至</string>
     <string name="button_explore_zentao_pro">了解专业版 {fa-external-link}</string>
     <string name="action_search">搜索</string>
     <string name="action_detail_format">%s详情</string>

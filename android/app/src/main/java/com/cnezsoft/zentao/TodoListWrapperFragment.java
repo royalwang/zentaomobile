@@ -4,12 +4,9 @@ import android.app.Activity;
 import android.app.ListFragment;
 import android.app.LoaderManager;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.CancellationSignal;
-import android.os.OperationCanceledException;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -101,7 +98,7 @@ public class TodoListWrapperFragment extends ListFragment implements LoaderManag
                         ((TextView) view).setText(new SimpleDateFormat("HH:mm").format(new Date(cursor.getLong(columnIndex))));
                         return true;
                     case R.id.checkbox_todo:
-                        ((CheckBox) view).setChecked(cursor.getString(columnIndex).toUpperCase().equals(Todo.Status.DONE.name()));
+                        ((CheckBox) view).setChecked(cursor.getString(columnIndex).toUpperCase().equals(Todo.Status.done.name()));
                         return true;
                     case R.id.color_pri:
                         view.setBackgroundColor(MaterialColorSwatch.PriAccentSwatches[cursor.getInt(columnIndex)].color(MaterialColorName.A200).getColor());

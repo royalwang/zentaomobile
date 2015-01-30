@@ -27,7 +27,7 @@ public class TodoDAO extends DAO {
      * @return
      */
     public Cursor query(Todo.PageTab pageTab, Todo.Order order) {
-        return query(EntryType.Todo, TodoColumn.status.name() + "=?", new String[]{pageTab.name()}, order.name() + " DESC");
+        return query(EntryType.Todo, TodoColumn.status.name() + (pageTab == Todo.PageTab.done ? "=?" : " IS NOT ?"), new String[]{Todo.PageTab.done.name()}, order.name() + " DESC");
     }
 
     /**

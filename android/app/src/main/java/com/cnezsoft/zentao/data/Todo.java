@@ -17,6 +17,12 @@ import java.util.HashSet;
  */
 public class Todo extends DataEntry {
 
+    public enum Types {
+        custom,
+        bug,
+        task
+    }
+
     /**
      * Page tabs
      */
@@ -47,14 +53,20 @@ public class Todo extends DataEntry {
     /**
      * Todo status enum
      */
-    public enum Status {WAIT, DONE, DOING}
+    public enum Status {
+        wait, done, doing
+    }
 
     /**
      * Get todo status
      * @return
      */
     public Status getStatus() {
-        return Enum.valueOf(Status.class, getAsString(TodoColumn.status).trim().toUpperCase());
+        return Enum.valueOf(Status.class, getAsString(TodoColumn.status).trim().toLowerCase());
+    }
+
+    public Types getTodoType() {
+        return Enum.valueOf(Types.class, getAsString(TodoColumn.type).trim().toLowerCase());
     }
 
     /**

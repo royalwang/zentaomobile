@@ -67,8 +67,7 @@ public class Synchronizer {
             } else {
                 return false;
             }
-        }
-        else if(userStatus == User.Status.Unknown) {
+        } else if(userStatus == User.Status.Unknown) {
             Log.w("SYNC", "Unknown user, sync stopped!");
             return false;
         }

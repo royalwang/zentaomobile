@@ -4,19 +4,27 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.IconTextView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
 import com.cnezsoft.zentao.data.DataEntry;
+import com.cnezsoft.zentao.data.DataEntryFactory;
 import com.cnezsoft.zentao.data.DataLoader;
 import com.cnezsoft.zentao.data.EntryType;
 import com.cnezsoft.zentao.data.IColumn;
+import com.cnezsoft.zentao.data.Todo;
+import com.cnezsoft.zentao.data.TodoColumn;
 import com.cnezsoft.zentao.data.TodoDAO;
 
 import java.util.ArrayList;
@@ -69,7 +77,7 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
         // choose layout
         switch (entryType) {
             default:
-                layout = R.layout.activity_entry_detail;
+                layout = R.layout.activity_todo_detail;
                 break;
         }
 
@@ -176,7 +184,7 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if(entry == null) {
-            entry = new DataEntry(entryType);
+            entry = DataEntryFactory.create(entryType);
         }
         if(data.moveToNext()) {
             entry.fromCursor(data);
@@ -200,7 +208,7 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
     @Override
     protected void setAccentSwatch(MaterialColorSwatch swatch) {
         super.setAccentSwatch(swatch);
-        
+        findViewById(R.id.entry_detail_heading).setBackgroundColor(swatch.primary().value());
     }
 
     private void displayEntry() {
@@ -209,6 +217,21 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
             setAccentSwatch(MaterialColorSwatch.PriAccentSwatches[accentPri]);
         }
 
+        // common attributes
+        ViewGroup container = (ViewGroup) findViewById(R.id.entry_detail_container);
+        TextView view;
+        String friendlyStr;
+        for(IColumn column: entryType.columns()) {
+            view = (TextView) container.findViewWithTag("entry_" + column.name());
+            if(view != null) {
+                friendlyStr = entry.getFriendlyString(column);
+                if(friendlyStr != null) {
+                    view.setText(entry.getFriendlyString(column));
+                }
+            }
+        }
+
+        // specials
         if(layout == R.layout.activity_entry_detail) {
             ListView listView = (ListView) findViewById(R.id.listView_default);
             SimpleAdapter adapter = (SimpleAdapter) listView.getAdapter();
@@ -222,6 +245,42 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
                 adapter.notifyDataSetChanged();
             }
             listView.setAdapter(adapter);
+        } else if(layout == R.layout.activity_todo_detail && entryType == EntryType.Todo) {
+            Todo todo = (Todo) entry;
+            Resources resources = getResources();
+            Todo.Status status = todo.getStatus();
+            ((IconTextView) findViewById(R.id.text_entry_type)).setText("{fa-tag} "
+                    + ZentaoApplication.getEnumText(this, todo.getTodoType()));
+            String desc = todo.getAsString(TodoColumn.desc);
+            if(desc != null) {
+                ((TextView) findViewById(R.id.text_entry_desc)).setText(Html.fromHtml(desc));
+            }
+            TextView statusView = (TextView) findViewById(R.id.text_entry_status);
+            statusView.setText(ZentaoApplication.getEnumText(this, status));
+            TextView statusIconView = (TextView) findViewById(R.id.icon_entry_status);
+            TextView dateView = (TextView) findViewById(R.id.text_entry_date);
+            dateView.setText(Helper.formatDate(todo.getAsDate(TodoColumn.begin),
+                    resources.getString(R.string.text_todo_date_format))
+                    + " " + Helper.formatDate(todo.getAsDate(TodoColumn.end), DateFormatType.Time));
+            int statusColor;
+            String statusIcon;
+            switch (status) {
+                case doing:
+                    statusIcon = "{fa-play}";
+                    statusColor = MaterialColorSwatch.Red.primary().value();
+                break;
+                case done:
+                    statusIcon = "{fa-check}";
+                    statusColor = MaterialColorSwatch.Green.primary().value();
+                break;
+                default:
+                    statusIcon = "{fa-clock-o}";
+                    statusColor = MaterialColorSwatch.BlueGrey.primary().value();
+                    break;
+            }
+            statusIconView.setText(statusIcon);
+            statusView.setTextColor(statusColor);
+            statusIconView.setTextColor(statusColor);
         }
     }
 
