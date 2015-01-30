@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.cnezsoft.zentao.data.DbHelper;
+
 import org.json.JSONException;
 import org.json.JSONStringer;
 
@@ -21,8 +23,8 @@ public class User {
         Unknown,
         Offline,
         Online
-    };
-
+    }
+    
     public interface  OnLastSyncTimeChangeListener {
         void onLastSyncTimeChange(Date thisSyncTime);
     }
@@ -49,12 +51,14 @@ public class User {
     public static final String REALNAME = "REALNAME";
     public static final String ROLE = "ROLE";
     public static final String GENDER = "GENDER";
+    public static final String DB_VERSION = "DB_VERSION";
     public static final String ID = "ID";
 
     private OnLastSyncTimeChangeListener onLastSyncTimeChangeListener;
     private OnAccountChangeListener onAccountChangeListener;
     private OnUserInfoChangeListener onUserInfoChangeListener;
     private OnStatusChangeListner onStatusChangeListner;
+    private int dbVersion;
 
     private String account;
     private String address;
@@ -69,7 +73,6 @@ public class User {
     private String gender;
     private String id;
     private Date lastSyncTime = new Date(0);
-
     private Long lastLoadTime = 0l;
     private Long lastChangeTime = 0l;
 
@@ -86,6 +89,7 @@ public class User {
     }
 
     public Date getLastSyncTime() {
+        if(dbVersion != DbHelper.DATABASE_VERSION) return new Date(0);
         return lastSyncTime;
     }
 
@@ -99,9 +103,24 @@ public class User {
                 : context.getString(R.string.text_long_datetime_format)).format(lastSyncTime);
     }
 
+    public User setDbVersion(int version) {
+        this.dbVersion = version;
+        return this;
+    }
+
+    public int getDbVersion() {
+        return dbVersion;
+    }
+
     public Date getLastSyncTime(boolean load) {
         if(load) setLastSyncTime(new Date(this.userPreferences.getLong(LAST_SYNC_TIME, 0)));
         return lastSyncTime;
+    }
+
+    public void setSyncTime(Date syncTime) {
+        this.dbVersion = DbHelper.DATABASE_VERSION;
+        this.lastSyncTime = syncTime;
+        save();
     }
 
     /**
@@ -112,13 +131,6 @@ public class User {
         this.lastSyncTime = lastSyncTime;
         return this;
     }
-
-//    /**
-//     * Set last sync time with current time
-//     */
-//    public User setLastSyncTime() {
-//        return setLastSyncTime(new Date());
-//    }
 
     /**
      * Get id
@@ -334,10 +346,8 @@ public class User {
     /**
      * Save data with prefrences
      */
-    public void save()
-    {
-        if(userPreferences != null)
-        {
+    public void save() {
+        if (userPreferences != null) {
             userPreferences.edit()
                     .setIdentify(getIdentify())
                     .putString(ACCOUNT, getAccount())
@@ -348,6 +358,7 @@ public class User {
                     .putString(ROLE, getRole())
                     .putString(GENDER, getGender())
                     .putString(ID, getId())
+                    .putInt(DB_VERSION, getDbVersion())
                     .putLong(LAST_LOGIN_TIME, getLastLoginTime().getTime())
                     .putLong(LAST_SYNC_TIME, getLastSyncTime().getTime())
                     .commit();
@@ -499,6 +510,7 @@ public class User {
                     .setGender(this.userPreferences.getString(GENDER, ""), false)
                     .setRole(this.userPreferences.getString(ROLE, ""), false)
                     .setId(this.userPreferences.getString(ID, ""), false)
+                    .setDbVersion(this.userPreferences.getInt(DB_VERSION, 0))
                     .setLastSyncTime(new Date(this.userPreferences.getLong(LAST_SYNC_TIME, 0)))
                     .checkChange(false);
             Log.v("USER", "load: " + toJSONString());
@@ -567,6 +579,7 @@ public class User {
                     .key("gender").value(this.gender)
                     .key("role").value(this.role)
                     .key("id").value(this.id)
+                    .key("dbVersion").value(this.dbVersion)
                     .endObject().toString();
         } catch (JSONException e) {
             e.printStackTrace();
