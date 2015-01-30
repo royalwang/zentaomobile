@@ -18,6 +18,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
+import com.cnezsoft.zentao.data.DAO;
 import com.cnezsoft.zentao.data.DataEntry;
 import com.cnezsoft.zentao.data.DataEntryFactory;
 import com.cnezsoft.zentao.data.DataLoader;
@@ -25,7 +26,6 @@ import com.cnezsoft.zentao.data.EntryType;
 import com.cnezsoft.zentao.data.IColumn;
 import com.cnezsoft.zentao.data.Todo;
 import com.cnezsoft.zentao.data.TodoColumn;
-import com.cnezsoft.zentao.data.TodoDAO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -131,8 +131,8 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
         DataLoader.OnLoadDataListener listener = new DataLoader.OnLoadDataListener(){{}
             @Override
             public Cursor onLoadData(Context context) {
-                TodoDAO dao = new TodoDAO(context);
-                return dao.queryByKey(entryType, entryId + "");
+                DAO dao = new DAO(context);
+                return dao.query(entryType, entryId + "");
             }
         };
 
