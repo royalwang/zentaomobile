@@ -367,6 +367,9 @@ public class DataEntry {
                     case BOOLEAN:
                         values.put(name, json.getBoolean(name));
                         break;
+                    case ENUM:
+                        values.put(name, json.optString(name, "_"));
+                        break;
                     case STRING:
                     default:
                         values.put(name, json.getString(name));
@@ -429,7 +432,20 @@ public class DataEntry {
                         values.put(name, jsonArray.getDouble(index));
                         break;
                     case BOOLEAN:
-                        values.put(name, jsonArray.getBoolean(index));
+                        try {
+                            values.put(name, jsonArray.getBoolean(index));
+                        } catch (JSONException e) {
+                            values.put(name, jsonArray.getInt(index) > 0);
+                        }
+                        break;
+                    case ENUM:
+                        String eStr;
+                        try {
+                            eStr = jsonArray.getString(index);
+                        } catch (JSONException e) {
+                            eStr = "_";
+                        }
+                        values.put(name, eStr);
                         break;
                     case STRING:
                     default:

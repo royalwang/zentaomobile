@@ -12,9 +12,10 @@ public enum TodoColumn implements IColumn {
     pri(DataType.INT),
     begin(DataType.DATETIME),
     end(DataType.DATETIME),
-    type(DataType.STRING),
+    type(DataType.ENUM),
     name(DataType.STRING),
-    status(DataType.STRING),
+    status(DataType.ENUM),
+    idvalue(DataType.INT),
     desc(DataType.STRING);
 
     @Override
@@ -51,7 +52,7 @@ public enum TodoColumn implements IColumn {
         return this.ordinal();
     }
 
-    private DataType dataType;
+    private final DataType dataType;
 
     /**
      * Get data ;type

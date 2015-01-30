@@ -10,7 +10,8 @@ public enum DataType {
     LONG(SqlDataType.INTEGER),
     FLOAT(SqlDataType.REAL),
     DOUBLE(SqlDataType.REAL),
-    DATETIME(SqlDataType.INTEGER);
+    DATETIME(SqlDataType.INTEGER),
+    ENUM(SqlDataType.TEXT);
 
     private SqlDataType type;
 
