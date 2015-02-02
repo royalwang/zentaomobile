@@ -75,4 +75,127 @@
     <string name="enum_Task_PageTab_assignedTo">指派给我</string>
     <string name="enum_Task_PageTab_openedBy">由我创建</string>
     <string name="enum_Task_PageTab_finishedBy">由我完成</string>
+
+    <!-- Bug.Type -->
+    <string name="enum_Bug_Type__">未定义</string>
+    <string name="enum_Bug_Type_codeerror">代码错误</string>
+    <string name="enum_Bug_Type__interface">界面优化</string>
+    <string name="enum_Bug_Type_designchange">设计变更</string>
+    <string name="enum_Bug_Type_newfeature">新增需求</string>
+    <string name="enum_Bug_Type_designdefect">设计缺陷</string>
+    <string name="enum_Bug_Type_config">配置相关</string>
+    <string name="enum_Bug_Type_install">安装部署</string>
+    <string name="enum_Bug_Type_security">安全相关</string>
+    <string name="enum_Bug_Type_performance">性能问题</string>
+    <string name="enum_Bug_Type_standard">标准规范</string>
+    <string name="enum_Bug_Type_automation">测试脚本</string>
+    <string name="enum_Bug_Type_trackthings">事务跟踪</string>
+    <string name="enum_Bug_Type_others">其他</string>
+
+    <!-- Bug.OS -->
+    <string name="enum_Bug_OS__">未知</string>
+    <string name="enum_Bug_OS_all">全部</string>
+    <string name="enum_Bug_OS_windows">Windows</string>
+    <string name="enum_Bug_OS_win8">Windows 8</string>
+    <string name="enum_Bug_OS_win7">Windows 7</string>
+    <string name="enum_Bug_OS_vista">Windows Vista</string>
+    <string name="enum_Bug_OS_winxp">Windows XP</string>
+    <string name="enum_Bug_OS_win2012">Windows 2012</string>
+    <string name="enum_Bug_OS_win2008">Windows 2008</string>
+    <string name="enum_Bug_OS_win2003">Windows 2003</string>
+    <string name="enum_Bug_OS_win2000">Windows 2000</string>
+    <string name="enum_Bug_OS_android">Android</string>
+    <string name="enum_Bug_OS_ios">IOS</string>
+    <string name="enum_Bug_OS_wp8">WP8</string>
+    <string name="enum_Bug_OS_wp7">WP7</string>
+    <string name="enum_Bug_OS_symbian">Symbian</string>
+    <string name="enum_Bug_OS_linux">Linux</string>
+    <string name="enum_Bug_OS_freebsd">FreeBSD</string>
+    <string name="enum_Bug_OS_osx">OS X</string>
+    <string name="enum_Bug_OS_unix">Unix</string>
+    <string name="enum_Bug_OS_others">其他</string>
+
+    <!-- Bug.Browser -->
+    <string name="enum_Bug_Browser__">未知</string>
+    <string name="enum_Bug_Browser_all">全部</string>
+    <string name="enum_Bug_Browser_ie">IE系列</string>
+    <string name="enum_Bug_Browser_ie11">IE11</string>
+    <string name="enum_Bug_Browser_ie10">IE10</string>
+    <string name="enum_Bug_Browser_ie9">IE9</string>
+    <string name="enum_Bug_Browser_ie8">IE8</string>
+    <string name="enum_Bug_Browser_ie7">IE7</string>
+    <string name="enum_Bug_Browser_ie6">IE6</string>
+    <string name="enum_Bug_Browser_chrome">chrome</string>
+    <string name="enum_Bug_Browser_firefox">firefox系列</string>
+    <string name="enum_Bug_Browser_firefox4">firefox4</string>
+    <string name="enum_Bug_Browser_firefox3">firefox3</string>
+    <string name="enum_Bug_Browser_firefox2">firefox2</string>
+    <string name="enum_Bug_Browser_opera">opera系列</string>
+    <string name="enum_Bug_Browser_oprea11">opera11</string>
+    <string name="enum_Bug_Browser_oprea10">opera10</string>
+    <string name="enum_Bug_Browser_opera9">opera9</string>
+    <string name="enum_Bug_Browser_safari">safari</string>
+    <string name="enum_Bug_Browser_maxthon">傲游</string>
+    <string name="enum_Bug_Browser_uc">UC</string>
+    <string name="enum_Bug_Browser_other">其他</string>
+
+    <!-- Bug.Status -->
+    <string name="enum_Bug_Status__">未知</string>
+    <string name="enum_Bug_Status_active">激活</string>
+    <string name="enum_Bug_Status_resolved">已解决</string>
+    <string name="enum_Bug_Status_closed">已关闭</string>
+
+    <!-- Bug.Resolution -->
+    <string name="enum_Bug_Resolution__">未知</string>
+    <string name="enum_Bug_Resolution_bydesign">设计如此</string>
+    <string name="enum_Bug_Resolution_duplicate">重复Bug</string>
+    <string name="enum_Bug_Resolution_external">外部原因</string>
+    <string name="enum_Bug_Resolution_fixed">已解决</string>
+    <string name="enum_Bug_Resolution_notrepro">无法重现</string>
+    <string name="enum_Bug_Resolution_postponed">延期处理</string>
+    <string name="enum_Bug_Resolution_willnotfix">不予解决</string>
+    <string name="enum_Bug_Resolution_tostory">转为需求</string>
+
+    <!-- Story.Source -->
+    <string name="enum_Story_Source__">未指定</string>
+    <string name="enum_Story_Source_customer">客户</string>
+    <string name="enum_Story_Source_user">用户</string>
+    <string name="enum_Story_Source_po">产品经理</string>
+    <string name="enum_Story_Source_market">市场</string>
+    <string name="enum_Story_Source_service">客服</string>
+    <string name="enum_Story_Source_competitor">竞争对手</string>
+    <string name="enum_Story_Source_partner">合作伙伴</string>
+    <string name="enum_Story_Source_dev">开发人员</string>
+    <string name="enum_Story_Source_tester">测试人员</string>
+    <string name="enum_Story_Source_bug">Bug</string>
+    <string name="enum_Story_Source_other">其他</string>
+
+    <!-- Story.Status -->
+    <string name="enum_Story_Status__">未定义</string>
+    <string name="enum_Story_Status_draft">草稿</string>
+    <string name="enum_Story_Status_active">激活</string>
+    <string name="enum_Story_Status_closed">已关闭</string>
+    <string name="enum_Story_Status_changed">已变更</string>
+
+    <!-- Story.Stage -->
+    <string name="enum_Story_Stage__">未知</string>
+    <string name="enum_Story_Stage_wait">未开始</string>
+    <string name="enum_Story_Stage_planned">已计划</string>
+    <string name="enum_Story_Stage_projected">已立项</string>
+    <string name="enum_Story_Stage_developing">研发中</string>
+    <string name="enum_Story_Stage_developed">研发完毕</string>
+    <string name="enum_Story_Stage_testing">测试中</string>
+    <string name="enum_Story_Stage_tested">测试完毕</string>
+    <string name="enum_Story_Stage_verified">已验收</string>
+    <string name="enum_Story_Stage_released">已发布</string>
+
+    <!-- Story.CloseReason -->
+    <string name="enum_Story_CloseReason__">未知</string>
+    <string name="enum_Story_CloseReason_done">已完成</string>
+    <string name="enum_Story_CloseReason_subdivided">已细分</string>
+    <string name="enum_Story_CloseReason_duplicate">重复</string>
+    <string name="enum_Story_CloseReason_postponed">延期</string>
+    <string name="enum_Story_CloseReason_willnotdo">不做</string>
+    <string name="enum_Story_CloseReason_cancel">已取消</string>
+    <string name="enum_Story_CloseReason_bydesign">设计如此</string>
 </resources>
