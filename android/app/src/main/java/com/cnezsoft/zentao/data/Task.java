@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.cnezsoft.zentao.ZentaoApplication;
+import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,13 +15,30 @@ import org.json.JSONObject;
 public class Task extends DataEntry {
 
     public enum Status {
-        _,
-        wait,
-        doing,
-        done,
-        pause,
-        cancel,
-        closed
+        _(MaterialColorSwatch.Grey, "question"),
+        wait(MaterialColorSwatch.Brown, "clock-o"),
+        doing(MaterialColorSwatch.Red, "play"),
+        done(MaterialColorSwatch.Green, "check"),
+        pause(MaterialColorSwatch.Orange, "pause"),
+        cancel(MaterialColorSwatch.Grey, "ban"),
+        closed(MaterialColorSwatch.Grey, "dot-circle-o");
+
+        Status(MaterialColorSwatch accentColor, String iconName) {
+            this.accentColor = accentColor;
+            this.iconName = iconName;
+        }
+
+        private MaterialColorSwatch accentColor;
+
+        public MaterialColorSwatch accent() {
+            return accentColor;
+        }
+
+        private String iconName;
+
+        public String icon() {
+            return iconName;
+        }
     }
 
     public enum Type {

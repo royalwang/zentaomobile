@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.cnezsoft.zentao.ZentaoApplication;
+import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -92,7 +93,25 @@ public class Todo extends DataEntry {
      * Todo status enum
      */
     public enum Status {
-        wait, done, doing
+        wait(MaterialColorSwatch.Grey, "clock-o"),
+        done(MaterialColorSwatch.Green, "check"),
+        doing(MaterialColorSwatch.Red, "play");
+
+        private MaterialColorSwatch accentColor;
+        private String iconName;
+
+        Status(MaterialColorSwatch accentColor, String iconName) {
+            this.accentColor = accentColor;
+            this.iconName = iconName;
+        }
+
+        public String icon() {
+            return iconName;
+        }
+
+        public MaterialColorSwatch accent() {
+            return accentColor;
+        }
     }
 
     /**

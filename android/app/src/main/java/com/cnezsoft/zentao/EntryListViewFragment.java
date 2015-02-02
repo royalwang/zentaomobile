@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CursorAdapter;
+import android.widget.IconTextView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.cnezsoft.zentao.data.DAO;
 import com.cnezsoft.zentao.data.DataLoader;
 import com.cnezsoft.zentao.data.EntryType;
 import com.cnezsoft.zentao.data.IPageTab;
+import com.cnezsoft.zentao.data.Task;
 import com.cnezsoft.zentao.data.TaskColumn;
 import com.cnezsoft.zentao.data.Todo;
 import com.cnezsoft.zentao.data.TodoColumn;
@@ -51,7 +53,7 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
     }
 
     private void initAdapter() {
-        Activity activity = getActivity();
+        final Activity activity = getActivity();
         switch (entryType) {
             case Todo:
                 adapter = new SimpleCursorAdapter(activity,
@@ -84,20 +86,42 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                         null,
                         new String[]{TaskColumn.name.name(), TaskColumn.status.name(), TaskColumn.pri.name()},
                         new int[]{R.id.text_name, R.id.text_status, R.id.icon_pri}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+
+
                 adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
+                    private Task task;
+
+                    private String getCursorKey(Cursor cursor) {
+                        return cursor.getString(cursor.getColumnIndex(TaskColumn.primary().name()));
+                    }
+
+                    private Task getTask(Cursor cursor) {
+                        if(task != null && task.key().equals(getCursorKey(cursor))) {
+                            return task;
+                        } else {
+                            task = new Task(cursor);
+                        }
+                        return task;
+                    }
+
                     @Override
                     public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
                         switch (view.getId()) {
                             case R.id.text_status:
-
-//                                ((TextView) view).setText(new SimpleDateFormat("HH:mm").format(new Date(cursor.getLong(columnIndex))));
+                                getTask(cursor);
+                                TextView textView = (TextView) view;
+                                Task.Status status = task.getStatus();
+                                textView.setText(ZentaoApplication.getEnumText(activity, status));
+                                textView.setTextColor(status.accent().primary().value());
                                 return true;
                             case R.id.text_name:
                                 ((TextView) view).setText(cursor.getString(columnIndex));
                                 return true;
                             case R.id.icon_pri:
-
-//                                view.setBackgroundColor(MaterialColorSwatch.PriAccentSwatches[cursor.getInt(columnIndex)].color(MaterialColorName.A200).getColor());
+                                getTask(cursor);
+                                ((IconTextView) view).setTextColor(
+                                        MaterialColorSwatch.PriAccentSwatches[task.getAccentPri()]
+                                                .color(MaterialColorName.C300).value());
                                 return true;
                         }
                         return false;
