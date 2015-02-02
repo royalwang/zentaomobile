@@ -35,6 +35,7 @@ public enum TaskColumn implements IColumn{
     closedDate(DataType.DATETIME),
     lastEditedBy(DataType.STRING),
     lastEditedDate(DataType.DATETIME),
+    deleted(DataType.BOOLEAN),
 
     // below for detail
     desc(DataType.STRING),
@@ -98,5 +99,14 @@ public enum TaskColumn implements IColumn{
     @Override
     public boolean nullable() {
         return isNullable;
+    }
+
+    public static TaskColumn primary() {
+        for(TaskColumn column: values()) {
+            if(column.isPrimaryKey()) {
+                return column;
+            }
+        }
+        return null;
     }
 }

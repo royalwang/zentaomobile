@@ -70,4 +70,14 @@ public enum TodoColumn implements IColumn {
     TodoColumn(DataType dataType) {
         this.dataType = dataType;
     }
+
+
+    public static TodoColumn primary() {
+        for(TodoColumn column: values()) {
+            if(column.isPrimaryKey()) {
+                return column;
+            }
+        }
+        return null;
+    }
 }
