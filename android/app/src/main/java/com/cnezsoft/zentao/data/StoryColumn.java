@@ -42,7 +42,7 @@ public enum StoryColumn implements IColumn{
     verify(DataType.STRING);
 
     private final DataType dataType;
-    private boolean isNullable;
+    private boolean isNullable = true;
 
     StoryColumn(DataType dataType, boolean isNullable) {
         this.dataType = dataType;

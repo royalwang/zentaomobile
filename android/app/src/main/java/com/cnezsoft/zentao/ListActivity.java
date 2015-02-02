@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.cnezsoft.zentao.data.Bug;
+import com.cnezsoft.zentao.data.Story;
 import com.cnezsoft.zentao.data.Task;
 import com.cnezsoft.zentao.data.Todo;
 import com.joanzapata.android.iconify.IconDrawable;
@@ -93,6 +95,13 @@ public class ListActivity extends ZentaoActivity
                 break;
             case "task":
                 fragment = EntryListFragment.newInstance(Task.PageTab.assignedTo);
+                break;
+            case "bug":
+                fragment = EntryListFragment.newInstance(Bug.PageTab.assignedTo);
+                break;
+            case "story":
+                fragment = EntryListFragment.newInstance(Story.PageTab.assignedTo);
+                break;
         }
 
         if(fragment != null) {

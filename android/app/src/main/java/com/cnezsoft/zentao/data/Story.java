@@ -1,7 +1,9 @@
 package com.cnezsoft.zentao.data;
 
+import android.content.Context;
 import android.database.Cursor;
 
+import com.cnezsoft.zentao.ZentaoApplication;
 import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
 
 import org.json.JSONArray;
@@ -105,6 +107,27 @@ public class Story extends DataEntry {
      */
     public Source getSource() {
         return Enum.valueOf(Story.Source.class, getAsString(StoryColumn.source).trim().toLowerCase());
+    }
+
+    public enum PageTab implements IPageTab {
+        assignedTo,
+        openedBy,
+        reviewedBy;
+
+        @Override
+        public String text(Context context) {
+            return ZentaoApplication.getEnumText(context, this);
+        }
+
+        @Override
+        public PageTab[] tabs() {
+            return values();
+        }
+
+        @Override
+        public EntryType getEntryType() {
+            return EntryType.Story;
+        }
     }
 
     /**

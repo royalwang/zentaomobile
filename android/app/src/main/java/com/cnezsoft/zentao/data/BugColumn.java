@@ -51,7 +51,7 @@ public enum BugColumn implements IColumn {
     steps(DataType.STRING);
 
     private final DataType dataType;
-    private boolean isNullable;
+    private boolean isNullable = true;
 
     BugColumn(DataType dataType, boolean isNullable) {
         this.dataType = dataType;

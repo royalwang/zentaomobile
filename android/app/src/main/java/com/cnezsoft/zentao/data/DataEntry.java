@@ -120,7 +120,7 @@ public class DataEntry {
 
     public int getAccentPri() {
         Integer pri = values.getAsInteger("pri");
-        if(pri == null) return -1;
+        if(pri == null) return 0;
         else return pri;
     }
 

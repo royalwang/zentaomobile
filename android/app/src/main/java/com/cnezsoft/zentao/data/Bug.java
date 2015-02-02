@@ -1,7 +1,9 @@
 package com.cnezsoft.zentao.data;
 
+import android.content.Context;
 import android.database.Cursor;
 
+import com.cnezsoft.zentao.ZentaoApplication;
 import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
 
 import org.json.JSONArray;
@@ -80,8 +82,8 @@ public class Bug extends DataEntry {
 
     public enum Status {
         _(MaterialColorSwatch.Grey, "question"),
-        active(MaterialColorSwatch.Grey, "flag"),
-        resolved(MaterialColorSwatch.Grey, "check"),
+        active(MaterialColorSwatch.Purple, "flag"),
+        resolved(MaterialColorSwatch.Green, "check"),
         closed(MaterialColorSwatch.Grey, "dot-circle-o");
 
         Status(MaterialColorSwatch accentColor, String iconName) {
@@ -136,6 +138,34 @@ public class Bug extends DataEntry {
 
     public Resolution getResolution() {
         return Enum.valueOf(Resolution.class, getAsString(BugColumn.resolution).trim().toLowerCase());
+    }
+
+    public enum PageTab implements IPageTab {
+        assignedTo,
+        openedBy,
+        resolvedBy;
+
+        @Override
+        public String text(Context context) {
+            return ZentaoApplication.getEnumText(context, this);
+        }
+
+        @Override
+        public PageTab[] tabs() {
+            return values();
+        }
+
+        @Override
+        public EntryType getEntryType() {
+            return EntryType.Bug;
+        }
+    }
+
+    @Override
+    public int getAccentPri() {
+        Integer pri = getValues().getAsInteger(BugColumn.severity.name());
+        if(pri == null) return 0;
+        else return pri;
     }
 
     /**

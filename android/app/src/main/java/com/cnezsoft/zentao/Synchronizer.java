@@ -3,9 +3,11 @@ package com.cnezsoft.zentao;
 import android.content.Context;
 import android.util.Log;
 
+import com.cnezsoft.zentao.data.Bug;
 import com.cnezsoft.zentao.data.DAO;
 import com.cnezsoft.zentao.data.DataEntry;
 import com.cnezsoft.zentao.data.EntryType;
+import com.cnezsoft.zentao.data.Story;
 import com.cnezsoft.zentao.data.Task;
 import com.cnezsoft.zentao.data.Todo;
 
@@ -151,6 +153,18 @@ public class Synchronizer {
                         case Task:
                             for (int i = 0; i < setLength; ++i) {
                                 entry = new Task(set.getJSONArray(i), keys);
+                                entries.add(entry);
+                            }
+                            break;
+                        case Bug:
+                            for (int i = 0; i < setLength; ++i) {
+                                entry = new Bug(set.getJSONArray(i), keys);
+                                entries.add(entry);
+                            }
+                            break;
+                        case Story:
+                            for (int i = 0; i < setLength; ++i) {
+                                entry = new Story(set.getJSONArray(i), keys);
                                 entries.add(entry);
                             }
                             break;

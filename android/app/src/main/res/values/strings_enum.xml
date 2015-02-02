@@ -76,6 +76,11 @@
     <string name="enum_Task_PageTab_openedBy">由我创建</string>
     <string name="enum_Task_PageTab_finishedBy">由我完成</string>
 
+    <!-- Bug.PageTab -->
+    <string name="enum_Bug_PageTab_assignedTo">指派给我</string>
+    <string name="enum_Bug_PageTab_openedBy">由我创建</string>
+    <string name="enum_Bug_PageTab_resolvedBy">由我解决</string>
+
     <!-- Bug.Type -->
     <string name="enum_Bug_Type__">未定义</string>
     <string name="enum_Bug_Type_codeerror">代码错误</string>
@@ -155,6 +160,11 @@
     <string name="enum_Bug_Resolution_postponed">延期处理</string>
     <string name="enum_Bug_Resolution_willnotfix">不予解决</string>
     <string name="enum_Bug_Resolution_tostory">转为需求</string>
+
+    <!-- Story.PageTab -->
+    <string name="enum_Story_PageTab_assignedTo">指派给我</string>
+    <string name="enum_Story_PageTab_openedBy">由我创建</string>
+    <string name="enum_Story_PageTab_reviewedBy">由我评审</string>
 
     <!-- Story.Source -->
     <string name="enum_Story_Source__">未指定</string>

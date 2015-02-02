@@ -293,6 +293,28 @@ public class DAO {
                         return query(entryType, TaskColumn.finishedBy.name() +  " =?", new String[]{user.getAccount()}, order.name() + " " + orderType.name());
                 }
                 break;
+            case Bug:
+                if(user == null) break;
+                switch ((Bug.PageTab) pageTab) {
+                    case assignedTo:
+                        return query(entryType, BugColumn.assignedTo.name() +  " =?", new String[]{user.getAccount()}, order.name() + " " + orderType.name());
+                    case openedBy:
+                        return query(entryType, BugColumn.openedBy.name() +  " =?", new String[]{user.getAccount()}, order.name() + " " + orderType.name());
+                    case resolvedBy:
+                        return query(entryType, BugColumn.resolvedBy.name() +  " =?", new String[]{user.getAccount()}, order.name() + " " + orderType.name());
+                }
+                break;
+            case Story:
+                if(user == null) break;
+                switch ((Story.PageTab) pageTab) {
+                    case assignedTo:
+                        return query(entryType, StoryColumn.assignedTo.name() +  " =?", new String[]{user.getAccount()}, order.name() + " " + orderType.name());
+                    case openedBy:
+                        return query(entryType, StoryColumn.openedBy.name() +  " =?", new String[]{user.getAccount()}, order.name() + " " + orderType.name());
+                    case reviewedBy:
+                        return query(entryType, StoryColumn.reviewedBy.name() +  " =?", new String[]{user.getAccount()}, order.name() + " " + orderType.name());
+                }
+                break;
         }
         return null;
     }
@@ -302,7 +324,7 @@ public class DAO {
     }
 
     public Cursor query(IPageTab pageTab, User user) {
-        return query(pageTab, user, pageTab.getEntryType().defaultOrderColumn(), OrderType.ASC);
+        return query(pageTab, user, pageTab.getEntryType().defaultOrderColumn(), OrderType.DESC);
     }
 
     /**

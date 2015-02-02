@@ -96,6 +96,12 @@ public enum EntryType {
                 case Task:
                     cols = TaskColumn.values();
                     break;
+                case Bug:
+                    cols = BugColumn.values();
+                    break;
+                case Story:
+                    cols = StoryColumn.values();
+                    break;
             }
         }
         return cols;
@@ -107,6 +113,10 @@ public enum EntryType {
             case Todo:
                 return TodoColumn._id;
             case Task:
+                return TodoColumn._id;
+            case Bug:
+                return TodoColumn._id;
+            case Story:
                 return TodoColumn._id;
         }
         return null;
@@ -126,6 +136,12 @@ public enum EntryType {
                     break;
                 case Task:
                     pageTabs =  com.cnezsoft.zentao.data.Task.PageTab.values();
+                    break;
+                case Bug:
+                    pageTabs =  com.cnezsoft.zentao.data.Bug.PageTab.values();
+                    break;
+                case Story:
+                    pageTabs =  com.cnezsoft.zentao.data.Story.PageTab.values();
                     break;
             }
         }

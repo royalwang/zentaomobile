@@ -13,6 +13,10 @@ public class DataEntryFactory {
                 return new Todo();
             case Task:
                 return new Task();
+            case Bug:
+                return new Bug();
+            case Story:
+                return new Story();
             default:
                 return new DataEntry();
         }
@@ -23,6 +27,12 @@ public class DataEntryFactory {
             switch (type) {
                 case Todo:
                     return new Todo(cursor);
+                case Task:
+                    return new Task(cursor);
+                case Bug:
+                    return new Bug(cursor);
+                case Story:
+                    return new Story(cursor);
                 default:
                     return new DataEntry(cursor);
             }
