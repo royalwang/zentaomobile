@@ -32,13 +32,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minWidth="10dp"
                 android:textSize="10sp"
                 android:paddingLeft="3dp"
                 android:paddingRight="3dp"
                 android:textColor="@color/white"
                 android:background="@drawable/border_round_inverse"
-                android:text=""
+                android:text="0"
                 android:tag="entry__id"
                 android:alpha="0.7" />
 
@@ -47,12 +46,24 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/white"
-                android:text="{fa-folder-o}"
+                android:text="{fa-tag}"
                 android:gravity="center_vertical"
                 android:layout_marginRight="@dimen/control_padding"
                 android:layout_marginLeft="@dimen/content_horizontal_margin"
                 android:id="@+id/text_entry_type"
                 android:alpha="0.7" />
+
+            <android.widget.IconTextView
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/white"
+                android:text="{fa-hand-o-right}"
+                android:gravity="right"
+                android:layout_gravity="center_vertical"
+                android:alpha="0.7"
+                android:id="@+id/text_entry_assignedTo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
 
@@ -84,16 +95,39 @@
             android:layout_toEndOf="@+id/icon_entry_status"
             android:layout_marginStart="12dp" />
 
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar_entry_hours"
+            android:layout_below="@+id/text_entry_status"
+            android:layout_alignStart="@+id/text_entry_status"
+            android:layout_marginTop="2dp"
+            android:max="100"
+            android:progress="0"
+            android:indeterminate="false" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="1月10日 12:00 至次日13:00"
+            android:text="估计 1h   消耗 2h"
             android:textColor="@color/secondary_text"
-            android:layout_marginTop="@dimen/control_padding"
-            android:id="@+id/text_entry_date"
-            android:layout_below="@+id/text_entry_status"
+            android:layout_marginTop="2dp"
+            android:id="@+id/text_entry_hours"
+            android:layout_below="@+id/progressBar_entry_hours"
             android:layout_alignStart="@+id/text_entry_status" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="剩余 3h"
+            android:textColor="@color/secondary_text"
+            android:layout_marginTop="2dp"
+            android:id="@+id/text_entry_left"
+            android:layout_below="@+id/progressBar_entry_hours"
+            android:layout_alignEnd="@+id/progressBar_entry_hours"/>
 
     </RelativeLayout>
 
@@ -112,13 +146,13 @@
             android:textColor="@color/secondary_text"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_marginBottom="@dimen/heading_dividing_gap"
-            android:text="描述"/>
+            android:text="@string/text_desc"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/text_entry_desc"
-            android:text="[没有描述]"/>
+            android:text="@string/text_no_desc"/>
 
     </LinearLayout>
 

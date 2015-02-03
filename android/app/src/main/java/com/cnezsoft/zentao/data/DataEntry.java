@@ -445,9 +445,9 @@ public class DataEntry {
                         } catch (JSONException e) {
                             eStr = "_";
                         }
-//                        if(Helper.isNullOrEmpty(eStr)) {
-//                            eStr = "_";
-//                        }
+                        if(Helper.isNullOrEmpty(eStr)) {
+                            eStr = "_";
+                        }
 //                        else if(eStr.equals("interface")) {
 //                            eStr = "_" + eStr;
 //                        }

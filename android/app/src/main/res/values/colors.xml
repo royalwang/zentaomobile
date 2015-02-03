@@ -289,5 +289,5 @@
     <color name="primary_text">@color/grey_900</color>
     <color name="secondary_text">@color/grey_600</color>
     <color name="icons">@color/grey_white_1000</color>
-    <color name="divider">@color/grey_400</color>
+    <color name="divider">@color/blue_grey_100</color>
 </resources>

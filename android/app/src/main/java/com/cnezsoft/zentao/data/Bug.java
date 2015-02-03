@@ -2,7 +2,9 @@ package com.cnezsoft.zentao.data;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
+import com.cnezsoft.zentao.Helper;
 import com.cnezsoft.zentao.ZentaoApplication;
 import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
 
@@ -116,11 +118,14 @@ public class Bug extends DataEntry {
         tostory
     }
 
-    public Bug.Type getTaskType() {
+    public Bug.Type getBugType() {
         String typeName = getAsString(BugColumn.type).trim().toLowerCase();
         if(typeName.equals("interface")) {
             typeName = "_" + typeName;
+        } else if(Helper.isNullOrEmpty(typeName)) {
+            return Type._;
         }
+        Log.v("BUG", "getbugType:" + typeName);
         return Enum.valueOf(Bug.Type.class, typeName);
     }
 

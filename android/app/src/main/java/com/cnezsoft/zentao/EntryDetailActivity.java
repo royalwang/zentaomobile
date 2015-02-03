@@ -6,24 +6,33 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.IconTextView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
+import com.cnezsoft.zentao.data.Bug;
+import com.cnezsoft.zentao.data.BugColumn;
 import com.cnezsoft.zentao.data.DAO;
 import com.cnezsoft.zentao.data.DataEntry;
 import com.cnezsoft.zentao.data.DataEntryFactory;
 import com.cnezsoft.zentao.data.DataLoader;
 import com.cnezsoft.zentao.data.EntryType;
 import com.cnezsoft.zentao.data.IColumn;
+import com.cnezsoft.zentao.data.Story;
+import com.cnezsoft.zentao.data.StoryColumn;
+import com.cnezsoft.zentao.data.Task;
+import com.cnezsoft.zentao.data.TaskColumn;
 import com.cnezsoft.zentao.data.Todo;
 import com.cnezsoft.zentao.data.TodoColumn;
 
@@ -76,8 +85,20 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
 
         // choose layout
         switch (entryType) {
-            default:
+            case Todo:
                 layout = R.layout.activity_todo_detail;
+                break;
+            case Task:
+                layout = R.layout.activity_task_detail;
+                break;
+            case Bug:
+                layout = R.layout.activity_bug_detail;
+                break;
+            case Story:
+                layout = R.layout.activity_story_detail;
+                break;
+            default:
+                layout = R.layout.activity_entry_detail;
                 break;
         }
 
@@ -227,6 +248,104 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
             statusIconView.setText("{fa-" + status.icon() + "}");
             statusView.setTextColor(statusColor);
             statusIconView.setTextColor(statusColor);
+        } else if(layout == R.layout.activity_task_detail && entryType == EntryType.Task) {
+            Task task = (Task) entry;
+            Resources resources = getResources();
+            Task.Status status = task.getStatus();
+
+            ((IconTextView) findViewById(R.id.text_entry_type)).setText("{fa-folder-o} "
+                    + ZentaoApplication.getEnumText(this, task.getTaskType()));
+            String desc = task.getAsString(TaskColumn.desc);
+            if(desc != null) {
+                ((TextView) findViewById(R.id.text_entry_desc)).setText(Html.fromHtml(desc));
+            }
+
+            TextView statusView = (TextView) findViewById(R.id.text_entry_status);
+            statusView.setText(ZentaoApplication.getEnumText(this, status));
+            TextView statusIconView = (TextView) findViewById(R.id.icon_entry_status);
+            int statusColor = status.accent().primary().value();
+            statusIconView.setText("{fa-" + status.icon() + "}");
+            statusView.setTextColor(statusColor);
+            statusIconView.setTextColor(statusColor);
+
+            float estimate = task.getAsFloat(TaskColumn.estimate);
+            float consumed = task.getAsFloat(TaskColumn.consumed);
+            float left = task.getAsFloat(TaskColumn.left);
+            ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar_entry_hours);
+            progressBar.getProgressDrawable().setColorFilter(statusColor, PorterDuff.Mode.SRC_IN);
+            progressBar.setMax((int) (Math.max(estimate, consumed + left) * 100));
+            progressBar.setProgress((int) (consumed * 100));
+
+            ((TextView) findViewById(R.id.text_entry_hours)).setText(
+                    String.format(resources.getString(R.string.text_task_hours_format), estimate, consumed));
+            ((TextView) findViewById(R.id.text_entry_left)).setText(
+                    String.format(resources.getString(R.string.text_task_hours_left_format), left));
+
+            TextView assignedToView = (TextView) findViewById(R.id.text_entry_assignedTo);
+            String assignedTo = task.getAsString(TaskColumn.assignedTo);
+            assignedToView.setVisibility(Helper.isNullOrEmpty(assignedTo) ? View.INVISIBLE : View.VISIBLE);
+            assignedToView.setText("{fa-hand-o-right} " + assignedTo);
+        } else if(layout == R.layout.activity_bug_detail && entryType == EntryType.Bug) {
+            Bug bug = (Bug) entry;
+            Resources resources = getResources();
+            Bug.Status status = bug.getStatus();
+
+            ((IconTextView) findViewById(R.id.text_entry_type)).setText("{fa-folder-o} "
+                    + ZentaoApplication.getEnumText(this, bug.getBugType()));
+
+            String desc = bug.getAsString(BugColumn.steps);
+            if(desc != null) {
+                ((TextView) findViewById(R.id.text_entry_desc)).setText(Html.fromHtml(desc));
+            }
+
+            TextView statusView = (TextView) findViewById(R.id.text_entry_status);
+            statusView.setText(ZentaoApplication.getEnumText(this, status));
+            TextView statusIconView = (TextView) findViewById(R.id.icon_entry_status);
+            int statusColor = status.accent().primary().value();
+            statusIconView.setText("{fa-" + status.icon() + "}");
+            statusView.setTextColor(statusColor);
+            statusIconView.setTextColor(statusColor);
+
+            TextView assignedToView = (TextView) findViewById(R.id.text_entry_assignedTo);
+            String assignedTo = bug.getAsString(BugColumn.assignedTo);
+            assignedToView.setVisibility(Helper.isNullOrEmpty(assignedTo) ? View.INVISIBLE : View.VISIBLE);
+            assignedToView.setText("{fa-hand-o-right} " + assignedTo);
+
+            ((TextView) findViewById(R.id.text_entry_confirm)).setText(
+                    bug.getAsBoolean(BugColumn.confirmed) ? resources.getString(R.string.text_confirmed)
+                            : resources.getString(R.string.text_unconfirm));
+
+            TextView severityView = (TextView) findViewById(R.id.text_entry_severity);
+            int severity = bug.getAsInteger(BugColumn.severity);
+            severityView.setText(String.format(resources.getString(R.string.text_bug_severity), severity));
+            severityView.setTextColor(MaterialColorSwatch.PriAccentSwatches[severity].primary().value());
+        } else if(layout == R.layout.activity_story_detail && entryType == EntryType.Story) {
+            Story story = (Story) entry;
+            Resources resources = getResources();
+            Story.Status status = story.getStatus();
+
+            ((IconTextView) findViewById(R.id.text_entry_type)).setText("{fa-user} " + resources.getString(R.string.text_story_from)
+                    + ZentaoApplication.getEnumText(this, story.getSource()));
+
+            String desc = story.getAsString(StoryColumn.spec);
+            if(desc != null) {
+                ((TextView) findViewById(R.id.text_entry_desc)).setText(Html.fromHtml(desc));
+            }
+
+            ((TextView) findViewById(R.id.text_entry_stage)).setText(ZentaoApplication.getEnumText(this, story.getStage()));
+
+            TextView statusView = (TextView) findViewById(R.id.text_entry_status);
+            statusView.setText(ZentaoApplication.getEnumText(this, status));
+            TextView statusIconView = (TextView) findViewById(R.id.icon_entry_status);
+            int statusColor = status.accent().primary().value();
+            statusIconView.setText("{fa-" + status.icon() + "}");
+            statusView.setTextColor(statusColor);
+            statusIconView.setTextColor(statusColor);
+
+            TextView assignedToView = (TextView) findViewById(R.id.text_entry_assignedTo);
+            String assignedTo = story.getAsString(StoryColumn.assignedTo);
+            assignedToView.setVisibility(Helper.isNullOrEmpty(assignedTo) ? View.INVISIBLE : View.VISIBLE);
+            assignedToView.setText("{fa-hand-o-right} " + assignedTo);
         }
     }
 

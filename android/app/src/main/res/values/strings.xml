@@ -36,7 +36,24 @@
     <string name="action_detail_format">%s详情</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="text_task_hours_format">估计 %1$sh    消耗%2$sh</string>
+    <string name="text_task_hours_left_format">剩余%sh</string>
+    <string name="text_confirmed">已确认</string>
+    <string name="text_unconfirm">未确认</string>
+
     <string name="title_activity_entry_detail">EntryDetailActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="text_bug_steps">重现步骤</string>
+    <string name="text_no_desc">[没有描述]</string>
+    <string name="text_desc">描述</string>
+    <string name="text_bug_severity">严重等级 %s</string>
+    <string name="text_bug_platform">平台环境</string>
+    <string name="text_bug_os">操作系统</string>
+    <string name="text_bug_browser">浏览器</string>
+    <string name="text_more_info">更多信息</string>
+    <string name="text_bug_activecount">激活次数</string>
+    <string name="text_bug_openedBuild">影响版本</string>
+    <string name="text_story_desc">需求描述</string>
+    <string name="text_story_from">来源：</string>
 
 </resources>

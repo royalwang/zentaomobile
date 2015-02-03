@@ -11,7 +11,7 @@ import android.util.Log;
  * Created by Catouse on 2015/1/15.
  */
 public class DbHelper extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 17;
+    public static final int DATABASE_VERSION = 18;
     public static final String DATABASE_NAME = "com.cnezsoft.zentao.db";
 
     /**

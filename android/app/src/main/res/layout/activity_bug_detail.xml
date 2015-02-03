@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:id="@+id/entry_detail_container"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingTop="@dimen/control_vertical_padding"
+        android:id="@+id/entry_detail_heading"
+        android:background="@color/primary">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Entry name"
+            android:layout_marginBottom="@dimen/content_vertical_margin"
+            android:textColor="@color/white"
+            android:id="@+id/text_entry_name"
+            android:tag="entry_title"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:minWidth="12dp"
+                android:textColor="@color/white"
+                android:background="@drawable/border_round_inverse"
+                android:text="0"
+                android:tag="entry__id"
+                android:alpha="0.7" />
+
+            <android.widget.IconTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/white"
+                android:text="{fa-tag}"
+                android:gravity="center_vertical"
+                android:layout_marginRight="@dimen/control_padding"
+                android:layout_marginLeft="@dimen/content_horizontal_margin"
+                android:id="@+id/text_entry_type"
+                android:alpha="0.7" />
+
+            <android.widget.IconTextView
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/white"
+                android:text="{fa-hand-o-right}"
+                android:gravity="right"
+                android:layout_gravity="center_vertical"
+                android:alpha="0.7"
+                android:id="@+id/text_entry_assignedTo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:background="@color/blue_grey_100"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.widget.IconTextView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:text="fa-play"
+            android:textColor="@color/secondary_text"
+            android:id="@+id/icon_entry_status"
+            android:textSize="36dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="未开始"
+            android:id="@+id/text_entry_status"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/icon_entry_status"
+            android:layout_marginStart="12dp" />
+
+        <TextView
+            android:layout_alignParentRight="true"
+            android:text=""
+            android:id="@+id/text_entry_severity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text=""
+            android:textColor="@color/secondary_text"
+            android:layout_marginTop="@dimen/control_padding"
+            android:id="@+id/text_entry_confirm"
+            android:layout_below="@+id/text_entry_status"
+            android:layout_alignStart="@+id/text_entry_status" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/secondary_text"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_marginBottom="@dimen/heading_dividing_gap"
+            android:text="@string/text_bug_steps"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_entry_desc"
+            android:text=""/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider"
+        android:layout_marginTop="@dimen/control_padding"
+        android:layout_marginBottom="@dimen/control_padding"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/secondary_text"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_marginBottom="@dimen/heading_dividing_gap"
+            android:text="@string/text_more_info"/>
+        <LinearLayout
+            android:layout_marginBottom="@dimen/control_padding"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="@string/text_bug_os"
+                android:textColor="@color/secondary_text"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:gravity="right"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginLeft="@dimen/control_padding"
+                android:tag="entry_os"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginBottom="@dimen/control_padding"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="@string/text_bug_browser"
+                android:textColor="@color/secondary_text"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:gravity="right"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginLeft="@dimen/control_padding"
+                android:tag="entry_browser"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginBottom="@dimen/control_padding"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="@string/text_bug_activecount"
+                android:textColor="@color/secondary_text"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:gravity="right"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginLeft="@dimen/control_padding"
+                android:tag="entry_activatedCount"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginBottom="@dimen/control_padding"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="@string/text_bug_openedBuild"
+                android:textColor="@color/secondary_text"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:gravity="right"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginLeft="@dimen/control_padding"
+                android:tag="entry_openedBuild"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
