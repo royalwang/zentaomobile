@@ -347,15 +347,16 @@ public class DataEntry {
      * @param json
      */
     public void fromJSON(JSONObject json) {
-        String name;
+        String name, jsonName;
         HashSet<IColumn> exceptColumns = null;
         for(IColumn column: type.columns()) {
             name = column.name();
+            jsonName = name.equals("_id") ? "id" : name;
             try {
                 switch (column.type()) {
                     case LONG:
                     case DATETIME:
-                        Long d = json.getLong(name);
+                        Long d = json.getLong(jsonName);
                         if(d == null) {
                             try {
                                 d = DateFormat.getDateTimeInstance().parse(json.getString(name)).getTime();
@@ -368,21 +369,25 @@ public class DataEntry {
                         values.put(name, d);
                         break;
                     case INT:
-                        values.put(name, json.getInt(name));
+                        values.put(name, json.getInt(jsonName));
                         break;
                     case FLOAT:
                     case DOUBLE:
-                        values.put(name, json.getDouble(name));
+                        values.put(name, json.getDouble(jsonName));
                         break;
                     case BOOLEAN:
-                        values.put(name, json.getBoolean(name));
+                        values.put(name, json.getBoolean(jsonName));
                         break;
                     case ENUM:
-                        values.put(name, json.optString(name, "_"));
+                        String eStr = json.optString(jsonName, "_");
+                        if(Helper.isNullOrEmpty(eStr)) {
+                            eStr = "_";
+                        }
+                        values.put(name, eStr);
                         break;
                     case STRING:
                     default:
-                        values.put(name, json.getString(name));
+                        values.put(name, json.getString(jsonName));
                         break;
                 }
             } catch (JSONException e) {
