@@ -6,14 +6,18 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.IconTextView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -37,6 +41,7 @@ import com.cnezsoft.zentao.data.Todo;
 import com.cnezsoft.zentao.data.TodoColumn;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,12 +53,15 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
 
     public static final String ARG_ENTRY_TYPE = "com.cnezsoft.zentao.ENTRY_TYPE";
     public static final String ARG_ID = "com.cnezsoft.zentao.ID";
+    public static final long AUTO_UPDATE_INTERVAL = 1000*60*1;
 
     protected EntryType entryType = null;
     private long entryId = -1;
     protected boolean inherit = false;
     private DataEntry entry;
     private int layout;
+    private boolean firstLoad = true;
+    private Menu menu = null;
 
     protected EntryType setEntryType() {
         return EntryType.Default;
@@ -113,6 +121,8 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_entry_detail, menu);
 
@@ -120,6 +130,20 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(false);
         actionBar.setTitle(String.format(getResources().getString(R.string.action_detail_format), entryType.text(this)));
+
+        TextView loadingItemView = (TextView) menu.findItem(R.id.action_loading)
+                .setVisible(false).getActionView();
+        loadingItemView.setText("  {fa-circle-o-notch}  ");
+        loadingItemView.setTextSize(loadingItemView.getTextSize() * .65f);
+        loadingItemView.setTextColor(Color.WHITE);
+        loadingItemView.setAlpha(.5f);
+
+        RotateAnimation rotate = new RotateAnimation(0, 360,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+
+        rotate.setDuration(1000);
+        rotate.setRepeatCount(RotateAnimation.INFINITE);
+        loadingItemView.setAnimation(rotate);
         return true;
     }
 
@@ -166,6 +190,16 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
         return null;
     }
 
+    /**
+     * Clear loading icon animate
+     */
+    private void clearLoadingAnimate() {
+        if(menu != null) {
+            menu.findItem(R.id.action_loading).setVisible(false)
+                    .getActionView().clearAnimation();
+        }
+    }
+
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if(entry == null) {
@@ -175,6 +209,32 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
             entry.fromCursor(data);
         }
         displayEntry();
+
+        if(firstLoad) {
+            firstLoad = false;
+            long nowTime = new Date().getTime();
+            long entrySyncTime = entry.getLastSyncTime().getTime();
+            if(entrySyncTime <=0 || (nowTime - entrySyncTime) > AUTO_UPDATE_INTERVAL) {
+                if(menu != null) {
+                    menu.findItem(R.id.action_loading).setVisible(true);
+                }
+
+                Intent intent = new Intent(Synchronizer.MESSAGE_IN_GET_ENTRY);
+                intent.putExtra("type", entryType.name());
+                intent.putExtra("id", entry.key());
+                sendBroadcast(intent);
+            } else {
+                clearLoadingAnimate();
+            }
+        } else if(menu != null) {
+            clearLoadingAnimate();
+        }
+    }
+
+    @Override
+    protected void onReceiveMessage(Intent intent) {
+        super.onReceiveMessage(intent);
+        Log.v("DETAIL", "onReceiveMessage: " + intent.getAction() + ", result: " + intent.getBooleanExtra("result", false));
     }
 
     private List<Map<String, Object>> getEntryData() {

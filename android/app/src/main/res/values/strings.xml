@@ -55,5 +55,6 @@
     <string name="text_bug_openedBuild">影响版本</string>
     <string name="text_story_desc">需求描述</string>
     <string name="text_story_from">来源：</string>
+    <string name="action_loading">正在加载</string>
 
 </resources>
