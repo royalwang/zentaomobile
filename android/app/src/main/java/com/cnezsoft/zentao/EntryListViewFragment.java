@@ -9,7 +9,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.CursorAdapter;
 import android.widget.IconTextView;
 import android.widget.ListView;
@@ -59,23 +58,25 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
     private void initTodoAdapter() {
         final Activity activity = getActivity();
         adapter = new SimpleCursorAdapter(activity,
-                R.layout.list_item_todo,
+                R.layout.list_item_entry,
                 null,
-                new String[]{TodoColumn.name.name(), TodoColumn.begin.name(), TodoColumn.status.name(), TodoColumn.pri.name()},
-                new int[]{R.id.text_todo, R.id.text_time, R.id.checkbox_todo, R.id.color_pri}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+                new String[]{TodoColumn.name.name(), TodoColumn.begin.name(), TodoColumn.status.name()},
+                new int[]{R.id.text_name, R.id.text_status, R.id.icon_pri}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
         adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
             @Override
             public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
                 switch (view.getId()) {
-                    case R.id.text_time:
+                    case R.id.text_status:
                         ((TextView) view).setText(new SimpleDateFormat("HH:mm").format(new Date(cursor.getLong(columnIndex))));
                         return true;
-                    case R.id.checkbox_todo:
-                        ((CheckBox) view).setChecked(cursor.getString(columnIndex).toUpperCase().equals(Todo.Status.done.name()));
-                        return true;
-                    case R.id.color_pri:
-                        view.setBackgroundColor(MaterialColorSwatch.PriAccentSwatches[cursor.getInt(columnIndex)].color(MaterialColorName.A200).getColor());
+                    case R.id.icon_pri:
+                        Todo todo = new Todo(cursor);
+                        IconTextView iconView = (IconTextView) view;
+                        iconView.setTextColor(
+                                MaterialColorSwatch.PriAccentSwatches[todo.getAccentPri()]
+                                        .color(MaterialColorName.C300).value());
+                        iconView.setText(todo.getStatus() == Todo.Status.done ? "{fa-circle}" : "{fa-circle-o}");
                         return true;
                 }
                 return false;
@@ -118,9 +119,6 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                         Task.Status status = task.getStatus();
                         textView.setText(ZentaoApplication.getEnumText(activity, status));
                         textView.setTextColor(status.accent().primary().value());
-                        return true;
-                    case R.id.text_name:
-                        ((TextView) view).setText(cursor.getString(columnIndex));
                         return true;
                     case R.id.icon_pri:
                         getTask(cursor);
@@ -170,9 +168,6 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                         textView.setText(ZentaoApplication.getEnumText(activity, status));
                         textView.setTextColor(status.accent().primary().value());
                         return true;
-                    case R.id.text_name:
-                        ((TextView) view).setText(cursor.getString(columnIndex));
-                        return true;
                     case R.id.icon_pri:
                         getEntry(cursor);
                         ((IconTextView) view).setTextColor(
@@ -220,9 +215,6 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                         Bug.Status status = entry.getStatus();
                         textView.setText(ZentaoApplication.getEnumText(activity, status));
                         textView.setTextColor(status.accent().primary().value());
-                        return true;
-                    case R.id.text_name:
-                        ((TextView) view).setText(cursor.getString(columnIndex));
                         return true;
                     case R.id.icon_pri:
                         getEntry(cursor);
