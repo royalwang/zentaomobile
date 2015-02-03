@@ -21,6 +21,9 @@ import java.util.HashSet;
  */
 public class Todo extends DataEntry {
 
+    /**
+     * Todo types
+     */
     public enum Types {
         custom,
         bug,
@@ -122,6 +125,10 @@ public class Todo extends DataEntry {
         return Enum.valueOf(Status.class, getAsString(TodoColumn.status).trim().toLowerCase());
     }
 
+    /**
+     * Get todo type
+     * @return
+     */
     public Types getTodoType() {
         return Enum.valueOf(Types.class, getAsString(TodoColumn.type).trim().toLowerCase());
     }

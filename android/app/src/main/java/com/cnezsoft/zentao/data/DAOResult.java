@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * DAO result
  * Created by Catouse on 2015/1/28.
  */
 public class DAOResult extends OperateResult<Boolean> {

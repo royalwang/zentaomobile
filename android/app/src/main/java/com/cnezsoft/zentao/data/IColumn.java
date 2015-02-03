@@ -10,7 +10,13 @@ import android.content.Context;
 
 public interface IColumn {
 
+    /**
+     * Get text string
+     * @param context
+     * @return
+     */
     public String text(Context context);
+
     /**
      * Get data type
      * @return

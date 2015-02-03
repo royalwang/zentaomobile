@@ -109,6 +109,12 @@ public class ZentaoApplication extends Application {
         login(activity, false);
     }
 
+    /**
+     * Open activity by given app nav type
+     * @param activity
+     * @param nav
+     * @param extras
+     */
     public void openActivity(Activity activity, AppNav nav, Bundle extras) {
         Intent intent = null;
         switch (nav) {
@@ -134,6 +140,12 @@ public class ZentaoApplication extends Application {
         }
     }
 
+    /**
+     * Open detail activity
+     * @param activity
+     * @param type
+     * @param id
+     */
     public void openDetailActivity(Activity activity, EntryType type, long id) {
         Intent intent = new Intent(activity, EntryDetailActivity.class);
         intent.putExtra(EntryDetailActivity.ARG_ENTRY_TYPE, type.name());
@@ -141,6 +153,11 @@ public class ZentaoApplication extends Application {
         activity.startActivity(intent);
     }
 
+    /**
+     * Open activity
+     * @param activity
+     * @param nav
+     */
     public void openActivity(Activity activity, AppNav nav) {
         openActivity(activity, nav, null);
     }
@@ -183,8 +200,6 @@ public class ZentaoApplication extends Application {
         }
         return resId;
     }
-
-//    public static int get
 
     /**
      * Get enum text string from resources

@@ -10,9 +10,14 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
+ * Story
  * Created by Catouse on 2015/2/2.
  */
 public class Story extends DataEntry {
+
+    /**
+     * Story sources
+     */
     public enum Source {
         _,
         customer,
@@ -28,6 +33,9 @@ public class Story extends DataEntry {
         other
     }
 
+    /**
+     * Story stage
+     */
     public enum Stage {
         _,
         wait,
@@ -41,6 +49,9 @@ public class Story extends DataEntry {
         released
     }
 
+    /**
+     * Story closeReasons
+     */
     public enum CloseReason {
         _,
         done,
@@ -52,6 +63,9 @@ public class Story extends DataEntry {
         bydesign
     }
 
+    /**
+     * Story status
+     */
     public enum Status {
         _(MaterialColorSwatch.Grey, "question"),
         draft(MaterialColorSwatch.Purple, "pencil"),

@@ -16,6 +16,9 @@ import org.json.JSONObject;
  */
 public class Bug extends DataEntry {
 
+    /**
+     * Bug type
+     */
     public enum Type {
         _,
         codeerror,
@@ -33,6 +36,9 @@ public class Bug extends DataEntry {
         others
     }
 
+    /**
+     * Bug os
+     */
     public enum OS {
         _,
         all,
@@ -57,6 +63,9 @@ public class Bug extends DataEntry {
         others
     }
 
+    /**
+     * Bug browser
+     */
     public enum Browser {
         _,
         all,
@@ -82,6 +91,9 @@ public class Bug extends DataEntry {
         other
     }
 
+    /**
+     * Bug status
+     */
     public enum Status {
         _(MaterialColorSwatch.Grey, "question"),
         active(MaterialColorSwatch.Purple, "flag"),
@@ -106,6 +118,9 @@ public class Bug extends DataEntry {
         }
     }
 
+    /**
+     * Bug resolution
+     */
     public enum Resolution {
         _,
         bydesign,
@@ -118,6 +133,10 @@ public class Bug extends DataEntry {
         tostory
     }
 
+    /**
+     * Get bug type
+     * @return
+     */
     public Bug.Type getBugType() {
         String typeName = getAsString(BugColumn.type).trim().toLowerCase();
         if(typeName.equals("interface")) {
@@ -129,22 +148,41 @@ public class Bug extends DataEntry {
         return Enum.valueOf(Bug.Type.class, typeName);
     }
 
+    /**
+     * Get os
+     * @return
+     */
     public OS getOS() {
         return Enum.valueOf(Bug.OS.class, getAsString(BugColumn.os).trim().toLowerCase());
     }
 
+    /**
+     * Get browser
+     * @return
+     */
     public Browser getBrowser() {
         return Enum.valueOf(Browser.class, getAsString(BugColumn.browser).trim().toLowerCase());
     }
 
+    /**
+     * Get status
+     * @return
+     */
     public Bug.Status getStatus() {
         return Enum.valueOf(Status.class, getAsString(BugColumn.status).trim().toLowerCase());
     }
 
+    /**
+     * Get resolution
+     * @return
+     */
     public Resolution getResolution() {
         return Enum.valueOf(Resolution.class, getAsString(BugColumn.resolution).trim().toLowerCase());
     }
 
+    /**
+     * Get pagetab
+     */
     public enum PageTab implements IPageTab {
         assignedTo,
         openedBy,
@@ -166,6 +204,10 @@ public class Bug extends DataEntry {
         }
     }
 
+    /**
+     * Get accent pri value
+     * @return
+     */
     @Override
     public int getAccentPri() {
         Integer pri = getValues().getAsInteger(BugColumn.severity.name());

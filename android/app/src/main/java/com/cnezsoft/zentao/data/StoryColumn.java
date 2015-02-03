@@ -5,6 +5,7 @@ import android.content.Context;
 import com.cnezsoft.zentao.ZentaoApplication;
 
 /**
+ * Story columns
  * Created by Catouse on 2015/2/2.
  */
 public enum StoryColumn implements IColumn{
@@ -53,6 +54,11 @@ public enum StoryColumn implements IColumn{
         this.dataType = dataType;
     }
 
+    /**
+     * Get text
+     * @param context
+     * @return
+     */
     @Override
     public String text(Context context) {
         return ZentaoApplication.getEnumText(context, this);

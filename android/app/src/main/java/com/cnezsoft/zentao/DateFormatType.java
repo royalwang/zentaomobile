@@ -3,6 +3,7 @@ package com.cnezsoft.zentao;
 import java.text.SimpleDateFormat;
 
 /**
+ * Date format types
  * Created by Catouse on 2015/1/29.
  */
 public enum DateFormatType {

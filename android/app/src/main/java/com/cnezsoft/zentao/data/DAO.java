@@ -269,6 +269,14 @@ public class DAO {
         return db.rawQuery("SELECT * FROM " + type.name() + " ORDER BY " + type.primaryKey().name() + " DESC", null);
     }
 
+    /**
+     * Query entries by given pageTab
+     * @param pageTab
+     * @param user
+     * @param order
+     * @param orderType
+     * @return
+     */
     public Cursor query(IPageTab pageTab, User user, IColumn order, OrderType orderType) {
         EntryType entryType = pageTab.getEntryType();
         switch (entryType) {
@@ -319,10 +327,23 @@ public class DAO {
         return null;
     }
 
+    /**
+     * Query entries by given pageTab
+     * @param pageTab
+     * @param user
+     * @param order
+     * @return
+     */
     public Cursor query(IPageTab pageTab, User user, IColumn order) {
         return query(pageTab, user, order, OrderType.ASC);
     }
 
+    /**
+     * Query entries by given pageTab
+     * @param pageTab
+     * @param user
+     * @return
+     */
     public Cursor query(IPageTab pageTab, User user) {
         return query(pageTab, user, pageTab.getEntryType().defaultOrderColumn(), OrderType.DESC);
     }

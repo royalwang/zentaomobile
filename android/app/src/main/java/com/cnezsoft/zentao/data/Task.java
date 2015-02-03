@@ -10,10 +10,14 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
+ * Task
  * Created by Catouse on 2015/1/30.
  */
 public class Task extends DataEntry {
 
+    /**
+     * Task status
+     */
     public enum Status {
         _(MaterialColorSwatch.Grey, "question"),
         wait(MaterialColorSwatch.Brown, "clock-o"),
@@ -41,6 +45,9 @@ public class Task extends DataEntry {
         }
     }
 
+    /**
+     * Task type
+     */
     public enum Type {
         _,
         design,
@@ -53,12 +60,18 @@ public class Task extends DataEntry {
         misc
     }
 
+    /**
+     * Task closeReason
+     */
     public enum CloseReason {
         _,
         done,
         cancel
     }
 
+    /**
+     * Task pagetabs
+     */
     public enum PageTab implements IPageTab {
         assignedTo,
         openedBy,

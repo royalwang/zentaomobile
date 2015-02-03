@@ -3,10 +3,16 @@ package com.cnezsoft.zentao.data;
 import android.database.Cursor;
 
 /**
+ * DataEntry factor
  * Created by Catouse on 2015/1/29.
  */
 public class DataEntryFactory {
 
+    /**
+     * Create entry
+     * @param type
+     * @return
+     */
     public static DataEntry create(EntryType type) {
         switch (type) {
             case Todo:
@@ -22,6 +28,12 @@ public class DataEntryFactory {
         }
     }
 
+    /**
+     * Create entry with cursor
+     * @param type
+     * @param cursor
+     * @return
+     */
     public static DataEntry create(EntryType type, Cursor cursor) {
         if(cursor.moveToNext()) {
             switch (type) {

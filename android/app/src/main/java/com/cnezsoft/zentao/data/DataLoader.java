@@ -5,9 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.CancellationSignal;
 import android.os.OperationCanceledException;
-import android.util.Log;
 
 /**
+ * Data loader
  * Created by Catouse on 2015/1/27.
  */
 public class DataLoader extends AsyncTaskLoader<Cursor> {

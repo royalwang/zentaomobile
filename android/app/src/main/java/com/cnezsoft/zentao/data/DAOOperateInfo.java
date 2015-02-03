@@ -1,6 +1,7 @@
 package com.cnezsoft.zentao.data;
 
 /**
+ * DAO operate info
  * Created by Catouse on 2015/1/28.
  */
 public class DAOOperateInfo {

@@ -5,6 +5,7 @@ import android.content.Context;
 import com.cnezsoft.zentao.ZentaoApplication;
 
 /**
+ * Task columns
  * Created by Catouse on 2015/1/30.
  */
 public enum TaskColumn implements IColumn{
@@ -56,6 +57,11 @@ public enum TaskColumn implements IColumn{
         this.dataType = dataType;
     }
 
+    /**
+     * Get text
+     * @param context
+     * @return
+     */
     @Override
     public String text(Context context) {
         return ZentaoApplication.getEnumText(context, this);
@@ -101,6 +107,10 @@ public enum TaskColumn implements IColumn{
         return isNullable;
     }
 
+    /**
+     * Get primary column
+     * @return
+     */
     public static TaskColumn primary() {
         for(TaskColumn column: values()) {
             if(column.isPrimaryKey()) {

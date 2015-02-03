@@ -24,6 +24,11 @@ public enum EntryType {
     private IPageTab[] pageTabs = null;
     private String[] columnNames = null;
 
+    /**
+     * Get entry type from name
+     * @param name
+     * @return
+     */
     public static EntryType fromName(String name) {
         name = name.toLowerCase();
         for(EntryType entryType: EntryType.values()) {
@@ -72,6 +77,11 @@ public enum EntryType {
         return primaryColumn;
     }
 
+    /**
+     * Get column by name
+     * @param name
+     * @return
+     */
     public IColumn getColumn(String name) {
         for(IColumn column: columns()) {
             if(column.name().equals(name)) {
@@ -107,6 +117,10 @@ public enum EntryType {
         return cols;
     }
 
+    /**
+     * Get default column for order
+     * @return
+     */
     public IColumn defaultOrderColumn() {
         switch (this)
         {

@@ -88,11 +88,20 @@ public class User {
         onUserInfoChangeListener = listener;
     }
 
+    /**
+     * Get last sync time
+     * @return
+     */
     public Date getLastSyncTime() {
         if(dbVersion != DbHelper.DATABASE_VERSION) return new Date(0);
         return lastSyncTime;
     }
 
+    /**
+     * Get last sync time as string
+     * @param context
+     * @return
+     */
     public String getLastSyncTimeStr(Context context) {
         Calendar now = Calendar.getInstance();
         now.setTime(new Date());
@@ -103,20 +112,38 @@ public class User {
                 : context.getString(R.string.text_long_datetime_format)).format(lastSyncTime);
     }
 
+    /**
+     * Set database version
+     * @param version
+     * @return
+     */
     public User setDbVersion(int version) {
         this.dbVersion = version;
         return this;
     }
 
+    /**
+     * Get database version for this user
+     * @return
+     */
     public int getDbVersion() {
         return dbVersion;
     }
 
+    /**
+     * Get last sync time
+     * @param load
+     * @return
+     */
     public Date getLastSyncTime(boolean load) {
         if(load) setLastSyncTime(new Date(this.userPreferences.getLong(LAST_SYNC_TIME, 0)));
         return lastSyncTime;
     }
 
+    /**
+     * Set sync time
+     * @param syncTime
+     */
     public void setSyncTime(Date syncTime) {
         this.dbVersion = DbHelper.DATABASE_VERSION;
         this.lastSyncTime = syncTime;
@@ -276,6 +303,11 @@ public class User {
         return account;
     }
 
+    /**
+     * Get account
+     * @param load
+     * @return
+     */
     public String getAccount(boolean load) {
         if(load) {
             setAccount(this.userPreferences.getString(ACCOUNT, null));
@@ -418,7 +450,7 @@ public class User {
     }
 
     /**
-     * Passwrod setter
+     * Password setter
      * @param password
      * @param saveData
      */
@@ -438,6 +470,11 @@ public class User {
         return this;
     }
 
+    /**
+     * Set password
+     * @param password
+     * @return
+     */
     public User setPassword(String password) {
         return setPassword(password, true);
     }
@@ -487,18 +524,9 @@ public class User {
         setStatus(Status.Offline);
     }
 
-//    /**
-//     * Constructor with account, address, passwordMD5 and userPreferences
-//     * @param account
-//     * @param address
-//     * @param passwordMD5
-//     */
-//    public User(String account, String address, String passwordMD5, UserPreferences userPreferences) {
-//        this.userPreferences = userPreferences;
-//        this.userPreferences.setIdentify(getAccount());
-//        this.setAccount(account, false).setPasswordMD5(passwordMD5, false).setAddress(address);
-//    }
-
+    /**
+     * Load data from userPreferences
+     */
     public void load() {
         if(lastChangeTime > lastLoadTime) {
             this.setAccount(this.userPreferences.getString(ACCOUNT, null), false)

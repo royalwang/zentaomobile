@@ -3,6 +3,7 @@ package com.cnezsoft.zentao;
 import android.content.Context;
 
 /**
+ * App navs
  * Created by Catouse on 2015/1/28.
  */
 public enum AppNav {
@@ -15,10 +16,19 @@ public enum AppNav {
 
     private final int position;
 
+    /**
+     * Get position
+     * @return
+     */
     public int getPosition() {
         return position;
     }
 
+    /**
+     * Get text
+     * @param context
+     * @return
+     */
     public String text(Context context) {
         return ZentaoApplication.getEnumText(context, this);
     }
@@ -27,6 +37,11 @@ public enum AppNav {
         this.position = position;
     }
 
+    /**
+     * Get nav from position
+     * @param position
+     * @return
+     */
     public static AppNav fromPosition(int position) {
         for(AppNav nav: AppNav.values()) {
             if(nav.getPosition() == position)
@@ -35,6 +50,10 @@ public enum AppNav {
         return null;
     }
 
+    /**
+     * Convert nav to dashboard nav
+     * @return
+     */
     public DashboardNav toDashboardNav() {
         switch (this) {
             case todo:

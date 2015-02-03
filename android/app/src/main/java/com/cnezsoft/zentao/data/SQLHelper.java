@@ -3,6 +3,7 @@ package com.cnezsoft.zentao.data;
 import java.util.ArrayList;
 
 /**
+ * SQL helpers
  * Created by Catouse on 2015/1/15.
  */
 public class SQLHelper {

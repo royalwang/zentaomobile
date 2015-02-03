@@ -30,7 +30,6 @@ public class EntryListFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         IPageTab page = pageTab.tabs()[position];
-        Log.v("PAGE ADAPTER", "getItem " + position + ":" + page);
         return EntryListViewFragment.newInstance(page);
     }
 
@@ -45,7 +44,6 @@ public class EntryListFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         IPageTab page = pageTab.tabs()[position];
-        Log.v("PAGE ADAPTER", "getPageTitle " + position + ":" + page);
         return ZentaoApplication.getEnumText(context, (Enum) page);
     }
 }

@@ -18,6 +18,11 @@ public enum TodoColumn implements IColumn {
     idvalue(DataType.INT),
     desc(DataType.STRING);
 
+    /**
+     * Get text
+     * @param context
+     * @return
+     */
     @Override
     public String text(Context context) {
         return ZentaoApplication.getEnumText(context, this);
@@ -71,7 +76,10 @@ public enum TodoColumn implements IColumn {
         this.dataType = dataType;
     }
 
-
+    /**
+     * Get primary column
+     * @return
+     */
     public static TodoColumn primary() {
         for(TodoColumn column: values()) {
             if(column.isPrimaryKey()) {
