@@ -1,6 +1,10 @@
 package com.cnezsoft.zentao;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -96,7 +100,7 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         LinearLayout view = (LinearLayout) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
@@ -127,6 +131,17 @@ public class NavigationDrawerFragment extends Fragment {
 
         // Bind event
         bindMenuEvents(view);
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Synchronizer.MESSAGE_OUT_SYNC);
+        getActivity().registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if(intent.getAction().equals(Synchronizer.MESSAGE_OUT_SYNC)) {
+                    updateUserInfo();
+                }
+            }
+        }, intentFilter);
 
         return view;
     }
@@ -200,7 +215,8 @@ public class NavigationDrawerFragment extends Fragment {
         buttonSyncNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateUserInfo();
+                Intent intent = new Intent(Synchronizer.MESSAGE_IN_SYNC);
+                getActivity().sendBroadcast(intent);
             }
         });
     }
