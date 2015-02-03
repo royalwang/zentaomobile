@@ -1,11 +1,15 @@
 package com.cnezsoft.zentao;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.cnezsoft.zentao.data.Bug;
 import com.cnezsoft.zentao.data.DAO;
 import com.cnezsoft.zentao.data.DataEntry;
+import com.cnezsoft.zentao.data.DataEntryFactory;
 import com.cnezsoft.zentao.data.EntryType;
 import com.cnezsoft.zentao.data.Story;
 import com.cnezsoft.zentao.data.Task;
@@ -17,6 +21,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -26,7 +31,12 @@ import java.util.TimerTask;
  *
  * Created by Catouse on 2015/1/19.
  */
-public class Synchronizer {
+public class Synchronizer extends BroadcastReceiver {
+    public static final String MESSAGE_IN_SYNC = "com.cnezsoft.zentao.MESSAGE_IN_SYNC";
+    public static final String MESSAGE_OUT_SYNC = "com.cnezsoft.zentao.MESSAGE_OUT_SYNC";
+    public static final String MESSAGE_IN_GET_ENTRY = "com.cnezsoft.zentao.MESSAGE_IN_GET_ENTRY";
+    public static final String MESSAGE_OUT_GET_ENTRY = "com.cnezsoft.zentao.MESSAGE_OUT_GET_ENTRY";
+
     private Context context;
     private User user;
     private ZentaoConfig zentaoConfig;
@@ -51,7 +61,7 @@ public class Synchronizer {
      * Sync data
      * @return
      */
-    public boolean sync() {
+    public boolean sync(EntryType entryType) {
         User.Status userStatus = user.getStatus();
         Log.v("SYNC", "userStatus: " + userStatus.toString());
         if(userStatus == User.Status.Offline) {
@@ -77,7 +87,7 @@ public class Synchronizer {
 
         Date thisSyncTime = new Date();
 
-        OperateBundle<Boolean, JSONObject> result = ZentaoAPI.getDataList(zentaoConfig, user);
+        OperateBundle<Boolean, JSONObject> result = ZentaoAPI.getDataList(zentaoConfig, user, entryType);
         if(result.getResult()) {
             JSONObject data = result.getValue();
             Log.v("SYNC", "success: " + result.getMessage() + ", data: " + (data != null ? data.toString() : "no data."));
@@ -95,6 +105,61 @@ public class Synchronizer {
 
         Log.v("SYNC", "result: " + "false");
         return false;
+    }
+
+    /**
+     * Sync data
+     * @return
+     */
+    public boolean sync() {
+        return sync(EntryType.Default);
+    }
+
+    public DataEntry getEntry(EntryType entryType, String id) {
+        User.Status userStatus = user.getStatus();
+        Log.v("SYNC", "getEntry " + entryType + ":" + id);
+        Log.v("SYNC", "userStatus: " + userStatus.toString());
+        if(userStatus == User.Status.Offline) {
+            Long thisLoginTime = new Date().getTime();
+            if((thisLoginTime - lastLoginTime) < maxLoginInterval) {
+                Log.w("SYNC", "Login required, but abort this time to prevent server lock.");
+                return null;
+            } else {
+                lastLoginTime = thisLoginTime;
+            }
+            Log.v("SYNC", "The user is offline, now login again.");
+            ZentaoApplication application = (ZentaoApplication) context.getApplicationContext();
+            if(application.login()) {
+                user = application.getUser();
+                zentaoConfig = application.getZentaoConfig();
+            } else {
+                return null;
+            }
+        } else if(userStatus == User.Status.Unknown) {
+            Log.w("SYNC", "Unknown user, sync stopped!");
+            return null;
+        }
+
+        OperateBundle<Boolean, JSONObject> result = ZentaoAPI.getDataItem(zentaoConfig, user, entryType, id);
+        if(result.getResult()) {
+            JSONObject data = result.getValue();
+            Log.v("SYNC", "success: " + result.getMessage() + ", data: " + (data != null ? data.toString() : "no data."));
+
+            if(data != null) {
+                final DataEntry entry = DataEntryFactory.create(entryType, data);
+                entry.setLastSyncTime();
+                DAO dao = new DAO(context);
+                OperateResult<Boolean> daoResult = dao.save(new HashSet<DataEntry>(1){{add(entry);}});
+                dao.close();
+                Log.v("SYNC", daoResult.toString());
+                return entry;
+            }
+
+            return null;
+        }
+
+        Log.v("SYNC", "result: false, message: " + result.getMessage());
+        return null;
     }
 
     /**
@@ -189,7 +254,10 @@ public class Synchronizer {
             timerTask = new TimerTask() {
                 @Override
                 public void run() {
-                    sync();
+                    Intent intent = new Intent(MESSAGE_OUT_SYNC);
+                    intent.putExtra("result", sync());
+                    intent.putExtra("auto", true);
+                    context.sendBroadcast(intent);
                 }
             };
 
@@ -207,4 +275,60 @@ public class Synchronizer {
             timer.purge();
         }
     }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        Log.v("SYNC", "onReceive: " + intent.getAction());
+        new HandleMessage().execute(intent);
+    }
+
+    /**
+     * The async task for login in Zentao server
+     */
+    private class HandleMessage extends AsyncTask<Intent, Integer, Intent> {
+
+        private String action;
+
+        protected Intent doInBackground(Intent... intents) {
+            Intent intent = intents[0];
+            Intent intentOut = null;
+            String entryTypeStr;
+            action = intent.getAction();
+            switch (action) {
+                case MESSAGE_IN_SYNC:
+                    EntryType entryType = EntryType.Default;
+                    entryTypeStr = intent.getStringExtra("type");
+                    if(entryTypeStr != null) {
+                        entryType = EntryType.valueOf(entryTypeStr);
+                    }
+                    intentOut = new Intent(MESSAGE_OUT_SYNC);
+                    intentOut.putExtra("result", sync(entryType));
+                    break;
+                case MESSAGE_IN_GET_ENTRY:
+                    DataEntry entry = null;
+                    entryTypeStr = intent.getStringExtra("type");
+                    String id = intent.getStringExtra("id");
+                    if(entryTypeStr != null && id != null) {
+                        entry = getEntry(EntryType.valueOf(entryTypeStr), id);
+                    }
+
+                    intentOut = new Intent(MESSAGE_OUT_GET_ENTRY);
+                    intentOut.putExtra("result", entry != null);
+                    break;
+            }
+            return intentOut;
+        }
+
+        protected void onPostExecute(Intent intent) {
+            if(intent != null) {
+                try {
+                    ZentaoActivity zentaoActivity = (ZentaoActivity) context;
+                    zentaoActivity.onReceiveMessage(intent);
+                } catch (ClassCastException e) {
+                    context.sendBroadcast(intent);
+                }
+            }
+        }
+    }
+
 }

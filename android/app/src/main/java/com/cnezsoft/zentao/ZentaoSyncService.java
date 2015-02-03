@@ -2,6 +2,7 @@ package com.cnezsoft.zentao;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -16,10 +17,18 @@ public class ZentaoSyncService extends Service {
      */
     @Override
     public void onCreate() {
-
         super.onCreate();
-        syncer = new Synchronizer(this);
+        if(syncer == null) {
+            syncer = new Synchronizer(this);
+        }
         syncer.start();
+
+        // Register receiver
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Synchronizer.MESSAGE_IN_GET_ENTRY);
+        intentFilter.addAction(Synchronizer.MESSAGE_IN_SYNC);
+        registerReceiver(syncer, intentFilter);
+
         Log.v("SYNC", "Zentao sync server is running.");
     }
 

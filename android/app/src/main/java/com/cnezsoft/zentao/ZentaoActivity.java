@@ -1,6 +1,7 @@
 package com.cnezsoft.zentao;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,5 +31,9 @@ public class ZentaoActivity extends ActionBarActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.setStatusBarColor(swatch.color(MaterialColorName.C500).value());
+    }
+
+    protected void onReceiveMessage(Intent intent) {
+
     }
 }
