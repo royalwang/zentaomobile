@@ -12,8 +12,6 @@ import com.cnezsoft.zentao.data.Bug;
 import com.cnezsoft.zentao.data.Story;
 import com.cnezsoft.zentao.data.Task;
 import com.cnezsoft.zentao.data.Todo;
-import com.joanzapata.android.iconify.IconDrawable;
-import com.joanzapata.android.iconify.Iconify;
 
 
 public class ListActivity extends ZentaoActivity
@@ -43,10 +41,6 @@ public class ListActivity extends ZentaoActivity
      * Restore action bar
      */
     public void restoreActionBar(Menu menu) {
-        // set icon to menu items
-        menu.getItem(0).setIcon(new IconDrawable(this, Iconify.IconValue.fa_search){{
-            sizeRes(R.dimen.action_bar_icon_size); colorRes(R.color.icons);}});
-
         ActionBar actionBar = getSupportActionBar();
 
         actionBar.setDisplayShowTitleEnabled(false);

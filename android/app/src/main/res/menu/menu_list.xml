@@ -4,5 +4,6 @@
     tools:context="com.cnezsoft.zentao.ListActivity">
     <item android:id="@+id/action_search"
         android:title="@string/action_search"
+        app:actionViewClass="android.widget.SearchView"
         app:showAsAction="ifRoom" />
 </menu>
