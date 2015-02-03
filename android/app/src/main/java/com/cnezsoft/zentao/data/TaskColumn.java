@@ -43,7 +43,9 @@ public enum TaskColumn implements IColumn{
     doc(DataType.STRING),
     mailto(DataType.STRING),
     closeReason(DataType.ENUM),
-    storyVersion(DataType.INT);
+    storyVersion(DataType.INT),
+
+    lastSyncTime(DataType.DATETIME);
 
     private final DataType dataType;
     private boolean isNullable = true;

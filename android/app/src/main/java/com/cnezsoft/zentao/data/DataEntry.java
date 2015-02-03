@@ -167,6 +167,16 @@ public class DataEntry {
         }
     }
 
+    public Date getLastSyncTime() {
+        Long dateValue = values.getAsLong("lastSyncTime");
+        if(dateValue == null) dateValue = 0l;
+        return new Date(dateValue);
+    }
+
+    public void setLastSyncTime() {
+        values.put("lastSyncTime", new Date(0).getTime());
+    }
+
     /**
      * Get attribute value as string
      * @param col

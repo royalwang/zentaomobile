@@ -16,7 +16,9 @@ public enum TodoColumn implements IColumn {
     name(DataType.STRING),
     status(DataType.ENUM),
     idvalue(DataType.INT),
-    desc(DataType.STRING);
+    desc(DataType.STRING),
+
+    lastSyncTime(DataType.DATETIME);
 
     /**
      * Get text

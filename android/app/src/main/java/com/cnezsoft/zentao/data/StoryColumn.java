@@ -40,7 +40,9 @@ public enum StoryColumn implements IColumn{
     toBug(DataType.INT),
     mailto(DataType.STRING),
     spec(DataType.STRING),
-    verify(DataType.STRING);
+    verify(DataType.STRING),
+
+    lastSyncTime(DataType.DATETIME);
 
     private final DataType dataType;
     private boolean isNullable = true;
