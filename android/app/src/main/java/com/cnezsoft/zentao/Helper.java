@@ -1,16 +1,32 @@
 package com.cnezsoft.zentao;
 
+import android.content.Context;
+
 import org.json.JSONArray;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
+import static android.util.TypedValue.COMPLEX_UNIT_DIP;
+import static android.util.TypedValue.applyDimension;
+
 /**
  * Helper functions
  * Created by Catouse on 2015/1/13.
  */
 public class Helper {
+
+    /**
+     * Convert dp to px
+     * @param context
+     * @param dp
+     * @return
+     */
+    static int convertDpToPx(Context context, float dp) {
+        return (int) applyDimension(COMPLEX_UNIT_DIP, dp,
+                context.getResources().getDisplayMetrics());
+    }
 
     /**
      * Return a fallback value if the given var is null, otherwise return itself
