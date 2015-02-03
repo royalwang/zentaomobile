@@ -224,6 +224,34 @@ public class ZentaoAPI
         return result.toOperateBundle(config);
     }
 
+    public static OperateBundle<Boolean, JSONObject> getDataItem(ZentaoConfig config, User user, EntryType entryType, String id) {
+        Map<String, String> parmas = new HashMap<>();
+        parmas.put("module", "api");
+        parmas.put("method", "mobileGetInfo");
+        parmas.put("type", entryType.name().toLowerCase());
+        parmas.put("id", id);
+
+        JSONObject json = Http.getJSON(concatUrl(parmas, config, user), GZIP_REQUEST);
+        boolean result;
+        String message;
+        if(json != null) {
+            String status = json.optString("status", "failed");
+            result = status.equals("success");
+            message = json.optString("reason");
+
+            if(result) {
+                json = json.optJSONObject("data");
+                if(json == null && Helper.isNullOrEmpty(message)) {
+                    message = "No new data. ";
+                }
+            }
+        } else {
+            result = false;
+            message = "Cant' get data from remote server.";
+        }
+        return new OperateBundle<>(result, message, json);
+    }
+
     /**
      * Get data list
      * @param config
@@ -241,7 +269,7 @@ public class ZentaoAPI
         JSONObject json;
         boolean result;
         String message;
-        Map<String, String> parmas = new HashMap<String, String>();
+        Map<String, String> parmas = new HashMap<>();
         Date lastSyncTime = user.getLastSyncTime();
         parmas.put("module", "api");
         parmas.put("method", "mobileGetList");
@@ -300,7 +328,7 @@ public class ZentaoAPI
      */
     public static OperateBundle<Boolean, JSONObject> getDataList(ZentaoConfig config,
             User user, EntryType entryType) {
-        return getDataList(config, user, "increment", entryType, 0, 500, "index", false);
+        return getDataList(config, user, "increment", entryType, 0, 1000, "index", false);
     }
 
     /**
