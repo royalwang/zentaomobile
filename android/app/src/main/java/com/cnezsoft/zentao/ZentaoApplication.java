@@ -114,6 +114,9 @@ public class ZentaoApplication extends Application {
         switch (nav) {
             case home:
                 intent = new Intent(activity, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                        Intent.FLAG_ACTIVITY_NEW_TASK);
                 break;
             case todo:
             case task:
