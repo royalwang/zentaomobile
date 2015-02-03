@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.support.v13.app.FragmentPagerAdapter;
+import android.util.Log;
 
 import com.cnezsoft.zentao.data.IPageTab;
 
@@ -28,7 +29,9 @@ public class EntryListFragmentPagerAdapter extends FragmentPagerAdapter {
      */
     @Override
     public Fragment getItem(int position) {
-        return EntryListViewFragment.newInstance(pageTab.tabs()[position]);
+        IPageTab page = pageTab.tabs()[position];
+        Log.v("PAGE ADAPTER", "getItem " + position + ":" + page);
+        return EntryListViewFragment.newInstance(page);
     }
 
     /**
@@ -41,6 +44,8 @@ public class EntryListFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return ZentaoApplication.getEnumText(context, (Enum) pageTab.tabs()[position]);
+        IPageTab page = pageTab.tabs()[position];
+        Log.v("PAGE ADAPTER", "getPageTitle " + position + ":" + page);
+        return ZentaoApplication.getEnumText(context, (Enum) page);
     }
 }

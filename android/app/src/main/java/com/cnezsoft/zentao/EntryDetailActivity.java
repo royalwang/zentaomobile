@@ -65,7 +65,7 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // get argments from intent
+        // get arguments from intent
         Intent intent = getIntent();
         if(intent == null) {
             throw new NullPointerException("Can't get intent object.");

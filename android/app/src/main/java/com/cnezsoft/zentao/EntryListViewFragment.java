@@ -262,7 +262,11 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
             entryType = EntryType.fromName(args.getString(EntryListFragment.ENTRY_TYPE));
             pageTab = entryType.getTab(args.getString(EntryListFragment.PAGE_TAB));
         }
+    }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         initAdapter();
         getLoaderManager().initLoader(entryType.ordinal(), null, this);
     }
