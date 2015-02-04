@@ -180,7 +180,8 @@ public class Synchronizer extends BroadcastReceiver {
         EntryType entryType;
         DataEntry entry;
         JSONObject data;
-        JSONArray set, deletes;
+        JSONArray set;
+        JSONArray deletes;
         String[] keys;
         int setLength;
         Iterator<String> names = jsonData.keys();
@@ -201,7 +202,10 @@ public class Synchronizer extends BroadcastReceiver {
                 try {
                     deletes = data.getJSONArray("delete");
                     for(int i = 0; i < deletes.length(); ++i) {
-                        entries.add(new DataEntry(entryType) {{markDeleting();}});
+                        entry = new DataEntry(entryType);
+                        entry.key(deletes.getInt(i) + "");
+                        entry.markDeleting();
+                        entries.add(entry);
                     }
                 } catch (JSONException e) {
                 }
@@ -293,13 +297,11 @@ public class Synchronizer extends BroadcastReceiver {
      */
     private class HandleMessage extends AsyncTask<Intent, Integer, Intent> {
 
-        private String action;
-
         protected Intent doInBackground(Intent... intents) {
             Intent intent = intents[0];
             Intent intentOut = null;
             String entryTypeStr;
-            action = intent.getAction();
+            String action = intent.getAction();
             switch (action) {
                 case MESSAGE_IN_SYNC:
                     EntryType entryType = EntryType.Default;

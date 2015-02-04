@@ -118,8 +118,9 @@ public class DataEntry {
     }
 
     public boolean deleting() {
-        Boolean result = values.getAsBoolean("deleting");
-        return result != null && result == true;
+        Boolean deleteValue = values.getAsBoolean("deleting");
+        if(deleteValue != null) return deleteValue;
+        return false;
     }
 
     public int getAccentPri() {
@@ -150,6 +151,10 @@ public class DataEntry {
      */
     public String key() {
         return getAsString(type.primaryKey());
+    }
+
+    public void key(String kValue) {
+        values.put(keyName(), kValue);
     }
 
     /**
@@ -581,7 +586,12 @@ public class DataEntry {
                         jsonStringer.value(getAsLong(column));
                         break;
                     case DATETIME:
-                        jsonStringer.value(new Date(getAsLong(column)));
+                        Long dateValue = getAsLong(column);
+                        if(dateValue != null) {
+                            jsonStringer.value(new Date());
+                        } else {
+                            jsonStringer.value(0);
+                        }
                         break;
                     case INT:
                         jsonStringer.value(getAsInteger(column));
@@ -603,7 +613,7 @@ public class DataEntry {
                 }
             }
 
-            return jsonStringer.endObject().toString();
+            return jsonStringer.key("deleting").value(values.get("deleting")).endObject().toString();
         } catch (JSONException e) {
             e.printStackTrace();
             return "{}";
