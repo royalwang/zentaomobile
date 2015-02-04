@@ -23,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.cnezsoft.zentao.colorswatch.MaterialColorName;
 import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
 import com.cnezsoft.zentao.data.Bug;
 import com.cnezsoft.zentao.data.BugColumn;
@@ -256,7 +257,7 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
     @Override
     protected void setAccentSwatch(MaterialColorSwatch swatch) {
         super.setAccentSwatch(swatch);
-        findViewById(R.id.entry_detail_heading).setBackgroundColor(swatch.primary().value());
+        findViewById(R.id.entry_detail_heading).setBackgroundColor(swatch.color(MaterialColorName.C600).value());
     }
 
     private void displayEntry() {

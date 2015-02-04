@@ -1,7 +1,5 @@
 package com.cnezsoft.zentao.colorswatch;
 
-import android.util.Log;
-
 import java.util.HashMap;
 
 /**
@@ -50,7 +48,7 @@ public enum MaterialColorSwatch {
     public static final MaterialColorSwatch[] PriAccentSwatches = new MaterialColorSwatch[]{
             Grey,
             Red,
-            Orange,
+            DeepOrange,
             Purple,
             Blue
     };

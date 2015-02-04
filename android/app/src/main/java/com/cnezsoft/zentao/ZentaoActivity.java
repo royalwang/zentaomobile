@@ -26,11 +26,11 @@ public class ZentaoActivity extends ActionBarActivity {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     protected void setAccentSwatch(MaterialColorSwatch swatch) {
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(swatch.primary().value()));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(swatch.color(MaterialColorName.C600).value()));
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(swatch.color(MaterialColorName.C500).value());
+        window.setStatusBarColor(swatch.color(MaterialColorName.C600).value());
     }
 
     protected void onReceiveMessage(Intent intent) {
