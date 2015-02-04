@@ -133,6 +133,22 @@ public class NavigationDrawerFragment extends Fragment {
         // Bind event
         bindMenuEvents(view);
 
+
+
+        return view;
+    }
+
+    @Override
+    public void onPause() {
+        if(syncReceiver != null) {
+            getActivity().unregisterReceiver(syncReceiver);
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Synchronizer.MESSAGE_OUT_SYNC);
         if(syncReceiver == null) {
@@ -147,14 +163,6 @@ public class NavigationDrawerFragment extends Fragment {
         }
 
         getActivity().registerReceiver(syncReceiver, intentFilter);
-
-        return view;
-    }
-
-    @Override
-    public void onStop() {
-        getActivity().unregisterReceiver(syncReceiver);
-        super.onStop();
     }
 
     /**
