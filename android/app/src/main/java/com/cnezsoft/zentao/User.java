@@ -88,6 +88,24 @@ public class User {
         onUserInfoChangeListener = listener;
     }
 
+    public String getHelloText(Context context) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        int hour = calendar.get(Calendar.HOUR);
+        int resId = 0;
+
+        if(hour < 11) {
+            resId = R.string.text_hello_morning;
+        } else if(hour < 14) {
+            resId = R.string.text_hello_noon;
+        } else if(hour < 18) {
+            resId = R.string.text_hello_afternoon;
+        } else {
+            resId = R.string.text_hello_night;
+        }
+        return String.format(context.getResources().getString(resId), getRealname());
+    }
+
     /**
      * Get last sync time
      * @return

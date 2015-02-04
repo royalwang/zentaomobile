@@ -18,21 +18,348 @@
         android:clickable="false"
         android:padding="0dp">
 
-        <Button
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="查询数据库"
-            android:onClick="showDatabase"
-            android:layout_gravity="center" />
+            android:layout_gravity="center_horizontal"
+            android:background="@color/primary"
+            android:paddingTop="@dimen/content_vertical_margin">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Hello, world!"
+                android:id="@+id/text_hello_user"
+                android:textColor="@color/white"
+                android:layout_marginLeft="80dp"
+                android:layout_marginRight="@dimen/content_horizontal_margin"
+                android:layout_marginTop="@dimen/content_vertical_margin"
+                android:layout_marginBottom="@dimen/content_vertical_margin" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/container_summery_list"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                style="@style/transparentButton"
+                android:tag="container_summery_todo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:padding="16dp"
+                android:clickable="true"
+                android:onClick="openListActivity">
+                <android.widget.IconTextView
+                    android:tag="icon_summery"
+                    android:textColor="@color/blue_A400"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:textSize="36dp"
+                    android:gravity="center"
+                    android:text="{fa-check-square-o}"
+                    android:layout_alignParentStart="false"
+                    android:id="@+id/icon_todo" />
+
+                <TextView
+                    android:tag="text_summery_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="待办"
+                    android:id="@+id/text_todo_heading"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/icon_todo"
+                    android:layout_marginLeft="16dp" />
+
+                <TextView
+                    android:tag="text_summery_newest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/secondary_text"
+                    android:id="@+id/text_todo_newest"
+                    android:ellipsize="end"
+                    android:singleLine="false"
+                    android:maxLines="1"
+                    android:layout_below="@+id/text_todo_heading"
+                    android:layout_alignStart="@+id/text_todo_heading"
+                    android:layout_marginTop="8dp"
+                    android:layout_toStartOf="@+id/text_todo_number"
+                    android:layout_marginRight="8dp"
+                    android:nestedScrollingEnabled="true"
+                    android:text="..." />
+
+                <TextView
+                    android:tag="text_summery_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="0"
+                    android:textSize="30dp"
+                    android:textColor="@color/blue_500"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/text_todo_number"
+                    android:layout_marginTop="-4dp" />
+
+                <TextView
+                    android:tag="text_summery_number_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:text="未完成"
+                    android:textColor="@color/secondary_text"
+                    android:id="@+id/text_todo_number_name"
+                    android:layout_alignTop="@+id/text_todo_newest"
+                    android:layout_alignEnd="@+id/text_todo_number"
+                    android:layout_marginTop="2dp" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider"/>
+
+            <RelativeLayout
+                style="@style/transparentButton"
+                android:tag="container_summery_task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:padding="16dp"
+                android:clickable="true"
+                android:onClick="openListActivity">
+                <android.widget.IconTextView
+                    android:tag="icon_summery"
+                    android:textColor="@color/blue_A400"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:textSize="36dp"
+                    android:gravity="center"
+                    android:text="{fa-tasks}"
+                    android:layout_alignParentStart="false"
+                    android:id="@+id/icon_task" />
+
+                <TextView
+                    android:tag="text_summery_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="任务"
+                    android:id="@+id/text_task_heading"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/icon_task"
+                    android:layout_marginLeft="16dp" />
+
+                <TextView
+                    android:tag="text_summery_newest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="..."
+                    android:textColor="@color/secondary_text"
+                    android:id="@+id/text_task_newest"
+                    android:ellipsize="end"
+                    android:singleLine="false"
+                    android:maxLines="1"
+                    android:layout_below="@+id/text_task_heading"
+                    android:layout_alignStart="@+id/text_task_heading"
+                    android:layout_marginTop="8dp"
+                    android:layout_toStartOf="@+id/text_task_number_name"
+                    android:layout_marginRight="8dp" />
+
+                <TextView
+                    android:tag="text_summery_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="0"
+                    android:textSize="30dp"
+                    android:textColor="@color/blue_500"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/text_task_number"
+                    android:layout_marginTop="-4dp" />
+
+                <TextView
+                    android:tag="text_summery_number_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:text="指派给我"
+                    android:textColor="@color/secondary_text"
+                    android:id="@+id/text_task_number_name"
+                    android:layout_alignTop="@+id/text_task_newest"
+                    android:layout_alignEnd="@+id/text_task_number"
+                    android:layout_marginTop="2dp" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider"/>
+
+            <RelativeLayout
+                style="@style/transparentButton"
+                android:tag="container_summery_bug"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:padding="16dp"
+                android:clickable="true"
+                android:onClick="openListActivity">
+                <android.widget.IconTextView
+                    android:tag="icon_summery"
+                    android:textColor="@color/blue_A400"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:textSize="36dp"
+                    android:gravity="center"
+                    android:text="{fa-bug}"
+                    android:layout_alignParentStart="false"
+                    android:id="@+id/icon_bug" />
+
+                <TextView
+                    android:tag="text_summery_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Bug"
+                    android:id="@+id/text_bug_heading"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/icon_bug"
+                    android:layout_marginLeft="16dp" />
+
+                <TextView
+                    android:tag="text_summery_newest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="..."
+                    android:textColor="@color/secondary_text"
+                    android:id="@+id/text_bug_newest"
+                    android:ellipsize="end"
+                    android:singleLine="false"
+                    android:maxLines="1"
+                    android:layout_below="@+id/text_bug_heading"
+                    android:layout_alignStart="@+id/text_bug_heading"
+                    android:layout_marginTop="8dp"
+                    android:layout_toStartOf="@+id/text_bug_number_name"
+                    android:layout_marginRight="8dp" />
+
+                <TextView
+                    android:tag="text_summery_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="0"
+                    android:textSize="30dp"
+                    android:textColor="@color/blue_500"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/text_bug_number"
+                    android:layout_marginTop="-4dp" />
+
+                <TextView
+                    android:tag="text_summery_number_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:text="指派给我"
+                    android:textColor="@color/secondary_text"
+                    android:id="@+id/text_bug_number_name"
+                    android:layout_alignTop="@+id/text_bug_newest"
+                    android:layout_alignEnd="@+id/text_bug_number"
+                    android:layout_marginTop="2dp" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider"/>
+
+            <RelativeLayout
+                style="@style/transparentButton"
+                android:tag="container_summery_story"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:padding="16dp"
+                android:clickable="true"
+                android:onClick="openListActivity">
+                <android.widget.IconTextView
+                    android:tag="icon_summery"
+                    android:textColor="@color/blue_A400"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:textSize="36dp"
+                    android:gravity="center"
+                    android:text="{fa-lightbulb-o}"
+                    android:layout_alignParentStart="false"
+                    android:id="@+id/icon_story" />
+
+                <TextView
+                    android:tag="text_summery_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="需求"
+                    android:id="@+id/text_story_heading"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/icon_story"
+                    android:layout_marginLeft="16dp" />
+
+                <TextView
+                    android:tag="text_summery_newest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="..."
+                    android:textColor="@color/secondary_text"
+                    android:id="@+id/text_story_newest"
+                    android:ellipsize="end"
+                    android:singleLine="false"
+                    android:maxLines="1"
+                    android:layout_below="@+id/text_story_heading"
+                    android:layout_alignStart="@+id/text_story_heading"
+                    android:layout_marginTop="8dp"
+                    android:layout_toStartOf="@+id/text_story_number_name"
+                    android:layout_marginRight="8dp" />
+
+                <TextView
+                    android:tag="text_summery_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="0"
+                    android:textSize="30dp"
+                    android:textColor="@color/blue_500"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/text_story_number"
+                    android:layout_marginTop="-4dp" />
+
+                <TextView
+                    android:tag="text_summery_number_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:text="指派给我"
+                    android:textColor="@color/secondary_text"
+                    android:id="@+id/text_story_number_name"
+                    android:layout_alignTop="@+id/text_story_newest"
+                    android:layout_alignEnd="@+id/text_story_number"
+                    android:layout_marginTop="2dp" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider"/>
+        </LinearLayout>
+
     </LinearLayout>
 
-    <!-- android:layout_gravity="start" tells DrawerLayout to treat
-         this as a sliding drawer on the left side for left-to-right
-         languages and on the right side for right-to-left languages.
-         If you're not building against API 17 or higher, use
-         android:layout_gravity="left" instead. -->
-    <!-- The drawer is given a fixed width in dp and extends the full height of
-         the container. -->
     <fragment android:id="@+id/navigation_drawer"
         android:layout_width="@dimen/navigation_drawer_width" android:layout_height="match_parent"
         android:layout_gravity="start" android:name="com.cnezsoft.zentao.NavigationDrawerFragment"

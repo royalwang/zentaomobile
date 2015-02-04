@@ -57,4 +57,8 @@
     <string name="text_story_from">来源：</string>
     <string name="action_loading">正在加载</string>
 
+    <string name="text_hello_morning">%s，上午好！</string>
+    <string name="text_hello_noon">%s，中午好！</string>
+    <string name="text_hello_afternoon">%s，下午好！</string>
+    <string name="text_hello_night">%s，晚上好！</string>
 </resources>

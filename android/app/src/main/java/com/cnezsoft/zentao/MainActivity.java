@@ -1,21 +1,31 @@
 package com.cnezsoft.zentao;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cnezsoft.zentao.colorswatch.MaterialColorName;
 import com.cnezsoft.zentao.data.DAO;
 import com.cnezsoft.zentao.data.DataEntry;
 import com.cnezsoft.zentao.data.EntryType;
 import com.cnezsoft.zentao.data.Todo;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -26,6 +36,41 @@ public class MainActivity extends ZentaoActivity {
      * Used to store Zentao application context
      */
     private ZentaoApplication application;
+    private User user;
+    private LinearLayout summeryListContainer;
+    private BroadcastReceiver syncReceiver = null;
+    private IntentFilter intentFilter = null;
+
+    @Override
+    public void onPause() {
+        if(syncReceiver != null) {
+            this.unregisterReceiver(syncReceiver);
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(intentFilter == null) {
+            intentFilter = new IntentFilter();
+            intentFilter.addAction(Synchronizer.MESSAGE_OUT_SYNC);
+        }
+        Context context = this;
+
+        if(syncReceiver == null) {
+            syncReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    if(intent.getAction().equals(Synchronizer.MESSAGE_OUT_SYNC)) {
+                        new UpdateSummeries().execute(context);
+                    }
+                }
+            };
+        }
+
+        this.registerReceiver(syncReceiver, intentFilter);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +79,13 @@ public class MainActivity extends ZentaoActivity {
 
         // Check user status
         application = (ZentaoApplication) getApplicationContext();
+        user = application.getUser();
         application.checkUserStatus(this);
+
+        // hello to user
+        ((TextView) findViewById(R.id.text_hello_user)).setText(user.getHelloText(this));
+        summeryListContainer = (LinearLayout) findViewById(R.id.container_summery_list);
+        new UpdateSummeries().execute(this);
     }
 
     @Override
@@ -71,12 +122,55 @@ public class MainActivity extends ZentaoActivity {
         }
     }
 
-    /**
-     * Handle the click event: open the login activity
-     * @param view
-     */
-    public void openLoginActivity(View view) {
-        application.login(this, false);
+    private void updateSummeries(HashMap<EntryType, HashMap<String, String>> summeries) {
+        for(Map.Entry<EntryType, HashMap<String, String>> entry: summeries.entrySet()) {
+            EntryType type = entry.getKey();
+            HashMap<String, String> summery = entry.getValue();
+            ViewGroup summeryContainer = (ViewGroup) summeryListContainer.findViewWithTag("container_summery_" + type.name().toLowerCase());
+            if(summeryContainer != null) {
+                TextView iconView = (TextView) summeryContainer.findViewWithTag("icon_summery");
+                iconView.setText("{fa-" + type.icon() + "}");
+                iconView.setTextColor(type.accent().color(MaterialColorName.C500).value());
+
+                ((TextView) summeryContainer.findViewWithTag("text_summery_heading")).setText(ZentaoApplication.getEnumText(this, type));
+                ((TextView) summeryContainer.findViewWithTag("text_summery_newest")).setText(summery.get("newest"));
+
+                TextView numberView = (TextView) summeryContainer.findViewWithTag("text_summery_number");
+                numberView.setText(summery.get("count"));
+                numberView.setTextColor(type.accent().color(MaterialColorName.A700).value());
+            }
+        }
+    }
+
+    public void openListActivity(View view) {
+        switch (view.getTag().toString()) {
+            case "container_summery_todo":
+                application.openActivity(this, AppNav.todo);
+                break;
+            case "container_summery_task":
+                application.openActivity(this, AppNav.task);
+                break;
+            case "container_summery_bug":
+                application.openActivity(this, AppNav.bug);
+                break;
+            case "container_summery_story":
+                application.openActivity(this, AppNav.story);
+                break;
+        }
+    }
+
+    private class UpdateSummeries extends AsyncTask<Context, Integer, HashMap<EntryType, HashMap<String, String>>> {
+        @Override
+        protected HashMap<EntryType, HashMap<String, String>> doInBackground(Context... params) {
+            DAO dao = new DAO(params[0]);
+            return dao.getSummery(user.getAccount());
+        }
+
+        @Override
+        protected void onPostExecute(HashMap<EntryType, HashMap<String, String>> entryTypeHashMapHashMap) {
+            super.onPostExecute(entryTypeHashMapHashMap);
+            updateSummeries(entryTypeHashMapHashMap);
+        }
     }
 
     public void showDatabase(View view) {
