@@ -115,6 +115,12 @@ public class Synchronizer extends BroadcastReceiver {
         return sync(EntryType.Default);
     }
 
+    /**
+     * Get entry from server
+     * @param entryType
+     * @param id
+     * @return
+     */
     public DataEntry getEntry(EntryType entryType, String id) {
         User.Status userStatus = user.getStatus();
         Log.v("SYNC", "getEntry " + entryType + ":" + id);

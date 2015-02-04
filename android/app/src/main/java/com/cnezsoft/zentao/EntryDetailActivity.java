@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,6 +30,7 @@ import com.cnezsoft.zentao.data.DAO;
 import com.cnezsoft.zentao.data.DataEntry;
 import com.cnezsoft.zentao.data.DataEntryFactory;
 import com.cnezsoft.zentao.data.DataLoader;
+import com.cnezsoft.zentao.data.DataType;
 import com.cnezsoft.zentao.data.EntryType;
 import com.cnezsoft.zentao.data.IColumn;
 import com.cnezsoft.zentao.data.Story;
@@ -62,6 +62,7 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
     private int layout;
     private boolean firstLoad = true;
     private Menu menu = null;
+    private User user;
 
     protected EntryType setEntryType() {
         return EntryType.Default;
@@ -75,6 +76,8 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        user = ((ZentaoApplication) this.getApplicationContext()).getUser();
 
         // get arguments from intent
         Intent intent = getIntent();
@@ -265,12 +268,12 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
         // common attributes
         ViewGroup container = (ViewGroup) findViewById(R.id.entry_detail_container);
         TextView view;
-        String friendlyStr;
         for(IColumn column: entryType.columns()) {
             view = (TextView) container.findViewWithTag("entry_" + column.name());
             if(view != null) {
-                friendlyStr = entry.getFriendlyString(column);
-                if(friendlyStr != null) {
+                if(column.type() == DataType.HTML) {
+                    view.setText(entry.getHTML(column, user.getAddress()));
+                } else {
                     view.setText(entry.getFriendlyString(column));
                 }
             }
@@ -296,10 +299,6 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
             Todo.Status status = todo.getStatus();
             ((IconTextView) findViewById(R.id.text_entry_type)).setText("{fa-tag} "
                     + ZentaoApplication.getEnumText(this, todo.getTodoType()));
-            String desc = todo.getAsString(TodoColumn.desc);
-            if(desc != null) {
-                ((TextView) findViewById(R.id.text_entry_desc)).setText(Html.fromHtml(desc));
-            }
             TextView statusView = (TextView) findViewById(R.id.text_entry_status);
             statusView.setText(ZentaoApplication.getEnumText(this, status));
             TextView statusIconView = (TextView) findViewById(R.id.icon_entry_status);
@@ -318,10 +317,6 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
 
             ((IconTextView) findViewById(R.id.text_entry_type)).setText("{fa-folder-o} "
                     + ZentaoApplication.getEnumText(this, task.getTaskType()));
-            String desc = task.getAsString(TaskColumn.desc);
-            if(desc != null) {
-                ((TextView) findViewById(R.id.text_entry_desc)).setText(Html.fromHtml(desc));
-            }
 
             TextView statusView = (TextView) findViewById(R.id.text_entry_status);
             statusView.setText(ZentaoApplication.getEnumText(this, status));
@@ -356,11 +351,6 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
             ((IconTextView) findViewById(R.id.text_entry_type)).setText("{fa-folder-o} "
                     + ZentaoApplication.getEnumText(this, bug.getBugType()));
 
-            String desc = bug.getAsString(BugColumn.steps);
-            if(desc != null) {
-                ((TextView) findViewById(R.id.text_entry_desc)).setText(Html.fromHtml(desc));
-            }
-
             TextView statusView = (TextView) findViewById(R.id.text_entry_status);
             statusView.setText(ZentaoApplication.getEnumText(this, status));
             TextView statusIconView = (TextView) findViewById(R.id.icon_entry_status);
@@ -389,11 +379,6 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
 
             ((IconTextView) findViewById(R.id.text_entry_type)).setText("{fa-user} " + resources.getString(R.string.text_story_from)
                     + ZentaoApplication.getEnumText(this, story.getSource()));
-
-            String desc = story.getAsString(StoryColumn.spec);
-            if(desc != null) {
-                ((TextView) findViewById(R.id.text_entry_desc)).setText(Html.fromHtml(desc));
-            }
 
             ((TextView) findViewById(R.id.text_entry_stage)).setText(ZentaoApplication.getEnumText(this, story.getStage()));
 

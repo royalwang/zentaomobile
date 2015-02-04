@@ -2,6 +2,7 @@ package com.cnezsoft.zentao.data;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.util.Log;
 
@@ -13,6 +14,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
@@ -168,8 +171,45 @@ public class DataEntry {
         }
     }
 
+    public android.text.Spanned getHTML(IColumn col, final String addressPrefix) {
+        String html = getAsString(col);
+        if(Helper.isNullOrEmpty(html)) {
+            return Html.fromHtml("");
+        }
+
+        // todo handle exception: NetworkOnMainThreadException
+        if(!Helper.isNullOrEmpty(addressPrefix)) {
+            Html.ImageGetter imageGetter = new Html.ImageGetter() {
+                @Override
+                public Drawable getDrawable(String source) {
+                    InputStream is;
+                    Log.v("ENTRY", "getHTML source before: " + source);
+                    if(source.startsWith("data/upload/")) {
+                        source = addressPrefix + "/" + source;
+                    }
+                    Log.v("ENTRY", "getHTML source after: " + source);
+                    try {
+                        is = (InputStream) new URL(source).getContent();
+                        Drawable d = Drawable.createFromStream(is, "src");
+                        d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
+                        is.close();
+                        Log.v("ENTRY", "getHTML image ok!");
+                        return d;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }
+            };
+            return Html.fromHtml(html, imageGetter, null);
+        }
+
+        Log.v("ENTRY", "getHTML: " + html);
+        return Html.fromHtml(html);
+    }
+
     public android.text.Spanned getHTML(IColumn col) {
-        return Html.fromHtml(Helper.ifNullOrEmptyThen(getAsString(col), ""));
+        return getHTML(col, null);
     }
 
     public Date getLastSyncTime() {

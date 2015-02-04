@@ -70,6 +70,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     private AppNav currentNav = AppNav.home;
     private boolean mUserLearnedDrawer;
+    private BroadcastReceiver syncReceiver = null;
 
     public NavigationDrawerFragment() {
     }
@@ -134,16 +135,26 @@ public class NavigationDrawerFragment extends Fragment {
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Synchronizer.MESSAGE_OUT_SYNC);
-        getActivity().registerReceiver(new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if(intent.getAction().equals(Synchronizer.MESSAGE_OUT_SYNC)) {
-                    updateUserInfo();
+        if(syncReceiver == null) {
+            syncReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    if(intent.getAction().equals(Synchronizer.MESSAGE_OUT_SYNC)) {
+                        updateUserInfo();
+                    }
                 }
-            }
-        }, intentFilter);
+            };
+        }
+
+        getActivity().registerReceiver(syncReceiver, intentFilter);
 
         return view;
+    }
+
+    @Override
+    public void onStop() {
+        getActivity().unregisterReceiver(syncReceiver);
+        super.onStop();
     }
 
     /**
