@@ -39,7 +39,7 @@ public enum TaskColumn implements IColumn{
     deleted(DataType.BOOLEAN),
 
     // below for detail
-    desc(DataType.STRING),
+    desc(DataType.HTML),
     doc(DataType.STRING),
     mailto(DataType.STRING),
     closeReason(DataType.ENUM),

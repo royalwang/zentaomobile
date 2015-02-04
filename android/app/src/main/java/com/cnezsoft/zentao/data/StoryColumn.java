@@ -39,8 +39,8 @@ public enum StoryColumn implements IColumn{
     duplicateStory(DataType.INT),
     toBug(DataType.INT),
     mailto(DataType.STRING),
-    spec(DataType.STRING),
-    verify(DataType.STRING),
+    spec(DataType.HTML),
+    verify(DataType.HTML),
 
     lastSyncTime(DataType.DATETIME);
 

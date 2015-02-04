@@ -48,7 +48,7 @@ public enum BugColumn implements IColumn {
     toTask(DataType.INT),
     toStory(DataType.INT),
     storyVersion(DataType.INT),
-    steps(DataType.STRING),
+    steps(DataType.HTML),
 
     lastSyncTime(DataType.DATETIME);
 

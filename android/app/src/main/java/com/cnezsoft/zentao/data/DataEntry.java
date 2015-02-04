@@ -2,6 +2,7 @@ package com.cnezsoft.zentao.data;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.text.Html;
 import android.util.Log;
 
 import com.cnezsoft.zentao.DateFormatType;
@@ -167,6 +168,10 @@ public class DataEntry {
         }
     }
 
+    public android.text.Spanned getHTML(IColumn col) {
+        return Html.fromHtml(Helper.ifNullOrEmptyThen(getAsString(col), ""));
+    }
+
     public Date getLastSyncTime() {
         Long dateValue = values.getAsLong("lastSyncTime");
         if(dateValue == null) dateValue = 0l;
@@ -174,7 +179,7 @@ public class DataEntry {
     }
 
     public void setLastSyncTime() {
-        values.put("lastSyncTime", new Date(0).getTime());
+        values.put("lastSyncTime", new Date().getTime());
     }
 
     /**
@@ -376,7 +381,11 @@ public class DataEntry {
                         values.put(name, json.getDouble(jsonName));
                         break;
                     case BOOLEAN:
-                        values.put(name, json.getBoolean(jsonName));
+                        try {
+                            values.put(name, json.getBoolean(jsonName));
+                        } catch (JSONException e) {
+                            values.put(name, json.getInt(jsonName) > 0);
+                        }
                         break;
                     case ENUM:
                         String eStr = json.optString(jsonName, "_");
@@ -393,7 +402,7 @@ public class DataEntry {
             } catch (JSONException e) {
                 if(exceptColumns == null) exceptColumns = new HashSet<>();
                 exceptColumns.add(column);
-                Log.w("DataEntry", type.toString() + "->fromJSON(): value of '" + name
+                Log.w("DataEntry", type.toString() + "->fromJSON(): value '" + json.opt(jsonName) + "' of '" + name
                         + "' can't convert to " + column.type());
             }
         }

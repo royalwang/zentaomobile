@@ -11,7 +11,8 @@ public enum DataType {
     FLOAT(SqlDataType.REAL),
     DOUBLE(SqlDataType.REAL),
     DATETIME(SqlDataType.INTEGER),
-    ENUM(SqlDataType.TEXT);
+    ENUM(SqlDataType.TEXT),
+    HTML(SqlDataType.TEXT);
 
     private SqlDataType type;
 

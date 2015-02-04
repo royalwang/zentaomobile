@@ -120,7 +120,12 @@ public class Story extends DataEntry {
      * @return
      */
     public Source getSource() {
-        return Enum.valueOf(Story.Source.class, getAsString(StoryColumn.source).trim().toLowerCase());
+        try {
+            return Enum.valueOf(Story.Source.class, getAsString(StoryColumn.source).trim().toLowerCase());
+
+        } catch (IllegalArgumentException e) {
+            return Source._;
+        }
     }
 
     public enum PageTab implements IPageTab {
