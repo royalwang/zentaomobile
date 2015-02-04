@@ -4,10 +4,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-
-import com.cnezsoft.zentao.User;
+import android.util.Log;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 /**
  * Database access object
@@ -117,8 +117,11 @@ public class DAO {
         db.beginTransaction();
         try {
             for(DataEntry entry: entries) {
+                // todo: check the NullPointerException exception
+                if(entry == null) continue;
                 if(entry.deleting()) {
-                    if(delete(entry) > 0) {
+                    long deleteResult = delete(entry);
+                    if(deleteResult > 0) {
                         result.setDelete(entry.getType());
                     }
                 } else if(contains(entry)) {
@@ -200,6 +203,42 @@ public class DAO {
     }
 
     /**
+     * Count entries
+     * @param type
+     * @return
+     */
+    public long count(EntryType type, String selection) {
+        Cursor cursor = db.rawQuery("SELECT count(*) FROM " + type.name() + " WHERE " + selection, null);
+        if (cursor.moveToNext()) {
+            return cursor.getLong(0);
+        }
+        return 0;
+    }
+
+    public long count(IPageTab pageTab, String account) {
+        EntryType entryType = pageTab.getEntryType();
+        switch (entryType) {
+            case Todo:
+                Todo.PageTab todoTab = (Todo.PageTab) pageTab;
+                switch (todoTab) {
+                    case undone:
+                        return count(entryType, TodoColumn.status.name() + " IS NOT " + Todo.Status.done.name());
+                    case done:
+                        return count(entryType, TodoColumn.status.name() +  " = " + Todo.Status.done.name());
+                }
+                break;
+            case Task:
+            case Bug:
+            case Story:
+                if(account == null) {
+                    break;
+                }
+                return count(entryType, pageTab.name() + " = " + account);
+        }
+        return 0;
+    }
+
+    /**
      * Judge the database whether has the entry with the given key
      * @param type
      * @param key
@@ -272,12 +311,12 @@ public class DAO {
     /**
      * Query entries by given pageTab
      * @param pageTab
-     * @param user
+     * @param account
      * @param order
      * @param orderType
      * @return
      */
-    public Cursor query(IPageTab pageTab, User user, IColumn order, OrderType orderType) {
+    public Cursor query(IPageTab pageTab, String account, IColumn order, OrderType orderType) {
         EntryType entryType = pageTab.getEntryType();
         switch (entryType) {
             case Todo:
@@ -290,37 +329,37 @@ public class DAO {
                 }
                 break;
             case Task:
-                if(user == null) break;
+                if(account == null) break;
                 Task.PageTab taskTab = (Task.PageTab) pageTab;
                 switch (taskTab) {
                     case assignedTo:
-                        return query(entryType, TaskColumn.assignedTo.name() +  " =?", new String[]{user.getAccount()}, order.name() + " " + orderType.name());
+                        return query(entryType, TaskColumn.assignedTo.name() +  " =?", new String[]{account}, order.name() + " " + orderType.name());
                     case openedBy:
-                        return query(entryType, TaskColumn.openedBy.name() +  " =?", new String[]{user.getAccount()}, order.name() + " " + orderType.name());
+                        return query(entryType, TaskColumn.openedBy.name() +  " =?", new String[]{account}, order.name() + " " + orderType.name());
                     case finishedBy:
-                        return query(entryType, TaskColumn.finishedBy.name() +  " =?", new String[]{user.getAccount()}, order.name() + " " + orderType.name());
+                        return query(entryType, TaskColumn.finishedBy.name() +  " =?", new String[]{account}, order.name() + " " + orderType.name());
                 }
                 break;
             case Bug:
-                if(user == null) break;
+                if(account == null) break;
                 switch ((Bug.PageTab) pageTab) {
                     case assignedTo:
-                        return query(entryType, BugColumn.assignedTo.name() +  " =?", new String[]{user.getAccount()}, order.name() + " " + orderType.name());
+                        return query(entryType, BugColumn.assignedTo.name() + " =?", new String[]{account}, order.name() + " " + orderType.name());
                     case openedBy:
-                        return query(entryType, BugColumn.openedBy.name() +  " =?", new String[]{user.getAccount()}, order.name() + " " + orderType.name());
+                        return query(entryType, BugColumn.openedBy.name() +  " =?", new String[]{account}, order.name() + " " + orderType.name());
                     case resolvedBy:
-                        return query(entryType, BugColumn.resolvedBy.name() +  " =?", new String[]{user.getAccount()}, order.name() + " " + orderType.name());
+                        return query(entryType, BugColumn.resolvedBy.name() +  " =?", new String[]{account}, order.name() + " " + orderType.name());
                 }
                 break;
             case Story:
-                if(user == null) break;
+                if(account == null) break;
                 switch ((Story.PageTab) pageTab) {
                     case assignedTo:
-                        return query(entryType, StoryColumn.assignedTo.name() +  " =?", new String[]{user.getAccount()}, order.name() + " " + orderType.name());
+                        return query(entryType, StoryColumn.assignedTo.name() +  " =?", new String[]{account}, order.name() + " " + orderType.name());
                     case openedBy:
-                        return query(entryType, StoryColumn.openedBy.name() +  " =?", new String[]{user.getAccount()}, order.name() + " " + orderType.name());
+                        return query(entryType, StoryColumn.openedBy.name() +  " =?", new String[]{account}, order.name() + " " + orderType.name());
                     case reviewedBy:
-                        return query(entryType, StoryColumn.reviewedBy.name() +  " =?", new String[]{user.getAccount()}, order.name() + " " + orderType.name());
+                        return query(entryType, StoryColumn.reviewedBy.name() +  " =?", new String[]{account}, order.name() + " " + orderType.name());
                 }
                 break;
         }
@@ -334,7 +373,7 @@ public class DAO {
      * @param order
      * @return
      */
-    public Cursor query(IPageTab pageTab, User user, IColumn order) {
+    public Cursor query(IPageTab pageTab, String user, IColumn order) {
         return query(pageTab, user, order, OrderType.ASC);
     }
 
@@ -344,8 +383,68 @@ public class DAO {
      * @param user
      * @return
      */
-    public Cursor query(IPageTab pageTab, User user) {
+    public Cursor query(IPageTab pageTab, String user) {
         return query(pageTab, user, pageTab.getEntryType().defaultOrderColumn(), OrderType.DESC);
+    }
+
+    /**
+     * Get summery
+     * @param entryType
+     * @return
+     */
+    public HashMap<String, String> getSummery(EntryType entryType, String account) {
+        long number = 0;
+        String newest = "";
+        Cursor cursor;
+        switch (entryType) {
+            case Todo:
+                cursor = query(Todo.PageTab.undone, account, TodoColumn._id, OrderType.DESC);
+                number = cursor.getCount();
+                if(number > 0 && cursor.moveToNext()) {
+                    Todo todo = new Todo(cursor);
+                    newest = "#" + todo.key() + " " + todo.getAsString(TodoColumn.name);
+                }
+                break;
+            case Task:
+                cursor = query(Task.PageTab.assignedTo, account, TaskColumn._id, OrderType.DESC);
+                number = cursor.getCount();
+                if(number > 0 && cursor.moveToNext()) {
+                    Task task = new Task(cursor);
+                    newest = "#" + task.key() + " " + task.getAsString(TaskColumn.name);
+                }
+                break;
+            case Bug:
+                cursor = query(Bug.PageTab.assignedTo, account, BugColumn._id, OrderType.DESC);
+                number = cursor.getCount();
+                if(number > 0 && cursor.moveToNext()) {
+                    Bug bug = new Bug(cursor);
+                    newest = "#" + bug.key() + " " + bug.getAsString(BugColumn.title);
+                }
+                break;
+            case Story:
+                cursor = query(Story.PageTab.assignedTo, account, StoryColumn._id, OrderType.DESC);
+                number = cursor.getCount();
+                if(number > 0 && cursor.moveToNext()) {
+                    Story story = new Story(cursor);
+                    newest = "#" + story.key() + " " + story.getAsString(StoryColumn.title);
+                }
+                break;
+        }
+
+
+        HashMap<String, String> summery = new HashMap<>(2);
+        summery.put("count", number + "");
+        summery.put("newest", newest);
+        return summery;
+    }
+
+    public HashMap<EntryType, HashMap<String, String>> getSummery(String account) {
+        EntryType[] types = EntryType.values();
+        HashMap<EntryType, HashMap<String, String>> summeries = new HashMap<>(types.length);
+        for(EntryType entryType: types) {
+            summeries.put(entryType, getSummery(entryType, account));
+        }
+        return summeries;
     }
 
     /**
