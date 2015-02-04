@@ -3,26 +3,45 @@ package com.cnezsoft.zentao.data;
 
 import android.content.Context;
 
+import com.cnezsoft.zentao.IAccentIcon;
 import com.cnezsoft.zentao.ZentaoApplication;
+import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
 
 import java.util.ArrayList;
 
 /**
  * Entry type
  */
-public enum EntryType {
-    Default,
-    Product,
-    Project,
-    Todo,
-    Task,
-    Story,
-    Bug;
+public enum EntryType implements IAccentIcon{
+    Default(MaterialColorSwatch.Grey, "question"),
+    Product(MaterialColorSwatch.Teal, "cube"),
+    Project(MaterialColorSwatch.Indigo, "folder-o"),
+    Todo(MaterialColorSwatch.LightBlue, "check-square-o"),
+    Task(MaterialColorSwatch.Green, "tasks"),
+    Story(MaterialColorSwatch.Purple, "lightbulb-o"),
+    Bug(MaterialColorSwatch.Pink, "bug");
 
     private IColumn[] cols = null;
     private IColumn primaryColumn = null;
     private IPageTab[] pageTabs = null;
     private String[] columnNames = null;
+
+    EntryType(MaterialColorSwatch accentColor, String iconName) {
+        this.accentColor = accentColor;
+        this.iconName = iconName;
+    }
+
+    private MaterialColorSwatch accentColor;
+
+    public MaterialColorSwatch accent() {
+        return accentColor;
+    }
+
+    private String iconName;
+
+    public String icon() {
+        return iconName;
+    }
 
     /**
      * Get entry type from name
