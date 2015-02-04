@@ -90,7 +90,7 @@ public class MainActivity extends ZentaoActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.global, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -103,6 +103,7 @@ public class MainActivity extends ZentaoActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            application.openActivity(this, AppNav.setting);
             return true;
         }
 

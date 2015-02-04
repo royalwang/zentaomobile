@@ -35,12 +35,10 @@
     <string name="action_search">搜索</string>
     <string name="action_detail_format">%s详情</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <string name="text_task_hours_format">估计 %1$sh    消耗%2$sh</string>
     <string name="text_task_hours_left_format">剩余%sh</string>
     <string name="text_confirmed">已确认</string>
     <string name="text_unconfirm">未确认</string>
-
     <string name="title_activity_entry_detail">EntryDetailActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="text_bug_steps">重现步骤</string>
@@ -56,9 +54,11 @@
     <string name="text_story_desc">需求描述</string>
     <string name="text_story_from">来源：</string>
     <string name="action_loading">正在加载</string>
-
     <string name="text_hello_morning">%s，上午好！</string>
     <string name="text_hello_noon">%s，中午好！</string>
     <string name="text_hello_afternoon">%s，下午好！</string>
     <string name="text_hello_night">%s，晚上好！</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="action_feedback">意见反馈</string>
+
 </resources>

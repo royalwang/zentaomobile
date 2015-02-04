@@ -346,9 +346,6 @@ public class NavigationDrawerFragment extends Fragment {
 
     private void selectItem(AppNav nav) {
         int position = nav.getPosition();
-//        if (mDrawerListView != null) {
-//            mDrawerListView.setItemChecked(position, true);
-//        }
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
         }
@@ -398,7 +395,9 @@ public class NavigationDrawerFragment extends Fragment {
         // If the drawer is open, show the global app actions in the action bar. See also
         // showGlobalContextActionBar, which controls the top-left area of the action bar.
         if (mDrawerLayout != null && isDrawerOpen()) {
-            inflater.inflate(R.menu.global, menu);
+            if(menu.findItem(R.id.action_settings) == null) {
+                inflater.inflate(R.menu.global, menu);
+            }
             showGlobalContextActionBar();
         }
         super.onCreateOptionsMenu(menu, inflater);

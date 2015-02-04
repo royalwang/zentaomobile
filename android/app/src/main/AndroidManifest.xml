@@ -46,6 +46,10 @@
             android:name=".EntryDetailActivity"
             android:label="@string/title_activity_entry_detail" >
         </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/action_settings" >
+        </activity>
     </application>
 
 </manifest>
