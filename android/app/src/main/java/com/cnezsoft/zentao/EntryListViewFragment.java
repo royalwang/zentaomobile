@@ -280,7 +280,7 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
             @Override
             public Cursor onLoadData(Context context) {
                 DAO dao = new DAO(activity);
-                return dao.query(pageTab, user);
+                return dao.query(pageTab, user.getAccount());
             }
         };
         return new DataLoader(getActivity(), pageTab.getEntryType(), listener);
