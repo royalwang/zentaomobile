@@ -28,6 +28,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 /**
@@ -115,11 +116,12 @@ public class NavigationDrawerFragment extends Fragment {
         });
 
         String[] drawerList = ZentaoApplication.getEnumTexts(getActivity(), AppNav.values());
-        mDrawerListView.setAdapter(new ArrayAdapter<>(
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 getActionBar().getThemedContext(),
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
-                drawerList));
+                drawerList);
+        mDrawerListView.setAdapter(adapter);
 
         mDrawerListView.setItemChecked(currentNav.getPosition(), true);
 
@@ -132,8 +134,6 @@ public class NavigationDrawerFragment extends Fragment {
 
         // Bind event
         bindMenuEvents(view);
-
-
 
         return view;
     }
