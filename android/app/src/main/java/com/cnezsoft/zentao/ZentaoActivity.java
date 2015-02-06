@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -30,7 +31,12 @@ public class ZentaoActivity extends ActionBarActivity {
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(swatch.color(MaterialColorName.C600).value());
+        try {
+            window.setStatusBarColor(swatch.color(MaterialColorName.C600).value());
+        } catch (NoSuchMethodError e) {
+            e.printStackTrace();
+            Log.w("ZentaoActivity", "Can't set status bar color.");
+        }
     }
 
     protected void onReceiveMessage(Intent intent) {

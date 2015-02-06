@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.util.Log;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -399,7 +398,7 @@ public class DAO {
         switch (entryType) {
             case Todo:
                 cursor = query(Todo.PageTab.undone, account, TodoColumn._id, OrderType.DESC);
-                number = cursor.getCount();
+                number = cursor != null ? cursor.getCount() : 0;
                 if(number > 0 && cursor.moveToNext()) {
                     Todo todo = new Todo(cursor);
                     newest = "#" + todo.key() + " " + todo.getAsString(TodoColumn.name);
@@ -407,7 +406,7 @@ public class DAO {
                 break;
             case Task:
                 cursor = query(Task.PageTab.assignedTo, account, TaskColumn._id, OrderType.DESC);
-                number = cursor.getCount();
+                number = cursor != null ? cursor.getCount() : 0;
                 if(number > 0 && cursor.moveToNext()) {
                     Task task = new Task(cursor);
                     newest = "#" + task.key() + " " + task.getAsString(TaskColumn.name);
@@ -415,7 +414,7 @@ public class DAO {
                 break;
             case Bug:
                 cursor = query(Bug.PageTab.assignedTo, account, BugColumn._id, OrderType.DESC);
-                number = cursor.getCount();
+                number = cursor != null ? cursor.getCount() : 0;
                 if(number > 0 && cursor.moveToNext()) {
                     Bug bug = new Bug(cursor);
                     newest = "#" + bug.key() + " " + bug.getAsString(BugColumn.title);
@@ -423,7 +422,7 @@ public class DAO {
                 break;
             case Story:
                 cursor = query(Story.PageTab.assignedTo, account, StoryColumn._id, OrderType.DESC);
-                number = cursor.getCount();
+                number = cursor != null ? cursor.getCount() : 0;
                 if(number > 0 && cursor.moveToNext()) {
                     Story story = new Story(cursor);
                     newest = "#" + story.key() + " " + story.getAsString(StoryColumn.title);
