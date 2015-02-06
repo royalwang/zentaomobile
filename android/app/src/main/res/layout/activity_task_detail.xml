@@ -1,164 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:id="@+id/entry_detail_container"
-    android:layout_height="match_parent">
-
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/scrollView">
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingTop="@dimen/control_vertical_padding"
-        android:id="@+id/entry_detail_heading"
-        android:background="@color/primary">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Entry name"
-            android:layout_marginBottom="@dimen/content_vertical_margin"
-            android:textColor="@color/white"
-            android:id="@+id/text_entry_name"
-            android:tag="entry_name"/>
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:id="@+id/entry_detail_container"
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingTop="@dimen/control_vertical_padding"
+            android:id="@+id/entry_detail_heading"
+            android:background="@color/primary">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Entry name"
+                android:layout_marginBottom="@dimen/content_vertical_margin"
+                android:textColor="@color/white"
+                android:id="@+id/text_entry_name"
+                android:tag="entry_name"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:minHeight="15dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="14dp"
+                    android:gravity="center"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="10sp"
+                    android:paddingLeft="3dp"
+                    android:paddingRight="3dp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/border_round_inverse"
+                    android:text="0"
+                    android:tag="entry__id"
+                    android:alpha="0.7" />
+
+                <android.widget.IconTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/white"
+                    android:text="{fa-tag}"
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="@dimen/control_padding"
+                    android:layout_marginLeft="@dimen/content_horizontal_margin"
+                    android:id="@+id/text_entry_type"
+                    android:alpha="0.7" />
+
+                <android.widget.IconTextView
+                    android:layout_weight="1"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/white"
+                    android:text="{fa-hand-o-right}"
+                    android:gravity="right"
+                    android:layout_gravity="center_vertical"
+                    android:alpha="0.7"
+                    android:id="@+id/text_entry_assignedTo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:background="@color/blue_grey_100"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin"
             android:layout_width="match_parent"
-            android:minHeight="15dp"
             android:layout_height="wrap_content">
+            <android.widget.IconTextView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:text="fa-play"
+                android:textColor="@color/secondary_text"
+                android:id="@+id/icon_entry_status"
+                android:textSize="36dp"
+                />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minWidth="14dp"
-                android:gravity="center"
-                android:layout_gravity="center_vertical"
-                android:textSize="10sp"
-                android:paddingLeft="3dp"
-                android:paddingRight="3dp"
-                android:textColor="@color/white"
-                android:background="@drawable/border_round_inverse"
-                android:text="0"
-                android:tag="entry__id"
-                android:alpha="0.7" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="未开始"
+                android:id="@+id/text_entry_status"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/icon_entry_status"
+                android:layout_marginStart="12dp" />
 
-            <android.widget.IconTextView
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBar_entry_hours"
+                android:layout_below="@+id/text_entry_status"
+                android:layout_alignStart="@+id/text_entry_status"
+                android:layout_marginTop="2dp"
+                android:max="100"
+                android:progress="0"
+                android:indeterminate="false" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/white"
-                android:text="{fa-tag}"
-                android:gravity="center_vertical"
-                android:layout_marginRight="@dimen/control_padding"
-                android:layout_marginLeft="@dimen/content_horizontal_margin"
-                android:id="@+id/text_entry_type"
-                android:alpha="0.7" />
+                android:text="估计 1h   消耗 2h"
+                android:textColor="@color/secondary_text"
+                android:layout_marginTop="2dp"
+                android:id="@+id/text_entry_hours"
+                android:layout_below="@+id/progressBar_entry_hours"
+                android:layout_alignStart="@+id/text_entry_status" />
 
-            <android.widget.IconTextView
-                android:layout_weight="1"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/white"
-                android:text="{fa-hand-o-right}"
-                android:gravity="right"
-                android:layout_gravity="center_vertical"
-                android:alpha="0.7"
-                android:id="@+id/text_entry_assignedTo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </LinearLayout>
+                android:text="剩余 3h"
+                android:textColor="@color/secondary_text"
+                android:layout_marginTop="2dp"
+                android:id="@+id/text_entry_left"
+                android:layout_below="@+id/progressBar_entry_hours"
+                android:layout_alignEnd="@+id/progressBar_entry_hours"/>
 
-    <RelativeLayout
-        android:background="@color/blue_grey_100"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <android.widget.IconTextView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:gravity="center"
-            android:text="fa-play"
-            android:textColor="@color/secondary_text"
-            android:id="@+id/icon_entry_status"
-            android:textSize="36dp"
-            />
+        </RelativeLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="未开始"
-            android:id="@+id/text_entry_status"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/icon_entry_status"
-            android:layout_marginStart="12dp" />
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleHorizontal"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/progressBar_entry_hours"
-            android:layout_below="@+id/text_entry_status"
-            android:layout_alignStart="@+id/text_entry_status"
-            android:layout_marginTop="2dp"
-            android:max="100"
-            android:progress="0"
-            android:indeterminate="false" />
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="估计 1h   消耗 2h"
-            android:textColor="@color/secondary_text"
-            android:layout_marginTop="2dp"
-            android:id="@+id/text_entry_hours"
-            android:layout_below="@+id/progressBar_entry_hours"
-            android:layout_alignStart="@+id/text_entry_status" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/secondary_text"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_marginBottom="@dimen/heading_dividing_gap"
+                android:text="@string/text_desc"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="剩余 3h"
-            android:textColor="@color/secondary_text"
-            android:layout_marginTop="2dp"
-            android:id="@+id/text_entry_left"
-            android:layout_below="@+id/progressBar_entry_hours"
-            android:layout_alignEnd="@+id/progressBar_entry_hours"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="entry_desc"
+                android:text="@string/text_no_desc"/>
 
-    </RelativeLayout>
+        </LinearLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/secondary_text"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:layout_marginBottom="@dimen/heading_dividing_gap"
-            android:text="@string/text_desc"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:tag="entry_desc"
-            android:text="@string/text_no_desc"/>
 
     </LinearLayout>
-
-
-</LinearLayout>
+</ScrollView>
