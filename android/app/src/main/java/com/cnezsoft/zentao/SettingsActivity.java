@@ -2,7 +2,9 @@ package com.cnezsoft.zentao;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
@@ -89,6 +91,12 @@ public class SettingsActivity extends ZentaoActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if(id == R.id.action_feedback) {
+            Intent data=new Intent(Intent.ACTION_SENDTO);
+            data.setData(Uri.parse("mailto:sunhao@cnezsoft.com"));
+            data.putExtra(Intent.EXTRA_SUBJECT, "禅道Android客户端（v1.0beta）意见反馈");
+            data.putExtra(Intent.EXTRA_TEXT, "(请畅所欲言)");
+            startActivity(data);
         } else if(id == android.R.id.home) {
             finish();
             return true;
