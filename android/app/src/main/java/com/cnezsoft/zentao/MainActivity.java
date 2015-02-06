@@ -81,8 +81,17 @@ public class MainActivity extends ZentaoActivity {
         application = (ZentaoApplication) getApplicationContext();
         user = application.getUser();
         application.checkUserStatus(this);
+        final Context context = this;
 
         // hello to user
+        user.setOnUserInfoChangeListener(new User.OnUserInfoChangeListener() {
+            @Override
+            public void onUserInfoChnage(String name) {
+                if(name == User.ACCOUNT || name == User.REALNAME) {
+                    ((TextView) findViewById(R.id.text_hello_user)).setText(user.getHelloText(context));
+                }
+            }
+        });
         ((TextView) findViewById(R.id.text_hello_user)).setText(user.getHelloText(this));
         summeryListContainer = (LinearLayout) findViewById(R.id.container_summery_list);
         new UpdateSummeries().execute(this);

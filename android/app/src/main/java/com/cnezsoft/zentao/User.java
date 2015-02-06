@@ -645,10 +645,10 @@ public class User {
                         break;
                     default:
                         load();
-                        if(onUserInfoChangeListener != null) {
-                            onUserInfoChangeListener.onUserInfoChnage(key);
-                        }
                         break;
+                }
+                if(onUserInfoChangeListener != null) {
+                    onUserInfoChangeListener.onUserInfoChnage(key);
                 }
             }
         });
