@@ -60,5 +60,6 @@
     <string name="text_hello_night">%s，晚上好！</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="action_feedback">意见反馈</string>
+    <string name="text_miniute">%s分钟</string>
 
 </resources>
