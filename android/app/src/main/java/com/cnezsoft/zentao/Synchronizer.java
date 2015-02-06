@@ -45,6 +45,8 @@ public class Synchronizer extends BroadcastReceiver {
     private TimerTask timerTask;
     private final int maxLoginInterval = 1000*60*2;
     private long lastLoginTime = 0;
+    private boolean running;
+    private long lastSyncFreg;
 
     /**
      * Constructor with context
@@ -55,6 +57,17 @@ public class Synchronizer extends BroadcastReceiver {
         ZentaoApplication application = (ZentaoApplication) context.getApplicationContext();
         user = application.getUser();
         zentaoConfig = application.getZentaoConfig();
+
+        user.setOnSyncFrequenceChangeListner(new User.OnSyncFrequenceChangeListner() {
+            @Override
+            public void onSyncFrequenceChange(long millionseconds) {
+                if(running) {
+                    if(lastSyncFreg != user.getSyncFrequency()) {
+                        restart();
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -271,7 +284,10 @@ public class Synchronizer extends BroadcastReceiver {
                 }
             };
 
-            timer.schedule(timerTask, 1000, 12000);
+            Log.v("SYNC", "start " + user.getSyncFrequency());
+            lastSyncFreg = user.getSyncFrequency();
+            timer.schedule(timerTask, 1000, lastSyncFreg);
+            running = true;
         }
     }
 
@@ -284,8 +300,23 @@ public class Synchronizer extends BroadcastReceiver {
             timer.cancel();
             timer.purge();
         }
+        running = false;
     }
 
+    /**
+     * Restart
+     */
+    public void restart() {
+        stop();
+        start();
+        Log.v("SYNC", "restart");
+    }
+
+    /**
+     * Handle things on receive
+     * @param context
+     * @param intent
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.v("SYNC", "onReceive: " + intent.getAction());

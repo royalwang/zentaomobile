@@ -208,4 +208,12 @@
     <string name="enum_Story_CloseReason_willnotdo">不做</string>
     <string name="enum_Story_CloseReason_cancel">已取消</string>
     <string name="enum_Story_CloseReason_bydesign">设计如此</string>
+
+    <!-- SyncFrequency -->
+    <string name="enum_SyncFrequency_Test">12秒</string>
+    <string name="enum_SyncFrequency_Quickly">30秒</string>
+    <string name="enum_SyncFrequency_Normal">5分钟</string>
+    <string name="enum_SyncFrequency_Power">30分钟</string>
+    <string name="enum_SyncFrequency_TwoHours">2小时</string>
+    <string name="enum_SyncFrequency_HalfDay">12小时</string>
 </resources>

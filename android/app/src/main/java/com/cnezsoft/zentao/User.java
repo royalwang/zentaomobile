@@ -18,7 +18,6 @@ import java.util.Date;
  * Created by Catouse on 2015/1/12.
  */
 public class User {
-
     public enum Status {
         Unknown,
         Offline,
@@ -41,6 +40,10 @@ public class User {
         void onStatusChange(Status status);
     }
 
+    public interface OnSyncFrequenceChangeListner {
+        void onSyncFrequenceChange(long millionseconds);
+    }
+
     public static final String PASSWORD_WITH_MD5_FLAG = "%PASSWORD_WITH_MD5_FLAG% ";
     public static final String ACCOUNT = "ACCOUNT";
     public static final String PASSWORD_MD5 = "PASSWORD_MD5";
@@ -52,12 +55,15 @@ public class User {
     public static final String ROLE = "ROLE";
     public static final String GENDER = "GENDER";
     public static final String DB_VERSION = "DB_VERSION";
+    public static final String NOTIFY = "NOTIFY";
+    public static final String SYNC_FREQUENCY = "SYNC_FREQUENCY";
     public static final String ID = "ID";
 
     private OnLastSyncTimeChangeListener onLastSyncTimeChangeListener;
     private OnAccountChangeListener onAccountChangeListener;
     private OnUserInfoChangeListener onUserInfoChangeListener;
     private OnStatusChangeListner onStatusChangeListner;
+    private OnSyncFrequenceChangeListner onSyncFrequenceChangeListner;
     private int dbVersion;
 
     private String account;
@@ -75,6 +81,34 @@ public class User {
     private Date lastSyncTime = new Date(0);
     private Long lastLoadTime = 0l;
     private Long lastChangeTime = 0l;
+    private boolean notify = true;
+    private long syncFrequency = 5*60*1000;
+
+    public long getSyncFrequency() {
+        return syncFrequency;
+    }
+
+    public User setSyncFrequency(SyncFrequency frequencyType) {
+        return setSyncFrequency(frequencyType.getMilliseconds());
+    }
+
+    public User setSyncFrequency(long syncFrequency) {
+        this.syncFrequency = syncFrequency;
+        return this;
+    }
+
+    public String getSyncFreqName(Context context) {
+        return SyncFrequency.getFreqName(context, getSyncFrequency());
+    }
+
+    public User setNotify(boolean notify) {
+        this.notify = notify;
+        return this;
+    }
+
+    public boolean isNotify() {
+        return this.notify;
+    }
 
     public void setOnLastSyncTimeChangeListener(OnLastSyncTimeChangeListener listener) {
         onLastSyncTimeChangeListener = listener;
@@ -86,6 +120,10 @@ public class User {
 
     public void setOnUserInfoChangeListener(OnUserInfoChangeListener listener) {
         onUserInfoChangeListener = listener;
+    }
+
+    public void setOnSyncFrequenceChangeListner(OnSyncFrequenceChangeListner listner) {
+        onSyncFrequenceChangeListner = listner;
     }
 
     public String getHelloText(Context context) {
@@ -411,6 +449,8 @@ public class User {
                     .putInt(DB_VERSION, getDbVersion())
                     .putLong(LAST_LOGIN_TIME, getLastLoginTime().getTime())
                     .putLong(LAST_SYNC_TIME, getLastSyncTime().getTime())
+                    .putLong(SYNC_FREQUENCY, getSyncFrequency())
+                    .putBoolean(NOTIFY, isNotify())
                     .commit();
         }
     }
@@ -558,6 +598,8 @@ public class User {
                     .setId(this.userPreferences.getString(ID, ""), false)
                     .setDbVersion(this.userPreferences.getInt(DB_VERSION, 0))
                     .setLastSyncTime(new Date(this.userPreferences.getLong(LAST_SYNC_TIME, 0)))
+                    .setNotify(this.userPreferences.getBoolean(NOTIFY, true))
+                    .setSyncFrequency(this.userPreferences.getLong(SYNC_FREQUENCY, SyncFrequency.defaultOption().getMilliseconds()))
                     .checkChange(false);
             Log.v("USER", "load: " + toJSONString());
         }
@@ -595,6 +637,12 @@ public class User {
                         }
                         lastLoadTime = lastChangeTime;
                         break;
+                    case SYNC_FREQUENCY:
+                        load();
+                        if(onSyncFrequenceChangeListner != null) {
+                            onSyncFrequenceChangeListner.onSyncFrequenceChange(getSyncFrequency());
+                        }
+                        break;
                     default:
                         load();
                         if(onUserInfoChangeListener != null) {
@@ -626,6 +674,8 @@ public class User {
                     .key("role").value(this.role)
                     .key("id").value(this.id)
                     .key("dbVersion").value(this.dbVersion)
+                    .key("notify").value(this.notify)
+                    .key("syncFrequency").value(this.syncFrequency)
                     .endObject().toString();
         } catch (JSONException e) {
             e.printStackTrace();
