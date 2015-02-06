@@ -8,24 +8,28 @@
     <android.widget.IconButton
         style="@style/darkActionBarIconButton"
         android:layout_height="match_parent"
+        android:layout_width="56dp"
         android:text="{fa-check-square-o}"
         android:tag="todo"
         android:id="@+id/button_nav_todo" />
     <android.widget.IconButton
         style="@style/darkActionBarIconButton"
         android:layout_height="match_parent"
+        android:layout_width="56dp"
         android:text="{fa-tasks}"
         android:tag="task"
         android:id="@+id/button_nav_task" />
     <android.widget.IconButton
         style="@style/darkActionBarIconButton"
         android:layout_height="match_parent"
+        android:layout_width="56dp"
         android:text="{fa-bug}"
         android:tag="bug"
         android:id="@+id/button_nav_bug" />
     <android.widget.IconButton
         style="@style/darkActionBarIconButton"
         android:layout_height="match_parent"
+        android:layout_width="56dp"
         android:text="{fa-lightbulb-o}"
         android:tag="story"
         android:id="@+id/button_nav_story" />
