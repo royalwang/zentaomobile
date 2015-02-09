@@ -129,7 +129,7 @@ public class User {
     public String getHelloText(Context context) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
-        int hour = calendar.get(Calendar.HOUR);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int resId = 0;
 
         if(hour < 11) {
