@@ -28,7 +28,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 /**
@@ -102,7 +101,7 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         LinearLayout view = (LinearLayout) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
@@ -115,14 +114,24 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
 
-        String[] drawerList = ZentaoApplication.getEnumTexts(getActivity(), AppNav.values());
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+        final AppNav[] navs = AppNav.values();
+        final String[] drawerList = ZentaoApplication.getEnumTexts(getActivity(), AppNav.values());
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                drawerList);
+                R.layout.list_item_navigation_drawer,
+                R.id.text_menu_name,
+                drawerList){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                if (convertView == null) {
+                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_navigation_drawer, parent, false);
+                }
+                ((TextView) convertView.findViewById(R.id.text_menu_name)).setText(drawerList[position]);
+                ((TextView) convertView.findViewById(R.id.icon_menu)).setText("{fa-" + navs[position].getIcon() + "}");
+                return convertView;
+            }
+        };
         mDrawerListView.setAdapter(adapter);
-
         mDrawerListView.setItemChecked(currentNav.getPosition(), true);
 
         // Store controls

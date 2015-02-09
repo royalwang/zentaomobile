@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:layout_height="wrap_content">
+
+    <android.widget.IconTextView
+        android:layout_width="40dp"
+        android:layout_height="fill_parent"
+        android:textColor="@color/secondary_text"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:text="{fa-heart}"
+        android:textSize="20dp"
+        android:tag="icon"
+        android:id="@+id/icon_menu" />
+    <TextView
+        android:layout_marginLeft="16dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_menu_name"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:gravity="center_vertical"
+        android:layout_weight="1"
+        android:text="Item"
+        android:tag="text"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall" />
+</LinearLayout>

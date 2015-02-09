@@ -7,21 +7,25 @@ import android.content.Context;
  * Created by Catouse on 2015/1/28.
  */
 public enum AppNav {
-    home(0),
-    todo(1),
-    task(2),
-    bug(3),
-    story(4),
-    setting(5);
+    home("home"),
+    todo("check-square-o"),
+    task("tasks"),
+    bug("bug"),
+    story("lightbulb-o"),
+    setting("cog");
 
-    private final int position;
+    private final String icon;
+
+    public String getIcon() {
+        return icon;
+    }
 
     /**
      * Get position
      * @return
      */
     public int getPosition() {
-        return position;
+        return ordinal();
     }
 
     /**
@@ -33,8 +37,8 @@ public enum AppNav {
         return ZentaoApplication.getEnumText(context, this);
     }
 
-    AppNav(int position) {
-        this.position = position;
+    AppNav(String icon) {
+        this.icon = icon;
     }
 
     /**
