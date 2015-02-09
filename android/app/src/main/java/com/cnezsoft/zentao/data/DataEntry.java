@@ -288,7 +288,10 @@ public class DataEntry {
      * @return
      */
     public Date getAsDate(IColumn col) {
-        return new Date(getAsLong(col));
+        Long dateValue = getAsLong(col);
+        if(dateValue != null)
+            return new Date(dateValue);
+        return null;
     }
 
     /**

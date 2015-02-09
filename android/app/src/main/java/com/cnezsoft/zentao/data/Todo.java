@@ -122,7 +122,11 @@ public class Todo extends DataEntry {
      * @return
      */
     public Status getStatus() {
-        return Enum.valueOf(Status.class, getAsString(TodoColumn.status).trim().toLowerCase());
+        String statusStr = getAsString(TodoColumn.status);
+        if(statusStr != null)
+            return Enum.valueOf(Status.class, statusStr.trim().toLowerCase());
+        else
+            return Status.wait;
     }
 
     /**
@@ -130,7 +134,10 @@ public class Todo extends DataEntry {
      * @return
      */
     public Types getTodoType() {
-        return Enum.valueOf(Types.class, getAsString(TodoColumn.type).trim().toLowerCase());
+        String typeStr = getAsString(TodoColumn.type);
+        if(typeStr != null)
+            return Enum.valueOf(Types.class, typeStr.trim().toLowerCase());
+        return Types.custom;
     }
 
     /**
