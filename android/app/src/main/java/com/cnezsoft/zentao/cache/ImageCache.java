@@ -180,7 +180,7 @@ public class ImageCache {
                 if(bitmap != null) {
                     memoryCache.put(ref.getPath(), bitmap);
                     ref.setBitmap(bitmap);
-                    onProgressUpdate(ref);
+                    publishProgress(ref);
                 }
             }
             return success;
