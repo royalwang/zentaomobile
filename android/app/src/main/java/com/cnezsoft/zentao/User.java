@@ -196,6 +196,10 @@ public class User {
         return lastSyncTime;
     }
 
+    public boolean withIncrementSync() {
+        return getLastSyncTime().getTime() > 1000;
+    }
+
     /**
      * Set sync time
      * @param syncTime

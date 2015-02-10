@@ -11,6 +11,18 @@
         android:layout_height="match_parent" />
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/text_new"
+        android:gravity="center_vertical"
+        android:textColor="@color/yellow_900"
+        android:id="@+id/text_new_item"
+        android:visibility="invisible"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingRight="4dp" />
+
+    <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"

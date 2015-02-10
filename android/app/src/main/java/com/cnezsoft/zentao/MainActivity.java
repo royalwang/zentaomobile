@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cnezsoft.zentao.colorswatch.MaterialColorName;
+import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
 import com.cnezsoft.zentao.data.DAO;
 import com.cnezsoft.zentao.data.DataEntry;
 import com.cnezsoft.zentao.data.EntryType;
@@ -146,8 +148,19 @@ public class MainActivity extends ZentaoActivity {
                 ((TextView) summeryContainer.findViewWithTag("text_summery_newest")).setText(summery.get("newest"));
 
                 TextView numberView = (TextView) summeryContainer.findViewWithTag("text_summery_number");
-                numberView.setText(summery.get("count"));
                 numberView.setTextColor(type.accent().color(MaterialColorName.A700).value());
+                TextView numberNameView = (TextView) summeryContainer.findViewWithTag("text_summery_number_name");
+
+                String unread = summery.get("unread");
+                if(!unread.equals("0")) {
+                    numberView.setText(unread);
+                    numberNameView.setText(getString(R.string.text_new_items));
+                    summeryContainer.setBackgroundColor(MaterialColorSwatch.Yellow.color(MaterialColorName.C100).value());
+                } else {
+                    numberView.setText(summery.get("count"));
+                    numberNameView.setText(getString(type == EntryType.Todo ? R.string.text_undone : R.string.text_assigned_to));
+                    summeryContainer.setBackgroundColor(Color.WHITE);
+                }
             }
         }
     }

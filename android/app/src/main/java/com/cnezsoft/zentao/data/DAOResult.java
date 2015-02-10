@@ -7,6 +7,7 @@ import com.cnezsoft.zentao.OperateResult;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * DAO result
@@ -15,6 +16,14 @@ import java.util.Map;
 public class DAOResult extends OperateResult<Boolean> {
 
     private HashMap<EntryType, DAOOperateInfo>  infos;
+
+    public HashMap<EntryType, DAOOperateInfo> getInfos() {
+        return infos;
+    }
+
+    public Set<EntryType> types() {
+        return infos.keySet();
+    }
 
     public void setResult(boolean result) {
         super.setResult(result);

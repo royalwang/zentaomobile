@@ -76,6 +76,7 @@ public class EntryListFragment extends Fragment {
         // Bind the tabs to the ViewPager
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs_nav);
         tabs.setIndicatorColorResource(R.color.primary);
+        tabs.setTextColorResource(R.color.secondary_text);
         tabs.setIndicatorHeight(6);
         tabs.setViewPager(pager);
 

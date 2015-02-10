@@ -111,7 +111,7 @@ public class DAO {
      * Save entry to database, add new items or update exists items
      * @param entries
      */
-    public DAOResult save(Collection<DataEntry> entries) {
+    public DAOResult save(Collection<DataEntry> entries, boolean markNewUnread) {
         DAOResult result = new DAOResult();
         db.beginTransaction();
         try {
@@ -128,6 +128,7 @@ public class DAO {
                         result.setUpdate(entry.getType());
                     }
                 } else {
+                    if(markNewUnread) entry.markUnread();
                     if(add(entry) > 0) {
                         result.setAdd(entry.getType());
                     }
@@ -143,6 +144,10 @@ public class DAO {
             result.notifyChange(context);
         }
         return result;
+    }
+
+    public DAOResult save(Collection<DataEntry> entries) {
+        return save(entries, false);
     }
 
     /**
@@ -397,6 +402,7 @@ public class DAO {
      */
     public HashMap<String, String> getSummery(EntryType entryType, String account) {
         long number = 0;
+        long unread = 0;
         String newest = "";
         Cursor cursor;
         switch (entryType) {
@@ -405,7 +411,13 @@ public class DAO {
                 number = cursor != null ? cursor.getCount() : 0;
                 if(number > 0 && cursor.moveToNext()) {
                     Todo todo = new Todo(cursor);
+                    unread = todo.isUnread() ? 1 : 0;
                     newest = "#" + todo.key() + " " + todo.getAsString(TodoColumn.name);
+                    while (cursor.moveToNext()) {
+                        if(cursor.getLong(cursor.getColumnIndex(TodoColumn.unread.name())) > 0) {
+                            unread++;
+                        }
+                    }
                 }
                 break;
             case Task:
@@ -413,7 +425,13 @@ public class DAO {
                 number = cursor != null ? cursor.getCount() : 0;
                 if(number > 0 && cursor.moveToNext()) {
                     Task task = new Task(cursor);
+                    unread = task.isUnread() ? 1 : 0;
                     newest = "#" + task.key() + " " + task.getAsString(TaskColumn.name);
+                    while (cursor.moveToNext()) {
+                        if(cursor.getLong(cursor.getColumnIndex(TaskColumn.unread.name())) > 0) {
+                            unread++;
+                        }
+                    }
                 }
                 break;
             case Bug:
@@ -421,7 +439,13 @@ public class DAO {
                 number = cursor != null ? cursor.getCount() : 0;
                 if(number > 0 && cursor.moveToNext()) {
                     Bug bug = new Bug(cursor);
+                    unread = bug.isUnread() ? 1 : 0;
                     newest = "#" + bug.key() + " " + bug.getAsString(BugColumn.title);
+                    while (cursor.moveToNext()) {
+                        if(cursor.getLong(cursor.getColumnIndex(BugColumn.unread.name())) > 0) {
+                            unread++;
+                        }
+                    }
                 }
                 break;
             case Story:
@@ -429,7 +453,13 @@ public class DAO {
                 number = cursor != null ? cursor.getCount() : 0;
                 if(number > 0 && cursor.moveToNext()) {
                     Story story = new Story(cursor);
+                    unread = story.isUnread() ? 1 : 0;
                     newest = "#" + story.key() + " " + story.getAsString(StoryColumn.title);
+                    while (cursor.moveToNext()) {
+                        if(cursor.getLong(cursor.getColumnIndex(StoryColumn.unread.name())) > 0) {
+                            unread++;
+                        }
+                    }
                 }
                 break;
         }
@@ -438,6 +468,7 @@ public class DAO {
         HashMap<String, String> summery = new HashMap<>(2);
         summery.put("count", number + "");
         summery.put("newest", newest);
+        summery.put("unread", unread + "");
         return summery;
     }
 

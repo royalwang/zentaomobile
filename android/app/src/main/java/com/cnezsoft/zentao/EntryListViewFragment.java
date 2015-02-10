@@ -60,23 +60,43 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
         adapter = new SimpleCursorAdapter(activity,
                 R.layout.list_item_entry,
                 null,
-                new String[]{TodoColumn.name.name(), TodoColumn.begin.name(), TodoColumn.status.name()},
-                new int[]{R.id.text_name, R.id.text_status, R.id.icon_pri}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+                new String[]{TodoColumn.name.name(), TodoColumn.begin.name(), TodoColumn.status.name(), TodoColumn.unread.name()},
+                new int[]{R.id.text_name, R.id.text_status, R.id.icon_pri, R.id.text_new_item}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
         adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
+            private Todo todo;
+
+            private String getCursorKey(Cursor cursor) {
+                return cursor.getString(cursor.getColumnIndex(TodoColumn.primary().name()));
+            }
+
+            private Todo getTodo(Cursor cursor) {
+                if(todo != null && todo.key().equals(getCursorKey(cursor))) {
+                    return todo;
+                } else {
+                    todo = new Todo(cursor);
+                }
+                return todo;
+            }
+
             @Override
             public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+
                 switch (view.getId()) {
                     case R.id.text_status:
                         ((TextView) view).setText(new SimpleDateFormat("HH:mm").format(new Date(cursor.getLong(columnIndex))));
                         return true;
                     case R.id.icon_pri:
-                        Todo todo = new Todo(cursor);
+                        getTodo(cursor);
                         IconTextView iconView = (IconTextView) view;
                         iconView.setTextColor(
                                 MaterialColorSwatch.PriAccentSwatches[todo.getAccentPri()]
                                         .color(MaterialColorName.C300).value());
                         iconView.setText(todo.getStatus() == Todo.Status.done ? "{fa-circle}" : "{fa-circle-o}");
+                        return true;
+                    case R.id.text_new_item:
+                        getTodo(cursor);
+                        view.setVisibility(todo.isUnread() ? View.VISIBLE : View.GONE);
                         return true;
                 }
                 return false;
@@ -90,8 +110,8 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
         adapter = new SimpleCursorAdapter(activity,
                 R.layout.list_item_entry,
                 null,
-                new String[]{TaskColumn.name.name(), TaskColumn.status.name(), TaskColumn.pri.name()},
-                new int[]{R.id.text_name, R.id.text_status, R.id.icon_pri}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+                new String[]{TaskColumn.name.name(), TaskColumn.status.name(), TaskColumn.pri.name(), TaskColumn.unread.name()},
+                new int[]{R.id.text_name, R.id.text_status, R.id.icon_pri, R.id.text_new_item}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
 
         adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
@@ -126,6 +146,10 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                                 MaterialColorSwatch.PriAccentSwatches[task.getAccentPri()]
                                         .color(MaterialColorName.C300).value());
                         return true;
+                    case R.id.text_new_item:
+                        getTask(cursor);
+                        view.setVisibility(task.isUnread() ? View.VISIBLE : View.GONE);
+                        return true;
                 }
                 return false;
             }
@@ -138,8 +162,8 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
         adapter = new SimpleCursorAdapter(activity,
                 R.layout.list_item_entry,
                 null,
-                new String[]{StoryColumn.title.name(), StoryColumn.status.name(), StoryColumn.pri.name()},
-                new int[]{R.id.text_name, R.id.text_status, R.id.icon_pri}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+                new String[]{StoryColumn.title.name(), StoryColumn.status.name(), StoryColumn.pri.name(), StoryColumn.unread.name()},
+                new int[]{R.id.text_name, R.id.text_status, R.id.icon_pri, R.id.text_new_item}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
 
         adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
@@ -174,6 +198,10 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                                 MaterialColorSwatch.PriAccentSwatches[entry.getAccentPri()]
                                         .color(MaterialColorName.C300).value());
                         return true;
+                    case R.id.text_new_item:
+                        getEntry(cursor);
+                        view.setVisibility(entry.isUnread() ? View.VISIBLE : View.GONE);
+                        return true;
                 }
                 return false;
             }
@@ -186,8 +214,8 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
         adapter = new SimpleCursorAdapter(activity,
                 R.layout.list_item_entry,
                 null,
-                new String[]{BugColumn.title.name(), BugColumn.status.name(), BugColumn.pri.name()},
-                new int[]{R.id.text_name, R.id.text_status, R.id.icon_pri}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+                new String[]{BugColumn.title.name(), BugColumn.status.name(), BugColumn.pri.name(), BugColumn.unread.name()},
+                new int[]{R.id.text_name, R.id.text_status, R.id.icon_pri, R.id.text_new_item}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
 
         adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
@@ -221,6 +249,10 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                         ((IconTextView) view).setTextColor(
                                 MaterialColorSwatch.PriAccentSwatches[entry.getAccentPri()]
                                         .color(MaterialColorName.C300).value());
+                        return true;
+                    case R.id.text_new_item:
+                        getEntry(cursor);
+                        view.setVisibility(entry.isUnread() ? View.VISIBLE : View.GONE);
                         return true;
                 }
                 return false;

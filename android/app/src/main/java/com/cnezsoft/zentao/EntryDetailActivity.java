@@ -223,6 +223,14 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
         if(data.moveToNext()) {
             entry.fromCursor(data);
         }
+
+        if(entry.isUnread()) {
+            entry.markRead();
+            DAO dao = new DAO(this);
+            dao.save(entry);
+            dao.close();
+        }
+
         displayEntry();
 
         if(firstLoad) {
