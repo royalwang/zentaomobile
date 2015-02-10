@@ -1,5 +1,8 @@
 package com.cnezsoft.zentao;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +11,8 @@ import android.util.Log;
 
 import com.cnezsoft.zentao.data.Bug;
 import com.cnezsoft.zentao.data.DAO;
+import com.cnezsoft.zentao.data.DAOOperateInfo;
+import com.cnezsoft.zentao.data.DAOResult;
 import com.cnezsoft.zentao.data.DataEntry;
 import com.cnezsoft.zentao.data.DataEntryFactory;
 import com.cnezsoft.zentao.data.EntryType;
@@ -24,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -48,6 +54,7 @@ public class Synchronizer extends BroadcastReceiver {
     private long lastLoginTime = 0;
     private boolean running;
     private long lastSyncFreg;
+    private ZentaoApplication application;
 
     /**
      * Constructor with context
@@ -55,7 +62,7 @@ public class Synchronizer extends BroadcastReceiver {
      */
     public Synchronizer(Context context) {
         this.context = context;
-        ZentaoApplication application = (ZentaoApplication) context.getApplicationContext();
+        application = (ZentaoApplication) context.getApplicationContext();
         user = application.getUser();
         zentaoConfig = application.getZentaoConfig();
 
@@ -108,8 +115,9 @@ public class Synchronizer extends BroadcastReceiver {
 
             if(data != null) {
                 DAO dao = new DAO(context);
-                OperateResult<Boolean> daoResult = dao.save(getEntriesFromJSON(data));
+                DAOResult daoResult = dao.save(getEntriesFromJSON(data), user.withIncrementSync());
                 dao.close();
+                handleNotify(daoResult);
                 Log.v("SYNC", daoResult.toString());
             }
 
@@ -118,6 +126,35 @@ public class Synchronizer extends BroadcastReceiver {
         }
 
         Log.v("SYNC", "result: " + "false");
+        return false;
+    }
+
+    public boolean handleNotify(DAOResult daoResult) {
+//        if(!application.isRunningInBackground()) {
+//            return false;
+//        }
+        for(Map.Entry<EntryType, DAOOperateInfo> result: daoResult.getInfos().entrySet()) {
+            if(result.getValue().add() > 0) {
+                Notification.Builder builder = new Notification.Builder(context);
+                builder.setSmallIcon(R.drawable.ic_launcher);
+                builder.setContentTitle(String.format(context.getString(R.string.text_notify_new_items_format), result.getValue().add(),
+                        ZentaoApplication.getEnumText(context, result.getKey()))).setNumber(result.getValue().add());
+
+                Intent resultIntent = new Intent(context, MainActivity.class);
+                PendingIntent resultPendingIntent = PendingIntent.getActivity(
+                                context,
+                                0,
+                                resultIntent,
+                                PendingIntent.FLAG_CANCEL_CURRENT
+                        );
+                builder.setContentIntent(resultPendingIntent);
+                NotificationManager notificationManager = (NotificationManager)
+                        context.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
+                notificationManager.cancelAll();
+                notificationManager.notify(0, builder.build());
+                return true;
+            }
+        }
         return false;
     }
 

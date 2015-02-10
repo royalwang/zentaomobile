@@ -245,4 +245,23 @@ public class ZentaoApplication extends Application {
         }
         return list.toArray(new String[list.size()]);
     }
+
+//    public boolean isRunningInBackground() {
+//        ActivityManager activityManager = (ActivityManager) this
+//                .getSystemService(Context.ACTIVITY_SERVICE);
+//        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager
+//                .getRunningAppProcesses();
+//        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+//            if (appProcess.processName.equals(this.getPackageName())) {
+//                if (appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_BACKGROUND) {
+//                    Log.i("APPLICATION", String.format("Background App:", appProcess.processName));
+//                    return true;
+//                }else{
+//                    Log.i("APPLICATION", String.format("Foreground App:", appProcess.processName));
+//                    return false;
+//                }
+//            }
+//        }
+//        return false;
+//    }
 }
