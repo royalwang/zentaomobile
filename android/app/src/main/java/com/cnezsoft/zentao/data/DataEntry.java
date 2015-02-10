@@ -223,6 +223,19 @@ public class DataEntry {
         return new Date(dateValue);
     }
 
+    public void markUnread() {
+        values.put("unread", true);
+    }
+
+    public void markRead() {
+        values.put("unread", false);
+    }
+
+    public boolean isUnread() {
+        Boolean unread = values.getAsBoolean("unread");
+        return unread != null && unread;
+    }
+
     public void setLastSyncTime() {
         values.put("lastSyncTime", new Date().getTime());
     }

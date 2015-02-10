@@ -19,6 +19,7 @@ public enum TodoColumn implements IColumn {
     desc(DataType.HTML),
     account(DataType.STRING),
 
+    unread(DataType.BOOLEAN),
     lastSyncTime(DataType.DATETIME);
 
     /**

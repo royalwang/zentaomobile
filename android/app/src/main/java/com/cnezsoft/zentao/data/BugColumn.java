@@ -50,6 +50,7 @@ public enum BugColumn implements IColumn {
     storyVersion(DataType.INT),
     steps(DataType.HTML),
 
+    unread(DataType.BOOLEAN),
     lastSyncTime(DataType.DATETIME);
 
     private final DataType dataType;

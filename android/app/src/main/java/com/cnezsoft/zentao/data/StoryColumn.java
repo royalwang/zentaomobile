@@ -42,6 +42,7 @@ public enum StoryColumn implements IColumn{
     spec(DataType.HTML),
     verify(DataType.HTML),
 
+    unread(DataType.BOOLEAN),
     lastSyncTime(DataType.DATETIME);
 
     private final DataType dataType;

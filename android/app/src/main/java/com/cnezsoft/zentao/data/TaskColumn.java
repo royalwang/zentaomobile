@@ -45,6 +45,7 @@ public enum TaskColumn implements IColumn{
     closeReason(DataType.ENUM),
     storyVersion(DataType.INT),
 
+    unread(DataType.BOOLEAN),
     lastSyncTime(DataType.DATETIME);
 
     private final DataType dataType;
