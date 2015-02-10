@@ -6,10 +6,16 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.text.Html;
+import android.text.Spanned;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +29,8 @@ import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.cnezsoft.zentao.cache.ImageCache;
+import com.cnezsoft.zentao.cache.URLDrawable;
 import com.cnezsoft.zentao.colorswatch.MaterialColorName;
 import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
 import com.cnezsoft.zentao.data.Bug;
@@ -40,6 +48,8 @@ import com.cnezsoft.zentao.data.Task;
 import com.cnezsoft.zentao.data.TaskColumn;
 import com.cnezsoft.zentao.data.Todo;
 import com.cnezsoft.zentao.data.TodoColumn;
+import com.joanzapata.android.iconify.IconDrawable;
+import com.joanzapata.android.iconify.Iconify;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -64,6 +74,7 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
     private boolean firstLoad = true;
     private Menu menu = null;
     private User user;
+    private Drawable defaultImageDrawable;
 
     protected EntryType setEntryType() {
         return EntryType.Default;
@@ -268,12 +279,57 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
 
         // common attributes
         ViewGroup container = (ViewGroup) findViewById(R.id.entry_detail_container);
-        TextView view;
+        final ImageCache imageCache = ImageCache.from(this);
+        final DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
         for(IColumn column: entryType.columns()) {
-            view = (TextView) container.findViewWithTag("entry_" + column.name());
+            final TextView view = (TextView) container.findViewWithTag("entry_" + column.name());
             if(view != null) {
                 if(column.type() == DataType.HTML) {
-                    view.setText(entry.getHTML(column, user.getAddress()));
+                    String html = entry.getAsString(column);
+                    if(html != null) {
+                        if(defaultImageDrawable == null) {
+                            defaultImageDrawable = new IconDrawable(this, Iconify.IconValue.fa_image);
+                        }
+                        final HashMap<String, URLDrawable> imageSet = new HashMap<>();
+                        Spanned htmlSpanned = Html.fromHtml(html, new Html.ImageGetter() {
+                            @Override
+                            public Drawable getDrawable(String source) {
+                                if(source.startsWith("data/upload/")) {
+                                    source = user.getAddress() + "/" + source;
+                                }
+                                Bitmap bitmap = imageCache.getFromMemory(source);
+                                if(bitmap != null) {
+                                    BitmapDrawable drawable = new BitmapDrawable(bitmap);
+
+                                    drawable.setBounds(Helper.strechWidth(bitmap.getWidth(), bitmap.getHeight(), view.getWidth()));
+                                    return drawable;
+                                } else {
+                                    URLDrawable drawable = new URLDrawable(defaultImageDrawable);
+                                    imageSet.put(source, drawable);
+                                    return drawable;
+                                }
+                            }
+                        }, null);
+                        view.setText(htmlSpanned);
+                        if(imageSet.size() > 0) {
+                            imageCache.imgReady(imageSet.keySet().toArray(new String[imageSet.keySet().size()]), new ImageCache.OnImageReadyListener() {
+                                @Override
+                                public void onImageReady(ImageCache.ImageRef ref) {
+                                    Bitmap bitmap = ref.getBitmap();
+                                    if(bitmap != null) {
+                                        BitmapDrawable drawable = new BitmapDrawable(bitmap);
+                                        URLDrawable urlDrawable = imageSet.get(ref.getUrl());
+                                        urlDrawable.setDrawable(drawable);
+                                        drawable.setBounds(Helper.strechWidth(bitmap.getWidth(), bitmap.getHeight(), view.getWidth()));
+                                        urlDrawable.setBounds(drawable.getBounds());
+                                        view.requestLayout();
+                                    }
+                                }
+                            });
+                        }
+                    } else {
+                        view.setText("");
+                    }
                 } else {
                     view.setText(entry.getFriendlyString(column));
                 }

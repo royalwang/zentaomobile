@@ -1,6 +1,7 @@
 package com.cnezsoft.zentao;
 
 import android.content.Context;
+import android.graphics.Rect;
 
 import org.json.JSONArray;
 
@@ -16,6 +17,17 @@ import static android.util.TypedValue.applyDimension;
  * Created by Catouse on 2015/1/13.
  */
 public class Helper {
+
+    static Rect strechWidth(int widht, int height, int fwidth) {
+        return strechWidth(0, 0, widht, height, fwidth);
+    }
+
+    static Rect strechWidth(int x, int  y, int width, int height, int fwidth) {
+        if(width > fwidth && fwidth > 10) {
+            height = (fwidth * height) / width;
+        }
+        return new Rect(x, y, width, height);
+    }
 
     /**
      * Convert dp to px
