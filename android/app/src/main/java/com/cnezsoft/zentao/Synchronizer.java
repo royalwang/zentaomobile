@@ -14,6 +14,7 @@ import com.cnezsoft.zentao.data.EntryType;
 import com.cnezsoft.zentao.data.Story;
 import com.cnezsoft.zentao.data.Task;
 import com.cnezsoft.zentao.data.Todo;
+import com.cnezsoft.zentao.data.TodoColumn;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -167,6 +168,9 @@ public class Synchronizer extends BroadcastReceiver {
             if(data != null) {
                 final DataEntry entry = DataEntryFactory.create(entryType, data);
                 entry.setLastSyncTime();
+                if(entry.getType() == EntryType.Todo) {
+                    entry.put(TodoColumn.account, user.getAccount());
+                }
                 DAO dao = new DAO(context);
                 OperateResult<Boolean> daoResult = dao.save(new HashSet<DataEntry>(1){{add(entry);}});
                 dao.close();
@@ -235,6 +239,7 @@ public class Synchronizer extends BroadcastReceiver {
                         case Todo:
                             for (int i = 0; i < setLength; ++i) {
                                 entry = new Todo(set.getJSONArray(i), keys);
+                                entry.put(TodoColumn.account, user.getAccount());
                                 entries.add(entry);
                             }
                             break;

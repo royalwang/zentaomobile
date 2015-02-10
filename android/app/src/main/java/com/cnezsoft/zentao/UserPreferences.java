@@ -170,14 +170,14 @@ public class UserPreferences {
         getIdentify(true);
     }
 
-    /**
-     * Constructor with application context and name
-     * @param context
-     */
-    public UserPreferences(Context context, String name) {
-        preferences = context.getSharedPreferences(name, Context.MODE_PRIVATE);
-        getIdentify(true);
-    }
+//    /**
+//     * Constructor with application context and name
+//     * @param context
+//     */
+//    public UserPreferences(Context context, String name) {
+//        preferences = context.getSharedPreferences(name, Context.MODE_PRIVATE);
+//        getIdentify(true);
+//    }
 
     /**
      * Register on user change listener

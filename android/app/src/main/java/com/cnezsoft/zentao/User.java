@@ -371,6 +371,10 @@ public class User {
         return account;
     }
 
+    public String getAddressIdentify() {
+        return address.replace('/', '_').toLowerCase();
+    }
+
     /**
      * Address getter
      * @return

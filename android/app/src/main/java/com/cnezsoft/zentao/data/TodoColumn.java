@@ -17,6 +17,7 @@ public enum TodoColumn implements IColumn {
     status(DataType.ENUM),
     idvalue(DataType.INT),
     desc(DataType.HTML),
+    account(DataType.STRING),
 
     lastSyncTime(DataType.DATETIME);
 

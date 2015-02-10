@@ -221,9 +221,9 @@ public class DAO {
                 Todo.PageTab todoTab = (Todo.PageTab) pageTab;
                 switch (todoTab) {
                     case undone:
-                        return count(entryType, TodoColumn.status.name() + " IS NOT " + Todo.Status.done.name());
+                        return count(entryType, TodoColumn.account + " = " + account + " AND " + TodoColumn.status.name() + " IS NOT " + Todo.Status.done.name());
                     case done:
-                        return count(entryType, TodoColumn.status.name() +  " = " + Todo.Status.done.name());
+                        return count(entryType, TodoColumn.account + " = " + account + " AND " + TodoColumn.status.name() +  " = " + Todo.Status.done.name());
                 }
                 break;
             case Task:
@@ -322,9 +322,13 @@ public class DAO {
                 Todo.PageTab todoTab = (Todo.PageTab) pageTab;
                 switch (todoTab) {
                     case undone:
-                        return query(entryType, TodoColumn.status.name() +  " IS NOT ?", new String[]{Todo.Status.done.name()}, order.name() + " " + orderType.name());
+                        return query(entryType, TodoColumn.account + " = ? AND "
+                                + TodoColumn.status.name() +  " IS NOT ?",
+                                new String[]{account, Todo.Status.done.name()}, order.name() + " " + orderType.name());
                     case done:
-                        return query(entryType, TodoColumn.status.name() +  " =?", new String[]{Todo.Status.done.name()}, order.name() + " " + orderType.name());
+                        return query(entryType, TodoColumn.account + " = ? AND "
+                                + TodoColumn.status.name() +  " =?",
+                                new String[]{account, Todo.Status.done.name()}, order.name() + " " + orderType.name());
                 }
                 break;
             case Task:

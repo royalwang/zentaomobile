@@ -5,14 +5,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.cnezsoft.zentao.ZentaoApplication;
+
 /**
  * Database helpers
  *
  * Created by Catouse on 2015/1/15.
  */
 public class DbHelper extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 20;
-    public static final String DATABASE_NAME = "com.cnezsoft.zentao.db";
+    public static final int DATABASE_VERSION = 23;
+    public static final String DATABASE_NAME = "com.cnezsoft.zentao.db.";
 
     /**
      * Create a helper object to create, open, and/or manage a database.
@@ -23,7 +25,7 @@ public class DbHelper extends SQLiteOpenHelper {
      * @param context to use to open or create the database
      */
     public DbHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        super(context, DATABASE_NAME + ((ZentaoApplication) context.getApplicationContext()).getUser().getAddressIdentify(), null, DATABASE_VERSION);
     }
 
     /**
