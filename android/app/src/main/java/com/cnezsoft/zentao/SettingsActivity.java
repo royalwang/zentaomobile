@@ -17,6 +17,8 @@ import android.widget.TextView;
 import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
 
+import java.util.Date;
+
 public class SettingsActivity extends ZentaoActivity {
 
     private User user;
@@ -24,6 +26,7 @@ public class SettingsActivity extends ZentaoActivity {
     private TextView textZentaoAddress;
     private TextView textZentaoUser;
     private TextView textSyncFreqName;
+    private TextView textUserLastSyncTime;
     private AlertDialog.Builder dialogBuilder = null;
     private Switch switchDisplayNotify;
 
@@ -36,6 +39,7 @@ public class SettingsActivity extends ZentaoActivity {
         user = application.getUser();
 
         textZentaoAddress = (TextView) findViewById(R.id.text_zentao_address);
+        textUserLastSyncTime = (TextView) findViewById(R.id.text_last_sync_time);
         textZentaoUser = (TextView) findViewById(R.id.text_zentao_user);
         textSyncFreqName = (TextView) findViewById(R.id.text_sync_freq_name);
         switchDisplayNotify = (Switch) findViewById(R.id.switch_display_notify);
@@ -59,6 +63,7 @@ public class SettingsActivity extends ZentaoActivity {
         textZentaoUser.setText(user.getAccount());
         textSyncFreqName.setText(user.getSyncFreqName(this));
         switchDisplayNotify.setChecked(user.isNotify());
+        textUserLastSyncTime.setText(String.format(getResources().getString(R.string.text_last_sync_time_format), user.getLastSyncTimeStr(this)));
     }
 
     @Override
@@ -129,5 +134,10 @@ public class SettingsActivity extends ZentaoActivity {
     public void onUserLogout(View view) {
         application.logout(this);
         finish();
+    }
+
+    public void onResetSyncTime(View view) {
+        user.setLastSyncTime(new Date(0)).save();
+        refreshUserInfo();
     }
 }

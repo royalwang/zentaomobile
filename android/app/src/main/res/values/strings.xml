@@ -61,5 +61,14 @@
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="action_feedback">意见反馈</string>
     <string name="text_miniute">%s分钟</string>
+    <string name="text_version">版本</string>
+    <string name="text_about">关于</string>
+    <string name="text_reset_sync_time">重置</string>
+    <string name="text_sync_frequency">同步频率</string>
+    <string name="text_show_notify">显示通知</string>
+    <string name="text_logout">注销</string>
+    <string name="text_account">帐号</string>
+    <string name="text_sync_and_notify">同步与通知</string>
+    <string name="text_last_sync_time_format">上次同步：%s</string>
 
 </resources>

@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         tools:context="com.cnezsoft.zentao.SettingsActivity">
     
-        <TextView android:text="帐号" android:layout_width="wrap_content"
+        <TextView android:text="@string/text_account" android:layout_width="wrap_content"
             android:textColor="@color/blue_600"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="16dp"
@@ -80,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="注销"
+                android:text="@string/text_logout"
                 android:clickable="true"
                 android:id="@+id/text_logout"
                 android:textColor="@color/red_500"
@@ -94,7 +94,7 @@
             android:layout_height="8dp"
             android:background="@color/divider"/>
 
-        <TextView android:text="同步与通知" android:layout_width="wrap_content"
+        <TextView android:text="@string/text_sync_and_notify" android:layout_width="wrap_content"
             android:textColor="@color/primary"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="16dp"
@@ -121,7 +121,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="显示通知"
+                android:text="@string/text_show_notify"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:id="@+id/textView4" />
@@ -161,7 +161,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="同步频率"
+                android:text="@string/text_sync_frequency"
                 android:layout_weight="1"
                 android:gravity="center_vertical" />
 
@@ -176,10 +176,51 @@
 
         </LinearLayout>
         <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider"
+            android:layout_marginLeft="72dp" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp">
+            <android.widget.IconTextView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:textSize="24sp"
+                android:textColor="@color/blue_600"
+                android:layout_marginRight="16dp"
+                android:text="{fa-clock-o}" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/text_last_sync_time_format"
+                android:id="@+id/text_last_sync_time" />
+
+            <TextView
+                style="@style/transparentButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/text_reset_sync_time"
+                android:clickable="true"
+                android:id="@+id/text_reset_sync_time"
+                android:textColor="@color/red_500"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:onClick="onResetSyncTime" />
+
+        </LinearLayout>
+        <View
             android:layout_height="8dp"
             android:layout_width="match_parent"
             android:background="@color/divider"/>
-        <TextView android:text="关于" android:layout_width="wrap_content"
+        <TextView android:text="@string/text_about" android:layout_width="wrap_content"
             android:textColor="@color/primary"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="16dp"
@@ -206,7 +247,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="版本"
+                android:text="@string/text_version"
                 android:gravity="center_vertical"/>
             <TextView
                 android:layout_width="0dp"
