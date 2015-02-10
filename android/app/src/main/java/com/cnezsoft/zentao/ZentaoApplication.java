@@ -9,6 +9,8 @@ import android.os.Bundle;
 
 import com.cnezsoft.zentao.data.EntryType;
 
+import org.apache.http.impl.client.DefaultHttpClient;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,14 @@ public class ZentaoApplication extends Application {
     private User user;
     private ZentaoConfig zentaoConfig;
     private UserPreferences userPreferences;
+    private DefaultHttpClient defaultHttpClient;
+
+    public DefaultHttpClient getDefaultHttpClient() {
+        if(defaultHttpClient == null) {
+            defaultHttpClient = new DefaultHttpClient();
+        }
+        return defaultHttpClient;
+    }
 
     /**
      * ZentaoConfig getter
