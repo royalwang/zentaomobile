@@ -27,6 +27,7 @@ public class SettingsActivity extends ZentaoActivity {
     private TextView textZentaoUser;
     private TextView textSyncFreqName;
     private TextView textUserLastSyncTime;
+    private TextView textVersionName;
     private AlertDialog.Builder dialogBuilder = null;
     private Switch switchDisplayNotify;
 
@@ -38,6 +39,7 @@ public class SettingsActivity extends ZentaoActivity {
         application = (ZentaoApplication) this.getApplicationContext();
         user = application.getUser();
 
+        textVersionName = (TextView) findViewById(R.id.text_version_name);
         textZentaoAddress = (TextView) findViewById(R.id.text_zentao_address);
         textUserLastSyncTime = (TextView) findViewById(R.id.text_last_sync_time);
         textZentaoUser = (TextView) findViewById(R.id.text_zentao_user);
@@ -59,6 +61,7 @@ public class SettingsActivity extends ZentaoActivity {
 
     private void refreshUserInfo() {
         user.load();
+        textVersionName.setText(application.getVersionName());
         textZentaoAddress.setText(user.getAddress());
         textZentaoUser.setText(user.getAccount());
         textSyncFreqName.setText(user.getSyncFreqName(this));
@@ -99,7 +102,7 @@ public class SettingsActivity extends ZentaoActivity {
         } else if(id == R.id.action_feedback) {
             Intent data=new Intent(Intent.ACTION_SENDTO);
             data.setData(Uri.parse("mailto:sunhao@cnezsoft.com"));
-            data.putExtra(Intent.EXTRA_SUBJECT, "禅道Android客户端（v1.0beta）意见反馈");
+            data.putExtra(Intent.EXTRA_SUBJECT, "禅道Android客户端（" + textVersionName.getText().toString() + "）意见反馈");
             data.putExtra(Intent.EXTRA_TEXT, "(请畅所欲言)");
             startActivity(data);
         } else if(id == android.R.id.home) {
