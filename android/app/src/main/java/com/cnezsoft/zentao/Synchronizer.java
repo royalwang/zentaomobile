@@ -27,6 +27,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -55,6 +56,8 @@ public class Synchronizer extends BroadcastReceiver {
     private boolean running;
     private long lastSyncFreg;
     private ZentaoApplication application;
+    private int minIdKey = Integer.MAX_VALUE;
+    private int itemCount = 0;
 
     /**
      * Constructor with context
@@ -84,13 +87,59 @@ public class Synchronizer extends BroadcastReceiver {
     public boolean sync(EntryType entryType) {
         if(!application.checkUserStatus()) return false;
 
-        Date thisSyncTime = new Date();
-        OperateBundle<Boolean, JSONObject> result = ZentaoAPI.getDataList(application.getZentaoConfig(), user, entryType);
-        if(saveData(result)) {
-            user.setSyncTime(thisSyncTime);
-            return true;
+        if(user.withIncrementSync()) {
+            Date thisSyncTime = new Date();
+            OperateBundle<Boolean, JSONObject> result = ZentaoAPI.getDataList(application.getZentaoConfig(), user, entryType);
+            if(saveData(result)) {
+                user.setSyncTime(thisSyncTime);
+                return true;
+            }
+            return false;
         }
-        return false;
+
+        return deepSync();
+    }
+
+    private boolean deepSync() {
+        Log.v("SYNC", "deep sync");
+        HashMap<EntryType, Integer> deepSyncConfig = new HashMap<EntryType, Integer>(){{
+            put(EntryType.Todo, 0);
+            put(EntryType.Task, 0);
+            put(EntryType.Bug, 0);
+            put(EntryType.Story, 0);
+        }};
+        int range;
+        EntryType entryType;
+        OperateBundle<Boolean, JSONObject> result;
+        boolean needMoreRequest = true;
+        Date thisSyncTime = new Date();
+        while (needMoreRequest) {
+            needMoreRequest = false;
+            for(Map.Entry<EntryType, Integer> entry: deepSyncConfig.entrySet()) {
+                entryType = entry.getKey();
+                range = entry.getValue();
+
+                Log.v("SYNC", "deep sync: entryType=" + entryType + ", range="+range);
+
+                if(range < 0) continue;
+
+                result = ZentaoAPI.getDataList(application.getZentaoConfig(), user, "full", entryType, range, 1000, "index");
+                if(saveData(result)) {
+                    if(minIdKey == Integer.MAX_VALUE || itemCount < 1000) {
+                        range = -1;
+//                        deepSyncConfig.remove(entryType);
+                    } else {
+                        range = minIdKey;
+                        needMoreRequest = true;
+                    }
+                    entry.setValue(range);
+                } else {
+                    return false;
+                }
+            }
+        }
+        user.setSyncTime(thisSyncTime);
+        return true;
     }
 
     /**
@@ -192,7 +241,7 @@ public class Synchronizer extends BroadcastReceiver {
             return null;
         }
 
-        OperateBundle<Boolean, JSONObject> result = ZentaoAPI.getDataItem(zentaoConfig, user, entryType, id);
+        OperateBundle<Boolean, JSONObject> result = ZentaoAPI.getDataItem(application.getZentaoConfig(), user, entryType, id);
         if(result.getResult()) {
             JSONObject data = result.getValue();
             Log.v("SYNC", "success: " + result.getMessage() + ", data: " + (data != null ? data.toString() : "no data."));
@@ -223,6 +272,10 @@ public class Synchronizer extends BroadcastReceiver {
      * @return
      */
     private ArrayList<DataEntry> getEntriesFromJSON(JSONObject jsonData) {
+        // set minIdKey to Integer.MAX_VALUE;
+        minIdKey = Integer.MAX_VALUE;
+        itemCount = 0;
+
         Log.v("SYNC", "getEntriesFromJSON: " + jsonData.toString());
         ArrayList<DataEntry> entries = new ArrayList<>();
         String name;
@@ -273,24 +326,32 @@ public class Synchronizer extends BroadcastReceiver {
                                 entry = new Todo(set.getJSONArray(i), keys);
                                 entry.put(TodoColumn.account, user.getAccount());
                                 entries.add(entry);
+                                itemCount++;
+                                minIdKey = Math.min(minIdKey, Integer.parseInt(entry.key()));
                             }
                             break;
                         case Task:
                             for (int i = 0; i < setLength; ++i) {
                                 entry = new Task(set.getJSONArray(i), keys);
                                 entries.add(entry);
+                                itemCount++;
+                                minIdKey = Math.min(minIdKey, Integer.parseInt(entry.key()));
                             }
                             break;
                         case Bug:
                             for (int i = 0; i < setLength; ++i) {
                                 entry = new Bug(set.getJSONArray(i), keys);
                                 entries.add(entry);
+                                itemCount++;
+                                minIdKey = Math.min(minIdKey, Integer.parseInt(entry.key()));
                             }
                             break;
                         case Story:
                             for (int i = 0; i < setLength; ++i) {
                                 entry = new Story(set.getJSONArray(i), keys);
                                 entries.add(entry);
+                                itemCount++;
+                                minIdKey = Math.min(minIdKey, Integer.parseInt(entry.key()));
                             }
                             break;
                     }

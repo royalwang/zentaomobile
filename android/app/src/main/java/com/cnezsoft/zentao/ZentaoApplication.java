@@ -74,13 +74,14 @@ public class ZentaoApplication extends Application {
 
     public boolean checkUserStatus() {
         User.Status userStatus = user.getStatus();
-        Log.v("SYNC", "userStatus: " + userStatus.toString());
+        Log.v("APPLICATION", "checkUserStatus: " + userStatus.toString());
         if(userStatus == User.Status.Unknown) {
             return false;
         } else if(userStatus == User.Status.Offline || zentaoConfig == null) {
-            Log.v("SYNC", "The user is offline, now login again.");
+            Log.v("APPLICATION", "The user is offline, now login again.");
             return login();
         }
+        Log.v("APPLICATION", "checkUserStatus NOW: " + user.getStatus());
         return true;
     }
 

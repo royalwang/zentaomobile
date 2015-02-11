@@ -261,11 +261,10 @@ public class ZentaoAPI
      * @param range
      * @param records
      * @param format
-     * @param zip
      * @return
      */
     public static OperateBundle<Boolean, JSONObject> getDataList(ZentaoConfig config, User user, String type, EntryType entryType,
-        int range, int records, String format, boolean zip) {
+        int range, int records, String format) {
         JSONObject json;
         boolean result;
         String message;
@@ -278,7 +277,6 @@ public class ZentaoAPI
         parmas.put("range", range + "");
         parmas.put("last", ((int) Math.floor(lastSyncTime.getTime()/1000)) + "");
         parmas.put("records", records + "");
-        parmas.put("zip", zip ? "1" : "0");
         parmas.put("format", format);
 
         json = Http.getJSON(concatUrl(parmas, config, user), GZIP_REQUEST);
@@ -307,28 +305,12 @@ public class ZentaoAPI
      * Get data list
      * @param config
      * @param user
-     * @param type
-     * @param entryType
-     * @param range
-     * @param records
-     * @param format
-     * @return
-     */
-    public static OperateBundle<Boolean, JSONObject> getDataList(ZentaoConfig config, User user,
-            String type, EntryType entryType, int range, int records, String format) {
-        return getDataList(config, user, type, entryType, range, records, format, false);
-    }
-
-    /**
-     * Get data list
-     * @param config
-     * @param user
      * @param entryType
      * @return
      */
     public static OperateBundle<Boolean, JSONObject> getDataList(ZentaoConfig config,
             User user, EntryType entryType) {
-        return getDataList(config, user, "increment", entryType, 0, 1000, "index", false);
+        return getDataList(config, user, "increment", entryType, 0, 1000, "index");
     }
 
     /**
@@ -339,6 +321,6 @@ public class ZentaoAPI
      */
     public static OperateBundle<Boolean, JSONObject> getDataList(ZentaoConfig config,
             User user) {
-        return getDataList(config, user, "increment", EntryType.Default, 0, 1000, "index", false);
+        return getDataList(config, user, "increment", EntryType.Default, 0, 1000, "index");
     }
 }
