@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.cnezsoft.zentao.data.EntryType;
 
@@ -69,6 +70,18 @@ public class ZentaoApplication extends Application {
         {
             login(activity, true);
         }
+    }
+
+    public boolean checkUserStatus() {
+        User.Status userStatus = user.getStatus();
+        Log.v("SYNC", "userStatus: " + userStatus.toString());
+        if(userStatus == User.Status.Unknown) {
+            return false;
+        } else if(userStatus == User.Status.Offline || zentaoConfig == null) {
+            Log.v("SYNC", "The user is offline, now login again.");
+            return login();
+        }
+        return true;
     }
 
     /**

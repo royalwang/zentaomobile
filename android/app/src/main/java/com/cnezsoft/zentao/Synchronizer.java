@@ -64,7 +64,6 @@ public class Synchronizer extends BroadcastReceiver {
         this.context = context;
         application = (ZentaoApplication) context.getApplicationContext();
         user = application.getUser();
-        zentaoConfig = application.getZentaoConfig();
 
         user.setOnSyncFrequenceChangeListner(new User.OnSyncFrequenceChangeListner() {
             @Override
@@ -83,32 +82,23 @@ public class Synchronizer extends BroadcastReceiver {
      * @return
      */
     public boolean sync(EntryType entryType) {
-        User.Status userStatus = user.getStatus();
-        Log.v("SYNC", "userStatus: " + userStatus.toString());
-        if(userStatus == User.Status.Offline) {
-            Long thisLoginTime = new Date().getTime();
-            if((thisLoginTime - lastLoginTime) < maxLoginInterval) {
-                Log.w("SYNC", "Login required, but abort this time to prevent server lock.");
-                return false;
-            } else {
-                lastLoginTime = thisLoginTime;
-            }
-            Log.v("SYNC", "The user is offline, now login again.");
-            ZentaoApplication application = (ZentaoApplication) context.getApplicationContext();
-            if(application.login()) {
-                user = application.getUser();
-                zentaoConfig = application.getZentaoConfig();
-            } else {
-                return false;
-            }
-        } else if(userStatus == User.Status.Unknown) {
-            Log.w("SYNC", "Unknown user, sync stopped!");
-            return false;
-        }
+        if(!application.checkUserStatus()) return false;
 
         Date thisSyncTime = new Date();
+        OperateBundle<Boolean, JSONObject> result = ZentaoAPI.getDataList(application.getZentaoConfig(), user, entryType);
+        if(saveData(result)) {
+            user.setSyncTime(thisSyncTime);
+            return true;
+        }
+        return false;
+    }
 
-        OperateBundle<Boolean, JSONObject> result = ZentaoAPI.getDataList(zentaoConfig, user, entryType);
+    /**
+     * Save sync data
+     * @param result
+     * @return
+     */
+    private boolean saveData(OperateBundle<Boolean, JSONObject> result) {
         if(result.getResult()) {
             JSONObject data = result.getValue();
             Log.v("SYNC", "success: " + result.getMessage() + ", data: " + (data != null ? data.toString() : "no data."));
@@ -117,11 +107,11 @@ public class Synchronizer extends BroadcastReceiver {
                 DAO dao = new DAO(context);
                 DAOResult daoResult = dao.save(getEntriesFromJSON(data), user.withIncrementSync());
                 dao.close();
-                handleNotify(daoResult);
+                if(user.withIncrementSync()) {
+                    handleNotify(daoResult);
+                }
                 Log.v("SYNC", daoResult.toString());
             }
-
-            user.setSyncTime(thisSyncTime);
             return true;
         }
 
@@ -129,6 +119,11 @@ public class Synchronizer extends BroadcastReceiver {
         return false;
     }
 
+    /**
+     * Handle notify
+     * @param daoResult
+     * @return
+     */
     public boolean handleNotify(DAOResult daoResult) {
 //        if(!application.isRunningInBackground()) {
 //            return false;
