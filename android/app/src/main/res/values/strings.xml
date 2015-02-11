@@ -75,5 +75,6 @@
     <string name="text_undone">未完成</string>
     <string name="text_assigned_to">指派给我</string>
     <string name="text_new">新</string>
+    <string name="text_click_view">点击查看</string>
 
 </resources>

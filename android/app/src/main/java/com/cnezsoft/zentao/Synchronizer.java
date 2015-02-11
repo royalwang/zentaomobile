@@ -180,9 +180,11 @@ public class Synchronizer extends BroadcastReceiver {
         for(Map.Entry<EntryType, DAOOperateInfo> result: daoResult.getInfos().entrySet()) {
             if(result.getValue().add() > 0) {
                 Notification.Builder builder = new Notification.Builder(context);
-                builder.setSmallIcon(R.drawable.ic_launcher);
+                builder.setSmallIcon(R.drawable.zentao_icon_flat_white);
                 builder.setContentTitle(String.format(context.getString(R.string.text_notify_new_items_format), result.getValue().add(),
-                        ZentaoApplication.getEnumText(context, result.getKey()))).setNumber(result.getValue().add());
+                        ZentaoApplication.getEnumText(context, result.getKey())))
+                        .setNumber(result.getValue().add())
+                        .setContentText(context.getString(R.string.text_click_view));
 
                 Intent resultIntent = new Intent(context, MainActivity.class);
                 PendingIntent resultPendingIntent = PendingIntent.getActivity(
