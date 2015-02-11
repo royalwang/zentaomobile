@@ -157,7 +157,11 @@ public class MainActivity extends ZentaoActivity {
                     numberNameView.setText(getString(R.string.text_new_items));
                     summeryContainer.setBackgroundColor(MaterialColorSwatch.Yellow.color(MaterialColorName.C100).value());
                 } else {
-                    numberView.setText(summery.get("count"));
+                    String count = summery.get("count");
+                    numberView.setText(count);
+                    if(count.equals("0")) {
+                        numberView.setTextColor(getResources().getColor(R.color.secondary_text));
+                    }
                     numberNameView.setText(getString(type == EntryType.Todo ? R.string.text_undone : R.string.text_assigned_to));
                     summeryContainer.setBackgroundColor(Color.WHITE);
                 }
