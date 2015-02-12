@@ -3,6 +3,7 @@ package com.cnezsoft.zentao.data;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 
 import java.util.Collection;
@@ -213,7 +214,10 @@ public class DAO {
     public boolean isDatabaseEmpty() {
         for(EntryType type: EntryType.values()) {
             if(type == EntryType.Default) continue;
-            if(count(type) > 0) return false;
+            try {
+                if(count(type) > 0) return false;
+            } catch (SQLiteException e) {
+            }
         }
         return true;
     }
