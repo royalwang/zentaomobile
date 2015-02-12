@@ -67,6 +67,8 @@ public class MainActivity extends ZentaoActivity {
             };
         }
 
+        ((TextView) findViewById(R.id.text_hello_user)).setText(user.getHelloText(this));
+
         this.registerReceiver(syncReceiver, intentFilter);
     }
 
@@ -90,7 +92,6 @@ public class MainActivity extends ZentaoActivity {
                 }
             }
         });
-        ((TextView) findViewById(R.id.text_hello_user)).setText(user.getHelloText(this));
         summeryListContainer = (LinearLayout) findViewById(R.id.container_summery_list);
         new UpdateSummeries().execute(this);
     }
