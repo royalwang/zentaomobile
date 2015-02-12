@@ -58,6 +58,7 @@ public class Synchronizer extends BroadcastReceiver {
     private ZentaoApplication application;
     private int minIdKey = Integer.MAX_VALUE;
     private int itemCount = 0;
+    private boolean checkDatabaseEmpty = true;
 
     /**
      * Constructor with context
@@ -86,6 +87,16 @@ public class Synchronizer extends BroadcastReceiver {
      */
     public boolean sync(EntryType entryType) {
         if(!application.checkUserStatus()) return false;
+        if(checkDatabaseEmpty) {
+            DAO dao = new DAO(context);
+            checkDatabaseEmpty = dao.isDatabaseEmpty();
+            dao.close();
+
+            if(checkDatabaseEmpty) {
+                Log.v("SYNC", "database is empty!");
+                user.setSyncTime(new Date(0));
+            }
+        }
 
         if(user.withIncrementSync()) {
             Date thisSyncTime = new Date();

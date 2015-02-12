@@ -207,6 +207,18 @@ public class DAO {
     }
 
     /**
+     * Check the database whether is empty
+     * @return
+     */
+    public boolean isDatabaseEmpty() {
+        for(EntryType type: EntryType.values()) {
+            if(type == EntryType.Default) continue;
+            if(count(type) > 0) return false;
+        }
+        return true;
+    }
+
+    /**
      * Count entries
      * @param type
      * @return
