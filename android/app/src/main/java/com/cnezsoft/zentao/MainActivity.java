@@ -22,18 +22,15 @@ import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
 import com.cnezsoft.zentao.data.DAO;
 import com.cnezsoft.zentao.data.DataEntry;
 import com.cnezsoft.zentao.data.EntryType;
-import com.cnezsoft.zentao.data.Todo;
 
-import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Main activity
  */
 public class MainActivity extends ZentaoActivity {
+
     /**
      * Used to store Zentao application context
      */
@@ -58,7 +55,6 @@ public class MainActivity extends ZentaoActivity {
             intentFilter = new IntentFilter();
             intentFilter.addAction(Synchronizer.MESSAGE_OUT_SYNC);
         }
-        Context context = this;
 
         if(syncReceiver == null) {
             syncReceiver = new BroadcastReceiver() {
@@ -88,8 +84,8 @@ public class MainActivity extends ZentaoActivity {
         // hello to user
         user.setOnUserInfoChangeListener(new User.OnUserInfoChangeListener() {
             @Override
-            public void onUserInfoChnage(String name) {
-                if(name == User.ACCOUNT || name == User.REALNAME) {
+            public void onUserInfoChange(String name) {
+                if(name.equals(User.ACCOUNT) || name.equals(User.REALNAME)) {
                     ((TextView) findViewById(R.id.text_hello_user)).setText(user.getHelloText(context));
                 }
             }
@@ -187,6 +183,20 @@ public class MainActivity extends ZentaoActivity {
     }
 
     private class UpdateSummeries extends AsyncTask<Context, Integer, HashMap<EntryType, HashMap<String, String>>> {
+        /**
+         * Runs on the UI thread before {@link #doInBackground}.
+         *
+         * @see #onPostExecute
+         * @see #doInBackground
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if(user.getStatus() == User.Status.Unknown) {
+                cancel(true);
+            }
+        }
+
         @Override
         protected HashMap<EntryType, HashMap<String, String>> doInBackground(Context... params) {
             DAO dao = new DAO(params[0]);
@@ -202,11 +212,7 @@ public class MainActivity extends ZentaoActivity {
 
     public void showDatabase(View view) {
         String logKey = "DATABASE TEST";
-        long now = new Date().getTime();
-        long minute = 60*1000;
-        long counter = 0;
-        Set<Todo> todos;
-        Set<DataEntry> entries = new HashSet<>();
+        long counter;
         DAO dao = new DAO(this);
 
         Log.d(logKey, "*************** show database ***************");

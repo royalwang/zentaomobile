@@ -33,7 +33,7 @@ public class User {
     }
 
     public interface OnUserInfoChangeListener {
-        void onUserInfoChnage(String name);
+        void onUserInfoChange(String name);
     }
 
     public interface OnStatusChangeListner {
@@ -656,7 +656,7 @@ public class User {
                         break;
                 }
                 if(onUserInfoChangeListener != null) {
-                    onUserInfoChangeListener.onUserInfoChnage(key);
+                    onUserInfoChangeListener.onUserInfoChange(key);
                 }
             }
         });
