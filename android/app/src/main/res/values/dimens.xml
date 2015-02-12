@@ -26,4 +26,5 @@
     <dimen name="control_corner_material">2dp</dimen>
 
     <dimen name="action_bar_icon_size">22dp</dimen>
+    <dimen name="line_spacing_extra">10dp</dimen>
 </resources>

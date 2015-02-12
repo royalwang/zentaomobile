@@ -144,6 +144,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:tag="entry_steps"
+                android:lineSpacingMultiplier="0"
+                android:lineSpacingExtra="@dimen/line_spacing_extra"
                 android:text=""/>
         </LinearLayout>
         <View

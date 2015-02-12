@@ -161,6 +161,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:tag="entry_desc"
+                android:lineSpacingExtra="@dimen/line_spacing_extra"
+                android:lineSpacingMultiplier="0"
                 android:text="@string/text_no_desc"/>
 
         </LinearLayout>
