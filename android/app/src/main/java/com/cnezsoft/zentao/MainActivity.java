@@ -77,6 +77,8 @@ public class MainActivity extends ZentaoActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setAccentSwatch(MaterialColorSwatch.Blue);
+
         // Check user status
         application = (ZentaoApplication) getApplicationContext();
         user = application.getUser();
