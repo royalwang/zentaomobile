@@ -22,6 +22,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.text.Html.ImageGetter;
+import android.util.Log;
 import android.view.View;
 
 import org.apache.http.HttpResponse;
@@ -69,6 +70,7 @@ public class UrlImageGetter implements ImageGetter {
         @Override
         protected Drawable doInBackground(String... params) {
             String source = params[0];
+            Log.v("UrlImageGetter", "source url=" + source);
             return fetchDrawable(source);
         }
 

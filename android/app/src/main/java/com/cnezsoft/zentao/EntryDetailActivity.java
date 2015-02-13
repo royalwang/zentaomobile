@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.Html;
 import android.text.Spanned;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +23,8 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.IconTextView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
@@ -51,6 +52,8 @@ import com.cnezsoft.zentao.data.TodoColumn;
 import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
 
+import org.sufficientlysecure.htmltextview.HtmlTextView;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -75,6 +78,7 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
     private Menu menu = null;
     private User user;
     private Drawable defaultImageDrawable;
+    private ImageCache imageCache;
 
     protected EntryType setEntryType() {
         return EntryType.Default;
@@ -129,6 +133,8 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
         }
 
         setContentView(layout);
+
+        imageCache = ImageCache.from(this);
 
         // init loader
         getLoaderManager().initLoader(entryType.ordinal(), null, this);
@@ -233,6 +239,8 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
 
         displayEntry();
 
+        firstLoad = true;
+
         if(firstLoad) {
             firstLoad = false;
             long nowTime = new Date().getTime();
@@ -279,7 +287,90 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
         findViewById(R.id.entry_detail_heading).setBackgroundColor(swatch.color(MaterialColorName.C600).value());
     }
 
+    private void displayHtmlInTextView(final TextView view, String html) {
+        if(defaultImageDrawable == null) {
+            defaultImageDrawable = new IconDrawable(this, Iconify.IconValue.fa_image);
+        }
+
+        final HashMap<String, URLDrawable> imageSet = new HashMap<>();
+        Spanned htmlSpanned = Html.fromHtml(html, new Html.ImageGetter() {
+            @Override
+            public Drawable getDrawable(String source) {
+                if(source.startsWith("data/upload/")) {
+                    source = user.getAddress() + "/" + source;
+                }
+                Log.v("DETAIL", ">>>>> getDrawable:" + source);
+                Bitmap bitmap = imageCache.getFromMemory(source);
+                if(bitmap != null) {
+                    BitmapDrawable drawable = new BitmapDrawable(bitmap);
+
+                    drawable.setBounds(Helper.strechWidth(bitmap.getWidth(), bitmap.getHeight(), view.getWidth()));
+                    Log.v("DETAIL", "memory image bounds:" + drawable.getBounds().toString());
+                    return drawable;
+                } else {
+                    URLDrawable drawable = new URLDrawable(defaultImageDrawable);
+                    imageSet.put(source, drawable);
+                    return drawable;
+                }
+            }
+        }, null);
+        view.setText(htmlSpanned);
+        if(imageSet.size() > 0) {
+            imageCache.imgReady(imageSet.keySet().toArray(new String[imageSet.keySet().size()]), new ImageCache.OnImageReadyListener() {
+                @Override
+                public void onImageReady(ImageCache.ImageRef ref) {
+                    Bitmap bitmap = ref.getBitmap();
+                    if(bitmap != null) {
+                        BitmapDrawable drawable = new BitmapDrawable(bitmap);
+                        URLDrawable urlDrawable = imageSet.get(ref.getUrl());
+                        urlDrawable.setDrawable(drawable);
+
+                        drawable.setBounds(Helper.strechWidth(bitmap.getWidth(), bitmap.getHeight(), view.getWidth()));
+                        urlDrawable.setBounds(drawable.getBounds());
+                        Log.v("DETAIL", "remote drawable  bounds:" + drawable.getBounds().toString());
+                        Log.v("DETAIL", "remote urlDrawable bounds:" + urlDrawable.getBounds().toString());
+                        view.requestLayout();
+                    }
+                }
+            });
+        }
+    }
+
+    private void displayTextviewWithImageList(final HtmlTextView view, String html, final ImageCache imageCache) {
+
+    }
+
+    private void displayImage(ViewGroup container, final String source) {
+        ImageView imageView = (ImageView) container.findViewWithTag(source);
+        if(imageView == null) {
+            imageView = new ImageView(this);
+            LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            layout.topMargin = Helper.convertDpToPx(this, 16);
+            imageView.setLayoutParams(layout);
+            imageView.setTag(source);
+            imageView.setAdjustViewBounds(true);
+            container.addView(imageView);
+        }
+        final Bitmap bitmap = imageCache.getFromMemory(source);
+        if(bitmap != null) {
+            imageView.setImageBitmap(bitmap);
+        } else {
+            final ImageView finalImageView = imageView;
+            imageCache.imgReady(new String[]{source}, new ImageCache.OnImageReadyListener() {
+                @Override
+                public void onImageReady(ImageCache.ImageRef ref) {
+                    if(ref.getBitmap() != null) {
+                        finalImageView.setImageBitmap(ref.getBitmap());
+                    }
+                }
+            });
+        }
+    }
+
     private void displayEntry() {
+        Log.v("DETAIL", "========== displayEntry ===========");
         int accentPri = entry.getAccentPri();
         if(accentPri > 0 && accentPri < MaterialColorSwatch.PriAccentSwatches.length) {
             setAccentSwatch(MaterialColorSwatch.PriAccentSwatches[accentPri]);
@@ -287,53 +378,26 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
 
         // common attributes
         ViewGroup container = (ViewGroup) findViewById(R.id.entry_detail_container);
-        final ImageCache imageCache = ImageCache.from(this);
-        final DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
         for(IColumn column: entryType.columns()) {
             final TextView view = (TextView) container.findViewWithTag("entry_" + column.name());
             if(view != null) {
                 if(column.type() == DataType.HTML) {
                     String html = entry.getAsString(column);
                     if(html != null) {
-                        if(defaultImageDrawable == null) {
-                            defaultImageDrawable = new IconDrawable(this, Iconify.IconValue.fa_image);
-                        }
-                        final HashMap<String, URLDrawable> imageSet = new HashMap<>();
-                        Spanned htmlSpanned = Html.fromHtml(html, new Html.ImageGetter() {
-                            @Override
-                            public Drawable getDrawable(String source) {
-                                if(source.startsWith("data/upload/")) {
-                                    source = user.getAddress() + "/" + source;
-                                }
-                                Bitmap bitmap = imageCache.getFromMemory(source);
-                                if(bitmap != null) {
-                                    BitmapDrawable drawable = new BitmapDrawable(bitmap);
-
-                                    drawable.setBounds(Helper.strechWidth(bitmap.getWidth(), bitmap.getHeight(), view.getWidth()));
-                                    return drawable;
-                                } else {
-                                    URLDrawable drawable = new URLDrawable(defaultImageDrawable);
-                                    imageSet.put(source, drawable);
-                                    return drawable;
-                                }
-                            }
-                        }, null);
-                        view.setText(htmlSpanned);
-                        if(imageSet.size() > 0) {
-                            imageCache.imgReady(imageSet.keySet().toArray(new String[imageSet.keySet().size()]), new ImageCache.OnImageReadyListener() {
+                        final ViewGroup imageContainer = (ViewGroup) container.findViewWithTag("entry_" + column.name() + "_images");
+                        if(imageContainer == null) {
+                            displayHtmlInTextView(view, html);
+                        } else {
+                            view.setText(Html.fromHtml(html, new Html.ImageGetter() {
                                 @Override
-                                public void onImageReady(ImageCache.ImageRef ref) {
-                                    Bitmap bitmap = ref.getBitmap();
-                                    if(bitmap != null) {
-                                        BitmapDrawable drawable = new BitmapDrawable(bitmap);
-                                        URLDrawable urlDrawable = imageSet.get(ref.getUrl());
-                                        urlDrawable.setDrawable(drawable);
-                                        drawable.setBounds(Helper.strechWidth(bitmap.getWidth(), bitmap.getHeight(), view.getWidth()));
-                                        urlDrawable.setBounds(drawable.getBounds());
-                                        view.requestLayout();
+                                public Drawable getDrawable(String source) {
+                                    if(source.startsWith("data/upload/")) {
+                                        source = user.getAddress() + "/" + source;
                                     }
+                                    displayImage(imageContainer, source);
+                                    return defaultImageDrawable;
                                 }
-                            });
+                            }, null));
                         }
                     } else {
                         view.setText("");
