@@ -59,6 +59,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Detail view activity
@@ -79,6 +81,7 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
     private User user;
     private Drawable defaultImageDrawable;
     private ImageCache imageCache;
+    private Pattern imgPattern = Pattern.compile("<img.+src=[\"']([^ \"']+)[\"']", Pattern.CASE_INSENSITIVE);
 
     protected EntryType setEntryType() {
         return EntryType.Default;
@@ -347,7 +350,7 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
             LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
-            layout.topMargin = Helper.convertDpToPx(this, 16);
+            layout.bottomMargin = Helper.convertDpToPx(this, 16);
             imageView.setLayoutParams(layout);
             imageView.setTag(source);
             imageView.setAdjustViewBounds(true);
@@ -388,16 +391,15 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
                         if(imageContainer == null) {
                             displayHtmlInTextView(view, html);
                         } else {
-                            view.setText(Html.fromHtml(html, new Html.ImageGetter() {
-                                @Override
-                                public Drawable getDrawable(String source) {
-                                    if(source.startsWith("data/upload/")) {
-                                        source = user.getAddress() + "/" + source;
-                                    }
-                                    displayImage(imageContainer, source);
-                                    return defaultImageDrawable;
+                            view.setText(Html.fromHtml(html));
+                            Matcher imageMatcher = imgPattern.matcher(html);
+                            while(imageMatcher.find()) {
+                                String source = imageMatcher.group(1);
+                                if(source.startsWith("data/upload/")) {
+                                    source = user.getAddress() + "/" + source;
                                 }
-                            }, null));
+                                displayImage(imageContainer, source);
+                            }
                         }
                     } else {
                         view.setText("");
