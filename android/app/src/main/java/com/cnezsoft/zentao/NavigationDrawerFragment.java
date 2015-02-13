@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,12 +24,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -71,6 +77,9 @@ public class NavigationDrawerFragment extends Fragment {
     private AppNav currentNav = AppNav.home;
     private boolean mUserLearnedDrawer;
     private BroadcastReceiver syncReceiver = null;
+    private TextView textViewSyncTitle;
+
+    private Animation fadeOutAnimation;
 
     public NavigationDrawerFragment() {
     }
@@ -88,6 +97,8 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        fadeOutAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.abc_fade_out);
 
         getAppNavFromActivity();
 
@@ -140,6 +151,7 @@ public class NavigationDrawerFragment extends Fragment {
         textViewUserLastSyncTime = ((TextView) view.findViewById(R.id.text_user_last_sync_time));
         buttonChangeUser = (Button) view.findViewById(R.id.button_change_user);
         buttonSyncNow = (Button) view.findViewById(R.id.button_sync_now);
+        textViewSyncTitle = (TextView) view.findViewById(R.id.text_sync_title);
 
         // Bind event
         bindMenuEvents(view);
@@ -163,9 +175,58 @@ public class NavigationDrawerFragment extends Fragment {
         if(syncReceiver == null) {
             syncReceiver = new BroadcastReceiver() {
                 @Override
-                public void onReceive(Context context, Intent intent) {
+                public void onReceive(final Context context, Intent intent) {
                     if(intent.getAction().equals(Synchronizer.MESSAGE_OUT_SYNC)) {
                         updateUserInfo();
+                        if(!buttonSyncNow.isEnabled()) {
+                            textViewSyncTitle.getAnimation().reset();
+                            textViewSyncTitle.clearAnimation();
+                            fadeOutAnimation.setStartOffset(600);
+                            fadeOutAnimation.setAnimationListener(new Animation.AnimationListener() {
+                                @Override
+                                public void onAnimationStart(Animation animation) {
+                                }
+
+                                @Override
+                                 public void onAnimationEnd(Animation animation) {
+                                    textViewSyncTitle.setText(context.getString(R.string.text_last_sync));
+                                    buttonSyncNow.getAnimation().reset();
+                                    buttonSyncNow.clearAnimation();
+                                    buttonSyncNow.setText("{fa-check}");
+                                    buttonSyncNow.setTextColor(MaterialColorSwatch.Green.primary().value());
+
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Animation finalAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.abc_fade_out);
+                                            finalAnimation.setAnimationListener(new Animation.AnimationListener() {
+                                                @Override
+                                                public void onAnimationStart(Animation animation) {
+                                                }
+
+                                                @Override
+                                                public void onAnimationEnd(Animation animation) {
+                                                    buttonSyncNow.setText("{fa-refresh}");
+                                                    buttonSyncNow.setTextColor(context.getResources().getColor(R.color.primary));
+                                                    buttonSyncNow.setEnabled(true);
+                                                }
+                                                @Override
+                                                public void onAnimationRepeat(Animation animation) {
+                                                }
+                                            });
+                                            buttonSyncNow.startAnimation(finalAnimation);
+                                        }
+                                    }, 2000);
+
+                                }
+
+                                @Override
+                                public void onAnimationRepeat(Animation animation) {
+                                }
+                            });
+
+                            textViewSyncTitle.startAnimation(fadeOutAnimation);
+                        }
                     }
                 }
             };
@@ -243,6 +304,31 @@ public class NavigationDrawerFragment extends Fragment {
         buttonSyncNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final Activity activity = getActivity();
+                Animation animation = AnimationUtils.loadAnimation(activity, R.anim.rotate_normal);
+                animation.setInterpolator(new LinearInterpolator());
+                animation.setRepeatCount((int) ((1000 * 15) / animation.getDuration()));
+                buttonSyncNow.setEnabled(false);
+                buttonSyncNow.setAnimation(animation);
+
+                fadeOutAnimation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        textViewSyncTitle.setText(activity.getString(R.string.text_syncing));
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                textViewSyncTitle.startAnimation(fadeOutAnimation);
+
                 Intent intent = new Intent(Synchronizer.MESSAGE_IN_SYNC);
                 getActivity().sendBroadcast(intent);
             }

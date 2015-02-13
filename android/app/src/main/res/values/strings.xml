@@ -78,5 +78,6 @@
     <string name="text_new">新</string>
     <string name="text_click_view">点击查看</string>
     <string name="text_feedback_alert">没有在您的设备上找到邮件发送程序，要反馈bug请发邮件至%s。</string>
+    <string name="text_syncing">正在同步...</string>
 
 </resources>

@@ -99,7 +99,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/text_last_sync"
                 android:textColor="@color/secondary_text"
-                android:id="@+id/textView2" />
+                android:id="@+id/text_sync_title" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -117,7 +117,8 @@
             android:layout_height="56dp"
             android:text="{fa-refresh}"
             android:id="@+id/button_sync_now"
-            android:textSize="@dimen/abc_text_size_medium_material" />
+            android:textSize="@dimen/abc_text_size_medium_material"
+            android:textColor="@color/primary" />
     </LinearLayout>
 </LinearLayout>
 
