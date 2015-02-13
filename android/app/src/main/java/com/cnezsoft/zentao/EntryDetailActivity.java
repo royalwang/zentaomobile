@@ -21,7 +21,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.IconTextView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -51,8 +52,6 @@ import com.cnezsoft.zentao.data.Todo;
 import com.cnezsoft.zentao.data.TodoColumn;
 import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
-
-import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -162,12 +161,10 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
         loadingItemView.setTextColor(Color.WHITE);
         loadingItemView.setAlpha(.5f);
 
-        RotateAnimation rotate = new RotateAnimation(0, 360,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-
-        rotate.setDuration(1000);
-        rotate.setRepeatCount(RotateAnimation.INFINITE);
-        loadingItemView.setAnimation(rotate);
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotate_normal);
+        animation.setInterpolator(new LinearInterpolator());
+        animation.setRepeatCount((int) ((1000 * 15) / animation.getDuration()));
+        loadingItemView.setAnimation(animation);
         return true;
     }
 
@@ -242,7 +239,7 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
 
         displayEntry();
 
-        firstLoad = true;
+        Log.v("DETAIL", "onLoadFinished, firstLoad=" + firstLoad);
 
         if(firstLoad) {
             firstLoad = false;
@@ -260,7 +257,7 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
             } else {
                 clearLoadingAnimate();
             }
-        } else if(menu != null) {
+        } else {
             clearLoadingAnimate();
         }
     }
@@ -337,10 +334,6 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
                 }
             });
         }
-    }
-
-    private void displayTextviewWithImageList(final HtmlTextView view, String html, final ImageCache imageCache) {
-
     }
 
     private void displayImage(ViewGroup container, final String source) {
