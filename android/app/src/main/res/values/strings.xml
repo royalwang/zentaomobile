@@ -3,6 +3,7 @@
 
     <string name="app_name">禅道</string>
     <string name="action_settings">设置</string>
+    <string name="email_feedback">sunhao@cnezsoft.com</string>
     <string name="hint_zentao_address">禅道地址，如zentao.com</string>
     <string name="hint_account">用户名/邮箱</string>
     <string name="hint_password">密码</string>
@@ -59,7 +60,7 @@
     <string name="text_hello_afternoon">%s，下午好！</string>
     <string name="text_hello_night">%s，晚上好！</string>
     <string name="title_activity_settings">SettingsActivity</string>
-    <string name="action_feedback">意见反馈</string>
+    <string name="action_feedback">反馈bug</string>
     <string name="text_miniute">%s分钟</string>
     <string name="text_version">版本</string>
     <string name="text_about">关于</string>
@@ -76,5 +77,6 @@
     <string name="text_assigned_to">指派给我</string>
     <string name="text_new">新</string>
     <string name="text_click_view">点击查看</string>
+    <string name="text_feedback_alert">没有在您的设备上找到邮件发送程序，要反馈bug请发邮件至%s。</string>
 
 </resources>

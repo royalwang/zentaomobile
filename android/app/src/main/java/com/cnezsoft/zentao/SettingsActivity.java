@@ -1,9 +1,9 @@
 package com.cnezsoft.zentao;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -13,9 +13,6 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
-
-import com.joanzapata.android.iconify.IconDrawable;
-import com.joanzapata.android.iconify.Iconify;
 
 import java.util.Date;
 
@@ -82,10 +79,10 @@ public class SettingsActivity extends ZentaoActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(false);
 
-        menu.findItem(R.id.action_feedback).setIcon(new IconDrawable(this, Iconify.IconValue.fa_smile_o){{
-            color(Color.WHITE);
-            sizeRes(R.dimen.action_bar_icon_size);
-        }});
+//        menu.findItem(R.id.action_feedback).setIcon(new IconDrawable(this, Iconify.IconValue.fa_smile_o){{
+//            color(Color.WHITE);
+//            sizeRes(R.dimen.action_bar_icon_size);
+//        }});
         return true;
     }
 
@@ -99,12 +96,8 @@ public class SettingsActivity extends ZentaoActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        } else if(id == R.id.action_feedback) {
-            Intent data=new Intent(Intent.ACTION_SENDTO);
-            data.setData(Uri.parse("mailto:sunhao@cnezsoft.com"));
-            data.putExtra(Intent.EXTRA_SUBJECT, "禅道Android客户端（" + textVersionName.getText().toString() + "）意见反馈");
-            data.putExtra(Intent.EXTRA_TEXT, "(请畅所欲言)");
-            startActivity(data);
+//        } else if(id == R.id.action_feedback) {
+//            return true;
         } else if(id == android.R.id.home) {
             finish();
             return true;
@@ -142,5 +135,25 @@ public class SettingsActivity extends ZentaoActivity {
     public void onResetSyncTime(View view) {
         user.setLastSyncTime(new Date(0)).save();
         refreshUserInfo();
+    }
+
+    public void onSendFeedback(View view) {
+        Intent data=new Intent(Intent.ACTION_SENDTO);
+        data.setData(Uri.parse("mailto:" + getString(R.string.email_feedback)));
+        data.putExtra(Intent.EXTRA_SUBJECT, "禅道Android客户端（" + textVersionName.getText().toString() + "）意见反馈");
+        data.putExtra(Intent.EXTRA_TEXT, "(请畅所欲言)");
+        try {
+            startActivity(data);
+        } catch (ActivityNotFoundException e) {
+            new AlertDialog.Builder(this)
+                .setMessage(String.format(getString(R.string.text_feedback_alert), getString(R.string.email_feedback)))
+                .setNeutralButton(android.R.string.ok,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        })
+                .show();
+        }
     }
 }
