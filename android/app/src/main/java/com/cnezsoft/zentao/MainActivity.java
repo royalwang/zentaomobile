@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cnezsoft.zentao.colorswatch.MaterialColorName;
-import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
 import com.cnezsoft.zentao.data.DAO;
 import com.cnezsoft.zentao.data.DataEntry;
 import com.cnezsoft.zentao.data.EntryType;
@@ -80,7 +78,6 @@ public class MainActivity extends ZentaoActivity {
         // Check user status
         application = (ZentaoApplication) getApplicationContext();
         user = application.getUser();
-        application.checkUserStatus(this);
         final Context context = this;
 
         // hello to user
@@ -92,6 +89,8 @@ public class MainActivity extends ZentaoActivity {
                 }
             }
         });
+        application.checkUserStatus(this);
+
         summeryListContainer = (LinearLayout) findViewById(R.id.container_summery_list);
         new UpdateSummeries().execute(this);
     }
@@ -151,8 +150,8 @@ public class MainActivity extends ZentaoActivity {
                 String unread = summery.get("unread");
                 if(!unread.equals("0")) {
                     numberView.setText(unread);
-                    numberNameView.setText(getString(R.string.text_new_items));
-                    summeryContainer.setBackgroundColor(MaterialColorSwatch.Yellow.color(MaterialColorName.C100).value());
+                    numberNameView.setText(String.format(getString(R.string.text_new_item_format), ZentaoApplication.getEnumText(this, type)));
+                    summeryContainer.setBackground(getResources().getDrawable(R.drawable.ripple_yellow_100));
                 } else {
                     String count = summery.get("count");
                     numberView.setText(count);
@@ -160,7 +159,7 @@ public class MainActivity extends ZentaoActivity {
                         numberView.setTextColor(getResources().getColor(R.color.secondary_text));
                     }
                     numberNameView.setText(getString(type == EntryType.Todo ? R.string.text_undone : R.string.text_assigned_to));
-                    summeryContainer.setBackgroundColor(Color.WHITE);
+                    summeryContainer.setBackground(getResources().getDrawable(R.drawable.ripple_transparent));
                 }
             }
         }
