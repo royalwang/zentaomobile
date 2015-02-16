@@ -100,7 +100,7 @@ public class Todo extends DataEntry {
     public enum Status {
         wait(MaterialColorSwatch.Grey, "clock-o"),
         done(MaterialColorSwatch.Green, "check"),
-        doing(MaterialColorSwatch.Red, "play");
+        doing(MaterialColorSwatch.Pink, "play");
 
         private MaterialColorSwatch accentColor;
         private String iconName;

@@ -45,7 +45,7 @@
         android:maxLines="1"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/icon"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentEnd="false"
         android:layout_marginRight="32dp"
         android:textSize="14sp" />
 
@@ -89,4 +89,18 @@
         android:layout_alignParentEnd="true"
         android:paddingLeft="8dp"
         android:layout_marginTop="4dp" />
+
+    <android.widget.IconTextView
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="进行中"
+        android:id="@+id/text_status"
+        android:textSize="12sp"
+        android:textColor="@color/secondary_text"
+        android:layout_alignBaseline="@+id/text_id"
+        android:layout_alignBottom="@+id/text_id"
+        android:layout_toEndOf="@id/icon"
+        android:layout_marginLeft="50dp" />
+
 </RelativeLayout>

@@ -58,8 +58,8 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
         adapter = new SimpleCursorAdapter(activity,
                 R.layout.list_item_todo,
                 null,
-                new String[]{TodoColumn.name.name(), TodoColumn.begin.name(), TodoColumn.status.name(), TodoColumn.unread.name()},
-                new int[]{R.id.text_title, R.id.text_time, R.id.icon, R.id.text_new_item}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+                new String[]{TodoColumn.name.name(), TodoColumn.begin.name(), TodoColumn.pri.name(), TodoColumn.unread.name(), TodoColumn.status.name()},
+                new int[]{R.id.text_title, R.id.text_time, R.id.icon, R.id.text_new_item, R.id.text_status}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
         adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
             private Todo todo;
@@ -95,6 +95,18 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                                 MaterialColorSwatch.PriAccentSwatches[todo.getAccentPri()]
                                         .color(MaterialColorName.C300).value());
                         iconView.setText(todo.getStatus() == Todo.Status.done ? "{fa-check-circle-o}" : "{fa-circle-o}");
+                        return true;
+                    case R.id.text_status:
+                        getTodo(cursor);
+                        TextView statusView = (TextView) view;
+                        Todo.Status status = todo.getStatus();
+                        statusView.setText("{fa-" + status.icon() + "} " + ZentaoApplication.getEnumText(activity, status));
+                        statusView.setTextColor(status.accent().primary().value());
+                        if(status == Todo.Status.doing) {
+                            statusView.setVisibility(View.VISIBLE);
+                        } else {
+                            statusView.setVisibility(View.GONE);
+                        }
                         return true;
                     case R.id.text_new_item:
                         getTodo(cursor);
