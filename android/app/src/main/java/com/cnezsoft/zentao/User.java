@@ -8,8 +8,8 @@ import com.cnezsoft.zentao.data.DbHelper;
 
 import org.json.JSONException;
 import org.json.JSONStringer;
+import org.ocpsoft.prettytime.PrettyTime;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -159,13 +159,11 @@ public class User {
      * @return
      */
     public String getLastSyncTimeStr(Context context) {
-        Calendar now = Calendar.getInstance();
-        now.setTime(new Date());
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(lastSyncTime);
-        return new SimpleDateFormat(now.get(Calendar.YEAR) == calendar.get(Calendar.YEAR) ?
-                context.getString(R.string.text_medium_datetime_format)
-                : context.getString(R.string.text_long_datetime_format)).format(lastSyncTime);
+        Date d = getLastSyncTime();
+        if(d.getTime() < 1000) {
+            return context.getString(R.string.text_never_happened);
+        }
+        return new PrettyTime().format(d);
     }
 
     /**

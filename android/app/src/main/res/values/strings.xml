@@ -89,5 +89,6 @@
     <string name="text_new_todo">新待办</string>
     <string name="text_sync_success">同步成功</string>
     <string name="text_sync_failure">暂时无法同步</string>
+    <string name="text_never_happened">从未发生</string>
 
 </resources>
