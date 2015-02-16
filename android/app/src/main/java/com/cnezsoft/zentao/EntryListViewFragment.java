@@ -6,7 +6,6 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Loader;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -58,8 +57,8 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
         adapter = new SimpleCursorAdapter(activity,
                 R.layout.list_item_todo,
                 null,
-                new String[]{TodoColumn.name.name(), TodoColumn.begin.name(), TodoColumn.pri.name(), TodoColumn.unread.name(), TodoColumn.status.name()},
-                new int[]{R.id.text_title, R.id.text_time, R.id.icon, R.id.text_new_item, R.id.text_status}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+                new String[]{TodoColumn.name.name(), TodoColumn._id.name(), TodoColumn.begin.name(), TodoColumn.pri.name(), TodoColumn.unread.name(), TodoColumn.status.name()},
+                new int[]{R.id.text_title, R.id.text_id, R.id.text_time, R.id.icon, R.id.text_new_item, R.id.text_info}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
         adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
             private Todo todo;
@@ -83,9 +82,9 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                     case R.id.text_title:
                         getTodo(cursor);
                         TextView textView = (TextView) view;
-                        int pri = todo.getAccentPri();
-                        if(pri < 3) textView.setTextColor(MaterialColorSwatch.PriAccentSwatches[pri].primary().value());
-                        else textView.setTextColor(Color.BLACK);
+//                        int pri = todo.getAccentPri();
+//                        if(pri < 3) textView.setTextColor(MaterialColorSwatch.PriAccentSwatches[pri].primary().value());
+//                        else textView.setTextColor(Color.BLACK);
                         textView.setText(todo.getFriendlyString(TodoColumn.name));
                         return true;
                     case R.id.icon:
@@ -96,7 +95,11 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                                         .color(MaterialColorName.C300).value());
                         iconView.setText(todo.getStatus() == Todo.Status.done ? "{fa-check-circle-o}" : "{fa-circle-o}");
                         return true;
-                    case R.id.text_status:
+                    case R.id.text_id:
+                        getTodo(cursor);
+                        ((TextView) view).setText("#" + todo.getAsString(TodoColumn._id));
+                        return true;
+                    case R.id.text_info:
                         getTodo(cursor);
                         TextView statusView = (TextView) view;
                         Todo.Status status = todo.getStatus();
@@ -131,46 +134,86 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
         adapter = new SimpleCursorAdapter(activity,
                 R.layout.list_item_entry,
                 null,
-                new String[]{TaskColumn.name.name(), TaskColumn.status.name(), TaskColumn.pri.name(), TaskColumn.unread.name()},
-                new int[]{R.id.text_name, R.id.text_status, R.id.icon_pri, R.id.text_new_item}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+                new String[]{
+                        TaskColumn.pri.name(),
+                        TaskColumn.pri.name(),
+                        TaskColumn.name.name(),
+                        TaskColumn.unread.name(),
+                        TaskColumn._id.name(),
+                        TaskColumn.assignedTo.name(),
+                        TaskColumn.status.name()},
+                new int[]{
+                        R.id.icon,
+                        R.id.text_icon,
+                        R.id.text_title,
+                        R.id.text_new_item,
+                        R.id.text_id,
+                        R.id.text_info,
+                        R.id.text_status},
+                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
 
         adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
-            private Task task;
+            private Task entry;
 
             private String getCursorKey(Cursor cursor) {
                 return cursor.getString(cursor.getColumnIndex(TaskColumn.primary().name()));
             }
 
-            private Task getTask(Cursor cursor) {
-                if(task != null && task.key().equals(getCursorKey(cursor))) {
-                    return task;
+            private Task getEntry(Cursor cursor) {
+                if(entry != null && entry.key().equals(getCursorKey(cursor))) {
+                    return entry;
                 } else {
-                    task = new Task(cursor);
+                    entry = new Task(cursor);
                 }
-                return task;
+                return entry;
             }
 
             @Override
             public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
                 switch (view.getId()) {
-                    case R.id.text_status:
-                        getTask(cursor);
-                        TextView textView = (TextView) view;
-                        Task.Status status = task.getStatus();
-                        textView.setText(ZentaoApplication.getEnumText(activity, status));
-                        textView.setTextColor(status.accent().primary().value());
+                    case R.id.icon:
+                        getEntry(cursor);
+                        ((TextView) view).setTextColor(MaterialColorSwatch.PriAccentSwatches[entry.getAccentPri()]
+                                .color(MaterialColorName.C300).value());
                         return true;
-                    case R.id.icon_pri:
-                        getTask(cursor);
-                        ((IconTextView) view).setTextColor(
-                                MaterialColorSwatch.PriAccentSwatches[task.getAccentPri()]
-                                        .color(MaterialColorName.C300).value());
+                    case R.id.text_icon:
+                        getEntry(cursor);
+                        int pri = entry.getAccentPri();
+                        if(pri > 0) {
+                            ((TextView) view).setText(pri);
+                        }
                         return true;
                     case R.id.text_new_item:
-                        getTask(cursor);
-                        view.setVisibility(task.isUnread() ? View.VISIBLE : View.GONE);
+                        getEntry(cursor);
+                        view.setVisibility(entry.isUnread() ? View.VISIBLE : View.GONE);
+                        if(view.getVisibility() == View.VISIBLE) {
+                            ((TextView) view).setText(String.format(getString(R.string.text_new_item_format), ZentaoApplication.getEnumText(activity, EntryType.Task)));
+                        }
                         return true;
+                    case R.id.text_id:
+                        getEntry(cursor);
+                        ((TextView) view).setText("#" + entry.getAsString(TodoColumn._id));
+                        return true;
+                    case R.id.text_info:
+                        getEntry(cursor);
+                        String assignTo = entry.getFriendlyString(TaskColumn.assignedTo);
+                        TextView infoView = (TextView) view;
+                        if(Helper.isNullOrEmpty(assignTo)) {
+                            infoView.setVisibility(View.INVISIBLE);
+                        } else {
+                            infoView.setVisibility(View.VISIBLE);
+                            infoView.setText("{fa-hand-o-right} " + assignTo);
+                        }
+                        return true;
+                    case R.id.text_status:
+                        getEntry(cursor);
+                        TextView statusView = (TextView) view;
+                        Task.Status status = entry.getStatus();
+                        statusView.setText(ZentaoApplication.getEnumText(activity, status));
+                        statusView.setTextColor(status.accent().primary().value());
+                        return true;
+
                 }
                 return false;
             }
@@ -184,7 +227,7 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                 R.layout.list_item_entry,
                 null,
                 new String[]{StoryColumn.title.name(), StoryColumn.status.name(), StoryColumn.pri.name(), StoryColumn.unread.name()},
-                new int[]{R.id.text_name, R.id.text_status, R.id.icon_pri, R.id.text_new_item}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+                new int[]{R.id.text_name, R.id.text_info, R.id.icon, R.id.text_new_item}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
 
         adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
@@ -206,14 +249,14 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
             @Override
             public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
                 switch (view.getId()) {
-                    case R.id.text_status:
+                    case R.id.text_info:
                         getEntry(cursor);
                         TextView textView = (TextView) view;
                         Story.Status status = entry.getStatus();
                         textView.setText(ZentaoApplication.getEnumText(activity, status));
                         textView.setTextColor(status.accent().primary().value());
                         return true;
-                    case R.id.icon_pri:
+                    case R.id.icon:
                         getEntry(cursor);
                         ((IconTextView) view).setTextColor(
                                 MaterialColorSwatch.PriAccentSwatches[entry.getAccentPri()]
@@ -236,7 +279,7 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                 R.layout.list_item_entry,
                 null,
                 new String[]{BugColumn.title.name(), BugColumn.status.name(), BugColumn.pri.name(), BugColumn.unread.name()},
-                new int[]{R.id.text_name, R.id.text_status, R.id.icon_pri, R.id.text_new_item}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+                new int[]{R.id.text_name, R.id.text_info, R.id.icon, R.id.text_new_item}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
 
         adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
@@ -258,14 +301,14 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
             @Override
             public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
                 switch (view.getId()) {
-                    case R.id.text_status:
+                    case R.id.text_info:
                         getEntry(cursor);
                         TextView textView = (TextView) view;
                         Bug.Status status = entry.getStatus();
                         textView.setText(ZentaoApplication.getEnumText(activity, status));
                         textView.setTextColor(status.accent().primary().value());
                         return true;
-                    case R.id.icon_pri:
+                    case R.id.icon:
                         getEntry(cursor);
                         ((IconTextView) view).setTextColor(
                                 MaterialColorSwatch.PriAccentSwatches[entry.getAccentPri()]

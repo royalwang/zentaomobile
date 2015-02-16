@@ -1,48 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <android.widget.IconTextView
-        android:id="@+id/icon_pri"
-        android:layout_width="30dp"
+        android:id="@+id/icon"
+        android:layout_width="40dp"
         android:text="{fa-circle}"
         android:gravity="center"
-        android:layout_height="match_parent" />
+        android:layout_height="48dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_alignBottom="@+id/text_id"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textColor="@color/secondary_text" />
+
+    <TextView
+        android:id="@+id/text_icon"
+        android:layout_width="40dp"
+        android:gravity="center"
+        android:layout_height="48dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_alignBottom="@+id/text_id"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/text_new"
-        android:gravity="center_vertical"
-        android:textColor="@color/yellow_900"
-        android:id="@+id/text_new_item"
-        android:visibility="invisible"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:paddingRight="4dp" />
-
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Todo item"
+        android:layout_height="28dp"
+        android:text="Title example"
         android:gravity="center_vertical"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:id="@+id/text_name"
-        android:tag="name" />
+        android:id="@+id/text_title"
+        android:ellipsize="end"
+        android:singleLine="false"
+        android:maxLines="1"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/icon"
+        android:layout_alignParentEnd="false"
+        android:layout_marginRight="16dp"
+        android:textSize="14sp" />
 
     <TextView
-        android:tag="status"
-        android:padding="@dimen/control_padding"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="28dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="未开始"
+        android:text="subtitle"
         android:textColor="@color/secondary_text"
-        android:id="@+id/text_status"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:id="@+id/text_subtitle"
+        android:layout_gravity="center_horizontal"
+        android:textSize="12sp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/text_title"
         android:gravity="center_vertical"
-        android:layout_gravity="center_horizontal" />
-</LinearLayout>
+        android:layout_marginLeft="-8dp"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="@string/text_new_todo"
+        android:gravity="center_vertical"
+        android:textColor="@color/white"
+        android:id="@+id/text_new_item"
+        android:visibility="visible"
+        android:paddingRight="16dp"
+        android:background="@color/accent"
+        android:textSize="12sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:paddingLeft="8dp"
+        android:layout_marginTop="4dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="#id"
+        android:textColor="@color/secondary_text"
+        android:id="@+id/text_id"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/text_title"
+        android:layout_alignStart="@+id/text_title"
+        android:textSize="12sp" />
+
+    <android.widget.IconTextView
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/text_info"
+        android:textSize="12sp"
+        android:textColor="@color/secondary_text"
+        android:layout_alignBaseline="@+id/text_id"
+        android:layout_alignBottom="@+id/text_id"
+        android:layout_toEndOf="@id/icon"
+        android:layout_marginLeft="50dp"
+        android:text="info"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/text_extra_info"
+        android:textColor="@color/secondary_text"
+        android:textSize="12sp"
+        android:layout_below="@+id/text_title"
+        android:layout_toEndOf="@+id/text_info"
+        android:layout_marginLeft="16dp"
+        android:text="extra"
+        android:visibility="gone" />
+
+    <android.widget.IconTextView
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="status"
+        android:id="@+id/text_status"
+        android:layout_below="@+id/text_title"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="16dp"
+        android:textColor="@color/secondary_text"
+        android:textSize="12sp" />
+
+</RelativeLayout>
