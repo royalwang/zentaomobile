@@ -169,6 +169,7 @@ public class MainActivity extends ZentaoActivity {
         switch (view.getTag().toString()) {
             case "container_summery_todo":
                 application.openActivity(this, AppNav.todo);
+//                showDatabase(EntryType.Todo);
                 break;
             case "container_summery_task":
                 application.openActivity(this, AppNav.task);
@@ -210,13 +211,20 @@ public class MainActivity extends ZentaoActivity {
         }
     }
 
-    public void showDatabase(View view) {
+    public void showDatabase(EntryType entryType) {
         String logKey = "DATABASE TEST";
+        EntryType[] types;
+        if(entryType == null || entryType == EntryType.Default) {
+            types = new EntryType[] {EntryType.Todo, EntryType.Task, EntryType.Bug};
+        } else {
+            types = new EntryType[] {entryType};
+        }
+
         long counter;
         DAO dao = new DAO(this);
 
         Log.d(logKey, "*************** show database ***************");
-        for(EntryType type: new EntryType[] {EntryType.Todo, EntryType.Task}) {
+        for(EntryType type: types) {
             counter = dao.count(type);
             Log.d(logKey, type.name() + " count: " + counter);
             if(counter > 0) {
