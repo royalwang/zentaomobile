@@ -5,14 +5,14 @@
 
     <android.widget.IconTextView
         android:id="@+id/icon"
-        android:layout_width="40dp"
+        android:layout_width="48dp"
         android:text="{fa-circle}"
         android:gravity="center"
         android:layout_height="48dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
         android:layout_alignBottom="@+id/text_id"
         android:textAlignment="center"
         android:textSize="24sp"
@@ -20,13 +20,13 @@
 
     <TextView
         android:id="@+id/text_icon"
-        android:layout_width="40dp"
+        android:layout_width="48dp"
         android:gravity="center"
         android:layout_height="48dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
         android:layout_alignBottom="@+id/text_id"
         android:textColor="@color/white"
         android:textSize="12sp" />

@@ -55,10 +55,23 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
     private void initTodoAdapter() {
         final Activity activity = getActivity();
         adapter = new SimpleCursorAdapter(activity,
-                R.layout.list_item_todo,
+                R.layout.list_item_entry,
                 null,
-                new String[]{TodoColumn.name.name(), TodoColumn._id.name(), TodoColumn.begin.name(), TodoColumn.pri.name(), TodoColumn.unread.name(), TodoColumn.status.name()},
-                new int[]{R.id.text_title, R.id.text_id, R.id.text_time, R.id.icon, R.id.text_new_item, R.id.text_info}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+                new String[]{
+                        TodoColumn.pri.name(),
+                        TodoColumn.name.name(),
+                        TodoColumn.unread.name(),
+                        TodoColumn._id.name(),
+                        TodoColumn.pri.name(),
+                        TodoColumn.status.name()},
+                new int[]{
+                        R.id.icon,
+                        R.id.text_title,
+                        R.id.text_new_item,
+                        R.id.text_id,
+                        R.id.text_info,
+                        R.id.text_status},
+                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
         adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
             private Todo todo;
@@ -116,7 +129,7 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                         view.setVisibility(todo.isUnread() ? View.VISIBLE : View.GONE);
                         ((TextView) view).setText(String.format(getString(R.string.text_new_item_format), ZentaoApplication.getEnumText(activity, EntryType.Todo)));
                         return true;
-                    case R.id.text_time:
+                    case R.id.text_status:
                         getTodo(cursor);
                         ((TextView) view).setText(todo.getFriendlyTimeString(activity));
                         if(todo.isExpired() && todo.getStatus() != Todo.Status.done) ((TextView) view).setTextColor(MaterialColorSwatch.Red.primary().value());
