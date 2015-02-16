@@ -181,7 +181,7 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                         getEntry(cursor);
                         int pri = entry.getAccentPri();
                         if(pri > 0) {
-                            ((TextView) view).setText(pri);
+                            ((TextView) view).setText(pri + "");
                         }
                         return true;
                     case R.id.text_new_item:
@@ -226,8 +226,23 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
         adapter = new SimpleCursorAdapter(activity,
                 R.layout.list_item_entry,
                 null,
-                new String[]{StoryColumn.title.name(), StoryColumn.status.name(), StoryColumn.pri.name(), StoryColumn.unread.name()},
-                new int[]{R.id.text_name, R.id.text_info, R.id.icon, R.id.text_new_item}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+                new String[]{
+                        StoryColumn.pri.name(),
+                        StoryColumn.pri.name(),
+                        StoryColumn.title.name(),
+                        StoryColumn.unread.name(),
+                        StoryColumn._id.name(),
+                        StoryColumn.assignedTo.name(),
+                        StoryColumn.status.name()},
+                new int[]{
+                        R.id.icon,
+                        R.id.text_icon,
+                        R.id.text_title,
+                        R.id.text_new_item,
+                        R.id.text_id,
+                        R.id.text_info,
+                        R.id.text_status},
+                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
 
         adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
@@ -249,22 +264,46 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
             @Override
             public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
                 switch (view.getId()) {
-                    case R.id.text_info:
-                        getEntry(cursor);
-                        TextView textView = (TextView) view;
-                        Story.Status status = entry.getStatus();
-                        textView.setText(ZentaoApplication.getEnumText(activity, status));
-                        textView.setTextColor(status.accent().primary().value());
-                        return true;
                     case R.id.icon:
                         getEntry(cursor);
-                        ((IconTextView) view).setTextColor(
-                                MaterialColorSwatch.PriAccentSwatches[entry.getAccentPri()]
-                                        .color(MaterialColorName.C300).value());
+                        ((TextView) view).setTextColor(MaterialColorSwatch.PriAccentSwatches[entry.getAccentPri()]
+                                .color(MaterialColorName.C300).value());
+                        return true;
+                    case R.id.text_icon:
+                        getEntry(cursor);
+                        int pri = entry.getAccentPri();
+                        if(pri > 0) {
+                            ((TextView) view).setText(pri + "");
+                        }
                         return true;
                     case R.id.text_new_item:
                         getEntry(cursor);
                         view.setVisibility(entry.isUnread() ? View.VISIBLE : View.GONE);
+                        if(view.getVisibility() == View.VISIBLE) {
+                            ((TextView) view).setText(String.format(getString(R.string.text_new_item_format), ZentaoApplication.getEnumText(activity, EntryType.Task)));
+                        }
+                        return true;
+                    case R.id.text_id:
+                        getEntry(cursor);
+                        ((TextView) view).setText("#" + entry.getAsString(TodoColumn._id));
+                        return true;
+                    case R.id.text_info:
+                        getEntry(cursor);
+                        String assignTo = entry.getFriendlyString(TaskColumn.assignedTo);
+                        TextView infoView = (TextView) view;
+                        if(Helper.isNullOrEmpty(assignTo)) {
+                            infoView.setVisibility(View.INVISIBLE);
+                        } else {
+                            infoView.setVisibility(View.VISIBLE);
+                            infoView.setText("{fa-hand-o-right} " + assignTo);
+                        }
+                        return true;
+                    case R.id.text_status:
+                        getEntry(cursor);
+                        TextView statusView = (TextView) view;
+                        Story.Status status = entry.getStatus();
+                        statusView.setText(ZentaoApplication.getEnumText(activity, status));
+                        statusView.setTextColor(status.accent().primary().value());
                         return true;
                 }
                 return false;
@@ -278,8 +317,25 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
         adapter = new SimpleCursorAdapter(activity,
                 R.layout.list_item_entry,
                 null,
-                new String[]{BugColumn.title.name(), BugColumn.status.name(), BugColumn.pri.name(), BugColumn.unread.name()},
-                new int[]{R.id.text_name, R.id.text_info, R.id.icon, R.id.text_new_item}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+                new String[]{
+                        BugColumn.pri.name(),
+                        BugColumn.pri.name(),
+                        BugColumn.title.name(),
+                        BugColumn.unread.name(),
+                        BugColumn._id.name(),
+                        BugColumn.assignedTo.name(),
+                        BugColumn.confirmed.name(),
+                        BugColumn.status.name()},
+                new int[]{
+                        R.id.icon,
+                        R.id.text_icon,
+                        R.id.text_title,
+                        R.id.text_new_item,
+                        R.id.text_id,
+                        R.id.text_info,
+                        R.id.text_extra_info,
+                        R.id.text_status},
+                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
 
         adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
@@ -301,22 +357,54 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
             @Override
             public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
                 switch (view.getId()) {
-                    case R.id.text_info:
-                        getEntry(cursor);
-                        TextView textView = (TextView) view;
-                        Bug.Status status = entry.getStatus();
-                        textView.setText(ZentaoApplication.getEnumText(activity, status));
-                        textView.setTextColor(status.accent().primary().value());
-                        return true;
                     case R.id.icon:
                         getEntry(cursor);
-                        ((IconTextView) view).setTextColor(
-                                MaterialColorSwatch.PriAccentSwatches[entry.getAccentPri()]
-                                        .color(MaterialColorName.C300).value());
+                        ((TextView) view).setTextColor(MaterialColorSwatch.PriAccentSwatches[entry.getAccentPri()]
+                                .color(MaterialColorName.C300).value());
+                        return true;
+                    case R.id.text_icon:
+                        getEntry(cursor);
+                        int pri = entry.getAccentPri();
+                        if(pri > 0) {
+                            ((TextView) view).setText(pri + "");
+                        }
                         return true;
                     case R.id.text_new_item:
                         getEntry(cursor);
                         view.setVisibility(entry.isUnread() ? View.VISIBLE : View.GONE);
+                        if(view.getVisibility() == View.VISIBLE) {
+                            ((TextView) view).setText(String.format(getString(R.string.text_new_item_format), ZentaoApplication.getEnumText(activity, EntryType.Task)));
+                        }
+                        return true;
+                    case R.id.text_id:
+                        getEntry(cursor);
+                        ((TextView) view).setText("#" + entry.getAsString(TodoColumn._id));
+                        return true;
+                    case R.id.text_info:
+                        getEntry(cursor);
+                        String assignTo = entry.getFriendlyString(TaskColumn.assignedTo);
+                        TextView infoView = (TextView) view;
+                        if(Helper.isNullOrEmpty(assignTo)) {
+                            infoView.setVisibility(View.INVISIBLE);
+                        } else {
+                            infoView.setVisibility(View.VISIBLE);
+                            infoView.setText("{fa-hand-o-right} " + assignTo);
+                        }
+                        return true;
+                    case R.id.text_extra_info:
+                        getEntry(cursor);
+                        TextView confirmedView = (TextView) view;
+                        if(!entry.getAsBoolean(BugColumn.confirmed)) {
+                            confirmedView.setVisibility(View.VISIBLE);
+                            confirmedView.setText("{fa-question-circle} " + getString(R.string.text_unconfirm));
+                        }
+                        return true;
+                    case R.id.text_status:
+                        getEntry(cursor);
+                        TextView statusView = (TextView) view;
+                        Bug.Status status = entry.getStatus();
+                        statusView.setText(ZentaoApplication.getEnumText(activity, status));
+                        statusView.setTextColor(status.accent().primary().value());
                         return true;
                 }
                 return false;

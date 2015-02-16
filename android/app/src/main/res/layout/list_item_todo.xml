@@ -5,7 +5,7 @@
 
     <android.widget.IconTextView
         android:id="@+id/icon"
-        android:layout_width="48dp"
+        android:layout_width="40dp"
         android:text="{fa-circle}"
         android:gravity="center"
         android:layout_height="wrap_content"
@@ -46,8 +46,8 @@
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/icon"
         android:layout_alignParentEnd="false"
-        android:layout_marginRight="32dp"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:layout_marginRight="32dp" />
 
     <TextView
         android:tag="time"
@@ -95,7 +95,7 @@
         android:layout_height="20dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="进行中"
-        android:id="@+id/text_status"
+        android:id="@+id/text_info"
         android:textSize="12sp"
         android:textColor="@color/secondary_text"
         android:layout_alignBaseline="@+id/text_id"

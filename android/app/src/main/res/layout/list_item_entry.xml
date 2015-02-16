@@ -29,7 +29,7 @@
         android:layout_marginRight="8dp"
         android:layout_alignBottom="@+id/text_id"
         android:textColor="@color/white"
-        android:textSize="14sp" />
+        android:textSize="12sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -47,7 +47,7 @@
         android:layout_marginRight="16dp"
         android:textSize="14sp" />
 
-    <TextView
+    <android.widget.IconTextView
         android:layout_width="wrap_content"
         android:layout_height="28dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
@@ -101,10 +101,9 @@
         android:layout_alignBottom="@+id/text_id"
         android:layout_toEndOf="@id/icon"
         android:layout_marginLeft="50dp"
-        android:text="info"
         android:visibility="invisible" />
 
-    <TextView
+    <android.widget.IconTextView
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
@@ -114,8 +113,7 @@
         android:layout_below="@+id/text_title"
         android:layout_toEndOf="@+id/text_info"
         android:layout_marginLeft="16dp"
-        android:text="extra"
-        android:visibility="gone" />
+        android:visibility="invisible" />
 
     <android.widget.IconTextView
         android:layout_width="wrap_content"
