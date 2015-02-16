@@ -1,47 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/color_pri"
-        android:layout_width="5dp"
-        android:background="@color/grey_500"
-        android:layout_height="match_parent" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
+    <android.widget.IconTextView
+        android:id="@+id/icon"
+        android:layout_width="48dp"
+        android:text="{fa-circle}"
+        android:gravity="center"
         android:layout_height="wrap_content"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:layout_marginLeft="4dp"
-        android:paddingRight="4dp"
-        android:text="@null"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_alignBottom="@+id/text_id"
+        android:textAlignment="center"
         android:focusable="false"
-        android:layout_gravity="center"
-        android:tag="status"
-        android:id="@+id/checkbox_todo"/>
+        android:clickable="true"
+        style="@style/transparentButtonOval"
+        android:textSize="24sp" />
+
+    <!--<CheckBox-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:minHeight="?android:attr/listPreferredItemHeightSmall"-->
+        <!--android:layout_marginLeft="4dp"-->
+        <!--android:paddingRight="4dp"-->
+        <!--android:text="@null"-->
+        <!--android:focusable="false"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:tag="status"-->
+        <!--android:id="@+id/checkbox_todo"/>-->
 
     <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Todo item"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:text="Title example"
         android:gravity="center_vertical"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:id="@+id/text_todo"
-        android:tag="name" />
+        android:id="@+id/text_title"
+        android:tag="name"
+        android:ellipsize="end"
+        android:singleLine="false"
+        android:maxLines="1"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/icon"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="32dp"
+        android:textSize="14sp" />
 
     <TextView
         android:tag="time"
-        android:padding="@dimen/control_padding"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="#12"
+        android:textColor="@color/secondary_text"
+        android:id="@+id/text_id"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/text_title"
+        android:layout_alignStart="@+id/text_title"
+        android:textSize="12sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="12:00"
-        android:textColor="@color/secondary_text"
         android:id="@+id/text_time"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:layout_below="@+id/text_title"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="16dp"
+        android:textColor="@color/secondary_text"
+        android:textSize="12sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="@string/text_new_todo"
         android:gravity="center_vertical"
-        android:layout_gravity="center_horizontal" />
-</LinearLayout>
+        android:textColor="@color/white"
+        android:id="@+id/text_new_item"
+        android:visibility="visible"
+        android:paddingRight="16dp"
+        android:background="@color/accent"
+        android:textSize="12sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:paddingLeft="8dp"
+        android:layout_marginTop="4dp" />
+</RelativeLayout>

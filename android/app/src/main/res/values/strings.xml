@@ -29,6 +29,12 @@
     <string name="navigation_drawer_close">关闭导航</string>
     <string name="text_last_sync">上次同步</string>
     <string name="text_offline">离线</string>
+    <string name="text_tomorrow">明天</string>
+    <string name="text_yesterday">昨天</string>
+    <string name="text_today">今天</string>
+    <string name="text_date_day_format">d日</string>
+    <string name="text_short_date_format">M月d日</string>
+    <string name="text_long_date_format">yyyy年M月d日</string>
     <string name="text_long_datetime_format">yyyy年M月d日 HH:mm</string>
     <string name="text_medium_datetime_format">M月d日 HH:mm:ss</string>
     <string name="text_todo_date_format">计划开始于 M月d日 HH:mm 至</string>

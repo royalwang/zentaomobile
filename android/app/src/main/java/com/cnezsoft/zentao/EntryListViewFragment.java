@@ -6,6 +6,7 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,9 +30,6 @@ import com.cnezsoft.zentao.data.Task;
 import com.cnezsoft.zentao.data.TaskColumn;
 import com.cnezsoft.zentao.data.Todo;
 import com.cnezsoft.zentao.data.TodoColumn;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by Catouse on 2015/1/30.
@@ -58,10 +56,10 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
     private void initTodoAdapter() {
         final Activity activity = getActivity();
         adapter = new SimpleCursorAdapter(activity,
-                R.layout.list_item_entry,
+                R.layout.list_item_todo,
                 null,
                 new String[]{TodoColumn.name.name(), TodoColumn.begin.name(), TodoColumn.status.name(), TodoColumn.unread.name()},
-                new int[]{R.id.text_name, R.id.text_status, R.id.icon_pri, R.id.text_new_item}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+                new int[]{R.id.text_title, R.id.text_time, R.id.icon, R.id.text_new_item}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
         adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
             private Todo todo;
@@ -81,22 +79,33 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
 
             @Override
             public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
-
                 switch (view.getId()) {
-                    case R.id.text_status:
-                        ((TextView) view).setText(new SimpleDateFormat("HH:mm").format(new Date(cursor.getLong(columnIndex))));
+                    case R.id.text_title:
+                        getTodo(cursor);
+                        TextView textView = (TextView) view;
+                        int pri = todo.getAccentPri();
+                        if(pri < 3) textView.setTextColor(MaterialColorSwatch.PriAccentSwatches[pri].primary().value());
+                        else textView.setTextColor(Color.BLACK);
+                        textView.setText(todo.getFriendlyString(TodoColumn.name));
                         return true;
-                    case R.id.icon_pri:
+                    case R.id.icon:
                         getTodo(cursor);
                         IconTextView iconView = (IconTextView) view;
                         iconView.setTextColor(
                                 MaterialColorSwatch.PriAccentSwatches[todo.getAccentPri()]
                                         .color(MaterialColorName.C300).value());
-                        iconView.setText(todo.getStatus() == Todo.Status.done ? "{fa-circle}" : "{fa-circle-o}");
+                        iconView.setText(todo.getStatus() == Todo.Status.done ? "{fa-check-circle-o}" : "{fa-circle-o}");
                         return true;
                     case R.id.text_new_item:
                         getTodo(cursor);
                         view.setVisibility(todo.isUnread() ? View.VISIBLE : View.GONE);
+                        ((TextView) view).setText(String.format(getString(R.string.text_new_item_format), ZentaoApplication.getEnumText(activity, EntryType.Todo)));
+                        return true;
+                    case R.id.text_time:
+                        getTodo(cursor);
+                        ((TextView) view).setText(todo.getFriendlyTimeString(activity));
+                        if(todo.isExpired() && todo.getStatus() != Todo.Status.done) ((TextView) view).setTextColor(MaterialColorSwatch.Red.primary().value());
+                        else ((TextView) view).setTextColor(activity.getResources().getColor(R.color.secondary_text));
                         return true;
                 }
                 return false;

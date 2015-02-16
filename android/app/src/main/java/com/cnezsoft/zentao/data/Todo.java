@@ -3,6 +3,9 @@ package com.cnezsoft.zentao.data;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.cnezsoft.zentao.DateFormatType;
+import com.cnezsoft.zentao.Helper;
+import com.cnezsoft.zentao.R;
 import com.cnezsoft.zentao.ZentaoApplication;
 import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
 
@@ -20,7 +23,6 @@ import java.util.HashSet;
  * Created by Catouse on 2015/1/15.
  */
 public class Todo extends DataEntry {
-
     /**
      * Todo types
      */
@@ -144,7 +146,6 @@ public class Todo extends DataEntry {
      * Constructor without params
      */
     public Todo() {
-
     }
 
     /**
@@ -212,5 +213,53 @@ public class Todo extends DataEntry {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getFriendlyTimeString(Context context) {
+        Date begin = getAsDate(TodoColumn.begin);
+        Date end = getAsDate(TodoColumn.end);
+        Calendar nowCal = Calendar.getInstance();
+        Calendar beginCal = Calendar.getInstance();
+        Calendar endCal = Calendar.getInstance();
+        beginCal.setTime(begin);
+        endCal.setTime(end);
+
+        String beginDatePart = "";
+        if(nowCal.get(Calendar.YEAR) != beginCal.get(Calendar.YEAR)) {
+            beginDatePart = Helper.formatDate(begin, context.getString(R.string.text_long_date_format));
+        } else {
+            long deltaDays = nowCal.get(Calendar.DAY_OF_YEAR) - beginCal.get(Calendar.DAY_OF_YEAR);
+            if(deltaDays == 0) {
+                beginDatePart = context.getString(R.string.text_today);
+            } else if(deltaDays == 1) {
+                beginDatePart = context.getString(R.string.text_yesterday);
+            } else if(deltaDays == -1) {
+                beginDatePart = context.getString(R.string.text_tomorrow);
+            } else {
+                beginDatePart = Helper.formatDate(begin, context.getString(R.string.text_short_date_format));
+            }
+        }
+
+        String endDatePart = "";
+        if(!Helper.isInSameDay(beginCal, endCal)) {
+            long deltaDays = nowCal.get(Calendar.DAY_OF_YEAR) - endCal.get(Calendar.DAY_OF_YEAR);
+            if(deltaDays == 0) {
+                endDatePart = context.getString(R.string.text_today);
+            } else if(deltaDays == 1) {
+                endDatePart = context.getString(R.string.text_yesterday);
+            } else if(deltaDays == -1) {
+                endDatePart = context.getString(R.string.text_tomorrow);
+            } else if(Helper.isInSameMonth(beginCal, endCal)) {
+                endDatePart = Helper.formatDate(begin, context.getString(R.string.text_date_day_format));
+            } else {
+                endDatePart = Helper.formatDate(begin, context.getString(R.string.text_short_date_format));
+            }
+        }
+
+        return beginDatePart + " " + Helper.formatDate(begin, DateFormatType.Time) + " ~ " + endDatePart + " " + Helper.formatDate(end, DateFormatType.Time);
+    }
+
+    public boolean isExpired() {
+        return getAsDate(TodoColumn.end).before(new Date());
     }
 }
