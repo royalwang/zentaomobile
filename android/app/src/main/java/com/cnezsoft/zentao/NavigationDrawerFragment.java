@@ -179,8 +179,6 @@ public class NavigationDrawerFragment extends Fragment {
                     if(intent.getAction().equals(Synchronizer.MESSAGE_OUT_SYNC)) {
                         updateUserInfo();
                         if(!buttonSyncNow.isEnabled()) {
-                            textViewSyncTitle.getAnimation().reset();
-                            textViewSyncTitle.clearAnimation();
                             fadeOutAnimation.setStartOffset(600);
                             fadeOutAnimation.setAnimationListener(new Animation.AnimationListener() {
                                 @Override
@@ -190,7 +188,6 @@ public class NavigationDrawerFragment extends Fragment {
                                 @Override
                                  public void onAnimationEnd(Animation animation) {
                                     textViewSyncTitle.setText(context.getString(R.string.text_last_sync));
-                                    buttonSyncNow.getAnimation().reset();
                                     buttonSyncNow.clearAnimation();
                                     buttonSyncNow.setText("{fa-check}");
                                     buttonSyncNow.setTextColor(MaterialColorSwatch.Green.primary().value());
@@ -214,6 +211,7 @@ public class NavigationDrawerFragment extends Fragment {
                                                 public void onAnimationRepeat(Animation animation) {
                                                 }
                                             });
+                                            buttonSyncNow.clearAnimation();
                                             buttonSyncNow.startAnimation(finalAnimation);
                                         }
                                     }, 2000);
@@ -225,6 +223,7 @@ public class NavigationDrawerFragment extends Fragment {
                                 }
                             });
 
+                            textViewSyncTitle.clearAnimation();
                             textViewSyncTitle.startAnimation(fadeOutAnimation);
                         }
                     }
