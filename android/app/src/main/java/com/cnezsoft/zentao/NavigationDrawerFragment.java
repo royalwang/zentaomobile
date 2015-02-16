@@ -177,6 +177,7 @@ public class NavigationDrawerFragment extends Fragment {
                 @Override
                 public void onReceive(final Context context, Intent intent) {
                     if(intent.getAction().equals(Synchronizer.MESSAGE_OUT_SYNC)) {
+                        final boolean syncResult = intent.getBooleanExtra("result", false);
                         updateUserInfo();
                         if(!buttonSyncNow.isEnabled()) {
                             fadeOutAnimation.setStartOffset(600);
@@ -187,10 +188,16 @@ public class NavigationDrawerFragment extends Fragment {
 
                                 @Override
                                  public void onAnimationEnd(Animation animation) {
-                                    textViewSyncTitle.setText(context.getString(R.string.text_last_sync));
                                     buttonSyncNow.clearAnimation();
-                                    buttonSyncNow.setText("{fa-check}");
-                                    buttonSyncNow.setTextColor(MaterialColorSwatch.Green.primary().value());
+                                    if(syncResult) {
+                                        textViewSyncTitle.setText(context.getString(R.string.text_sync_success));
+                                        buttonSyncNow.setText("{fa-check}");
+                                        buttonSyncNow.setTextColor(MaterialColorSwatch.Green.primary().value());
+                                    } else {
+                                        textViewSyncTitle.setText(context.getString(R.string.text_sync_failure));
+                                        buttonSyncNow.setText("{fa-exclamation-circle}");
+                                        buttonSyncNow.setTextColor(MaterialColorSwatch.Red.primary().value());
+                                    }
 
                                     new Handler().postDelayed(new Runnable() {
                                         @Override
@@ -203,6 +210,7 @@ public class NavigationDrawerFragment extends Fragment {
 
                                                 @Override
                                                 public void onAnimationEnd(Animation animation) {
+                                                    textViewSyncTitle.setText(context.getString(R.string.text_last_sync));
                                                     buttonSyncNow.setText("{fa-refresh}");
                                                     buttonSyncNow.setTextColor(context.getResources().getColor(R.color.primary));
                                                     buttonSyncNow.setEnabled(true);

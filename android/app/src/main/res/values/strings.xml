@@ -87,5 +87,7 @@
     <string name="text_feedback_alert">没有在您的设备上找到邮件发送程序，要反馈bug请发邮件至%s。</string>
     <string name="text_syncing">正在同步...</string>
     <string name="text_new_todo">新待办</string>
+    <string name="text_sync_success">同步成功</string>
+    <string name="text_sync_failure">暂时无法同步</string>
 
 </resources>
