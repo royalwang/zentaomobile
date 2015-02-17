@@ -2,6 +2,7 @@ package com.cnezsoft.zentao;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.util.DisplayMetrics;
 
 import org.json.JSONArray;
 
@@ -9,9 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
-
-import static android.util.TypedValue.COMPLEX_UNIT_DIP;
-import static android.util.TypedValue.applyDimension;
 
 /**
  * Helper functions
@@ -31,14 +29,25 @@ public class Helper {
     }
 
     /**
-     * Convert dp to px
+     * Convert dp to pixel
      * @param context
      * @param dp
      * @return
      */
-    static int convertDpToPx(Context context, float dp) {
-        return (int) applyDimension(COMPLEX_UNIT_DIP, dp,
-                context.getResources().getDisplayMetrics());
+    public static int convertDpToPx(Context context, float dp) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
+
+    /**
+     * Convert pixel to dp
+     * @param context
+     * @param px
+     * @return
+     */
+    public static int convertPxToDp(Context context, int px) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        return Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
     /**

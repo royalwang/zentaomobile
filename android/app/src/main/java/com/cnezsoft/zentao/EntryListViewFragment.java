@@ -509,6 +509,12 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        ListView listView = getListView();
+        int padding = Helper.convertDpToPx(getActivity(), 8);
+        listView.setPadding(0, padding, 0, padding);
+        listView.setClipToPadding(false);
+
         initAdapter();
         getLoaderManager().initLoader(entryType.ordinal(), null, this);
     }
