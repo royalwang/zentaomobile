@@ -241,6 +241,10 @@ public class Todo extends DataEntry {
         beginCal.setTime(begin);
         endCal.setTime(end);
 
+        if(beginCal.get(Calendar.YEAR) > 2025) {
+            return context.getString(R.string.text_unknown_date) + " " + Helper.formatDate(begin, DateFormatType.Time) + " ~ " + Helper.formatDate(end, DateFormatType.Time);
+        }
+
         String beginDatePart = "";
         if(nowCal.get(Calendar.YEAR) != beginCal.get(Calendar.YEAR)) {
             beginDatePart = Helper.formatDate(begin, context.getString(R.string.text_long_date_format));
@@ -273,7 +277,7 @@ public class Todo extends DataEntry {
             }
         }
 
-        return beginDatePart + " " + Helper.formatDate(begin, DateFormatType.Time) + " ~ " + endDatePart + " " + Helper.formatDate(end, DateFormatType.Time);
+        return beginDatePart + " " + Helper.formatDate(begin, DateFormatType.Time) + " ~ " + endDatePart + Helper.formatDate(end, DateFormatType.Time);
     }
 
     public boolean isExpired() {

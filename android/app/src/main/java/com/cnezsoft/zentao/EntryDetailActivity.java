@@ -49,7 +49,6 @@ import com.cnezsoft.zentao.data.StoryColumn;
 import com.cnezsoft.zentao.data.Task;
 import com.cnezsoft.zentao.data.TaskColumn;
 import com.cnezsoft.zentao.data.Todo;
-import com.cnezsoft.zentao.data.TodoColumn;
 import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
 
@@ -427,9 +426,7 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
             statusView.setText(ZentaoApplication.getEnumText(this, status));
             TextView statusIconView = (TextView) findViewById(R.id.icon_entry_status);
             TextView dateView = (TextView) findViewById(R.id.text_entry_date);
-            dateView.setText(Helper.formatDate(todo.getAsDate(TodoColumn.begin),
-                    resources.getString(R.string.text_todo_date_format))
-                    + " " + Helper.formatDate(todo.getAsDate(TodoColumn.end), DateFormatType.Time));
+            dateView.setText(todo.getFriendlyTimeString(this));
             int statusColor = status.accent().primary().value();
             statusIconView.setText("{fa-" + status.icon() + "}");
             statusView.setTextColor(statusColor);

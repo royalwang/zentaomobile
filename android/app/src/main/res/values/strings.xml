@@ -90,5 +90,6 @@
     <string name="text_sync_success">同步成功</string>
     <string name="text_sync_failure">暂时无法同步</string>
     <string name="text_never_happened">从未发生</string>
+    <string name="text_unknown_date">某天</string>
 
 </resources>
