@@ -50,6 +50,8 @@ public enum MaterialColorSwatch {
             Red,
             DeepOrange,
             Purple,
-            Blue
+            Blue,
+            Indigo,
+            Green
     };
 }
