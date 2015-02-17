@@ -95,6 +95,7 @@
     <string name="enum_Bug_Type_standard">标准规范</string>
     <string name="enum_Bug_Type_automation">测试脚本</string>
     <string name="enum_Bug_Type_trackthings">事务跟踪</string>
+    <string name="enum_Bug_Type_codeimprovement">代码改进</string>
     <string name="enum_Bug_Type_others">其他</string>
 
     <!-- Bug.OS -->

@@ -33,6 +33,7 @@ public class Bug extends DataEntry {
         standard,
         automation,
         trackthings,
+        codeimprovement,
         others
     }
 
