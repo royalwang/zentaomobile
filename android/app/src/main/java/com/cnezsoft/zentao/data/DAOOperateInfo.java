@@ -8,6 +8,12 @@ public class DAOOperateInfo {
     int addCount = 0;
     int deleteCount = 0;
     int updateCount = 0;
+    int correctCount = 0;
+
+    public int correct(int count) {
+        correctCount += count;
+        return correctCount;
+    }
 
     public int add(int count) {
         addCount += count;
@@ -22,6 +28,10 @@ public class DAOOperateInfo {
     public int update(int count) {
         updateCount += count;
         return updateCount;
+    }
+
+    public int correct() {
+        return correctCount;
     }
 
     public int add() {
@@ -59,6 +69,6 @@ public class DAOOperateInfo {
      */
     @Override
     public String toString() {
-        return "{+" + add() + ", -" + delete() + ", *" + update() + ", #" + sum() + "}";
+        return "{+" + add() + ", -" + delete() + ", *" + update() + ", $" + correct() + ", #" + sum() + "}";
     }
 }

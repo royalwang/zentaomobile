@@ -34,6 +34,14 @@ public class DAOResult extends OperateResult<Boolean> {
         super.setMessage(message);
     }
 
+    public int getCorrect(EntryType type) {
+        DAOOperateInfo info = infos.get(type);
+        if(info != null) {
+            return info.correct();
+        }
+        return 0;
+    }
+
     public int getAdd(EntryType type) {
         DAOOperateInfo info = infos.get(type);
         if(info != null) {
@@ -95,6 +103,15 @@ public class DAOResult extends OperateResult<Boolean> {
 
     public void setAdd(EntryType type) {
         setAdd(type, 1);
+    }
+
+    public void setCorrect(EntryType type, int count) {
+        DAOOperateInfo info = infos.get(type);
+        if(info == null) {
+            info = new DAOOperateInfo();
+        }
+        info.correct(count);
+        infos.put(type, info);
     }
 
     public int sum(EntryType type) {

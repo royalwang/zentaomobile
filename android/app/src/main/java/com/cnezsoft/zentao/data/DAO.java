@@ -76,20 +76,20 @@ public class DAO {
      * Update entries to database
      * @param entries
      */
-    public boolean update(Collection<DataEntry> entries) {
-        boolean result = false;
-        db.beginTransaction();
-        try {
-            for(DataEntry entry: entries) {
-                update(entry);
-            }
-            db.setTransactionSuccessful();
-            result = true;
-        } finally {
-            db.endTransaction();
-        }
-        return result;
-    }
+//    public boolean update(Collection<DataEntry> entries) {
+//        boolean result = false;
+//        db.beginTransaction();
+//        try {
+//            for(DataEntry entry: entries) {
+//                update(entry);
+//            }
+//            db.setTransactionSuccessful();
+//            result = true;
+//        } finally {
+//            db.endTransaction();
+//        }
+//        return result;
+//    }
 
     /**
      * Save entry to database, add new item or update exists item
@@ -144,11 +144,57 @@ public class DAO {
         if(result.getResult()) {
             result.notifyChange(context);
         }
+
+        if(result.getAdd(EntryType.Todo) > 0 || result.getUpdate(EntryType.Task) > 0 || result.getUpdate(EntryType.Bug) > 0) {
+            result.setCorrect(EntryType.Todo, correctTodo());
+        }
+
         return result;
     }
 
     public DAOResult save(Collection<DataEntry> entries) {
         return save(entries, false);
+    }
+
+    /**
+     * Correct todoes witch the type is not custom
+     */
+    public int correctTodo() {
+        Cursor cursor = query(EntryType.Todo, TodoColumn.type.name() + " IS NOT ?", new String[]{Todo.Types.custom.name()});
+        int count = 0;
+        while (cursor.moveToNext()) {
+            if(correctTodo(cursor)) count++;
+        }
+        return count;
+    }
+
+    public boolean correctTodo(Cursor cursor) {
+        return correctTodo(new Todo(cursor));
+    }
+
+    public boolean correctTodo(Todo todo) {
+        Cursor entryCursor;
+        boolean needUpdate = false;
+        switch (todo.getTodoType()) {
+            case task:
+                entryCursor = query(EntryType.Task, todo.getAsInteger(TodoColumn.idvalue));
+                if(entryCursor.moveToNext()) {
+                    todo.put(TodoColumn.name, entryCursor.getString(entryCursor.getColumnIndex(TaskColumn.name.name())));
+                    needUpdate = true;
+                }
+                break;
+            case bug:
+                entryCursor = query(EntryType.Bug, todo.getAsInteger(TodoColumn.idvalue));
+                if(entryCursor.moveToNext()) {
+                    todo.put(TodoColumn.name, entryCursor.getString(entryCursor.getColumnIndex(BugColumn.title.name())));
+                    needUpdate = true;
+                }
+                break;
+        }
+        if(needUpdate) {
+            update(todo);
+        }
+        return needUpdate;
     }
 
     /**
@@ -177,22 +223,22 @@ public class DAO {
      * Delete entries
      * @param entries
      */
-    public boolean delete(Collection<DataEntry> entries) {
-        boolean result = false;
-        if(entries != null) {
-            db.beginTransaction();
-            try {
-                for(DataEntry entry: entries) {
-                    delete(entry);
-                }
-                db.setTransactionSuccessful();
-                result = true;
-            } finally {
-                db.endTransaction();
-            }
-        }
-        return result;
-    }
+//    public boolean delete(Collection<DataEntry> entries) {
+//        boolean result = false;
+//        if(entries != null) {
+//            db.beginTransaction();
+//            try {
+//                for(DataEntry entry: entries) {
+//                    delete(entry);
+//                }
+//                db.setTransactionSuccessful();
+//                result = true;
+//            } finally {
+//                db.endTransaction();
+//            }
+//        }
+//        return result;
+//    }
 
     /**
      * Count entries
@@ -235,28 +281,28 @@ public class DAO {
         return 0;
     }
 
-    public long count(IPageTab pageTab, String account) {
-        EntryType entryType = pageTab.getEntryType();
-        switch (entryType) {
-            case Todo:
-                Todo.PageTab todoTab = (Todo.PageTab) pageTab;
-                switch (todoTab) {
-                    case undone:
-                        return count(entryType, TodoColumn.account + " = " + account + " AND " + TodoColumn.status.name() + " IS NOT " + Todo.Status.done.name());
-                    case done:
-                        return count(entryType, TodoColumn.account + " = " + account + " AND " + TodoColumn.status.name() +  " = " + Todo.Status.done.name());
-                }
-                break;
-            case Task:
-            case Bug:
-            case Story:
-                if(account == null) {
-                    break;
-                }
-                return count(entryType, pageTab.name() + " = " + account);
-        }
-        return 0;
-    }
+//    public long count(IPageTab pageTab, String account) {
+//        EntryType entryType = pageTab.getEntryType();
+//        switch (entryType) {
+//            case Todo:
+//                Todo.PageTab todoTab = (Todo.PageTab) pageTab;
+//                switch (todoTab) {
+//                    case undone:
+//                        return count(entryType, TodoColumn.account + " = " + account + " AND " + TodoColumn.status.name() + " IS NOT " + Todo.Status.done.name());
+//                    case done:
+//                        return count(entryType, TodoColumn.account + " = " + account + " AND " + TodoColumn.status.name() +  " = " + Todo.Status.done.name());
+//                }
+//                break;
+//            case Task:
+//            case Bug:
+//            case Story:
+//                if(account == null) {
+//                    break;
+//                }
+//                return count(entryType, pageTab.name() + " = " + account);
+//        }
+//        return 0;
+//    }
 
     /**
      * Judge the database whether has the entry with the given key
@@ -317,6 +363,11 @@ public class DAO {
     public Cursor query(EntryType type, String selection, String[] selectionArgs, String orderBy) {
         return db.query(true, type.name(), type.getColumnNames(), selection,
                 selectionArgs, null, null, orderBy, null);
+    }
+
+    public Cursor query(EntryType type, String selection, String[] selectionArgs) {
+        return db.query(true, type.name(), type.getColumnNames(), selection,
+                selectionArgs, null, null, null, null);
     }
 
     /**
