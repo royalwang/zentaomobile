@@ -18,7 +18,7 @@
         android:textSize="24sp"
         android:textColor="@color/secondary_text" />
 
-    <TextView
+    <android.widget.IconTextView
         android:id="@+id/text_icon"
         android:layout_width="48dp"
         android:gravity="center"
@@ -31,18 +31,30 @@
         android:textColor="@color/white"
         android:textSize="12sp" />
 
-    <TextView
+    <android.widget.IconTextView
         android:layout_width="wrap_content"
         android:layout_height="28dp"
-        android:text="Title example"
         android:gravity="center_vertical"
-        android:textAppearance="?android:attr/textAppearanceListItemSmall"
-        android:id="@+id/text_title"
+        android:id="@+id/text_prefix"
         android:ellipsize="end"
         android:singleLine="false"
         android:maxLines="1"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/icon"
+        android:layout_alignParentEnd="false"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:text="Title example"
+        android:gravity="center_vertical"
+        android:id="@+id/text_title"
+        android:ellipsize="end"
+        android:singleLine="false"
+        android:maxLines="1"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/text_prefix"
         android:layout_alignParentEnd="false"
         android:layout_marginRight="16dp"
         android:textSize="14sp" />
@@ -68,7 +80,7 @@
         android:text="@string/text_new_todo"
         android:gravity="center_vertical"
         android:textColor="@color/white"
-        android:id="@+id/text_new_item"
+        android:id="@+id/text_tag"
         android:visibility="visible"
         android:paddingRight="16dp"
         android:background="@color/accent"
@@ -87,7 +99,7 @@
         android:id="@+id/text_id"
         android:layout_gravity="center_horizontal"
         android:layout_below="@+id/text_title"
-        android:layout_alignStart="@+id/text_title"
+        android:layout_toRightOf="@+id/icon"
         android:textSize="12sp" />
 
     <android.widget.IconTextView
@@ -126,5 +138,22 @@
         android:layout_marginRight="16dp"
         android:textColor="@color/secondary_text"
         android:textSize="12sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="@string/text_new_todo"
+        android:gravity="center_vertical"
+        android:textColor="@color/white"
+        android:id="@+id/text_extra_tag"
+        android:visibility="invisible"
+        android:paddingRight="8dp"
+        android:background="@color/accent"
+        android:textSize="12sp"
+        android:paddingLeft="8dp"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/text_tag"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="1dp" />
 
 </RelativeLayout>

@@ -5,6 +5,7 @@ import android.database.Cursor;
 
 import com.cnezsoft.zentao.DateFormatType;
 import com.cnezsoft.zentao.Helper;
+import com.cnezsoft.zentao.IAccentIcon;
 import com.cnezsoft.zentao.R;
 import com.cnezsoft.zentao.ZentaoApplication;
 import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
@@ -26,10 +27,26 @@ public class Todo extends DataEntry {
     /**
      * Todo types
      */
-    public enum Types {
-        custom,
-        bug,
-        task
+    public enum Types implements IAccentIcon {
+        custom(MaterialColorSwatch.Blue, "tag"),
+        bug(MaterialColorSwatch.Pink, "bug"),
+        task(MaterialColorSwatch.Green, "tasks");
+
+        private MaterialColorSwatch accentColor;
+        private String iconName;
+
+        Types(MaterialColorSwatch accentColor, String iconName) {
+            this.accentColor = accentColor;
+            this.iconName = iconName;
+        }
+
+        public String icon() {
+            return iconName;
+        }
+
+        public MaterialColorSwatch accent() {
+            return accentColor;
+        }
     }
 
     /**

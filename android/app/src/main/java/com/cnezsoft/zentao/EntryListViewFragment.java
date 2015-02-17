@@ -59,15 +59,19 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                 null,
                 new String[]{
                         TodoColumn.pri.name(),
+                        TodoColumn.idvalue.name(),
                         TodoColumn.name.name(),
                         TodoColumn.unread.name(),
+                        TodoColumn.type.name(),
                         TodoColumn._id.name(),
                         TodoColumn.pri.name(),
                         TodoColumn.status.name()},
                 new int[]{
                         R.id.icon,
+                        R.id.text_prefix,
                         R.id.text_title,
-                        R.id.text_new_item,
+                        R.id.text_tag,
+                        R.id.text_extra_tag,
                         R.id.text_id,
                         R.id.text_info,
                         R.id.text_status},
@@ -92,13 +96,30 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
             @Override
             public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
                 switch (view.getId()) {
+                    case R.id.text_prefix:
+                        getTodo(cursor);
+                        Todo.Types type = todo.getTodoType();
+                        TextView typeView = (TextView) view;
+                        if(type != Todo.Types.custom) {
+                            typeView.setText("{fa-" + type.icon() + "} ");
+                            typeView.setTextColor(type.accent().primary().value());
+                        } else {
+                            typeView.setText("");
+                        }
+                        return true;
                     case R.id.text_title:
                         getTodo(cursor);
                         TextView textView = (TextView) view;
 //                        int pri = todo.getAccentPri();
 //                        if(pri < 3) textView.setTextColor(MaterialColorSwatch.PriAccentSwatches[pri].primary().value());
 //                        else textView.setTextColor(Color.BLACK);
-                        textView.setText(todo.getFriendlyString(TodoColumn.name));
+                        Todo.Types todoType = todo.getTodoType();
+                        String title = todo.getFriendlyString(TodoColumn.name);
+                        if(Helper.isNullOrEmpty(title) && todoType != Todo.Types.custom) {
+                            textView.setText(ZentaoApplication.getEnumText(activity, todoType) + " #" + todo.getAsInteger(TodoColumn.idvalue));
+                        } else {
+                            textView.setText(title);
+                        }
                         return true;
                     case R.id.icon:
                         getTodo(cursor);
@@ -124,10 +145,30 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                             statusView.setVisibility(View.GONE);
                         }
                         return true;
-                    case R.id.text_new_item:
+                    case R.id.text_tag:
                         getTodo(cursor);
                         view.setVisibility(todo.isUnread() ? View.VISIBLE : View.GONE);
-                        ((TextView) view).setText(String.format(getString(R.string.text_new_item_format), ZentaoApplication.getEnumText(activity, EntryType.Todo)));
+                        TextView tagView = (TextView) view;
+                        if(view.getVisibility() == View.VISIBLE) {
+                            tagView.setText(String.format(getString(R.string.text_new_item_format), ZentaoApplication.getEnumText(activity, EntryType.Todo)));
+                            tagView.setBackgroundColor(EntryType.Todo.accent().primary().value());
+                        } else {
+                            Todo.Types tType = todo.getTodoType();
+                            if(tType != Todo.Types.custom) {
+                                tagView.setVisibility(View.VISIBLE);
+                                tagView.setBackgroundColor(tType.accent().primary().value());
+                                tagView.setText(ZentaoApplication.getEnumText(activity, tType));
+                            }
+                        }
+                        return true;
+                    case R.id.text_extra_tag:
+                        getTodo(cursor);
+                        Todo.Types t = todo.getTodoType();
+                        view.setVisibility((todo.isUnread() && t != Todo.Types.custom) ? View.VISIBLE : View.GONE);
+                        if(view.getVisibility() == View.VISIBLE) {
+                            view.setBackgroundColor(t.accent().primary().value());
+                            ((TextView) view).setText(ZentaoApplication.getEnumText(activity, t));
+                        }
                         return true;
                     case R.id.text_status:
                         getTodo(cursor);
@@ -159,7 +200,7 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                         R.id.icon,
                         R.id.text_icon,
                         R.id.text_title,
-                        R.id.text_new_item,
+                        R.id.text_tag,
                         R.id.text_id,
                         R.id.text_info,
                         R.id.text_status},
@@ -195,13 +236,17 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                         int pri = entry.getAccentPri();
                         if(pri > 0) {
                             ((TextView) view).setText(pri + "");
+                        } else {
+                            ((TextView) view).setText("");
                         }
                         return true;
-                    case R.id.text_new_item:
+                    case R.id.text_tag:
                         getEntry(cursor);
                         view.setVisibility(entry.isUnread() ? View.VISIBLE : View.GONE);
+                        TextView tagView = (TextView) view;
                         if(view.getVisibility() == View.VISIBLE) {
-                            ((TextView) view).setText(String.format(getString(R.string.text_new_item_format), ZentaoApplication.getEnumText(activity, EntryType.Task)));
+                            tagView.setText(String.format(getString(R.string.text_new_item_format), ZentaoApplication.getEnumText(activity, EntryType.Task)));
+                            tagView.setBackgroundColor(EntryType.Task.accent().primary().value());
                         }
                         return true;
                     case R.id.text_id:
@@ -251,7 +296,7 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                         R.id.icon,
                         R.id.text_icon,
                         R.id.text_title,
-                        R.id.text_new_item,
+                        R.id.text_tag,
                         R.id.text_id,
                         R.id.text_info,
                         R.id.text_status},
@@ -287,13 +332,17 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                         int pri = entry.getAccentPri();
                         if(pri > 0) {
                             ((TextView) view).setText(pri + "");
+                        } else {
+                            ((TextView) view).setText("");
                         }
                         return true;
-                    case R.id.text_new_item:
+                    case R.id.text_tag:
                         getEntry(cursor);
                         view.setVisibility(entry.isUnread() ? View.VISIBLE : View.GONE);
+                        TextView tagView = (TextView) view;
                         if(view.getVisibility() == View.VISIBLE) {
-                            ((TextView) view).setText(String.format(getString(R.string.text_new_item_format), ZentaoApplication.getEnumText(activity, EntryType.Task)));
+                            tagView.setText(String.format(getString(R.string.text_new_item_format), ZentaoApplication.getEnumText(activity, EntryType.Story)));
+                            tagView.setBackgroundColor(EntryType.Story.accent().primary().value());
                         }
                         return true;
                     case R.id.text_id:
@@ -343,7 +392,7 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                         R.id.icon,
                         R.id.text_icon,
                         R.id.text_title,
-                        R.id.text_new_item,
+                        R.id.text_tag,
                         R.id.text_id,
                         R.id.text_info,
                         R.id.text_extra_info,
@@ -380,13 +429,17 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                         int pri = entry.getAccentPri();
                         if(pri > 0) {
                             ((TextView) view).setText(pri + "");
+                        } else {
+                            ((TextView) view).setText("");
                         }
                         return true;
-                    case R.id.text_new_item:
+                    case R.id.text_tag:
                         getEntry(cursor);
                         view.setVisibility(entry.isUnread() ? View.VISIBLE : View.GONE);
+                        TextView tagView = (TextView) view;
                         if(view.getVisibility() == View.VISIBLE) {
-                            ((TextView) view).setText(String.format(getString(R.string.text_new_item_format), ZentaoApplication.getEnumText(activity, EntryType.Task)));
+                            tagView.setText(String.format(getString(R.string.text_new_item_format), ZentaoApplication.getEnumText(activity, EntryType.Bug)));
+                            tagView.setBackgroundColor(EntryType.Bug.accent().primary().value());
                         }
                         return true;
                     case R.id.text_id:
@@ -407,8 +460,8 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                     case R.id.text_extra_info:
                         getEntry(cursor);
                         TextView confirmedView = (TextView) view;
-                        if(!entry.getAsBoolean(BugColumn.confirmed)) {
-                            confirmedView.setVisibility(View.VISIBLE);
+                        confirmedView.setVisibility(entry.getAsBoolean(BugColumn.confirmed)?View.INVISIBLE:View.VISIBLE);
+                        if(confirmedView.getVisibility() == View.VISIBLE) {
                             confirmedView.setText("{fa-question-circle} " + getString(R.string.text_unconfirm));
                         }
                         return true;
