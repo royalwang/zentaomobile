@@ -28,7 +28,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Timer;
@@ -266,7 +265,7 @@ public class Synchronizer extends BroadcastReceiver {
                     entry.put(TodoColumn.account, user.getAccount());
                 }
                 DAO dao = new DAO(context);
-                OperateResult<Boolean> daoResult = dao.save(new HashSet<DataEntry>(1){{add(entry);}});
+                OperateResult<Boolean> daoResult = dao.save(new ArrayList<DataEntry>(1){{add(entry);}});
                 dao.close();
                 Log.v("SYNC", daoResult.toString());
                 return entry;

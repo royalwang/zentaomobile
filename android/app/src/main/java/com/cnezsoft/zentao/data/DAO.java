@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -112,7 +113,7 @@ public class DAO {
      * Save entry to database, add new items or update exists items
      * @param entries
      */
-    public DAOResult save(Collection<DataEntry> entries, boolean markNewUnread) {
+    public DAOResult save(ArrayList<DataEntry> entries, boolean markNewUnread) {
         DAOResult result = new DAOResult();
         db.beginTransaction();
         try {
@@ -145,14 +146,19 @@ public class DAO {
             result.notifyChange(context);
         }
 
-        if(result.getAdd(EntryType.Todo) > 0 || result.getUpdate(EntryType.Task) > 0 || result.getUpdate(EntryType.Bug) > 0) {
+        if(entries.size() == 1 && result.sum(EntryType.Todo) > 0) {
+            if(correctTodo(entries.get(0).key())) {
+                result.setCorrect(EntryType.Todo, 1);
+            }
+        }
+        else if(result.getUpdate(EntryType.Todo) > 0 || result.getAdd(EntryType.Todo) > 0) {
             result.setCorrect(EntryType.Todo, correctTodo());
         }
 
         return result;
     }
 
-    public DAOResult save(Collection<DataEntry> entries) {
+    public DAOResult save(ArrayList<DataEntry> entries) {
         return save(entries, false);
     }
 
@@ -166,6 +172,14 @@ public class DAO {
             if(correctTodo(cursor)) count++;
         }
         return count;
+    }
+
+    public boolean correctTodo(String key) {
+        Cursor cursor = query(EntryType.Todo, key);
+        if(cursor.moveToNext()) {
+            return correctTodo(cursor);
+        }
+        return false;
     }
 
     public boolean correctTodo(Cursor cursor) {
