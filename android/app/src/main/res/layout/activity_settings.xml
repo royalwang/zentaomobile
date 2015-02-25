@@ -210,7 +210,7 @@
                 android:text="@string/text_reset_sync_time"
                 android:clickable="true"
                 android:id="@+id/text_reset_sync_time"
-                android:textColor="@color/red_500"
+                android:textColor="@color/primary"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:onClick="onResetSyncTime" />
