@@ -227,6 +227,10 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
         }
         if(data.moveToNext()) {
             entry.fromCursor(data);
+        } else {
+            loader.forceLoad();
+            Log.v("DETAIL", "loader.forceLoad");
+            return;
         }
 
         if(entry.isUnread()) {
@@ -298,13 +302,11 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
                 if(source.startsWith("data/upload/")) {
                     source = user.getAddress() + "/" + source;
                 }
-                Log.v("DETAIL", ">>>>> getDrawable:" + source);
                 Bitmap bitmap = imageCache.getFromMemory(source);
                 if(bitmap != null) {
                     BitmapDrawable drawable = new BitmapDrawable(bitmap);
 
                     drawable.setBounds(Helper.strechWidth(bitmap.getWidth(), bitmap.getHeight(), view.getWidth()));
-                    Log.v("DETAIL", "memory image bounds:" + drawable.getBounds().toString());
                     return drawable;
                 } else {
                     URLDrawable drawable = new URLDrawable(defaultImageDrawable);
@@ -326,8 +328,6 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
 
                         drawable.setBounds(Helper.strechWidth(bitmap.getWidth(), bitmap.getHeight(), view.getWidth()));
                         urlDrawable.setBounds(drawable.getBounds());
-                        Log.v("DETAIL", "remote drawable  bounds:" + drawable.getBounds().toString());
-                        Log.v("DETAIL", "remote urlDrawable bounds:" + urlDrawable.getBounds().toString());
                         view.requestLayout();
                     }
                 }
@@ -365,7 +365,6 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
     }
 
     private void displayEntry() {
-        Log.v("DETAIL", "========== displayEntry ===========");
         int accentPri = entry.getAccentPri();
         if(accentPri > 0 && accentPri < MaterialColorSwatch.PriAccentSwatches.length) {
             setAccentSwatch(MaterialColorSwatch.PriAccentSwatches[accentPri]);
@@ -418,7 +417,6 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
             listView.setAdapter(adapter);
         } else if(layout == R.layout.activity_todo_detail && entryType == EntryType.Todo) {
             Todo todo = (Todo) entry;
-            Resources resources = getResources();
             Todo.Status status = todo.getStatus();
             ((IconTextView) findViewById(R.id.text_entry_type)).setText("{fa-tag} "
                     + ZentaoApplication.getEnumText(this, todo.getTodoType()));
