@@ -44,8 +44,8 @@ public class Http {
      * @return
      * @throws MalformedURLException
      */
-    public static String get(String url, boolean gizip) throws MalformedURLException {
-        return get(new URL(url), gizip);
+    public static String get(String url, boolean gzip) throws MalformedURLException {
+        return get(new URL(url), gzip);
     }
 
     /**
@@ -73,34 +73,36 @@ public class Http {
             c.setAllowUserInteraction(false);
             c.setConnectTimeout(timeout);
             c.setReadTimeout(timeout);
-            if(gzip) c.setRequestProperty("Accept-Encoding", "gzip");
+            if(gzip) {
+                c.setRequestProperty("Accept-Encoding", "gzip");
+            }
             c.connect();
             int status = c.getResponseCode();
-            Log.v("HTTP GET", "responseCode:" + status);
+            Log.v("HTTP GET", "Response Code: " + status);
 
             switch (status) {
                 case 200:
                 case 201:
                     InputStream inputStream = c.getInputStream();
                     String contentEncoding = c.getContentEncoding();
-                    Log.v("HTTP GET", "contentEncoding:" + contentEncoding);
-                    if(contentEncoding != null && contentEncoding.indexOf("gzip") != -1) {
+                    Log.v("HTTP GET", "Content Encoding: " + contentEncoding);
+                    if(contentEncoding != null && contentEncoding.contains("gzip")) {
                         inputStream = new GZIPInputStream(inputStream);
                     }
                     BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
                     StringBuilder sb = new StringBuilder();
                     String line;
                     while ((line = br.readLine()) != null) {
-                        sb.append(line + "\n");
+                        sb.append(line).append("\n");
                     }
                     br.close();
                     String responseText = sb.toString();
-                    Log.v("HTTP GET", "responseText:" + responseText);
+                    Log.v("HTTP GET", "Response Text: " + responseText);
                     return responseText;
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.v("HTTP GET", "Failed: " + e.getMessage());
         }
         return null;
     }
@@ -117,7 +119,8 @@ public class Http {
     /**
      * Return json object with http 'GET' method
      * @param url
-     * @return
+     * @param gzip
+   @return
      * @throws JSONException
      */
     public static JSONObject getJSON(URL url, boolean gzip) {
@@ -148,7 +151,7 @@ public class Http {
      * @throws JSONException
      */
     public static JSONObject getJSON(String url, boolean gzip) {
-        URL address = null;
+        URL address;
         try {
             address = new URL(url);
         } catch (MalformedURLException e) {
