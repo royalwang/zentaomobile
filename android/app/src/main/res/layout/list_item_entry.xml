@@ -18,6 +18,8 @@
         android:layout_alignBottom="@+id/text_id"
         android:textAlignment="center"
         android:textSize="24sp"
+        style="@style/transparentButtonOval"
+        android:clickable="false"
         android:textColor="@color/secondary_text" />
 
     <android.widget.IconTextView

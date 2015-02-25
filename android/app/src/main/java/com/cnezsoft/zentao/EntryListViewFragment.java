@@ -127,7 +127,24 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                         iconView.setTextColor(
                                 MaterialColorSwatch.PriAccentSwatches[todo.getAccentPri()]
                                         .color(MaterialColorName.C300).value());
-                        iconView.setText(todo.getStatus() == Todo.Status.done ? "{fa-check-circle-o}" : "{fa-circle-o}");
+                        boolean done = todo.getStatus() == Todo.Status.done;
+                        iconView.setText(done ? "{fa-check-circle-o}" : "{fa-circle-o}");
+                        iconView.setClickable(true);
+                        iconView.setFocusable(false);
+                        iconView.setTag(R.id.tag_id, todo.key());
+                        iconView.setTag(R.id.tag_checked, done);
+                        if(!iconView.hasOnClickListeners()) {
+                            iconView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    TextView iconTextView = (TextView) v;
+                                    boolean checked = (boolean)iconTextView.getTag(R.id.tag_checked);
+                                    iconTextView.setText(checked ? "{fa-circle-o}" : "{fa-check-circle-o}");
+                                    iconTextView.setTag(R.id.tag_checked, !checked);
+                                }
+                            });
+                        }
+
                         return true;
                     case R.id.text_id:
                         getTodo(cursor);
