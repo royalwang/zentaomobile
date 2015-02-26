@@ -131,6 +131,12 @@ public enum EntryType implements IAccentIcon{
                 case Story:
                     cols = StoryColumn.values();
                     break;
+                case Project:
+                    cols = ProjectColumn.values();
+                    break;
+                case Product:
+                    cols = ProductColumn.values();
+                    break;
             }
         }
         return cols;
@@ -151,6 +157,10 @@ public enum EntryType implements IAccentIcon{
                 return TodoColumn._id;
             case Story:
                 return TodoColumn._id;
+            case Product:
+                return ProductColumn._id;
+            case Project:
+                return ProjectColumn._id;
         }
         return null;
     }

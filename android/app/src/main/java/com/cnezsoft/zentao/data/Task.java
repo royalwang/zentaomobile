@@ -3,6 +3,7 @@ package com.cnezsoft.zentao.data;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.cnezsoft.zentao.IAccentIcon;
 import com.cnezsoft.zentao.ZentaoApplication;
 import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
 
@@ -18,7 +19,7 @@ public class Task extends DataEntry {
     /**
      * Task status
      */
-    public enum Status {
+    public enum Status implements IAccentIcon {
         _(MaterialColorSwatch.Grey, "question"),
         wait(MaterialColorSwatch.Brown, "clock-o"),
         doing(MaterialColorSwatch.Red, "play"),
@@ -34,14 +35,16 @@ public class Task extends DataEntry {
 
         private MaterialColorSwatch accentColor;
 
-        public MaterialColorSwatch accent() {
-            return accentColor;
-        }
-
         private String iconName;
 
+        @Override
         public String icon() {
             return iconName;
+        }
+
+        @Override
+        public MaterialColorSwatch accent() {
+            return accentColor;
         }
     }
 

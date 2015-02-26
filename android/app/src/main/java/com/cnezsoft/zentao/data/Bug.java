@@ -2,7 +2,6 @@ package com.cnezsoft.zentao.data;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 
 import com.cnezsoft.zentao.Helper;
 import com.cnezsoft.zentao.ZentaoApplication;
@@ -145,7 +144,6 @@ public class Bug extends DataEntry {
         } else if(Helper.isNullOrEmpty(typeName)) {
             return Type._;
         }
-        Log.v("BUG", "getbugType:" + typeName);
         return Enum.valueOf(Bug.Type.class, typeName);
     }
 

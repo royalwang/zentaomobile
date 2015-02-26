@@ -16,6 +16,8 @@ import com.cnezsoft.zentao.data.DAOResult;
 import com.cnezsoft.zentao.data.DataEntry;
 import com.cnezsoft.zentao.data.DataEntryFactory;
 import com.cnezsoft.zentao.data.EntryType;
+import com.cnezsoft.zentao.data.Product;
+import com.cnezsoft.zentao.data.Project;
 import com.cnezsoft.zentao.data.Story;
 import com.cnezsoft.zentao.data.Task;
 import com.cnezsoft.zentao.data.Todo;
@@ -361,6 +363,22 @@ public class Synchronizer extends BroadcastReceiver {
                         case Story:
                             for (int i = 0; i < setLength; ++i) {
                                 entry = new Story(set.getJSONArray(i), keys);
+                                entries.add(entry);
+                                itemCount++;
+                                minIdKey = Math.min(minIdKey, Integer.parseInt(entry.key()));
+                            }
+                            break;
+                        case Product:
+                            for (int i = 0; i < setLength; ++i) {
+                                entry = new Product(set.getJSONArray(i), keys);
+                                entries.add(entry);
+                                itemCount++;
+                                minIdKey = Math.min(minIdKey, Integer.parseInt(entry.key()));
+                            }
+                            break;
+                        case Project:
+                            for (int i = 0; i < setLength; ++i) {
+                                entry = new Project(set.getJSONArray(i), keys);
                                 entries.add(entry);
                                 itemCount++;
                                 minIdKey = Math.min(minIdKey, Integer.parseInt(entry.key()));

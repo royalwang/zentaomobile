@@ -217,4 +217,34 @@
     <string name="enum_SyncFrequency_Power">30分钟</string>
     <string name="enum_SyncFrequency_TwoHours">2小时</string>
     <string name="enum_SyncFrequency_HalfDay">12小时</string>
+
+    <!-- Project.Type -->
+    <string name="enum_Project_Type__">未知</string>
+    <string name="enum_Project_Type_sprint">短期迭代</string>
+    <string name="enum_Project_Type_waterfall">长期项目</string>
+    <string name="enum_Project_Type_ops">运维项目</string>
+
+    <!-- Project.Status -->
+    <string name="enum_Project_Status__">未知</string>
+    <string name="enum_Project_Status_wait">未开始</string>
+    <string name="enum_Project_Status_doing">进行中</string>
+    <string name="enum_Project_Status_suspended">已挂起</string>
+    <string name="enum_Project_Status_done">已完成</string>
+
+    <!-- Project.Acl -->
+    <string name="enum_Project_Acl__">未知</string>
+    <string name="enum_Project_Acl_open">默认设置</string>
+    <string name="enum_Project_Acl__private">私有项目</string>
+    <string name="enum_Project_Acl_custom">自定义白名单</string>
+
+    <!-- Product.Status -->
+    <string name="enum_Product_Status__">未知</string>
+    <string name="enum_Product_Status_normal">正常</string>
+    <string name="enum_Product_Status_closed">结束</string>
+
+    <!-- Product.Acl -->
+    <string name="enum_Product_Acl__">未知</string>
+    <string name="enum_Product_Acl_open">默认设置</string>
+    <string name="enum_Product_Acl__private">私有产品</string>
+    <string name="enum_Product_Acl_custom">自定义白名单</string>
 </resources>
