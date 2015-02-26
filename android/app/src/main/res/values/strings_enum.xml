@@ -16,6 +16,8 @@
     <string name="enum_AppNav_task">任务</string>
     <string name="enum_AppNav_bug">Bug</string>
     <string name="enum_AppNav_story">需求</string>
+    <string name="enum_AppNav_project">项目</string>
+    <string name="enum_AppNav_product">产品</string>
     <string name="enum_AppNav_setting">设置</string>
 
     <!-- EntryType -->
