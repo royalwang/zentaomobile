@@ -8,5 +8,7 @@ public enum DashboardNav {
     todo,
     task,
     bug,
-    story
+    story,
+    project,
+    product
 }
