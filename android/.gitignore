@@ -38,6 +38,7 @@ proguard/
 .idea/datasources.xml
 .idea/dataSources.ids
 .idea/dictionaries/
+.idea/libraries/
 
 # Windows clutter
 Thumbs.db
