@@ -181,6 +181,7 @@ public class ZentaoAPI
                         .setRealname(jsonUser.optString("realname"), false)
                         .setId(jsonUser.optString("realname"), false)
                         .setRole(jsonUser.optString("role"), false)
+                        .setCompany(jsonUser.optString("company"), false)
                         .setGender(jsonUser.optString("gender"), true);
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -58,6 +58,7 @@ public class User {
     public static final String NOTIFY = "NOTIFY";
     public static final String SYNC_FREQUENCY = "SYNC_FREQUENCY";
     public static final String ID = "ID";
+    public static final String COMPANY = "COMPANY";
 
     private OnLastSyncTimeChangeListener onLastSyncTimeChangeListener;
     private OnAccountChangeListener onAccountChangeListener;
@@ -78,6 +79,7 @@ public class User {
     private String role;
     private String gender;
     private String id;
+    private String company;
     private Date lastSyncTime = new Date(0);
     private Long lastLoadTime = 0l;
     private Long lastChangeTime = 0l;
@@ -249,6 +251,24 @@ public class User {
      */
     public User setGender(String gender, boolean saveData) {
         this.gender = gender;
+        if(saveData) checkChange();
+        return this;
+    }
+
+    /**
+     * Get company
+     * @return
+     */
+    public String getCompany() {
+        return company;
+    }
+
+    /**
+     * Set company
+     * @param company
+     */
+    public User setCompany(String company, boolean saveData) {
+        this.company = company;
         if(saveData) checkChange();
         return this;
     }
@@ -452,6 +472,7 @@ public class User {
                     .putString(ROLE, getRole())
                     .putString(GENDER, getGender())
                     .putString(ID, getId())
+                    .putString(COMPANY, getCompany())
                     .putInt(DB_VERSION, getDbVersion())
                     .putLong(LAST_LOGIN_TIME, getLastLoginTime().getTime())
                     .putLong(LAST_SYNC_TIME, getLastSyncTime().getTime())
@@ -601,6 +622,7 @@ public class User {
                     .setRealname(this.userPreferences.getString(REALNAME, ""), false)
                     .setGender(this.userPreferences.getString(GENDER, ""), false)
                     .setRole(this.userPreferences.getString(ROLE, ""), false)
+                    .setCompany(this.userPreferences.getString(COMPANY, ""), false)
                     .setId(this.userPreferences.getString(ID, ""), false)
                     .setDbVersion(this.userPreferences.getInt(DB_VERSION, 0))
                     .setLastSyncTime(new Date(this.userPreferences.getLong(LAST_SYNC_TIME, 0)))
@@ -677,6 +699,7 @@ public class User {
                     .key("email").value(this.email)
                     .key("realname").value(this.realname)
                     .key("gender").value(this.gender)
+                    .key("company").value(this.company)
                     .key("role").value(this.role)
                     .key("id").value(this.id)
                     .key("dbVersion").value(this.dbVersion)
