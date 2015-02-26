@@ -543,13 +543,61 @@ public class DAO {
                     }
                 }
                 break;
+            case Project:
+                cursor = query(EntryType.Project, null, null, ProjectColumn._id.name() + " DESC");
+                number = cursor != null ? cursor.getCount() : 0;
+                if(number > 0 && cursor.moveToNext()) {
+                    Project project = new Project(cursor);
+                    newest = "#" + project.key() + " " + project.getAsString(ProjectColumn.name);
+                    if(project.getStatus() == Project.Status.doing) {
+                        unread++;
+                    }
+                    String statusDoingName = Project.Status.doing.name();
+                    while (cursor.moveToNext()) {
+                        if(cursor.getString(cursor.getColumnIndex(StoryColumn.status.name())).equals(statusDoingName)) {
+                            if(unread < 1) {
+                                project = new Project(cursor);
+                                newest = "#" + project.key() + " " + project.getAsString(ProjectColumn.name);
+                            }
+                            unread++;
+                        }
+                    }
+                }
+                break;
+            case Product:
+                cursor = query(EntryType.Product, null, null, ProductColumn._id.name() + " DESC");
+                number = cursor != null ? cursor.getCount() : 0;
+                if(number > 0 && cursor.moveToNext()) {
+                    Product product = new Product(cursor);
+                    newest = "#" + product.key() + " " + product.getAsString(ProjectColumn.name);
+                    if(product.getStatus() == Product.Status.normal) {
+                        unread++;
+                    }
+                    String statusNormalName = Product.Status.normal.name();
+                    while (cursor.moveToNext()) {
+                        if(cursor.getString(cursor.getColumnIndex(StoryColumn.status.name())).equals(statusNormalName)) {
+                            if(unread < 1) {
+                                product = new Product(cursor);
+                                newest = "#" + product.key() + " " + product.getAsString(ProductColumn.name);
+                            }
+                            unread++;
+                        }
+                    }
+                }
+                break;
         }
 
 
         HashMap<String, String> summery = new HashMap<>(2);
         summery.put("count", number + "");
         summery.put("newest", newest);
-        summery.put("unread", unread + "");
+        if(entryType == EntryType.Product)  {
+            summery.put("normal", unread + "");
+        } else if(entryType == EntryType.Project) {
+            summery.put("doing", unread + "");
+        } else {
+            summery.put("unread", unread + "");
+        }
         return summery;
     }
 
