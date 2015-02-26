@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@color/primary"
-            android:paddingTop="@dimen/content_vertical_margin">
+            android:paddingTop="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -36,9 +36,19 @@
                 android:id="@+id/text_hello_user"
                 android:textColor="@color/white"
                 android:layout_marginLeft="80dp"
-                android:layout_marginRight="@dimen/content_horizontal_margin"
-                android:layout_marginTop="@dimen/content_vertical_margin"
-                android:layout_marginBottom="@dimen/content_vertical_margin" />
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="24dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="..."
+                android:id="@+id/text_comany"
+                android:layout_alignParentTop="true"
+                android:layout_alignStart="@+id/text_hello_user"
+                android:textColor="@color/white"
+                android:alpha="0.54" />
         </RelativeLayout>
 
         <LinearLayout

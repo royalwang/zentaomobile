@@ -68,6 +68,7 @@ public class MainActivity extends ZentaoActivity {
         }
 
         ((TextView) findViewById(R.id.text_hello_user)).setText(user.getHelloText(this));
+        ((TextView) findViewById(R.id.text_comany)).setText(user.getCompany());
 
         this.registerReceiver(syncReceiver, intentFilter);
     }
