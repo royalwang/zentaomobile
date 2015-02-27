@@ -5,15 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,22 +23,34 @@ import com.cnezsoft.zentao.data.DAO;
 import com.cnezsoft.zentao.data.DataEntry;
 import com.cnezsoft.zentao.data.EntryType;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Main activity
  */
 public class MainActivity extends ZentaoActivity {
 
+    class TextWithColor {
+        public String text;
+        public int color;
+
+        TextWithColor(String text, int color) {
+            this.text = text;
+            this.color = color;
+        }
+    }
+
     /**
      * Used to store Zentao application context
      */
     private ZentaoApplication application;
     private User user;
-    private LinearLayout summeryListContainer;
-    private BroadcastReceiver syncReceiver = null;
+    private ListView dashboardList;
+    private SimpleAdapter dashboardAdapter;
+    private ArrayList<HashMap<String, ?>> dashboardItems;
     private IntentFilter intentFilter = null;
+    private BroadcastReceiver syncReceiver = null;
 
     @Override
     public void onPause() {
@@ -94,7 +106,33 @@ public class MainActivity extends ZentaoActivity {
         });
         application.checkUserStatus(this);
 
-        summeryListContainer = (LinearLayout) findViewById(R.id.container_summery_list);
+        dashboardItems = new ArrayList<>();
+        dashboardList = (ListView) findViewById(R.id.list_dashboard);
+        dashboardAdapter = new SimpleAdapter(this, dashboardItems, R.layout.list_item_dashboard,
+                new String[]{"icon",    "title",         "subtitle",         "number",         "numberName"},
+                new    int[]{R.id.icon, R.id.text_title, R.id.text_subtitle, R.id.text_number, R.id.text_number_name});
+        dashboardAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
+            @Override
+            public boolean setViewValue(View view, Object data, String textRepresentation) {
+                switch (view.getId()) {
+                    case R.id.text_number:
+                    case R.id.icon:
+                        TextWithColor iconData = (TextWithColor) data;
+                        TextView iconView = (TextView) view;
+                        iconView.setText(iconData.text);
+                        iconView.setTextColor(iconData.color);
+                        return true;
+                }
+                return false;
+            }
+        });
+        dashboardList.setAdapter(dashboardAdapter);
+        dashboardList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                openListActivity((EntryType)((HashMap<String, Object>) dashboardAdapter.getItem(position)).get("type"));
+            }
+        });
         new UpdateSummeries().execute(this);
     }
 
@@ -137,63 +175,60 @@ public class MainActivity extends ZentaoActivity {
         }
     }
 
-    private void updateSummeries(HashMap<EntryType, HashMap<String, String>> summeries) {
-        for(Map.Entry<EntryType, HashMap<String, String>> entry: summeries.entrySet()) {
-            EntryType type = entry.getKey();
-            HashMap<String, String> summery = entry.getValue();
-            ViewGroup summeryContainer = (ViewGroup) summeryListContainer.findViewWithTag("container_summery_" + type.name().toLowerCase());
-            if(summeryContainer != null) {
-                TextView iconView = (TextView) summeryContainer.findViewWithTag("icon_summery");
-                iconView.setText("{fa-" + type.icon() + "}");
-                iconView.setTextColor(type.accent().color(MaterialColorName.C500).value());
+    private void updateSummeries(ArrayList<HashMap<String, Object>> summeries) {
+        dashboardItems.clear();
+        for(HashMap<String, Object> summery: summeries) {
+            EntryType type = (EntryType) summery.get("type");
+            summery.put("icon", new TextWithColor("{fa-" + type.icon() + "}", type.accent().color(MaterialColorName.C500).value()));
+            summery.put("title", ZentaoApplication.getEnumText(this, type));
+            summery.put("subtitle", summery.get("newest"));
 
-                ((TextView) summeryContainer.findViewWithTag("text_summery_heading")).setText(ZentaoApplication.getEnumText(this, type));
-                ((TextView) summeryContainer.findViewWithTag("text_summery_newest")).setText(summery.get("newest"));
-
-                TextView numberView = (TextView) summeryContainer.findViewWithTag("text_summery_number");
-                numberView.setTextColor(type.accent().color(MaterialColorName.A700).value());
-                TextView numberNameView = (TextView) summeryContainer.findViewWithTag("text_summery_number_name");
-
-                String unread = summery.get("unread");
-                if(!unread.equals("0")) {
-                    numberView.setText(unread);
-                    numberNameView.setText(String.format(getString(R.string.text_new_item_format), ZentaoApplication.getEnumText(this, type)));
-                    try {
-                        summeryContainer.setBackground(getDrawable(R.drawable.ripple_yellow_100));
-                    } catch (NoSuchMethodError e) {
-                        summeryContainer.setBackgroundColor(MaterialColorSwatch.Yellow.color(MaterialColorName.C100).value());
-                    }
-
-                } else {
-                    String count = summery.get("count");
-                    numberView.setText(count);
-                    if(count.equals("0")) {
-                        numberView.setTextColor(getResources().getColor(R.color.secondary_text));
-                    }
-                    numberNameView.setText(getString(type == EntryType.Todo ? R.string.text_undone : R.string.text_assigned_to));
-                    try {
-                        summeryContainer.setBackground(getDrawable(R.drawable.ripple_transparent));
-                    } catch (NoSuchMethodError e) {
-                        summeryContainer.setBackgroundColor(Color.WHITE);
-                    }
+            long newCount = (long) summery.get("newCount");
+            if(newCount > 0) {
+                summery.put("number", new TextWithColor(newCount + "", type.accent().color(MaterialColorName.A700).value()));
+                switch (type) {
+                    case Product:
+                        summery.put("numberName", getString(R.string.text_normal_product));
+                        break;
+                    case Project:
+                        summery.put("numberName", getString(R.string.text_doing_project));
+                        break;
+                    default:
+                        summery.put("numberName", String.format(getString(R.string.text_new_item_format), ZentaoApplication.getEnumText(this, type)));
+                }
+            } else {
+                summery.put("number", new TextWithColor(summery.get("count").toString(), MaterialColorSwatch.Grey.color(MaterialColorName.C700).value()));
+                switch (type) {
+                    case Product:
+                        summery.put("numberName", getString(R.string.text_all_product));
+                        break;
+                    case Project:
+                        summery.put("numberName", getString(R.string.text_all_project));
+                        break;
+                    case Todo:
+                        summery.put("numberName", getString(R.string.text_undone));
+                        break;
+                    default:
+                        summery.put("numberName", getString(R.string.text_assigned_to));
                 }
             }
+            dashboardItems.add(summery);
         }
+        dashboardAdapter.notifyDataSetChanged();
     }
 
-    public void openListActivity(View view) {
-        switch (view.getTag().toString()) {
-            case "container_summery_todo":
+    public void openListActivity(EntryType type) {
+        switch (type) {
+            case Todo:
                 application.openActivity(this, AppNav.todo);
-//                showDatabase(EntryType.Todo);
                 break;
-            case "container_summery_task":
+            case Task:
                 application.openActivity(this, AppNav.task);
                 break;
-            case "container_summery_bug":
+            case Bug:
                 application.openActivity(this, AppNav.bug);
                 break;
-            case "container_summery_story":
+            case Story:
                 application.openActivity(this, AppNav.story);
                 break;
         }
@@ -203,7 +238,7 @@ public class MainActivity extends ZentaoActivity {
         showDatabase(null);
     }
 
-    private class UpdateSummeries extends AsyncTask<Context, Integer, HashMap<EntryType, HashMap<String, String>>> {
+    private class UpdateSummeries extends AsyncTask<Context, Integer, ArrayList<HashMap<String, Object>>> {
         /**
          * Runs on the UI thread before {@link #doInBackground}.
          *
@@ -220,13 +255,13 @@ public class MainActivity extends ZentaoActivity {
         }
 
         @Override
-        protected HashMap<EntryType, HashMap<String, String>> doInBackground(Context... params) {
+        protected ArrayList<HashMap<String, Object>> doInBackground(Context... params) {
             DAO dao = new DAO(params[0]);
             return dao.getSummery(user.getAccount());
         }
 
         @Override
-        protected void onPostExecute(HashMap<EntryType, HashMap<String, String>> entryTypeHashMapHashMap) {
+        protected void onPostExecute(ArrayList<HashMap<String, Object>> entryTypeHashMapHashMap) {
             super.onPostExecute(entryTypeHashMapHashMap);
             updateSummeries(entryTypeHashMapHashMap);
         }

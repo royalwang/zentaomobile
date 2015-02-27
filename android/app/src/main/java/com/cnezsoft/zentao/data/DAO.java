@@ -481,7 +481,7 @@ public class DAO {
      * @param entryType
      * @return
      */
-    public HashMap<String, String> getSummery(EntryType entryType, String account) {
+    public HashMap<String, Object> getSummery(EntryType entryType, String account) {
         long number = 0;
         long unread = 0;
         String newest = "";
@@ -588,24 +588,21 @@ public class DAO {
         }
 
 
-        HashMap<String, String> summery = new HashMap<>(2);
-        summery.put("count", number + "");
+        HashMap<String, Object> summery = new HashMap<>(2);
+        summery.put("type", entryType);
+        summery.put("count", number);
         summery.put("newest", newest);
-        if(entryType == EntryType.Product)  {
-            summery.put("normal", unread + "");
-        } else if(entryType == EntryType.Project) {
-            summery.put("doing", unread + "");
-        } else {
-            summery.put("unread", unread + "");
-        }
+        summery.put("newCount", unread);
         return summery;
     }
 
-    public HashMap<EntryType, HashMap<String, String>> getSummery(String account) {
+    public ArrayList<HashMap<String, Object>> getSummery(String account) {
         EntryType[] types = EntryType.values();
-        HashMap<EntryType, HashMap<String, String>> summeries = new HashMap<>(types.length);
+        ArrayList<HashMap<String, Object>> summeries = new ArrayList<>(types.length - 1);
         for(EntryType entryType: types) {
-            summeries.put(entryType, getSummery(entryType, account));
+            if(entryType != EntryType.Default) {
+                summeries.add(getSummery(entryType, account));
+            }
         }
         return summeries;
     }

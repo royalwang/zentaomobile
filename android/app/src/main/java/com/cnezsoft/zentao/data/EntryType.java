@@ -14,12 +14,12 @@ import java.util.ArrayList;
  */
 public enum EntryType implements IAccentIcon{
     Default(MaterialColorSwatch.Grey, "question"),
-    Product(MaterialColorSwatch.Teal, "cube"),
-    Project(MaterialColorSwatch.Indigo, "folder-o"),
     Todo(MaterialColorSwatch.LightBlue, "check-square-o"),
     Task(MaterialColorSwatch.Green, "tasks"),
+    Bug(MaterialColorSwatch.Pink, "bug"),
     Story(MaterialColorSwatch.Purple, "lightbulb-o"),
-    Bug(MaterialColorSwatch.Pink, "bug");
+    Product(MaterialColorSwatch.Teal, "cube"),
+    Project(MaterialColorSwatch.Indigo, "folder-o");
 
     private IColumn[] cols = null;
     private IColumn primaryColumn = null;
