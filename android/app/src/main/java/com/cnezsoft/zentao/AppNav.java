@@ -12,8 +12,8 @@ public enum AppNav {
     task("tasks"),
     bug("bug"),
     story("lightbulb-o"),
-    project("folder"),
-    product("cubes"),
+//    project("folder"),
+//    product("cubes"),
     setting("cog");
 
     private final String icon;
@@ -70,10 +70,10 @@ public enum AppNav {
                 return DashboardNav.bug;
             case story:
                 return DashboardNav.story;
-            case product:
-                return DashboardNav.product;
-            case project:
-                return DashboardNav.project;
+//            case product:
+//                return DashboardNav.product;
+//            case project:
+//                return DashboardNav.project;
             default:
                 return null;
         }

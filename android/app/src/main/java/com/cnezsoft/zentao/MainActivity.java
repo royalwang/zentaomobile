@@ -130,6 +130,10 @@ public class MainActivity extends ZentaoActivity {
 
             // Start syncService
             startService(new Intent(this, ZentaoSyncService.class));
+
+            if(resultCode == RESULT_OK) {
+                new UpdateSummeries().execute(this);
+            }
         }
     }
 
@@ -195,6 +199,10 @@ public class MainActivity extends ZentaoActivity {
         }
     }
 
+    public void onCompanyClick(View view) {
+        showDatabase(null);
+    }
+
     private class UpdateSummeries extends AsyncTask<Context, Integer, HashMap<EntryType, HashMap<String, String>>> {
         /**
          * Runs on the UI thread before {@link #doInBackground}.
@@ -205,6 +213,7 @@ public class MainActivity extends ZentaoActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            user = application.getUser();
             if(user.getStatus() == User.Status.Unknown) {
                 cancel(true);
             }
@@ -227,7 +236,7 @@ public class MainActivity extends ZentaoActivity {
         String logKey = "DATABASE TEST";
         EntryType[] types;
         if(entryType == null || entryType == EntryType.Default) {
-            types = new EntryType[] {EntryType.Todo, EntryType.Task, EntryType.Bug};
+            types = new EntryType[] {EntryType.Todo, EntryType.Task, EntryType.Bug, EntryType.Story, EntryType.Project, EntryType.Product};
         } else {
             types = new EntryType[] {entryType};
         }

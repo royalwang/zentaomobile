@@ -48,6 +48,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignStart="@+id/text_hello_user"
                 android:textColor="@color/white"
+                android:onClick="onCompanyClick"
                 android:alpha="0.54" />
         </RelativeLayout>
 
@@ -55,6 +56,7 @@
             android:orientation="vertical"
             android:id="@+id/container_summery_list"
             android:layout_width="fill_parent"
+            android:background="@color/white"
             android:layout_height="wrap_content">
 
             <RelativeLayout
@@ -63,9 +65,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:padding="16dp"
                 android:clickable="true"
-                android:onClick="openListActivity">
+                android:onClick="openListActivity"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp">
                 <android.widget.IconTextView
                     android:tag="icon_summery"
                     android:textColor="@color/blue_A400"
@@ -142,7 +147,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:padding="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
                 android:clickable="true"
                 android:onClick="openListActivity">
                 <android.widget.IconTextView
@@ -220,7 +228,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:padding="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
                 android:clickable="true"
                 android:onClick="openListActivity">
                 <android.widget.IconTextView
@@ -298,7 +309,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:padding="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
                 android:clickable="true"
                 android:onClick="openListActivity">
                 <android.widget.IconTextView
