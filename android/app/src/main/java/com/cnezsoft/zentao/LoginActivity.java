@@ -12,8 +12,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.util.Date;
-
 /**
  * Login activity
  */
@@ -124,7 +122,7 @@ public class LoginActivity extends ZentaoActivity {
         String[] loginMessages = getResources().getStringArray(R.array.login_messages);
         if(result.getResult())
         {
-            user.setLastSyncTime(new Date(0)).save();
+//            user.setLastSyncTime(new Date(0)).save();
             user.online();
             ZentaoConfig zentaoConfig = result.getValue();
             ((ZentaoApplication) getApplicationContext()).setZentaoConfig(zentaoConfig);
