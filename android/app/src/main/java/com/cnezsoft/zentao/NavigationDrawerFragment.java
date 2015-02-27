@@ -78,6 +78,7 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mUserLearnedDrawer;
     private BroadcastReceiver syncReceiver = null;
     private TextView textViewSyncTitle;
+    private CharSequence oldActionBarTitle;
 
     private Animation fadeOutAnimation;
 
@@ -501,6 +502,12 @@ public class NavigationDrawerFragment extends Fragment {
                 inflater.inflate(R.menu.global, menu);
             }
             showGlobalContextActionBar();
+        } else {
+            if(oldActionBarTitle == null) {
+                oldActionBarTitle = getActionBar().getTitle();
+            } else {
+                getActionBar().setTitle(oldActionBarTitle);
+            }
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
