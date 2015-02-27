@@ -18,8 +18,8 @@ public enum EntryType implements IAccentIcon{
     Task(MaterialColorSwatch.Green, "tasks"),
     Bug(MaterialColorSwatch.Pink, "bug"),
     Story(MaterialColorSwatch.Purple, "lightbulb-o"),
-    Product(MaterialColorSwatch.Teal, "cube"),
-    Project(MaterialColorSwatch.Indigo, "folder-o");
+    Project(MaterialColorSwatch.Indigo, "folder-o"),
+    Product(MaterialColorSwatch.Teal, "cube");
 
     private IColumn[] cols = null;
     private IColumn primaryColumn = null;
