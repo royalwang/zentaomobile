@@ -51,6 +51,14 @@
             android:name=".SettingsActivity"
             android:label="@string/action_settings" >
         </activity>
+        <activity
+            android:name=".ProjectActivity"
+            android:label="@string/title_activity_project"
+            android:parentActivityName=".ZentaoActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cnezsoft.zentao.ZentaoActivity" />
+        </activity>
     </application>
 
 </manifest>

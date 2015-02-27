@@ -157,6 +157,9 @@ public class ZentaoApplication extends Application {
                 intent = new Intent(activity, ListActivity.class);
                 intent.putExtra(ListActivity.NAV_CURRENT, nav.toDashboardNav().ordinal());
                 break;
+            case project:
+                intent = new Intent(activity, ProjectActivity.class);
+                break;
             case setting:
                 intent = new Intent(activity, SettingsActivity.class);
                 break;

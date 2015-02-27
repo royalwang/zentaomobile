@@ -231,6 +231,13 @@ public class MainActivity extends ZentaoActivity {
             case Story:
                 application.openActivity(this, AppNav.story);
                 break;
+            case Project:
+                application.openActivity(this, AppNav.project);
+                break;
+            case Product:
+                application.openActivity(this, AppNav.product);
+                break;
+
         }
     }
 
