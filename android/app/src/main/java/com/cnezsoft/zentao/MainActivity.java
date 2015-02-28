@@ -3,7 +3,6 @@ package com.cnezsoft.zentao;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -49,40 +48,15 @@ public class MainActivity extends ZentaoActivity {
     private ListView dashboardList;
     private SimpleAdapter dashboardAdapter;
     private ArrayList<HashMap<String, ?>> dashboardItems;
-    private IntentFilter intentFilter = null;
     private BroadcastReceiver syncReceiver = null;
-
-    @Override
-    public void onPause() {
-        if(syncReceiver != null) {
-            this.unregisterReceiver(syncReceiver);
-        }
-        super.onPause();
-    }
+    private ArrayList<String> messages;
 
     @Override
     public void onResume() {
         super.onResume();
-        if(intentFilter == null) {
-            intentFilter = new IntentFilter();
-            intentFilter.addAction(Synchronizer.MESSAGE_OUT_SYNC);
-        }
-
-        if(syncReceiver == null) {
-            syncReceiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    if(intent.getAction().equals(Synchronizer.MESSAGE_OUT_SYNC)) {
-                        new UpdateSummeries().execute(context);
-                    }
-                }
-            };
-        }
 
         ((TextView) findViewById(R.id.text_hello_user)).setText(user.getHelloText(this));
         ((TextView) findViewById(R.id.text_comany)).setText(user.getCompany());
-
-        this.registerReceiver(syncReceiver, intentFilter);
     }
 
     @Override
@@ -133,6 +107,19 @@ public class MainActivity extends ZentaoActivity {
                 openListActivity((EntryType)((HashMap<String, Object>) dashboardAdapter.getItem(position)).get("type"));
             }
         });
+
+        listenMessage(Synchronizer.MESSAGE_OUT_SYNC);
+        updateSummeries();
+    }
+
+    @Override
+    protected void onReceiveMessage(Intent intent) {
+        if(intent.getAction().equals(Synchronizer.MESSAGE_OUT_SYNC)) {
+            updateSummeries();
+        }
+    }
+
+    private void updateSummeries() {
         new UpdateSummeries().execute(this);
     }
 
@@ -264,7 +251,9 @@ public class MainActivity extends ZentaoActivity {
         @Override
         protected ArrayList<HashMap<String, Object>> doInBackground(Context... params) {
             DAO dao = new DAO(params[0]);
-            return dao.getSummery(user.getAccount());
+            ArrayList<HashMap<String, Object>> result = dao.getSummery(user.getAccount());
+            dao.close();
+            return result;
         }
 
         @Override

@@ -1,7 +1,10 @@
 package com.cnezsoft.zentao;
 
 import android.annotation.TargetApi;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,10 +16,55 @@ import android.view.WindowManager;
 import com.cnezsoft.zentao.colorswatch.MaterialColorName;
 import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
 
+import java.util.ArrayList;
+
 /**
  * Created by Catouse on 2015/1/29.
  */
 public class ZentaoActivity extends ActionBarActivity {
+    private BroadcastReceiver syncReceiver = null;
+    private ArrayList<String> messages;
+
+    /**
+     * List global message (Call this in onCreate method)
+     * @param message
+     */
+    protected void listenMessage(String message) {
+        if(messages == null) {
+            messages = new ArrayList<>(1);
+        }
+        messages.add(message);
+    }
+
+    @Override
+    public void onPause() {
+        if(syncReceiver != null) {
+            this.unregisterReceiver(syncReceiver);
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (messages != null && messages.size() > 0) {
+            IntentFilter intentFilter = new IntentFilter();
+            for(String message: messages) {
+                intentFilter.addAction(message);
+            }
+
+            if (syncReceiver == null) {
+                syncReceiver = new BroadcastReceiver() {
+                    @Override
+                    public void onReceive(Context context, Intent intent) {
+                        onReceiveMessage(intent);
+                    }
+                };
+            }
+
+            this.registerReceiver(syncReceiver, intentFilter);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +88,5 @@ public class ZentaoActivity extends ActionBarActivity {
     }
 
     protected void onReceiveMessage(Intent intent) {
-
     }
 }
