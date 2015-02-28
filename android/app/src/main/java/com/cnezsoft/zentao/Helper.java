@@ -136,4 +136,108 @@ public class Helper {
         return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
                 && cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH);
     }
+
+    public static String getFriendlyDateString(Context context, Date date) {
+        Calendar nowCal = Calendar.getInstance();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        if(isInSameDay(nowCal, cal)) {
+            return context.getString(R.string.text_today);
+        } else if(isInSameYear(nowCal, cal)) {
+            Helper.formatDate(date, context.getString(R.string.text_short_date_format));
+        }
+        return Helper.formatDate(date, context.getString(R.string.text_long_date_format));
+    }
+
+    public static String getFriendlyDateSpan(Context context, Date begin, Date end) {
+        Calendar nowCal = Calendar.getInstance();
+        Calendar beginCal = Calendar.getInstance();
+        Calendar endCal = Calendar.getInstance();
+        beginCal.setTime(begin);
+        endCal.setTime(end);
+
+        if(beginCal.get(Calendar.YEAR) > 2025) {
+            return context.getString(R.string.text_unknown_date) + " " + Helper.formatDate(begin, DateFormatType.Time) + " ~ " + Helper.formatDate(end, DateFormatType.Time);
+        }
+
+        String beginDatePart = "";
+        if(nowCal.get(Calendar.YEAR) != beginCal.get(Calendar.YEAR)) {
+            beginDatePart = Helper.formatDate(begin, context.getString(R.string.text_long_date_format));
+        } else {
+            long deltaDays = nowCal.get(Calendar.DAY_OF_YEAR) - beginCal.get(Calendar.DAY_OF_YEAR);
+            if(deltaDays == 0) {
+                beginDatePart = context.getString(R.string.text_today);
+            } else if(deltaDays == 1) {
+                beginDatePart = context.getString(R.string.text_yesterday);
+            } else if(deltaDays == -1) {
+                beginDatePart = context.getString(R.string.text_tomorrow);
+            } else {
+                beginDatePart = Helper.formatDate(begin, context.getString(R.string.text_short_date_format));
+            }
+        }
+
+        String endDatePart = "";
+        if(!Helper.isInSameDay(beginCal, endCal)) {
+            long deltaDays = nowCal.get(Calendar.DAY_OF_YEAR) - endCal.get(Calendar.DAY_OF_YEAR);
+            if(deltaDays == 0) {
+                endDatePart = context.getString(R.string.text_today);
+            } else if(deltaDays == 1) {
+                endDatePart = context.getString(R.string.text_yesterday);
+            } else if(deltaDays == -1) {
+                endDatePart = context.getString(R.string.text_tomorrow);
+            } else if(Helper.isInSameMonth(beginCal, endCal)) {
+                endDatePart = Helper.formatDate(begin, context.getString(R.string.text_date_day_format));
+            } else {
+                endDatePart = Helper.formatDate(begin, context.getString(R.string.text_short_date_format));
+            }
+        }
+
+        return beginDatePart + " ~ " + endDatePart;
+    }
+
+    public static String getFriendlyDateTimeSpan(Context context, Date begin, Date end) {
+        Calendar nowCal = Calendar.getInstance();
+        Calendar beginCal = Calendar.getInstance();
+        Calendar endCal = Calendar.getInstance();
+        beginCal.setTime(begin);
+        endCal.setTime(end);
+
+        if(beginCal.get(Calendar.YEAR) > 2025) {
+            return context.getString(R.string.text_unknown_date) + " " + Helper.formatDate(begin, DateFormatType.Time) + " ~ " + Helper.formatDate(end, DateFormatType.Time);
+        }
+
+        String beginDatePart = "";
+        if(nowCal.get(Calendar.YEAR) != beginCal.get(Calendar.YEAR)) {
+            beginDatePart = Helper.formatDate(begin, context.getString(R.string.text_long_date_format));
+        } else {
+            long deltaDays = nowCal.get(Calendar.DAY_OF_YEAR) - beginCal.get(Calendar.DAY_OF_YEAR);
+            if(deltaDays == 0) {
+                beginDatePart = context.getString(R.string.text_today);
+            } else if(deltaDays == 1) {
+                beginDatePart = context.getString(R.string.text_yesterday);
+            } else if(deltaDays == -1) {
+                beginDatePart = context.getString(R.string.text_tomorrow);
+            } else {
+                beginDatePart = Helper.formatDate(begin, context.getString(R.string.text_short_date_format));
+            }
+        }
+
+        String endDatePart = "";
+        if(!Helper.isInSameDay(beginCal, endCal)) {
+            long deltaDays = nowCal.get(Calendar.DAY_OF_YEAR) - endCal.get(Calendar.DAY_OF_YEAR);
+            if(deltaDays == 0) {
+                endDatePart = context.getString(R.string.text_today);
+            } else if(deltaDays == 1) {
+                endDatePart = context.getString(R.string.text_yesterday);
+            } else if(deltaDays == -1) {
+                endDatePart = context.getString(R.string.text_tomorrow);
+            } else if(Helper.isInSameMonth(beginCal, endCal)) {
+                endDatePart = Helper.formatDate(begin, context.getString(R.string.text_date_day_format));
+            } else {
+                endDatePart = Helper.formatDate(begin, context.getString(R.string.text_short_date_format));
+            }
+        }
+
+        return beginDatePart + " " + Helper.formatDate(begin, DateFormatType.Time) + " ~ " + endDatePart + Helper.formatDate(end, DateFormatType.Time);
+    }
 }
