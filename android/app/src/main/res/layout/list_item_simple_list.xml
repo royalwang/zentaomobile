@@ -2,9 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:paddingTop="4dp"
-    android:paddingBottom="4dp">
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
 
     <android.widget.IconTextView
         android:id="@+id/icon"
@@ -60,16 +59,15 @@
         android:singleLine="false"
         android:maxLines="1"
         android:layout_alignParentTop="true"
+        android:textAppearance="?android:attr/textAppearanceListItem"
         android:layout_toRightOf="@+id/text_prefix"
         android:layout_alignParentEnd="false"
-        android:layout_marginRight="16dp"
-        android:textSize="15sp" />
+        android:layout_marginRight="16dp"/>
 
     <android.widget.IconTextView
         android:layout_width="wrap_content"
         android:layout_height="28dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="subtitle"
         android:textColor="@color/secondary_text"
         android:id="@+id/text_subtitle"
         android:layout_gravity="center_horizontal"
@@ -78,7 +76,7 @@
         android:layout_toEndOf="@+id/text_title"
         android:gravity="center_vertical"
         android:layout_marginLeft="-8dp"
-        android:visibility="invisible" />
+        android:visibility="visible" />
 
     <android.widget.IconTextView
         android:layout_width="wrap_content"
@@ -138,29 +136,12 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="status"
         android:id="@+id/text_status"
         android:layout_below="@+id/text_title"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="16dp"
         android:textColor="@color/secondary_text"
-        android:textSize="12sp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:text="@string/text_new_todo"
-        android:gravity="center_vertical"
-        android:textColor="@color/white"
-        android:id="@+id/text_extra_tag"
-        android:visibility="gone"
-        android:paddingRight="8dp"
-        android:background="@color/accent"
         android:textSize="12sp"
-        android:paddingLeft="8dp"
-        android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/text_tag"
-        android:layout_marginTop="2dp"
-        android:layout_marginRight="1dp" />
+        android:singleLine="true" />
 
 </RelativeLayout>
