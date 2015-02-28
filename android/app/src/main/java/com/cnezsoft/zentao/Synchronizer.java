@@ -136,9 +136,9 @@ public class Synchronizer extends BroadcastReceiver {
 
                 if(range < 0) continue;
 
-                result = ZentaoAPI.getDataList(application.getZentaoConfig(), user, "increment", entryType, range, 1000, "index");
+                result = ZentaoAPI.getDataList(application.getZentaoConfig(), user, "increment", entryType, range, 500, "index");
                 if(saveData(result)) {
-                    if(minIdKey == Integer.MAX_VALUE || itemCount < 1000) {
+                    if(minIdKey == Integer.MAX_VALUE || itemCount < 500) {
                         range = -1;
 //                        deepSyncConfig.remove(entryType);
                     } else {
