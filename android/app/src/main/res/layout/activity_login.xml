@@ -1,101 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:id="@+id/scrollView">
-    <LinearLayout
-        xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity"
+    android:backgroundTintMode="add"
+    android:baselineAligned="true"
+    android:weightSum="1"
+    android:background="@drawable/bg_zentao">
+
+    <RelativeLayout
         android:orientation="vertical"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:layout_width="254dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:layout_gravity="center"
+            android:src="@drawable/logo_inverse"
+            android:contentDescription="Zentao Logo"
+            android:layout_centerInParent="true"
+            android:baselineAlignBottom="false" />
+    </RelativeLayout >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".LoginActivity"
-        android:backgroundTintMode="add"
-        android:baselineAligned="true"
-        android:weightSum="1"
-        android:background="@drawable/bg_zentao">
+        android:paddingLeft="@dimen/content_horizontal_margin"
+        android:paddingRight="@dimen/content_horizontal_margin"
+        android:paddingTop="@dimen/content_vertical_margin"
+        android:paddingBottom="48dp"
+        android:background="@android:color/white"
+        android:layout_weight="1">
 
-        <RelativeLayout
-            android:orientation="vertical"
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.51"
-            android:minHeight="200dp"
-            android:layout_gravity="center">
+            android:id="@+id/edit_address"
+            android:layout_gravity="center_horizontal"
+            android:hint="@string/hint_zentao_address"
+            android:drawablePadding="5dip"/>
 
-            <ImageView
-                android:layout_width="254dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView"
-                android:layout_gravity="center"
-                android:src="@drawable/logo_inverse"
-                android:contentDescription="Zentao Logo"
-                android:layout_centerInParent="true"
-                android:baselineAlignBottom="false" />
-        </RelativeLayout >
-
-        <LinearLayout
-            android:orientation="vertical"
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/content_horizontal_margin"
-            android:paddingRight="@dimen/content_horizontal_margin"
-            android:paddingTop="@dimen/content_vertical_margin"
-            android:paddingBottom="@dimen/content_vertical_margin"
-            android:background="@android:color/white"
-            android:layout_weight="1">
+            android:id="@+id/edit_account"
+            android:hint="@string/hint_account"
+            android:drawablePadding="5dip"/>
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/edit_address"
-                android:layout_gravity="center_horizontal"
-                android:hint="@string/hint_zentao_address"
-                android:drawableStart="@drawable/ic_action_globe"
-                android:drawablePadding="5dip"
-                android:drawableLeft="@drawable/ic_action_globe" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/edit_password"
+            android:hint="@string/hint_password"
+            android:drawablePadding="5dip" />
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/edit_account"
-                android:hint="@string/hint_account"
-                android:drawableStart="@drawable/ic_action_user"
-                android:drawablePadding="5dip"
-                android:drawableLeft="@drawable/ic_action_user" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_login"
+            android:id="@+id/button_login"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:onClick="onLogin"
+            style="@style/primaryButton" />
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:ems="10"
-                android:id="@+id/edit_password"
-                android:hint="@string/hint_password"
-                android:drawableStart="@drawable/ic_action_lock_closed"
-                android:drawablePadding="5dip"
-                android:drawableLeft="@drawable/ic_action_lock_closed" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/label_login"
-                android:id="@+id/button_login"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="10dp"
-                android:onClick="onLogin"
-                style="@style/primaryButton" />
-
-            <android.widget.IconTextView
-                style="@style/transparentButton"
-                android:padding="@dimen/control_padding"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/button_explore_zentao_pro"
-                android:id="@+id/textView"
-                android:textColor="@color/secondary_text"
-                android:layout_gravity="right"
-                android:onClick="exploreZentaoPro"
-                android:clickable="true" />
-        </LinearLayout>
+        <android.widget.IconTextView
+            style="@style/transparentButton"
+            android:padding="@dimen/control_padding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_explore_zentao_pro"
+            android:id="@+id/textView"
+            android:textColor="@color/secondary_text"
+            android:layout_gravity="right"
+            android:onClick="exploreZentaoPro"
+            android:clickable="true" />
     </LinearLayout>
-</ScrollView>
+</LinearLayout>

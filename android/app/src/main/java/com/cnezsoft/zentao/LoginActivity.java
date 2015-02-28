@@ -12,6 +12,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.joanzapata.android.iconify.IconDrawable;
+import com.joanzapata.android.iconify.Iconify;
+
 /**
  * Login activity
  */
@@ -33,6 +36,12 @@ public class LoginActivity extends ZentaoActivity {
         editAddress = (EditText) findViewById(R.id.edit_address);
         editAccount = (EditText) findViewById(R.id.edit_account);
         editPasswordMd5 = (EditText) findViewById(R.id.edit_password);
+        editAddress.setCompoundDrawablesWithIntrinsicBounds(
+                new IconDrawable(this, Iconify.IconValue.fa_globe) {{sizeDp(24); colorRes(R.color.primary);}}, null, null, null);
+        editAccount.setCompoundDrawablesWithIntrinsicBounds(
+                new IconDrawable(this, Iconify.IconValue.fa_user) {{sizeDp(24); colorRes(R.color.primary);}}, null, null, null);
+        editPasswordMd5.setCompoundDrawablesWithIntrinsicBounds(
+                new IconDrawable(this, Iconify.IconValue.fa_lock) {{sizeDp(24); colorRes(R.color.primary);}}, null, null, null);
 
         ZentaoApplication context = (ZentaoApplication) getApplicationContext();
         user = context.getUser();
