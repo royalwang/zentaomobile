@@ -1,13 +1,20 @@
 package com.cnezsoft.zentao.data;
 
+import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import com.cnezsoft.zentao.Helper;
 import com.cnezsoft.zentao.IAccentIcon;
+import com.cnezsoft.zentao.R;
+import com.cnezsoft.zentao.ZentaoApplication;
 import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Project
@@ -73,12 +80,17 @@ public class Project extends DataEntry {
         return Enum.valueOf(Type.class, getAsString(ProjectColumn.type).trim().toLowerCase());
     }
 
+    private Status status;
+
     /**
      * Get project type
      * @return
      */
     public Status getStatus() {
-        return Enum.valueOf(Status.class, getAsString(ProjectColumn.status).trim().toLowerCase());
+        if(status == null) {
+            status = Enum.valueOf(Status.class, getAsString(ProjectColumn.status).trim().toLowerCase());
+        }
+        return status;
     }
 
     /**
@@ -131,5 +143,88 @@ public class Project extends DataEntry {
     @Override
     protected void onCreate() {
         setType(EntryType.Project);
+    }
+
+    public boolean isDoneLongTimeAgo() {
+        if(getStatus() == Status.done) {
+            Calendar now = Calendar.getInstance();
+            Calendar closeDay = Calendar.getInstance();
+            closeDay.add(Calendar.MONTH, -1);
+            return closeDay.before(now);
+        }
+        return false;
+    }
+
+    public String getFriendlyTimeString(Context context) {
+        Date date;
+        String pattern;
+        Status status = getStatus();
+        String prefix = ZentaoApplication.getEnumText(context, status) + " ";
+        switch (getStatus()) {
+            case doing:
+                date = getAsDate(ProjectColumn.end);
+                pattern = context.getString(R.string.text_date_to_format);
+                break;
+            case suspended:
+                date = getAsDate(ProjectColumn.end);
+                pattern = context.getString(R.string.text_date_at_format);
+                prefix += context.getString(R.string.text_date_end_at) + " ";
+                break;
+            case done:
+                date = getAsDate(ProjectColumn.end);
+                pattern = context.getString(R.string.text_date_at_format);
+                break;
+            default:
+                date = getAsDate(ProjectColumn.begin);
+                pattern = context.getString(R.string.text_date_at_format);
+                break;
+        }
+        return  prefix + String.format(pattern, Helper.getFriendlyDateString(context, date));
+    }
+
+    private float estimate; // 估计
+    private float consumed; // 消耗
+    private float left;     // 剩余
+
+    public float getEstimate() {
+        return estimate;
+    }
+
+    public float getConsumed() {
+        return consumed;
+    }
+
+    public float getLeft() {
+        return left;
+    }
+
+    public void calculateHours(Cursor tasksCursor) {
+        estimate = 0;
+        consumed = 0;
+        left = 0;
+        String statusCancelName = Task.Status.cancel.name();
+        String closeReasonCancelName = Task.CloseReason.cancel.name();
+        while (tasksCursor.moveToNext()) {
+            estimate += tasksCursor.getFloat(tasksCursor.getColumnIndex(TaskColumn.estimate.name()));
+            consumed += tasksCursor.getFloat(tasksCursor.getColumnIndex(TaskColumn.consumed.name()));
+            if(!statusCancelName.equals(tasksCursor.getString(tasksCursor.getColumnIndex(TaskColumn.status.name())))
+                    && !closeReasonCancelName.equals(tasksCursor.getString(tasksCursor.getColumnIndex(TaskColumn.closeReason.name())))) {
+                left +=  tasksCursor.getFloat(tasksCursor.getColumnIndex(TaskColumn.left.name()));
+            }
+        }
+        Log.v("PROJECT", "calculateHours " + key() + ": estimate=" + estimate + ", consumed=" + consumed + ", left=" + left);
+    }
+
+    public float getProgress() {
+        float real = consumed + left;
+        return real > 0 ? (consumed / real) : 0;
+    }
+
+    public float getHour() {
+        if(status == Status.done) {
+            return consumed;
+        } else {
+            return -left;
+        }
     }
 }

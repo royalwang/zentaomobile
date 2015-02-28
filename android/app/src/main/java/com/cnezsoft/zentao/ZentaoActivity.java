@@ -37,7 +37,7 @@ public class ZentaoActivity extends ActionBarActivity {
     }
 
     @Override
-    public void onPause() {
+    protected void onPause() {
         if(syncReceiver != null) {
             this.unregisterReceiver(syncReceiver);
         }
@@ -45,7 +45,7 @@ public class ZentaoActivity extends ActionBarActivity {
     }
 
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
         if (messages != null && messages.size() > 0) {
             IntentFilter intentFilter = new IntentFilter();

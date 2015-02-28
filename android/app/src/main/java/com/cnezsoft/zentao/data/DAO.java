@@ -36,6 +36,13 @@ public class DAO {
     }
 
     /**
+     * Close database
+     */
+    public void close() {
+        db.close();
+    }
+
+    /**
      * Add entry to database
      * @param entry
      * @return
@@ -596,6 +603,11 @@ public class DAO {
         return summery;
     }
 
+    /**
+     * Get all type summeries
+     * @param account
+     * @return
+     */
     public ArrayList<HashMap<String, Object>> getSummery(String account) {
         EntryType[] types = EntryType.values();
         ArrayList<HashMap<String, Object>> summeries = new ArrayList<>(types.length - 1);
@@ -607,10 +619,35 @@ public class DAO {
         return summeries;
     }
 
-    /**
-     * Close database
-     */
-    public void close() {
-        db.close();
+    public long getBugCountOfProject(String projectID) {
+        return count(EntryType.Bug, BugColumn.project.name() + " = " + projectID + " AND " + BugColumn.status.name() + " = '" + Bug.Status.active.name() + "'");
+    }
+
+    public Cursor getProjectTasks(String id) {
+        return query(EntryType.Task, TaskColumn.project.name() + " = ?", new String[]{id});
+    }
+
+    public ArrayList<HashMap<String, Object>> getProjectsList(boolean simpleSet) {
+        ArrayList<HashMap<String, Object>> list = new ArrayList<>();
+        Cursor cursor = query(EntryType.Project);
+        Project project;
+        while (cursor.moveToNext()) {
+            project = new Project(cursor);
+            if(simpleSet && project.isDoneLongTimeAgo()) {
+                continue;
+            }
+
+            project.calculateHours(getProjectTasks(project.key()));
+            HashMap<String, Object> item = new HashMap<>();
+            item.put("title", project.getAsString(ProjectColumn.name));
+            item.put("id", project.getAsInteger(ProjectColumn._id));
+            item.put("date", project.getFriendlyTimeString(context));
+            item.put("bugCount", getBugCountOfProject(project.key()));
+            item.put("progress", project.getProgress());
+            item.put("hours", project.getHour());
+            item.put("status", project.getStatus());
+            list.add(item);
+        }
+        return list;
     }
 }
