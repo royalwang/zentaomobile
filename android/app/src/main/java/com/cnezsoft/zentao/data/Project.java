@@ -212,7 +212,6 @@ public class Project extends DataEntry {
                 left +=  tasksCursor.getFloat(tasksCursor.getColumnIndex(TaskColumn.left.name()));
             }
         }
-        Log.v("PROJECT", "calculateHours " + key() + ": estimate=" + estimate + ", consumed=" + consumed + ", left=" + left);
     }
 
     public float getProgress() {

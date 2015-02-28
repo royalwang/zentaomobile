@@ -52,6 +52,7 @@ public class ProjectActivity extends SimpleListActivity {
         item.put("tag", bugCount > 0 ? new ControlBindInfo("{fa-bug} " + bugCount, MaterialColorSwatch.Red.primary().value()) : new ControlBindInfo(View.GONE));
         String title = (String) item.get("title");
         item.put("icon", Helper.isNullOrEmpty(title) ? "{fa-folder-o}" : title.substring(0, 1));
+        item.put("info", item.get("date"));
         return item;
     }
 
@@ -80,7 +81,7 @@ public class ProjectActivity extends SimpleListActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_show_all_items) {
             return true;
         }
 
