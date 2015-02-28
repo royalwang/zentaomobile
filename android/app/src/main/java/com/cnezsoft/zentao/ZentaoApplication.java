@@ -160,6 +160,9 @@ public class ZentaoApplication extends Application {
             case project:
                 intent = new Intent(activity, ProjectActivity.class);
                 break;
+            case product:
+                intent = new Intent(activity, ProductActivity.class);
+                break;
             case setting:
                 intent = new Intent(activity, SettingsActivity.class);
                 break;

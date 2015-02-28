@@ -54,10 +54,18 @@
         <activity
             android:name=".ProjectActivity"
             android:label="@string/title_activity_project"
-            android:parentActivityName=".ZentaoActivity" >
+            android:parentActivityName=".SimpleListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.cnezsoft.zentao.ZentaoActivity" />
+                android:value="com.cnezsoft.zentao.SimpleListActivity" />
+        </activity>
+        <activity
+            android:name=".ProductActivity"
+            android:label="@string/title_activity_product"
+            android:parentActivityName=".SimpleListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cnezsoft.zentao.SimpleListActivity" />
         </activity>
     </application>
 

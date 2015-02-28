@@ -621,8 +621,19 @@ public class DAO {
         return summeries;
     }
 
+    public long getBugCountOfProduct(String productID) {
+        return count(EntryType.Bug,
+                BugColumn.product.name() + " = " + productID + " AND " + BugColumn.status.name() + " = '" + Bug.Status.active.name() + "'");
+    }
+
     public long getBugCountOfProject(String projectID) {
-        return count(EntryType.Bug, BugColumn.project.name() + " = " + projectID + " AND " + BugColumn.status.name() + " = '" + Bug.Status.active.name() + "'");
+        return count(EntryType.Bug,
+                BugColumn.project.name() + " = " + projectID + " AND " + BugColumn.status.name() + " = '" + Bug.Status.active.name() + "'");
+    }
+
+    public long getStoryCountOfProduct(String productID, Story.Status status) {
+        return count(EntryType.Story,
+                StoryColumn.product.name() + " = " + productID + " AND " + StoryColumn.status.name() + " = '" + status.name() + "'");
     }
 
     public Cursor getProjectTasks(String id) {
@@ -648,6 +659,29 @@ public class DAO {
             item.put("progress", project.getProgress());
             item.put("hours", project.getHour());
             item.put("status", project.getStatus());
+            list.add(item);
+        }
+        return list;
+    }
+
+    public ArrayList<HashMap<String, Object>> getProductsList(boolean simpleSet) {
+        ArrayList<HashMap<String, Object>> list = new ArrayList<>();
+        Cursor cursor = simpleSet ?
+                query(EntryType.Product, ProductColumn.status.name() + " = ?", new String[]{Product.Status.normal.name()})
+                : query(EntryType.Product);
+        Product product;
+        while (cursor.moveToNext()) {
+            product = new Product(cursor);
+            int id = product.getAsInteger(ProductColumn._id);
+            String idStr = id + "";
+            HashMap<String, Object> item = new HashMap<>();
+            item.put("bugCount", getBugCountOfProduct(idStr));
+            item.put("title", product.getAsString(ProductColumn.name));
+            item.put("id", id);
+            item.put("status", product.getStatus());
+            item.put("storyCount", getStoryCountOfProduct(idStr, Story.Status.active));
+            item.put("changedCount", getStoryCountOfProduct(idStr, Story.Status.changed));
+            item.put("draftCount", getStoryCountOfProduct(idStr, Story.Status.draft));
             list.add(item);
         }
         return list;
