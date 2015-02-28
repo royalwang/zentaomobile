@@ -334,10 +334,12 @@ public class DAO {
     public boolean contains(EntryType type, String key) {
         Cursor cursor = db.rawQuery("SELECT count(*) FROM " + type.name()
                 + " WHERE " + type.primaryKey() + " = " + key, null);
+        boolean result = false;
         if (cursor.moveToNext()) {
-            return cursor.getLong(0) > 0;
+            result = cursor.getLong(0) > 0;
         }
-        return false;
+        cursor.close();
+        return result;
     }
 
     /**
