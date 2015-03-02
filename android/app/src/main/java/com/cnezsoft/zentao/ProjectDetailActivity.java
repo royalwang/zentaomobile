@@ -61,11 +61,11 @@ public class ProjectDetailActivity extends DetailActivity {
         displayStatus(status, new ControlBindInfo(project.getFriendlyDateSpanString(this)));
         NumberFormat numberFormat = NumberFormat.getNumberInstance();
         numberFormat.setMaximumFractionDigits(1);
-        displayOnTextview(R.id.text_caption,
-                String.format(getString(R.string.text_project_hours_format),
-                        numberFormat.format(project.getEstimate()),
-                        numberFormat.format(project.getConsumed()),
-                        numberFormat.format(project.getLeft())));
+//        displayOnTextview(R.id.text_caption,
+//                String.format(getString(R.string.text_project_hours_format),
+//                        numberFormat.format(project.getEstimate()),
+//                        numberFormat.format(project.getConsumed()),
+//                        numberFormat.format(project.getLeft())));
         setIcon();
     }
 }

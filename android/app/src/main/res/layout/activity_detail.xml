@@ -218,7 +218,15 @@
         android:background="@color/divider"/>
 
     <ListView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/listView" />
+        android:id="@+id/list_meta" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider"/>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_simple" />
 </LinearLayout>
