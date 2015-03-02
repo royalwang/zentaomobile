@@ -596,7 +596,6 @@ public class DAO {
                 break;
         }
 
-
         HashMap<String, Object> summery = new HashMap<>(2);
         summery.put("type", entryType);
         summery.put("count", number);

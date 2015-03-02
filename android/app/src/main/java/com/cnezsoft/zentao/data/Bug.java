@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
+ * Bug
  * Created by Catouse on 2015/2/2.
  */
 public class Bug extends DataEntry {
