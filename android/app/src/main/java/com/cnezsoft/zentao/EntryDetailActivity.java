@@ -107,7 +107,7 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
         } else if(!inherit) {
             throw new NullPointerException("Can't get EntryType form intent object.");
         }
-        long temp = intent.getLongExtra(ARG_ID, -1l);
+        long temp = intent.getIntExtra(ARG_ID, -1);
         if(temp > -1) {
             entryId = temp;
         } else {
