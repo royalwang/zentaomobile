@@ -67,6 +67,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.cnezsoft.zentao.SimpleListActivity" />
         </activity>
+        <activity
+            android:name=".DetailActivity"
+            android:label="@string/title_activity_detail"
+            android:parentActivityName=".ZentaoActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cnezsoft.zentao.ZentaoActivity" />
+        </activity>
+        <activity
+            android:name=".ProjectDetailActivity"
+            android:label="@string/title_activity_detail"
+            android:parentActivityName=".DetailActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cnezsoft.zentao.DetailActivity" />
+        </activity>
     </application>
 
 </manifest>

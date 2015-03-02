@@ -1,0 +1,56 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.cnezsoft.zentao.DetailActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:id="@+id/header"
+        android:background="@color/primary">
+
+        <android.widget.IconTextView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:textSize="48sp"
+            android:text="{fa-circle}"
+            android:id="@+id/icon_back"
+            android:textAlignment="gravity"
+            android:gravity="center"
+            android:textColor="@color/icons" />
+
+        <android.widget.IconTextView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:textSize="24dp"
+            android:text="{fa-heart}"
+            android:id="@+id/icon"
+            android:textAlignment="gravity"
+            android:gravity="center"
+            android:textColor="@color/icons" />
+
+        <android.widget.IconTextView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:textSize="14dp"
+            android:text=""
+            android:id="@+id/icon_text"
+            android:textAlignment="gravity"
+            android:gravity="center"
+            android:textColor="@color/icons" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Title"
+            android:id="@+id/text_title"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/icon"
+            android:textColor="@color/white"
+            android:layout_marginLeft="16dp" />
+    </RelativeLayout>
+</LinearLayout>

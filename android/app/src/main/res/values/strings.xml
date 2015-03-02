@@ -46,7 +46,7 @@
     <string name="text_task_hours_left_format">剩余%sh</string>
     <string name="text_confirmed">已确认</string>
     <string name="text_unconfirm">未确认</string>
-    <string name="title_activity_entry_detail">EntryDetailActivity</string>
+    <string name="title_activity_entry_detail">详情</string>
     <string name="hello_world">Hello world!</string>
     <string name="text_bug_steps">重现步骤</string>
     <string name="text_no_desc">[没有描述]</string>
@@ -85,7 +85,7 @@
     <string name="text_new_item_format">新%s</string>
     <string name="text_click_view">点击查看</string>
     <string name="text_feedback_alert">没有在您的设备上找到邮件发送程序，要反馈bug请发邮件至%s。</string>
-    <string name="text_syncing">正在同步...</string>
+    <string name="text_syncing">正在同步…</string>
     <string name="text_new_todo">新待办</string>
     <string name="text_sync_success">同步成功</string>
     <string name="text_sync_failure">暂时无法同步</string>
@@ -107,5 +107,6 @@
     <string name="text_story_count_format">%s 需求</string>
     <string name="text_changed_story_count_format">%s 变更</string>
     <string name="text_draft_story_count_format">%s 草稿</string>
+    <string name="title_activity_detail">DetailActivity</string>
 
 </resources>
