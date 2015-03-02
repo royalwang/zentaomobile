@@ -542,7 +542,7 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
 
         Log.v("LIST VIEW", "onListItemClick=" + position + ":" + id);
         Activity activity = getActivity();
-        ((ZentaoApplication) activity.getApplicationContext()).openDetailActivity(activity, pageTab.getEntryType(), id);
+        ((ZentaoApplication) activity.getApplicationContext()).openDetailActivity(activity, pageTab.getEntryType(), (int)id);
     }
 
     @Override

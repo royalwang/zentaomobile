@@ -181,8 +181,15 @@ public class ZentaoApplication extends Application {
      * @param type
      * @param id
      */
-    public void openDetailActivity(Activity activity, EntryType type, long id) {
-        Intent intent = new Intent(activity, EntryDetailActivity.class);
+    public void openDetailActivity(Activity activity, EntryType type, int id) {
+        Intent intent;
+        switch (type) {
+            case Project:
+                intent = new Intent(activity, ProjectDetailActivity.class);
+                break;
+            default:
+                intent = new Intent(activity, EntryDetailActivity.class);
+        }
         intent.putExtra(EntryDetailActivity.ARG_ENTRY_TYPE, type.name());
         intent.putExtra(EntryDetailActivity.ARG_ID, id);
         activity.startActivity(intent);

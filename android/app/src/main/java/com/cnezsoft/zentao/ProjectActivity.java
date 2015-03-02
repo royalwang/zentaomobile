@@ -32,6 +32,20 @@ public class ProjectActivity extends SimpleListActivity {
         setAccentSwatch(EntryType.Project.accent());
     }
 
+    /**
+     * On list item click
+     *
+     * @param parent   The AdapterView where the click happened.
+     * @param view     The view within the AdapterView that was clicked (this
+     *                 will be a view provided by the adapter)
+     * @param position The position of the view in the adapter.
+     * @param id       The row id of the item that was clicked.
+     */
+    @Override
+    protected void onListItemClick(AdapterView<?> parent, View view, int position, long id) {
+        ((ZentaoApplication) getApplicationContext()).openDetailActivity(this, EntryType.Project, (int) id);
+    }
+
     @Override
     protected ArrayList<HashMap<String, Object>> loadData(Context... params) {
         DAO dao = new DAO(params[0]);
