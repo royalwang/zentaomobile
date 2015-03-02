@@ -181,6 +181,10 @@ public class Project extends DataEntry {
         return  prefix + String.format(pattern, Helper.getFriendlyDateString(context, date));
     }
 
+    public String getFriendlyDateSpanString(Context context) {
+        return Helper.getFriendlyDateSpan(context, getAsDate(ProjectColumn.begin), getAsDate(ProjectColumn.end));
+    }
+
     private float estimate; // 估计
     private float consumed; // 消耗
     private float left;     // 剩余
@@ -224,6 +228,16 @@ public class Project extends DataEntry {
         } else {
             return -left;
         }
+    }
+
+    private long bugCount;
+
+    public long getBugCount() {
+        return bugCount;
+    }
+
+    public void setBugCount(long bugCount) {
+        this.bugCount = bugCount;
     }
 
     public static MaterialColorSwatch accent(int id) {

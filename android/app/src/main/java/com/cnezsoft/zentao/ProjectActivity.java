@@ -44,7 +44,7 @@ public class ProjectActivity extends SimpleListActivity {
      */
     @Override
     protected void onListItemClick(AdapterView<?> parent, View view, int position, long id) {
-        ((ZentaoApplication) getApplicationContext()).openDetailActivity(this, EntryType.Project, (int) id);
+        ((ZentaoApplication) getApplicationContext()).openDetailActivity(this, EntryType.Project, (int) (((HashMap<String, Object>) adapter.getItem(position)).get("_id")));
     }
 
     @Override
@@ -58,6 +58,7 @@ public class ProjectActivity extends SimpleListActivity {
     @Override
     protected HashMap<String, Object> convertListItemData(HashMap<String, Object> item) {
         int id = (int) item.get("id");
+        item.put("_id", id);
         float progress = (float) item.get("progress");
         item.put("icon_back", new ControlBindInfo("{fa-folder}", Project.accent(id).primary().value()));
         item.put("id", new ControlBindInfo(percentageFormat.format(progress), progress >= 1 ? MaterialColorSwatch.Green.primary().value() : MaterialColorSwatch.Red.primary().value()));

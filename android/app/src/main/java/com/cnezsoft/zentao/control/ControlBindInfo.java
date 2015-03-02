@@ -10,6 +10,7 @@ public class ControlBindInfo {
     public String text;
     public int textColor;
     public int backColor;
+
     public int visibility = View.VISIBLE;
 
     public ControlBindInfo(String text, int textColor, int backColor, int visibility) {
