@@ -2,7 +2,6 @@ package com.cnezsoft.zentao.data;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 
 import com.cnezsoft.zentao.Helper;
 import com.cnezsoft.zentao.IAccentIcon;
@@ -225,5 +224,9 @@ public class Project extends DataEntry {
         } else {
             return -left;
         }
+    }
+
+    public static MaterialColorSwatch accent(int id) {
+        return MaterialColorSwatch.all[id%MaterialColorSwatch.all.length];
     }
 }

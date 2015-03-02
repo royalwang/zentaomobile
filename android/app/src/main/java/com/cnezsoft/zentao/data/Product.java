@@ -15,6 +15,10 @@ import org.json.JSONObject;
  */
 public class Product extends DataEntry {
 
+    public static MaterialColorSwatch accent(int id) {
+        return MaterialColorSwatch.all[(id + MaterialColorSwatch.all.length/2)%MaterialColorSwatch.all.length];
+    }
+
     /**
      * Product status
      */

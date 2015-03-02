@@ -11,6 +11,7 @@ import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
 import com.cnezsoft.zentao.control.ControlBindInfo;
 import com.cnezsoft.zentao.data.DAO;
 import com.cnezsoft.zentao.data.EntryType;
+import com.cnezsoft.zentao.data.Product;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,8 +21,6 @@ import java.util.HashMap;
  * Created by Catouse on 2015/2/28.
  */
 public class ProductActivity extends SimpleListActivity {
-
-    MaterialColorSwatch[] colors = MaterialColorSwatch.values();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +59,7 @@ public class ProductActivity extends SimpleListActivity {
     @Override
     protected HashMap<String, Object> convertListItemData(HashMap<String, Object> item) {
         int id = (int) item.get("id");
-        item.put("icon_back", new ControlBindInfo("{fa-circle}", colors[(id + colors.length/2)%colors.length].primary().value()));
+        item.put("icon_back", new ControlBindInfo("{fa-circle}", Product.accent(id).primary().value()));
         item.put("icon", "{fa-cube}");
         long bugCount = (long) item.get("bugCount");
         item.put("tag", bugCount > 0 ? new ControlBindInfo("{fa-bug} " + bugCount, MaterialColorSwatch.Red.primary().value()) : new ControlBindInfo(View.GONE));

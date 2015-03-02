@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 
 import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
 import com.cnezsoft.zentao.control.ControlBindInfo;
 import com.cnezsoft.zentao.data.DAO;
 import com.cnezsoft.zentao.data.EntryType;
+import com.cnezsoft.zentao.data.Project;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -19,7 +21,6 @@ public class ProjectActivity extends SimpleListActivity {
 
     NumberFormat percentageFormat;
     NumberFormat numberFormat;
-    MaterialColorSwatch[] colors = MaterialColorSwatch.values();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +59,7 @@ public class ProjectActivity extends SimpleListActivity {
     protected HashMap<String, Object> convertListItemData(HashMap<String, Object> item) {
         int id = (int) item.get("id");
         float progress = (float) item.get("progress");
-        item.put("icon_back", new ControlBindInfo("{fa-folder}", colors[id%colors.length].primary().value()));
+        item.put("icon_back", new ControlBindInfo("{fa-folder}", Project.accent(id).primary().value()));
         item.put("id", new ControlBindInfo(percentageFormat.format(progress), progress >= 1 ? MaterialColorSwatch.Green.primary().value() : MaterialColorSwatch.Red.primary().value()));
         float hours = (float) item.get("hours");
         item.put("status", numberFormat.format(hours) + "h");

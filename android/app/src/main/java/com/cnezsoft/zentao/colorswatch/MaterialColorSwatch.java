@@ -45,6 +45,8 @@ public enum MaterialColorSwatch {
         }
     }
 
+    public static final MaterialColorSwatch[] all = values();
+
     public static final MaterialColorSwatch[] PriAccentSwatches = new MaterialColorSwatch[]{
             Grey,
             Red,
