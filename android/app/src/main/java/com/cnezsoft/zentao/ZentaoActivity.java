@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.cnezsoft.zentao.colorswatch.MaterialColorName;
 import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
@@ -24,6 +25,11 @@ import java.util.ArrayList;
 public class ZentaoActivity extends ActionBarActivity {
     private BroadcastReceiver syncReceiver = null;
     private ArrayList<String> messages;
+    private MaterialColorSwatch swatch;
+
+    protected MaterialColorSwatch getSwatch() {
+        return swatch;
+    }
 
     /**
      * List global message (Call this in onCreate method)
@@ -75,6 +81,7 @@ public class ZentaoActivity extends ActionBarActivity {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     protected void setAccentSwatch(MaterialColorSwatch swatch) {
+        this.swatch = swatch;
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(swatch.color(MaterialColorName.C600).value()));
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -88,5 +95,13 @@ public class ZentaoActivity extends ActionBarActivity {
     }
 
     protected void onReceiveMessage(Intent intent) {
+    }
+
+    protected TextView findTextViewById(int id) {
+        try {
+            return (TextView) findViewById(id);
+        } catch (ClassCastException e) {
+            return null;
+        }
     }
 }

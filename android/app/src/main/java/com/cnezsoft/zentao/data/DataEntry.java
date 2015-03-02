@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.cnezsoft.zentao.DateFormatType;
 import com.cnezsoft.zentao.Helper;
+import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -129,6 +130,18 @@ public class DataEntry {
         else return pri;
     }
 
+    public MaterialColorSwatch getAccent() {
+        switch (type) {
+            case Project:
+                return Project.accent(keyValue());
+            case Product:
+                return Product.accent(keyValue());
+            default:
+                int pri = getAccentPri();
+                return pri > 0 ? MaterialColorSwatch.PriAccentSwatches[pri] : type.accent();
+        }
+    }
+
     /**
      * Get type name
      * @return
@@ -151,6 +164,10 @@ public class DataEntry {
      */
     public String key() {
         return getAsString(type.primaryKey());
+    }
+
+    public int keyValue() {
+        return getAsInteger(type.primaryKey());
     }
 
     public void key(String kValue) {

@@ -45,6 +45,10 @@ public class DataEntryFactory {
                 return new Bug(jsonObject);
             case Story:
                 return new Story(jsonObject);
+            case Product:
+                return new Product(jsonObject);
+            case Project:
+                return new Project(jsonObject);
             default:
                 return new DataEntry(jsonObject);
         }
@@ -67,6 +71,10 @@ public class DataEntryFactory {
                     return new Bug(cursor);
                 case Story:
                     return new Story(cursor);
+                case Product:
+                    return new Product(cursor);
+                case Project:
+                    return new Project(cursor);
                 default:
                     return new DataEntry(cursor);
             }
