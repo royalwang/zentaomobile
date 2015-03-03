@@ -3,9 +3,18 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="16dp"
-    android:paddingTop="8dp"
-    android:paddingRight="16dp"
-    android:paddingBottom="8dp">
+    android:paddingBottom="8dp"
+    android:clickable="false">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/divider"
+        android:background="@color/divider"
+        android:layout_alignParentEnd="false"
+        android:layout_toEndOf="@+id/icon"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentTop="true" />
 
     <android.widget.IconTextView
         android:layout_width="48dp"
@@ -15,21 +24,23 @@
         android:id="@+id/icon_back"
         android:textAlignment="gravity"
         android:gravity="center"
-        android:textColor="@color/blue_grey_100"
+        android:textColor="@color/grey_400"
         android:layout_marginRight="16dp"
-        android:visibility="invisible" />
+        android:layout_marginTop="8dp"
+        android:visibility="visible" />
 
     <android.widget.IconTextView
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:textSize="24dp"
+        android:textSize="20dp"
         android:text="{fa-star}"
         android:id="@+id/icon"
         android:textAlignment="gravity"
         android:gravity="center"
-        android:textColor="@color/icons"
+        android:textColor="@color/grey_400"
         android:visibility="visible"
-        android:layout_marginRight="16dp" />
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="16dp"/>
 
     <android.widget.IconTextView
         android:layout_width="48dp"
@@ -41,9 +52,10 @@
         android:gravity="center"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginLeft="16dp"
         android:textColor="@color/grey_100"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="16dp" />
 
     <android.widget.IconTextView
         android:layout_width="48dp"
@@ -53,21 +65,23 @@
         android:textAlignment="gravity"
         android:gravity="center"
         android:textColor="@color/icons"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="16dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/secondary_text"
-        android:text="Attribute"
+        android:text="Name"
         android:id="@+id/text_name"
-        android:layout_alignTop="@+id/icon_back"
-        android:layout_toEndOf="@+id/icon_back"
-        android:layout_marginTop="4dp"
-        android:textSize="12sp" />
+        android:layout_toRightOf="@+id/icon"
+        android:layout_toLeftOf="@+id/action_icon"
+        android:layout_marginTop="12dp"
+        android:textSize="12sp"
+        android:layout_marginRight="16dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -75,13 +89,20 @@
         android:text="Description"
         android:id="@+id/text_content"
         android:layout_below="@+id/text_name"
-        android:layout_marginTop="4dp"
-        android:layout_toRightOf="@+id/icon_back"
-        android:layout_toLeftOf="@+id/action_icon_back"/>
+        android:layout_marginTop="6dp"
+        android:layout_toRightOf="@+id/icon"
+        android:layout_toLeftOf="@+id/action_icon"
+        android:layout_marginRight="16dp" />
 
     <LinearLayout
         android:orientation="vertical"
         android:id="@+id/image_container"
+        android:layout_toRightOf="@+id/icon"
+        android:layout_toLeftOf="@+id/action_icon"
+        android:layout_below="@+id/text_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></LinearLayout>
+        android:layout_marginRight="16dp"
+        android:visibility="gone"
+        android:layout_height="wrap_content">
+        </LinearLayout>
 </RelativeLayout>
