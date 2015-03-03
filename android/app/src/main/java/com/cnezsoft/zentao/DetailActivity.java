@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -40,9 +41,10 @@ public class DetailActivity extends ZentaoActivity {
     protected EntryType entryType;
     protected ZentaoApplication application;
 
-    private ListView metaList;
     private ArrayList<HashMap<String, Object>> metaData;
     private MetaListAdapter metaAdapter;
+
+    private LinearLayout metaContainer;
 
     protected TextView iconView;
     protected TextView iconTextView;
@@ -84,11 +86,11 @@ public class DetailActivity extends ZentaoActivity {
     private void onDataLoad(DataEntry dataEntry) {
         metaData.clear();
         display(dataEntry);
-        metaAdapter.notifyDataSetChanged();
-        Helper.setListViewHeightBasedOnChildren(metaList);
 
-        final ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
-        scrollView.post(new Runnable() { public void run() { scrollView.fullScroll(View.FOCUS_UP); } });
+        metaContainer.removeAllViews();
+        for(int i = 0; i < metaAdapter.getCount(); ++i) {
+            metaContainer.addView(metaAdapter.getView(i, null, null));
+        }
     }
 
     protected void display(DataEntry dataEntry) {
@@ -246,11 +248,10 @@ public class DetailActivity extends ZentaoActivity {
 
         setContentView(R.layout.activity_detail);
 
-        metaList = findListViewById(R.id.list_meta);
         metaData = new ArrayList<>();
         metaAdapter = new MetaListAdapter(this, metaData);
         metaAdapter.setClickable(false);
-        metaList.setAdapter(metaAdapter);
+        metaContainer = (LinearLayout) findViewById(R.id.meta_container);
 
         iconView = (TextView) findViewById(R.id.icon);
         iconTextView = (TextView) findViewById(R.id.icon_text);
