@@ -250,6 +250,15 @@
     <string name="enum_Project_Acl__private">私有项目</string>
     <string name="enum_Project_Acl_custom">自定义白名单</string>
 
+    <!-- ProductColumns -->
+    <string name="enum_ProductColumn_desc">产品描述</string>
+    <string name="enum_ProductColumn_acl">访问控制</string>
+    <string name="enum_ProductColumn_whitelist">分组白名单</string>
+    <string name="enum_ProductColumn_PO">产品负责人</string>
+    <string name="enum_ProductColumn_QD">测试负责人</string>
+    <string name="enum_ProductColumn_RD">发布负责人</string>
+    <string name="enum_ProductColumn_createdBy">创建者</string>
+
     <!-- Product.Status -->
     <string name="enum_Product_Status__">未知</string>
     <string name="enum_Product_Status_normal">正常</string>

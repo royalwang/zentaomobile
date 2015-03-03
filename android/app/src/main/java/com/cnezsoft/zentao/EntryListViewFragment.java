@@ -114,7 +114,7 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
 //                        if(pri < 3) textView.setTextColor(MaterialColorSwatch.PriAccentSwatches[pri].primary().value());
 //                        else textView.setTextColor(Color.BLACK);
                         Todo.Types todoType = todo.getTodoType();
-                        String title = todo.getFriendlyString(TodoColumn.name);
+                        String title = (String) todo.getFriendlyString(TodoColumn.name);
                         if(Helper.isNullOrEmpty(title) && todoType != Todo.Types.custom) {
                             textView.setText(ZentaoApplication.getEnumText(activity, todoType) + " #" + todo.getAsInteger(TodoColumn.idvalue));
                         } else {
@@ -272,7 +272,7 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                         return true;
                     case R.id.text_info:
                         getEntry(cursor);
-                        String assignTo = entry.getFriendlyString(TaskColumn.assignedTo);
+                        String assignTo = (String) entry.getFriendlyString(TaskColumn.assignedTo);
                         TextView infoView = (TextView) view;
                         if(Helper.isNullOrEmpty(assignTo)) {
                             infoView.setVisibility(View.INVISIBLE);
@@ -368,7 +368,7 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                         return true;
                     case R.id.text_info:
                         getEntry(cursor);
-                        String assignTo = entry.getFriendlyString(TaskColumn.assignedTo);
+                        String assignTo = (String) entry.getFriendlyString(TaskColumn.assignedTo);
                         TextView infoView = (TextView) view;
                         if(Helper.isNullOrEmpty(assignTo)) {
                             infoView.setVisibility(View.INVISIBLE);
@@ -465,7 +465,7 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
                         return true;
                     case R.id.text_info:
                         getEntry(cursor);
-                        String assignTo = entry.getFriendlyString(TaskColumn.assignedTo);
+                        String assignTo = (String) entry.getFriendlyString(TaskColumn.assignedTo);
                         TextView infoView = (TextView) view;
                         if(Helper.isNullOrEmpty(assignTo)) {
                             infoView.setVisibility(View.INVISIBLE);

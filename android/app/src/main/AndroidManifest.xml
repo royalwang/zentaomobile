@@ -40,7 +40,7 @@
         <service
             android:name=".ZentaoSyncService"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="true">
         </service>
 
         <activity
@@ -77,6 +77,14 @@
         </activity>
         <activity
             android:name=".ProjectDetailActivity"
+            android:label="@string/title_activity_detail"
+            android:parentActivityName=".DetailActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cnezsoft.zentao.DetailActivity" />
+        </activity>
+        <activity
+            android:name=".ProductDetailActivity"
             android:label="@string/title_activity_detail"
             android:parentActivityName=".DetailActivity" >
             <meta-data

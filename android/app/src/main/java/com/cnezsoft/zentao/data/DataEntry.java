@@ -183,10 +183,13 @@ public class DataEntry {
         return values.get(col.name());
     }
 
-    public String getFriendlyString(IColumn col) {
+    public CharSequence getFriendlyString(IColumn col) {
         switch (col.type()) {
             case DATETIME:
                 return Helper.formatDate(getAsDate(col), DateFormatType.DateTime);
+            case HTML:
+                String html = getAsString(col);
+                return html != null ? Html.fromHtml(html) : null;
             default:
                 Object value = get(col);
                 return value != null ? value.toString() : null;

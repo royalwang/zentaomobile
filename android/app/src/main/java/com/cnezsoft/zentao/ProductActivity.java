@@ -53,12 +53,13 @@ public class ProductActivity extends SimpleListActivity {
      */
     @Override
     protected void onListItemClick(AdapterView<?> parent, View view, int position, long id) {
-        super.onListItemClick(parent, view, position, id);
+        ((ZentaoApplication) getApplicationContext()).openDetailActivity(this, EntryType.Product, (int) (((HashMap<String, Object>) adapter.getItem(position)).get("_id")));
     }
 
     @Override
     protected HashMap<String, Object> convertListItemData(HashMap<String, Object> item) {
         int id = (int) item.get("id");
+        item.put("_id", id);
         item.put("icon_back", new ControlBindInfo("{fa-circle}", Product.accent(id).primary().value()));
         item.put("icon", "{fa-cube}");
         long bugCount = (long) item.get("bugCount");

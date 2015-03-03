@@ -116,4 +116,47 @@ public class Product extends DataEntry {
     protected void onCreate() {
         setType(EntryType.Product);
     }
+
+    private long storyCount, changedCount, draftCount, closeCount;
+
+    public long getStoryCount() {
+        return storyCount;
+    }
+
+    public long getChangedCount() {
+        return changedCount;
+    }
+
+    public long getDraftCount() {
+        return draftCount;
+    }
+
+    public long getCloseCount() {
+        return closeCount;
+    }
+
+    public void setStoryCount(DAO dao) {
+        String id = key();
+        setStoryCount(dao.getStoryCountOfProduct(id, Story.Status.active),
+                dao.getStoryCountOfProduct(id, Story.Status.changed),
+                dao.getStoryCountOfProduct(id, Story.Status.draft),
+                dao.getStoryCountOfProduct(id, Story.Status.closed));
+    }
+
+    public void setStoryCount(long storyCount, long changedCount, long draftCount, long closeCount) {
+        this.storyCount = storyCount;
+        this.changedCount = changedCount;
+        this.draftCount = draftCount;
+        this.closeCount = closeCount;
+    }
+
+    private long bugCount;
+
+    public long getBugCount() {
+        return bugCount;
+    }
+
+    public void setBugCount(long bugCount) {
+        this.bugCount = bugCount;
+    }
 }

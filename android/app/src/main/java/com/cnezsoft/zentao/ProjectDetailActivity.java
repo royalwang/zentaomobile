@@ -69,15 +69,15 @@ public class ProjectDetailActivity extends DetailActivity {
                 numberFormat.format(project.getEstimate()),
                 numberFormat.format(project.getConsumed()),
                 numberFormat.format(project.getLeft())), "{fa-clock-o}");
-        displayMeta(ZentaoApplication.getEnumText(this, ProjectColumn.desc), project.getAsString(ProjectColumn.desc), "{fa-file-text-o}");
+        displayMeta(ZentaoApplication.getEnumText(this, ProjectColumn.desc), project.getFriendlyString(ProjectColumn.desc), "{fa-file-text-o}");
         displayMeta(ZentaoApplication.getEnumText(this, ProjectColumn.type), ZentaoApplication.getEnumText(this, project.getProjectType()), "{fa-tag}");
         displayMeta(ZentaoApplication.getEnumText(this, ProjectColumn.days), project.getAsInteger(ProjectColumn.days), "{fa-sun-o}");
         Project.Acl acl = project.getAcl();
         displayMeta(ZentaoApplication.getEnumText(this, ProjectColumn.acl), acl, acl == Project.Acl.open ? "{fa-unlock}" : "{fa-lock}");
         displayMeta(ZentaoApplication.getEnumText(this, ProjectColumn.PM), project.getAsString(ProjectColumn.PM), "{fa-user}");
-        displayMeta(ZentaoApplication.getEnumText(this, ProjectColumn.PO), project.getAsString(ProjectColumn.PM), false);
-        displayMeta(ZentaoApplication.getEnumText(this, ProjectColumn.QD), project.getAsString(ProjectColumn.PM), false);
-        displayMeta(ZentaoApplication.getEnumText(this, ProjectColumn.RD), project.getAsString(ProjectColumn.PM), false);
+        displayMeta(ZentaoApplication.getEnumText(this, ProjectColumn.PO), project.getAsString(ProjectColumn.PO), false);
+        displayMeta(ZentaoApplication.getEnumText(this, ProjectColumn.QD), project.getAsString(ProjectColumn.QD), false);
+        displayMeta(ZentaoApplication.getEnumText(this, ProjectColumn.RD), project.getAsString(ProjectColumn.RD), false);
         String whiteList = project.getAsString(ProjectColumn.whitelist);
         if(!Helper.isNullOrEmpty(whiteList)) {
             displayMeta(ZentaoApplication.getEnumText(this, ProjectColumn.whitelist), whiteList, "{fa-group}");
