@@ -112,7 +112,7 @@ public class Todo extends DataEntry {
     /**
      * Todo status enum
      */
-    public enum Status {
+    public enum Status implements IAccentIcon {
         wait(MaterialColorSwatch.Grey, "clock-o"),
         done(MaterialColorSwatch.Green, "check"),
         doing(MaterialColorSwatch.Pink, "play");

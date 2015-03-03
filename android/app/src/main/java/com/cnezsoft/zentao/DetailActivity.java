@@ -182,21 +182,26 @@ public class DetailActivity extends ZentaoActivity {
             meta.put("divider", false);
         }
 
-        Matcher imageMatcher = Helper.getImageMatcher(html);
-        ArrayList<String> imageSet = new ArrayList<>();
-        StringBuffer sb = new StringBuffer();
-        int count = 1;
-        String imageTextFormat = getString(R.string.text_image_format);
-        while(imageMatcher.find()) {
-            String source = imageMatcher.group(1);
-            if(source.startsWith("data/upload/")) {
-                source = getUser().getAddress() + "/" + source;
+        if(Helper.isNullOrEmpty(html)) {
+            meta.put("content", "");
+        } else {
+            Matcher imageMatcher = Helper.getImageMatcher(html);
+            ArrayList<String> imageSet = new ArrayList<>();
+            StringBuffer sb = new StringBuffer();
+            int count = 1;
+            String imageTextFormat = getString(R.string.text_image_format);
+            while(imageMatcher.find()) {
+                String source = imageMatcher.group(1);
+                if(source.startsWith("data/upload/")) {
+                    source = getUser().getAddress() + "/" + source;
+                }
+                imageSet.add(source);
+                imageMatcher.appendReplacement(sb, String.format(imageTextFormat, count++));
             }
-            imageSet.add(source);
-            imageMatcher.appendReplacement(sb, String.format(imageTextFormat, count++));
+            meta.put("imageSet", imageSet);
+            meta.put("content", Html.fromHtml(sb.toString()));
         }
-        meta.put("imageSet", imageSet);
-        meta.put("content", Html.fromHtml(sb.toString()));
+
         displayMeta(meta);
     }
 

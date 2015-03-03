@@ -184,6 +184,9 @@ public class ZentaoApplication extends Application {
     public void openDetailActivity(Activity activity, EntryType type, int id) {
         Intent intent;
         switch (type) {
+            case Todo:
+                intent = new Intent(activity, TodoDetailActivity.class);
+                break;
             case Project:
                 intent = new Intent(activity, ProjectDetailActivity.class);
                 break;
