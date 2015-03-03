@@ -35,6 +35,7 @@ import com.cnezsoft.zentao.data.DataEntry;
 import com.cnezsoft.zentao.data.DataEntryFactory;
 import com.cnezsoft.zentao.data.EntryType;
 import com.cnezsoft.zentao.data.ProjectColumn;
+import com.cnezsoft.zentao.data.StoryColumn;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -93,7 +94,10 @@ public class DetailActivity extends ZentaoActivity {
     protected DataEntry loadData() {
         getDAO();
         entry = DataEntryFactory.create(entryType, dao.query(entryType, entryId));
-
+        if(entry.isUnread()) {
+            entry.markRead();
+            dao.save(entry);
+        }
         return entry;
     }
 
@@ -190,7 +194,9 @@ public class DetailActivity extends ZentaoActivity {
             StringBuffer sb = new StringBuffer();
             int count = 1;
             String imageTextFormat = getString(R.string.text_image_format);
+            boolean find = false;
             while(imageMatcher.find()) {
+                find = true;
                 String source = imageMatcher.group(1);
                 if(source.startsWith("data/upload/")) {
                     source = getUser().getAddress() + "/" + source;
@@ -199,7 +205,7 @@ public class DetailActivity extends ZentaoActivity {
                 imageMatcher.appendReplacement(sb, String.format(imageTextFormat, count++));
             }
             meta.put("imageSet", imageSet);
-            meta.put("content", Html.fromHtml(sb.toString()));
+            meta.put("content", Html.fromHtml(find ? sb.toString() : html));
         }
 
         displayMeta(meta);

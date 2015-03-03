@@ -1,6 +1,7 @@
 package com.cnezsoft.zentao;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.cnezsoft.zentao.colorswatch.MaterialColorName;
