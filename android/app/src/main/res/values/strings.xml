@@ -109,5 +109,7 @@
     <string name="text_draft_story_count_format">%s 草稿</string>
     <string name="title_activity_detail">DetailActivity</string>
     <string name="text_project_code">"项目代号"</string>
-    <string name="text_project_hours_format">预计 %1$sh · 消耗 %2$sh · 剩余 %3$sh</string>
+    <string name="text_project_hours_format">预计 %1$sh   消耗 %2$sh   剩余 %3$sh</string>
+    <string name="text_project_hours">工时</string>
+    <string name="text_project_active_bug">激活的bug</string>
 </resources>

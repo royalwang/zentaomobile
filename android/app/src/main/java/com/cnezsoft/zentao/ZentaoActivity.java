@@ -10,8 +10,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cnezsoft.zentao.colorswatch.MaterialColorName;
@@ -100,6 +102,14 @@ public class ZentaoActivity extends ActionBarActivity {
     protected TextView findTextViewById(int id) {
         try {
             return (TextView) findViewById(id);
+        } catch (ClassCastException e) {
+            return null;
+        }
+    }
+
+    protected ListView findListViewById(int id) {
+        try {
+            return (ListView) findViewById(id);
         } catch (ClassCastException e) {
             return null;
         }

@@ -1,6 +1,7 @@
 package com.cnezsoft.zentao.control;
 
 import android.view.View;
+import android.widget.TextView;
 
 /**
  * ControlBindInfo
@@ -40,5 +41,15 @@ public class ControlBindInfo {
     }
 
     public ControlBindInfo() {
+    }
+
+    public void displayOn(View view) {
+        view.setVisibility(visibility);
+        view.setBackgroundColor(backColor);
+        try {
+            TextView textView = (TextView) view;
+            textView.setText(text);
+            textView.setTextColor(textColor);
+        } catch (ClassCastException ignore) {}
     }
 }

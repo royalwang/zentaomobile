@@ -220,6 +220,17 @@
     <string name="enum_SyncFrequency_TwoHours">2小时</string>
     <string name="enum_SyncFrequency_HalfDay">12小时</string>
 
+    <!-- ProjectColumns -->
+    <string name="enum_ProjectColumn_desc">项目描述</string>
+    <string name="enum_ProjectColumn_days">可用工作日</string>
+    <string name="enum_ProjectColumn_type">项目类型</string>
+    <string name="enum_ProjectColumn_acl">访问控制</string>
+    <string name="enum_ProjectColumn_whitelist">分组白名单</string>
+    <string name="enum_ProjectColumn_PM">项目负责人</string>
+    <string name="enum_ProjectColumn_PO">产品负责人</string>
+    <string name="enum_ProjectColumn_QD">测试负责人</string>
+    <string name="enum_ProjectColumn_RD">发布负责人</string>
+
     <!-- Project.Type -->
     <string name="enum_Project_Type__">未知</string>
     <string name="enum_Project_Type_sprint">短期迭代</string>
