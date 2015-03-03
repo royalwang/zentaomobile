@@ -60,14 +60,14 @@ public class ProjectActivity extends SimpleListActivity {
         int id = (int) item.get("id");
         item.put("_id", id);
         float progress = (float) item.get("progress");
-        item.put("icon_back", new ControlBindInfo("{fa-folder}", Project.accent(id).primary().value()));
+        item.put("icon_back", new ControlBindInfo("{fa-circle}", Project.accent(id).primary().value()));
         item.put("id", new ControlBindInfo(percentageFormat.format(progress), progress >= 1 ? MaterialColorSwatch.Green.primary().value() : MaterialColorSwatch.Red.primary().value()));
         float hours = (float) item.get("hours");
         item.put("status", numberFormat.format(hours) + "h");
         long bugCount = (long) item.get("bugCount");
         item.put("tag", bugCount > 0 ? new ControlBindInfo("{fa-bug} " + bugCount, MaterialColorSwatch.Red.primary().value()) : new ControlBindInfo(View.GONE));
         String title = (String) item.get("title");
-        item.put("icon", Helper.isNullOrEmpty(title) ? "{fa-folder-o}" : title.substring(0, 1));
+        item.put("icon", "{fa-folder-o}");
         item.put("info", item.get("date"));
         return item;
     }

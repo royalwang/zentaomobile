@@ -29,12 +29,6 @@ public class ProjectDetailActivity extends DetailActivity {
     protected boolean setIcon(MaterialColorSwatch swatch, TextView iconView, TextView iconBackView, TextView iconTextView) {
         super.setIcon(swatch, iconView, iconBackView, iconTextView);
         iconBackView.setTextColor(Project.accent(entryId).primary().value());
-        if(entry != null) {
-            String name = entry.getAsString(ProjectColumn.name);
-            if(!Helper.isNullOrEmpty(name)) {
-                iconTextView.setText(name.substring(0, 1));
-            }
-        }
         return true;
     }
 
