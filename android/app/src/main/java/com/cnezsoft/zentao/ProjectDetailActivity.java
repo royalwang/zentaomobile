@@ -23,13 +23,6 @@ import java.util.regex.Matcher;
  */
 public class ProjectDetailActivity extends DetailActivity {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setAccentSwatch(EntryType.Project.accent());
-        setLoadFromRemote(true);
-    }
-
-    @Override
     protected boolean setIcon(MaterialColorSwatch swatch, TextView iconView, TextView iconBackView, TextView iconTextView) {
         super.setIcon(swatch, iconView, iconBackView, iconTextView);
         iconBackView.setTextColor(Project.accent(entryId).primary().value());

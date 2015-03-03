@@ -68,7 +68,7 @@ public class DetailActivity extends ZentaoActivity {
     private NumberFormat progressFormat;
     private DAO dao;
 
-    private boolean loadFromRemote = false;
+    private boolean loadFromRemote = true;
     private Menu menu;
     private MenuItem loadingMenuItem;
 
@@ -368,6 +368,7 @@ public class DetailActivity extends ZentaoActivity {
 
         listenMessage();
         executeLoadData();
+        setAccentSwatch(entryType.accent());
     }
 
     /**

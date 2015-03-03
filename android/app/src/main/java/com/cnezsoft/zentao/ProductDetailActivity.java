@@ -10,20 +10,12 @@ import com.cnezsoft.zentao.data.DataEntry;
 import com.cnezsoft.zentao.data.EntryType;
 import com.cnezsoft.zentao.data.Product;
 import com.cnezsoft.zentao.data.ProductColumn;
-import com.cnezsoft.zentao.data.ProjectColumn;
 
 /**
  * Product detail activity
  * Created by sunhao on 15/3/3.
  */
 public class ProductDetailActivity extends DetailActivity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setAccentSwatch(EntryType.Product.accent());
-        setLoadFromRemote(true);
-    }
-
     @Override
     protected boolean setIcon(MaterialColorSwatch swatch, TextView iconView, TextView iconBackView, TextView iconTextView) {
         super.setIcon(swatch, iconView, iconBackView, iconTextView);
