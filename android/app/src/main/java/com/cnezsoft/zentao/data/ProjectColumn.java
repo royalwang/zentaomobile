@@ -37,7 +37,10 @@ public enum ProjectColumn implements IColumn {
     team(DataType.STRING),
     acl(DataType.ENUM),
     whitelist(DataType.STRING),
-    deleted(DataType.BOOLEAN);
+    deleted(DataType.BOOLEAN),
+
+    unread(DataType.BOOLEAN),
+    lastSyncTime(DataType.DATETIME);
 
     private final DataType dataType;
     private boolean isNullable = true;

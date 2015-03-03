@@ -13,7 +13,7 @@ public enum ProductColumn implements IColumn {
     name(DataType.STRING),
     code(DataType.STRING),
     status(DataType.ENUM),
-    desc(DataType.STRING),
+    desc(DataType.HTML),
     PO(DataType.STRING),
     QD(DataType.STRING),
     RD(DataType.STRING),
@@ -22,7 +22,10 @@ public enum ProductColumn implements IColumn {
     createdBy(DataType.STRING),
     createdVersion(DataType.STRING),
     createdDate(DataType.DATETIME),
-    deleted(DataType.BOOLEAN);
+    deleted(DataType.BOOLEAN),
+
+    unread(DataType.BOOLEAN),
+    lastSyncTime(DataType.DATETIME);
 
     private final DataType dataType;
     private boolean isNullable = true;
