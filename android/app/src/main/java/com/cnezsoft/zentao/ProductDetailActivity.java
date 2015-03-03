@@ -10,6 +10,7 @@ import com.cnezsoft.zentao.data.DataEntry;
 import com.cnezsoft.zentao.data.EntryType;
 import com.cnezsoft.zentao.data.Product;
 import com.cnezsoft.zentao.data.ProductColumn;
+import com.cnezsoft.zentao.data.ProjectColumn;
 
 /**
  * Product detail activity
@@ -50,6 +51,7 @@ public class ProductDetailActivity extends DetailActivity {
         displayId("#" + product.key());
         displayOnTextview(R.id.text_info, getString(R.string.text_product_code) + " " + product.getAsString(ProductColumn.code));
 
+
         displayStatus(status, new ControlBindInfo(Helper.formatDate(product.getAsDate(ProductColumn.createdDate), getString(R.string.text_create_at_format))));
         if(product.getBugCount() > 0) {
             displayMeta(getString(R.string.text_project_active_bug), product.getBugCount(), "{fa-bug}");
@@ -59,9 +61,7 @@ public class ProductDetailActivity extends DetailActivity {
                 product.getChangedCount(),
                 product.getDraftCount(),
                 product.getCloseCount()), "{fa-" + EntryType.Story.icon() + "}");
-
-        displayMeta(ZentaoApplication.getEnumText(this, ProductColumn.desc), product.getFriendlyString(ProductColumn.desc), "{fa-file-text-o}");
-
+        displayHtmlMeta(ZentaoApplication.getEnumText(this, ProductColumn.desc), product.getAsString(ProductColumn.desc), "{fa-file-text-o}");
         Product.Acl acl = product.getAcl();
         displayMeta(ZentaoApplication.getEnumText(this, ProductColumn.acl), ZentaoApplication.getEnumText(this, acl), acl == Product.Acl.open ? "{fa-unlock}" : "{fa-lock}");
         displayMeta(ZentaoApplication.getEnumText(this, ProductColumn.createdBy), product.getAsString(ProductColumn.createdBy), "{fa-user}");

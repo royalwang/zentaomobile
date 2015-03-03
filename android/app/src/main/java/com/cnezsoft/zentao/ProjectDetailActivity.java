@@ -13,6 +13,9 @@ import com.cnezsoft.zentao.data.Project;
 import com.cnezsoft.zentao.data.ProjectColumn;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.regex.Matcher;
 
 /**
  * Project detail activity
@@ -64,7 +67,7 @@ public class ProjectDetailActivity extends DetailActivity {
                 numberFormat.format(project.getEstimate()),
                 numberFormat.format(project.getConsumed()),
                 numberFormat.format(project.getLeft())), "{fa-clock-o}");
-        displayMeta(ZentaoApplication.getEnumText(this, ProjectColumn.desc), project.getFriendlyString(ProjectColumn.desc), "{fa-file-text-o}");
+        displayHtmlMeta(ZentaoApplication.getEnumText(this, ProjectColumn.desc), project.getAsString(ProjectColumn.desc), "{fa-file-text-o}");
         displayMeta(ZentaoApplication.getEnumText(this, ProjectColumn.type), ZentaoApplication.getEnumText(this, project.getProjectType()), "{fa-tag}");
         displayMeta(ZentaoApplication.getEnumText(this, ProjectColumn.days), project.getAsInteger(ProjectColumn.days), "{fa-sun-o}");
         Project.Acl acl = project.getAcl();

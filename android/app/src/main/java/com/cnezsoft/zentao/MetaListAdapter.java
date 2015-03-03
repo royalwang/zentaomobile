@@ -8,13 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.cnezsoft.zentao.cache.ImageCache;
 import com.cnezsoft.zentao.control.ControlBindInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
 
 /**
  * Created by sunhao on 15/3/2.
@@ -30,6 +34,19 @@ public class MetaListAdapter extends BaseAdapter {
     private HashMap<Integer, String> idNameMap;
     private boolean clickable = false;
     private boolean dividerEnabled = true;
+    private User user;
+    private ImageCache imageCache;
+
+    public void setImageCache(ImageCache imageCache) {
+        this.imageCache = imageCache;
+    }
+
+    public ImageCache getImageCache() {
+        if(this.imageCache == null) {
+            this.imageCache = ImageCache.from(context);
+        }
+        return this.imageCache;
+    }
 
     public MetaListAdapter(Context context, ArrayList<HashMap<String, Object>> data, int layoutId, String[] nameSet, int[] viewIdSet) {
         this.context = context;
@@ -38,6 +55,7 @@ public class MetaListAdapter extends BaseAdapter {
         this.layoutId = layoutId;
         this.viewIdSet = viewIdSet;
         this.nameSet = nameSet;
+        this.user = ((ZentaoApplication) context.getApplicationContext()).getUser();
 
         idNameMap = new HashMap<>();
         for(int i = 0; i < viewIdSet.length; ++i) {
@@ -118,6 +136,8 @@ public class MetaListAdapter extends BaseAdapter {
 
         HashMap<String, Object> itemData = data.get(position);
         String name;
+        ArrayList<String> imageSet = null;
+        LinearLayout imageContainer = null;
         for(View view: holder.values()) {
             name = idNameMap.get(view.getId());
             if(setItemValue(view, itemData, name, position)) {
@@ -127,22 +147,30 @@ public class MetaListAdapter extends BaseAdapter {
             if(thisData == null) {
                 view.setVisibility(View.GONE);
             } else {
-                try {
-                    ControlBindInfo info = (ControlBindInfo)  thisData;
-                    info.displayOn(view);
-                } catch (ClassCastException e) {
-                    view.setVisibility(View.VISIBLE);
+                if(name.equals("imageSet")) {
                     try {
-                        try {
-                            ((TextView) view).setText((Spanned) thisData);
-                        } catch (Exception ignore) {
-                            try {
-                                ((TextView) view).setText((CharSequence) thisData);
-                            } catch (Exception ignore2) {
-                                ((TextView) view).setText(thisData.toString());
-                            }
-                        }
+                        imageSet = (ArrayList<String>) thisData;
+                        imageContainer = (LinearLayout) view;
                     } catch (ClassCastException ignore) {}
+                } else {
+                    try {
+                        ControlBindInfo info = (ControlBindInfo)  thisData;
+                        info.displayOn(view);
+                    } catch (ClassCastException e) {
+                        view.setVisibility(View.VISIBLE);
+                        try {
+                            try {
+                                Spanned spanned = (Spanned) thisData;
+                                ((TextView) view).setText(spanned);
+                            } catch (Exception ignore) {
+                                try {
+                                    ((TextView) view).setText((CharSequence) thisData);
+                                } catch (Exception ignore2) {
+                                    ((TextView) view).setText(thisData.toString());
+                                }
+                            }
+                        } catch (ClassCastException ignore) {}
+                    }
                 }
             }
             if(name.equals("divider")) {
@@ -154,7 +182,19 @@ public class MetaListAdapter extends BaseAdapter {
             }
         }
 
+        if(imageSet != null && imageContainer != null && imageSet.size() > 0) {
+            displayImage(imageContainer, imageSet);
+            imageContainer.setVisibility(View.VISIBLE);
+        }
+
         return convertView;
+    }
+
+    public void displayImage(ViewGroup viewGroup, List<String> imgSet) {
+        getImageCache();
+        for(String url: imgSet) {
+            Helper.addImageToContainer(context, imageCache, viewGroup, url);
+        }
     }
 
     public boolean setItemValue(View view, HashMap<String, Object> itemData, String name, int position) {

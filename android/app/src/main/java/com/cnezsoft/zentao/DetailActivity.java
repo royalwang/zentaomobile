@@ -7,6 +7,7 @@ import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -33,12 +34,14 @@ import com.cnezsoft.zentao.data.DAO;
 import com.cnezsoft.zentao.data.DataEntry;
 import com.cnezsoft.zentao.data.DataEntryFactory;
 import com.cnezsoft.zentao.data.EntryType;
+import com.cnezsoft.zentao.data.ProjectColumn;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
 
 public class DetailActivity extends ZentaoActivity {
     public static final String ARG_ENTRY_TYPE = "com.cnezsoft.zentao.ENTRY_TYPE";
@@ -46,7 +49,8 @@ public class DetailActivity extends ZentaoActivity {
 
     protected int entryId;
     protected EntryType entryType;
-    protected ZentaoApplication application;
+    private ZentaoApplication application;
+    protected User user;
 
     private ArrayList<HashMap<String, Object>> metaData;
     private MetaListAdapter metaAdapter;
@@ -67,6 +71,13 @@ public class DetailActivity extends ZentaoActivity {
     private boolean loadFromRemote = false;
     private Menu menu;
     private MenuItem loadingMenuItem;
+
+    protected User getUser() {
+        if(user == null) {
+            user = application.getUser();
+        }
+        return user;
+    }
 
     protected void setLoadFromRemote(boolean loadFromRemote) {
         this.loadFromRemote = loadFromRemote;
@@ -157,6 +168,42 @@ public class DetailActivity extends ZentaoActivity {
         metaData.add(meta);
     }
 
+    protected void displayHtmlMeta(String name, String html, Object icon, Object iconBack, boolean divider) {
+        HashMap<String, Object> meta = new HashMap<>();
+        meta.put("name", name);
+
+        meta.put("icon", icon);
+        if(icon!=null && iconBack == null) {
+            iconBack = "{fa-circle-thin}";
+        }
+        meta.put("iconBack", iconBack);
+
+        if(!divider) {
+            meta.put("divider", false);
+        }
+
+        Matcher imageMatcher = Helper.getImageMatcher(html);
+        ArrayList<String> imageSet = new ArrayList<>();
+        StringBuffer sb = new StringBuffer();
+        int count = 1;
+        String imageTextFormat = getString(R.string.text_image_format);
+        while(imageMatcher.find()) {
+            String source = imageMatcher.group(1);
+            if(source.startsWith("data/upload/")) {
+                source = getUser().getAddress() + "/" + source;
+            }
+            imageSet.add(source);
+            imageMatcher.appendReplacement(sb, String.format(imageTextFormat, count++));
+        }
+        meta.put("imageSet", imageSet);
+        meta.put("content", Html.fromHtml(sb.toString()));
+        displayMeta(meta);
+    }
+
+    protected void displayHtmlMeta(String name, String html, Object icon) {
+        displayHtmlMeta(name, html, icon, null, true);
+    }
+
     protected void displayMeta(String name, Object content, Object icon, Object iconBack, boolean divider) {
         HashMap<String, Object> meta = new HashMap<>();
         meta.put("name", name);
@@ -166,7 +213,8 @@ public class DetailActivity extends ZentaoActivity {
             iconBack = "{fa-circle-thin}";
         }
         meta.put("iconBack", iconBack);
-        if(divider == false) {
+
+        if(!divider) {
             meta.put("divider", false);
         }
         metaData.add(meta);

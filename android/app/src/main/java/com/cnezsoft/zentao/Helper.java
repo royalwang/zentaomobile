@@ -1,12 +1,17 @@
 package com.cnezsoft.zentao;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import com.cnezsoft.zentao.cache.ImageCache;
 
 import org.json.JSONArray;
 
@@ -14,6 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Helper functions
@@ -270,5 +277,39 @@ public class Helper {
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
         listView.requestLayout();
+    }
+
+    private static final Pattern imgPattern = Pattern.compile("<img\\b[^>]*?\\bsrc[\\s]*=[\\s]*[\"']?[\\s]*([^\"'>]*)[^>]*?/?[\\s]*>", Pattern.CASE_INSENSITIVE);
+    public static Matcher getImageMatcher(String html) {
+        return imgPattern.matcher(html);
+    }
+
+    public static void addImageToContainer(Context context, ImageCache imageCache, ViewGroup container, final String source) {
+        ImageView imageView = (ImageView) container.findViewWithTag(source);
+        if(imageView == null) {
+            imageView = new ImageView(context);
+            LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            layout.topMargin = Helper.convertDpToPx(context, 8);
+            imageView.setLayoutParams(layout);
+            imageView.setTag(source);
+            imageView.setAdjustViewBounds(true);
+            container.addView(imageView);
+        }
+        final Bitmap bitmap = imageCache.getFromMemory(source);
+        if(bitmap != null) {
+            imageView.setImageBitmap(bitmap);
+        } else {
+            final ImageView finalImageView = imageView;
+            imageCache.imgReady(new String[]{source}, new ImageCache.OnImageReadyListener() {
+                @Override
+                public void onImageReady(ImageCache.ImageRef ref) {
+                    if(ref.getBitmap() != null) {
+                        finalImageView.setImageBitmap(ref.getBitmap());
+                    }
+                }
+            });
+        }
     }
 }

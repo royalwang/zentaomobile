@@ -116,4 +116,5 @@
     <string name="text_create_at_format">创建于 yyyy年MM日dd日 hh:mm</string>
     <string name="text_product_stories">产品需求</string>
     <string name="text_product_stories_format">激活 %1$s   已变更 %2$s   草稿 %3$s   已关闭 %4$s</string>
+    <string name="text_image_format">[图 %s]</string>
 </resources>
