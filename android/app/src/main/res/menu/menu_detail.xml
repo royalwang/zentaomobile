@@ -4,6 +4,6 @@
     tools:context="com.cnezsoft.zentao.DetailActivity">
     <item android:id="@+id/action_loading"
         android:title="@string/action_loading"
-        app:actionViewClass="android.widget.IconTextView"
+        app:actionViewClass="android.widget.ProgressBar"
         app:showAsAction="always" />
 </menu>

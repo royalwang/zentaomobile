@@ -23,6 +23,7 @@ public class ProjectDetailActivity extends DetailActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setAccentSwatch(EntryType.Project.accent());
+        setLoadFromRemote(true);
     }
 
     @Override

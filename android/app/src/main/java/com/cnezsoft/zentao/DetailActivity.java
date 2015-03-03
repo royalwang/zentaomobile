@@ -2,16 +2,23 @@ package com.cnezsoft.zentao;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.BaseAdapter;
+import android.widget.IconTextView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -57,6 +64,14 @@ public class DetailActivity extends ZentaoActivity {
     private NumberFormat progressFormat;
     private DAO dao;
 
+    private boolean loadFromRemote = false;
+    private Menu menu;
+    private MenuItem loadingMenuItem;
+
+    protected void setLoadFromRemote(boolean loadFromRemote) {
+        this.loadFromRemote = loadFromRemote;
+    }
+
     protected DAO getDAO() {
         if(dao == null) {
             dao = new DAO(this);
@@ -90,6 +105,48 @@ public class DetailActivity extends ZentaoActivity {
         metaContainer.removeAllViews();
         for(int i = 0; i < metaAdapter.getCount(); ++i) {
             metaContainer.addView(metaAdapter.getView(i, null, null));
+        }
+
+        if(loadFromRemote) {
+            setLoadFromRemote(false);
+            sendGetFromRemoteMessage();
+        } else {
+            setLoadingIcon(false);
+        }
+    }
+
+    protected void sendGetFromRemoteMessage() {
+        Intent intent = new Intent(Synchronizer.MESSAGE_IN_GET_ENTRY);
+        intent.putExtra("type", entryType.name());
+        intent.putExtra("id", entry.key());
+        sendBroadcast(intent);
+    }
+
+    protected void setLoadingIcon(boolean display) {
+        if(menu == null) {
+            return;
+        }
+
+        if(loadingMenuItem == null) {
+            loadingMenuItem = menu.findItem(R.id.action_loading);
+        }
+
+        if(display) {
+            ProgressBar loadingProgress = (ProgressBar) loadingMenuItem.setVisible(true).getActionView();
+            loadingProgress.setIndeterminate(true);
+            loadingProgress.setAlpha(0.54f);
+            loadingProgress.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(loadingMenuItem.isVisible()) {
+                        setLoadingIcon(false);
+                    }
+                }
+            }, 15000);
+        } else {
+            loadingMenuItem.setVisible(false);
         }
     }
 
@@ -179,7 +236,6 @@ public class DetailActivity extends ZentaoActivity {
 
         color = color != 0 ? color : getSwatch().primary().value();
         setProgressBarColor(color);
-        Log.v("DETAIL", "displayProgress");
     }
 
     protected void displayProgress(float progress) {
@@ -272,11 +328,14 @@ public class DetailActivity extends ZentaoActivity {
      */
     protected void listenMessage() {
         listenMessage(Synchronizer.MESSAGE_OUT_SYNC);
+        listenMessage(Synchronizer.MESSAGE_OUT_GET_ENTRY);
     }
 
     @Override
     protected void onReceiveMessage(Intent intent) {
-        if(intent.getAction().equals(Synchronizer.MESSAGE_OUT_SYNC)) {
+        Log.v("DETAIL", "Message: " + intent.getAction());
+        String action = intent.getAction();
+        if(action.equals(Synchronizer.MESSAGE_OUT_SYNC) || action.equals(Synchronizer.MESSAGE_OUT_GET_ENTRY)) {
             executeLoadData();
         }
     }
@@ -291,7 +350,6 @@ public class DetailActivity extends ZentaoActivity {
             iconView.setVisibility(View.GONE);
             iconBackView.setVisibility(View.GONE);
             iconTextView.setVisibility(View.GONE);
-            Log.v("DETAIL", "icon hide!" + iconView.getWidth());
         }
     }
 
@@ -314,11 +372,15 @@ public class DetailActivity extends ZentaoActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_detail, menu);
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(ZentaoApplication.getEnumText(this, entryType));
+
+        setLoadingIcon(true);
         return true;
     }
 

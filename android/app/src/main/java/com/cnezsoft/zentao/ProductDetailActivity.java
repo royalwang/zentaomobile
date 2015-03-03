@@ -20,6 +20,7 @@ public class ProductDetailActivity extends DetailActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setAccentSwatch(EntryType.Product.accent());
+        setLoadFromRemote(true);
     }
 
     @Override

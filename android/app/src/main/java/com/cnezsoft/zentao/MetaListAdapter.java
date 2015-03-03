@@ -1,6 +1,8 @@
 package com.cnezsoft.zentao;
 
 import android.content.Context;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -132,9 +134,13 @@ public class MetaListAdapter extends BaseAdapter {
                     view.setVisibility(View.VISIBLE);
                     try {
                         try {
-                            ((TextView) view).setText((CharSequence) thisData);
+                            ((TextView) view).setText((Spanned) thisData);
                         } catch (Exception ignore) {
-                            ((TextView) view).setText(thisData.toString());
+                            try {
+                                ((TextView) view).setText((CharSequence) thisData);
+                            } catch (Exception ignore2) {
+                                ((TextView) view).setText(thisData.toString());
+                            }
                         }
                     } catch (ClassCastException ignore) {}
                 }
