@@ -157,4 +157,34 @@ public class Task extends DataEntry {
     protected void onCreate() {
         setType(EntryType.Task);
     }
+
+    private float estimate;
+    private float consumed;
+    private float left;
+    private float progress;
+
+    public float getProgress() {
+        return progress;
+    }
+
+    public float getEstimate() {
+        return estimate;
+    }
+
+    public float getConsumed() {
+        return consumed;
+    }
+
+    public float getLeft() {
+        return left;
+    }
+
+    public void calculateHours() {
+        estimate = getAsFloat(TaskColumn.estimate);
+        consumed = getAsFloat(TaskColumn.consumed);
+        left = getAsFloat(TaskColumn.left);
+
+        float real = Math.max(estimate, consumed + left);
+        progress = Math.min(1, real > 0 ? consumed / real : 0);
+    }
 }

@@ -219,7 +219,7 @@ public class Project extends DataEntry {
 
     public float getProgress() {
         float real = consumed + left;
-        return real > 0 ? (consumed / real) : 0;
+        return Math.min(1, real > 0 ? (consumed / real) : 0);
     }
 
     public float getHour() {

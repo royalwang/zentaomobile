@@ -187,6 +187,9 @@ public class ZentaoApplication extends Application {
             case Todo:
                 intent = new Intent(activity, TodoDetailActivity.class);
                 break;
+            case Task:
+                intent = new Intent(activity, TaskDetailActivity.class);
+                break;
             case Project:
                 intent = new Intent(activity, ProjectDetailActivity.class);
                 break;

@@ -10,6 +10,7 @@ import com.cnezsoft.zentao.data.Todo;
 import com.cnezsoft.zentao.data.TodoColumn;
 
 /**
+ * Todo detail activity
  * Created by sunhao on 15/3/3.
  */
 public class TodoDetailActivity extends DetailActivity {
@@ -36,7 +37,7 @@ public class TodoDetailActivity extends DetailActivity {
         displayTitle(todo.getAsString(TodoColumn.name));
         displayId("#" + todo.key());
         Todo.Types type = todo.getTodoType();
-        displayOnTextview(R.id.text_type, "{fa-" + type.icon() + "}" + ZentaoApplication.getEnumText(this, type));
+        displayOnTextview(R.id.text_type, "{fa-" + type.icon() + "} " + ZentaoApplication.getEnumText(this, type));
         displayStatus(status, new ControlBindInfo(todo.getFriendlyTimeString(this)));
 
         displayHtmlMeta(ZentaoApplication.getEnumText(this, TodoColumn.desc), todo.getAsString(TodoColumn.desc), "{fa-file-text-o}");

@@ -48,6 +48,9 @@
     <string name="enum_Todo_Status_doing">进行中</string>
     <string name="enum_Todo_Status_done">已完成</string>
 
+    <!-- TaskColumns -->
+    <string name="enum_TaskColumn_desc">任务描述</string>
+
     <!-- Task.Status -->
     <string name="enum_Task_Status__">未定义</string>
     <string name="enum_Task_Status_wait">未开始</string>
