@@ -67,7 +67,7 @@ public class ProjectDetailActivity extends DetailActivity {
         displayMeta(ZentaoApplication.getEnumText(this, ProjectColumn.type), ZentaoApplication.getEnumText(this, project.getProjectType()), "{fa-tag}");
         displayMeta(ZentaoApplication.getEnumText(this, ProjectColumn.days), project.getAsInteger(ProjectColumn.days), "{fa-sun-o}");
         Project.Acl acl = project.getAcl();
-        displayMeta(ZentaoApplication.getEnumText(this, ProjectColumn.acl), acl, acl == Project.Acl.open ? "{fa-unlock}" : "{fa-lock}");
+        displayMeta(ZentaoApplication.getEnumText(this, ProjectColumn.acl), ZentaoApplication.getEnumText(this, acl), acl == Project.Acl.open ? "{fa-unlock}" : "{fa-lock}");
         displayMeta(ZentaoApplication.getEnumText(this, ProjectColumn.PM), project.getAsString(ProjectColumn.PM), "{fa-user}");
         displayMeta(ZentaoApplication.getEnumText(this, ProjectColumn.PO), project.getAsString(ProjectColumn.PO), false);
         displayMeta(ZentaoApplication.getEnumText(this, ProjectColumn.QD), project.getAsString(ProjectColumn.QD), false);

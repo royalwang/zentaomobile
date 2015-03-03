@@ -62,7 +62,7 @@ public class ProductDetailActivity extends DetailActivity {
         displayMeta(ZentaoApplication.getEnumText(this, ProductColumn.desc), product.getFriendlyString(ProductColumn.desc), "{fa-file-text-o}");
 
         Product.Acl acl = product.getAcl();
-        displayMeta(ZentaoApplication.getEnumText(this, ProductColumn.acl), acl, acl == Product.Acl.open ? "{fa-unlock}" : "{fa-lock}");
+        displayMeta(ZentaoApplication.getEnumText(this, ProductColumn.acl), ZentaoApplication.getEnumText(this, acl), acl == Product.Acl.open ? "{fa-unlock}" : "{fa-lock}");
         displayMeta(ZentaoApplication.getEnumText(this, ProductColumn.createdBy), product.getAsString(ProductColumn.createdBy), "{fa-user}");
         displayMeta(ZentaoApplication.getEnumText(this, ProductColumn.PO), product.getAsString(ProductColumn.PO), false);
         displayMeta(ZentaoApplication.getEnumText(this, ProductColumn.QD), product.getAsString(ProductColumn.QD), false);
