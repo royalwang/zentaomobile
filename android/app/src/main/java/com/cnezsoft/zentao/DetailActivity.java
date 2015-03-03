@@ -229,6 +229,10 @@ public class DetailActivity extends ZentaoActivity {
         displayMeta(name, content, "", "", divider);
     }
 
+    protected void displayMeta(String name, Object content, Object icon, boolean divider) {
+        displayMeta(name, content, icon, null, divider);
+    }
+
     protected void displayMeta(String name, Object content, Object icon, Object iconBack) {
         displayMeta(name, content, icon, iconBack, true);
     }

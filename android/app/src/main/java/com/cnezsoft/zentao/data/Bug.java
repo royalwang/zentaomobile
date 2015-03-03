@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.cnezsoft.zentao.Helper;
+import com.cnezsoft.zentao.IAccentIcon;
 import com.cnezsoft.zentao.ZentaoApplication;
 import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
 
@@ -95,7 +96,7 @@ public class Bug extends DataEntry {
     /**
      * Bug status
      */
-    public enum Status {
+    public enum Status implements IAccentIcon {
         _(MaterialColorSwatch.Grey, "question"),
         active(MaterialColorSwatch.Purple, "flag"),
         resolved(MaterialColorSwatch.Green, "check"),
