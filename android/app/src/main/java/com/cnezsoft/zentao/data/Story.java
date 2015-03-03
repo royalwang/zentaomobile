@@ -3,6 +3,7 @@ package com.cnezsoft.zentao.data;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.cnezsoft.zentao.IAccentIcon;
 import com.cnezsoft.zentao.ZentaoApplication;
 import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
 
@@ -66,7 +67,7 @@ public class Story extends DataEntry {
     /**
      * Story status
      */
-    public enum Status {
+    public enum Status implements IAccentIcon {
         _(MaterialColorSwatch.Grey, "question"),
         draft(MaterialColorSwatch.Purple, "pencil"),
         active(MaterialColorSwatch.Brown, "flag"),

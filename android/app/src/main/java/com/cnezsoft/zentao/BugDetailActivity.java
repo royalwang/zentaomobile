@@ -9,8 +9,6 @@ import com.cnezsoft.zentao.control.ControlBindInfo;
 import com.cnezsoft.zentao.data.Bug;
 import com.cnezsoft.zentao.data.BugColumn;
 import com.cnezsoft.zentao.data.DataEntry;
-import com.cnezsoft.zentao.data.Task;
-import com.cnezsoft.zentao.data.TaskColumn;
 
 /**
  * Bug detail activity
@@ -44,7 +42,7 @@ public class BugDetailActivity extends DetailActivity {
         displayId("#" + bug.key());
         Bug.Type type = bug.getBugType();
         displayOnTextview(R.id.text_type, "{fa-tag} " + ZentaoApplication.getEnumText(this, type));
-        displayOnTextview(R.id.text_info, "{fa-user} " + bug.getAsString(BugColumn.assignedTo));
+        displayOnTextview(R.id.text_info, "{fa-hand-o-right} " + bug.getAsString(BugColumn.assignedTo));
         displayStatus(status, new ControlBindInfo(bug.getAsBoolean(BugColumn.confirmed) ? getString(R.string.text_confirmed)
                 : getString(R.string.text_unconfirm)));
         int severity = bug.getAsInteger(BugColumn.severity);

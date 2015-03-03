@@ -193,6 +193,9 @@ public class ZentaoApplication extends Application {
             case Bug:
                 intent = new Intent(activity, BugDetailActivity.class);
                 break;
+            case Story:
+                intent = new Intent(activity, StoryDetailActivity.class);
+                break;
             case Project:
                 intent = new Intent(activity, ProjectDetailActivity.class);
                 break;

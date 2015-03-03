@@ -115,6 +115,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.cnezsoft.zentao.DetailActivity" />
         </activity>
+        <activity
+            android:name=".StoryDetailActivity"
+            android:label="@string/title_activity_detail"
+            android:parentActivityName=".DetailActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cnezsoft.zentao.DetailActivity" />
+        </activity>
     </application>
 
 </manifest>
