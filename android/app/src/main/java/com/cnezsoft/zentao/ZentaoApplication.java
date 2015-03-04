@@ -2,17 +2,20 @@ package com.cnezsoft.zentao;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.WindowManager;
 
 import com.cnezsoft.zentao.data.EntryType;
-
-import org.apache.http.impl.client.DefaultHttpClient;
+import com.cnezsoft.zentao.data.Todo;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -26,65 +29,61 @@ public class ZentaoApplication extends Application {
 
     public static final int LOGIN_REQUEST = 1;
     public static final String EXTRA_AUTO_LOGIN = "com.cnezsoft.zentao.extra.auto-login";
+    public static final String MESSAGE_IN_LOGIN = "com.cnezsoft.zentao.MESSAGE_IN_SYNC";
+    public static final String MESSAGE_OUT_LOGIN_FINISH = "com.cnezsoft.zentao.MESSAGE_OUT_SYNC";
+    public static final String MESSAGE_OUT_LOGIN_START = "com.cnezsoft.zentao.MESSAGE_IN_GET_ENTRY";
+
     private User user;
-    private ZentaoConfig zentaoConfig;
     private UserPreferences userPreferences;
-    private DefaultHttpClient defaultHttpClient;
-
-    public DefaultHttpClient getDefaultHttpClient() {
-        if(defaultHttpClient == null) {
-            defaultHttpClient = new DefaultHttpClient();
-        }
-        return defaultHttpClient;
-    }
-
-    /**
-     * ZentaoConfig getter
-     * @return
-     */
-    public ZentaoConfig getZentaoConfig() {
-        return zentaoConfig;
-    }
-
-    /**
-     * ZentaoConfig setter
-     * @param zentaoConfig
-     */
-    public void setZentaoConfig(ZentaoConfig zentaoConfig) {
-        this.zentaoConfig = zentaoConfig;
-    }
 
     /**
      * User getter
      * @return
      */
     public User getUser() {
-        user.load();
+        if(user == null) {
+            user = userPreferences.getUser();
+        }
         return user;
     }
 
-    /**
-     * Check user status
-     * @param activity
-     */
-    public void checkUserStatus(Activity activity) {
-        if(user.getStatus() != User.Status.Online)
-        {
-            login(activity, true);
+    public User getUser(String identify) {
+        getUser();
+        if(user == null || !user.getIdentify().equals(identify)) {
+            user = userPreferences.getUser(identify);
         }
+        return user;
     }
 
-    public boolean checkUserStatus() {
-        User.Status userStatus = user.getStatus();
-        Log.v("APPLICATION", "checkUserStatus: " + userStatus.toString());
-        if(userStatus == User.Status.Unknown) {
-            return false;
-        } else if(userStatus == User.Status.Offline || zentaoConfig == null) {
-            Log.v("APPLICATION", "The user is offline, now login again.");
-            return login();
+    public User swtichUser(String address, String account, String password) {
+        user = getUser(User.createIdentify(address, account));
+        user.setAddress(address)
+            .setAccount(account)
+            .setPassword(password);
+        saveUser(user);
+        return user;
+    }
+
+    public void saveUser(User user) {
+        this.user = user;
+        userPreferences.saveUser(user);
+    }
+
+    /**
+     * Check user status and try login in background if his status is offline
+     * @return
+     */
+    public boolean checkLogin() {
+        User.Status status = user.getStatus();
+        Log.v("APPLICATION", "Check Login Before: " + status);
+        boolean result;
+        if(status == User.Status.OFFLINE) {
+            result = login();
+        } else {
+            result = status == User.Status.ONLINE;
         }
-        Log.v("APPLICATION", "checkUserStatus NOW: " + user.getStatus());
-        return true;
+        Log.v("APPLICATION", "Check Login After: " + result);
+        return result;
     }
 
     /**
@@ -92,24 +91,28 @@ public class ZentaoApplication extends Application {
      * @param activity
      */
     public void logout(Activity activity) {
-        user.offline();
-        user.save();
-        login(activity, false);
+        saveUser(user.offline());
+        openLoginActivity(activity);
     }
 
     /**
      * Login in background
      * @return
      */
-    public boolean login() {
-        if(user.getStatus() != User.Status.Unknown) {
-            OperateBundle<Boolean, ZentaoConfig> loginResult = ZentaoAPI.tryLogin(user);
+    public boolean login(boolean async) {
+        if(user.getStatus() != User.Status.UNKNOWN) {
+            String identify = user.getIdentify();
+            sendBroadcast(new Intent(MESSAGE_OUT_LOGIN_START)
+                    .putExtra("identify", identify));
+            OperateBundle<Boolean, User> loginResult = ZentaoAPI.tryLogin(user);
             boolean result = loginResult.getResult();
 
             if(result) {
-                user.online();
-                setZentaoConfig(loginResult.getValue());
+                saveUser(loginResult.getValue().online());
             }
+            sendBroadcast(new Intent(MESSAGE_OUT_LOGIN_FINISH)
+                    .putExtra("result", result)
+                    .putExtra("identify", identify));
             return result;
         } else {
             return false;
@@ -117,22 +120,49 @@ public class ZentaoApplication extends Application {
     }
 
     /**
-     * Open login active and login
-     * @param activity
+     * Try login in background first, then login in front if failed
+     * @param fromActivity
      */
-    public void login(Activity activity, boolean autoLogin) {
-        Intent intent = new Intent(activity, LoginActivity.class);
+    public boolean login(Activity fromActivity) {
+        User.Status status = getUser().getStatus();
 
-        intent.putExtra(EXTRA_AUTO_LOGIN, autoLogin);
-        activity.startActivityForResult(intent, LOGIN_REQUEST);
+        boolean result = (status == User.Status.ONLINE);
+        if(status == User.Status.OFFLINE) {
+            result = login();
+        }
+        if(!result) {
+            openLoginActivity(fromActivity);
+        }
+        return result;
     }
 
     /**
-     * Login in front
-     * @param activity
+     * The async task for login in Zentao server
      */
-    public void login(Activity activity) {
-        login(activity, false);
+    private class LoginInBackgroundTask extends AsyncTask<Activity, Integer, Boolean> {
+        private Activity activity;
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        protected Boolean doInBackground(Activity... activities) {
+            this.activity = activities[0];
+        }
+
+        protected void onPostExecute(boolean result) {
+
+        }
+    }
+
+    /**
+     * Open login activity
+     * @param fromActivity
+     */
+    public void openLoginActivity(Activity fromActivity) {
+        Intent intent = new Intent(fromActivity, LoginActivity.class);
+        fromActivity.startActivityForResult(intent, LOGIN_REQUEST);
     }
 
     /**
@@ -176,6 +206,15 @@ public class ZentaoApplication extends Application {
     }
 
     /**
+     * Open activity
+     * @param activity
+     * @param nav
+     */
+    public void openActivity(Activity activity, AppNav nav) {
+        openActivity(activity, nav, null);
+    }
+
+    /**
      * Open detail activity
      * @param activity
      * @param type
@@ -210,23 +249,26 @@ public class ZentaoApplication extends Application {
         activity.startActivity(intent);
     }
 
-    /**
-     * Open activity
-     * @param activity
-     * @param nav
-     */
-    public void openActivity(Activity activity, AppNav nav) {
-        openActivity(activity, nav, null);
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
-
         userPreferences = new UserPreferences(this);
-        user = new User(userPreferences);
+        user = getUser();
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(MESSAGE_IN_LOGIN);
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+            }
+        }, intentFilter);
     }
 
+    /**
+     * Get version name
+     * @return
+     */
     public String getVersionName()
     {
         PackageManager packageManager = getPackageManager();
@@ -302,23 +344,4 @@ public class ZentaoApplication extends Application {
         }
         return list.toArray(new String[list.size()]);
     }
-
-//    public boolean isRunningInBackground() {
-//        ActivityManager activityManager = (ActivityManager) this
-//                .getSystemService(Context.ACTIVITY_SERVICE);
-//        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager
-//                .getRunningAppProcesses();
-//        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
-//            if (appProcess.processName.equals(this.getPackageName())) {
-//                if (appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_BACKGROUND) {
-//                    Log.i("APPLICATION", String.format("Background App:", appProcess.processName));
-//                    return true;
-//                }else{
-//                    Log.i("APPLICATION", String.format("Foreground App:", appProcess.processName));
-//                    return false;
-//                }
-//            }
-//        }
-//        return false;
-//    }
 }
