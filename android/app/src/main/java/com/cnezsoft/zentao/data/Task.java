@@ -101,7 +101,11 @@ public class Task extends DataEntry {
      * @return
      */
     public Task.Type getTaskType() {
-        return Enum.valueOf(Task.Type.class, getAsString(TaskColumn.type).trim().toLowerCase());
+        try {
+            return Enum.valueOf(Task.Type.class, getAsString(TaskColumn.type).trim().toLowerCase());
+        } catch (IllegalArgumentException e) {
+            return Type._;
+        }
     }
 
     /**
@@ -109,7 +113,11 @@ public class Task extends DataEntry {
      * @return
      */
     public CloseReason getCloseReason() {
-        return Enum.valueOf(CloseReason.class, getAsString(TaskColumn.closeReason).trim().toLowerCase());
+        try {
+            return Enum.valueOf(CloseReason.class, getAsString(TaskColumn.closeReason).trim().toLowerCase());
+        } catch (IllegalArgumentException e) {
+            return CloseReason._;
+        }
     }
 
     /**
@@ -117,7 +125,12 @@ public class Task extends DataEntry {
      * @return
      */
     public Task.Status getStatus() {
-        return Enum.valueOf(Status.class, getAsString(TaskColumn.status).trim().toLowerCase());
+        try {
+            return Enum.valueOf(Status.class, getAsString(TaskColumn.status).trim().toLowerCase());
+        } catch (IllegalArgumentException e) {
+            return Status._;
+        }
+
     }
 
     /**

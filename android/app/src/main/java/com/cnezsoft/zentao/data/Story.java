@@ -97,7 +97,11 @@ public class Story extends DataEntry {
      * @return
      */
     public Stage getStage() {
-        return Enum.valueOf(Stage.class, getAsString(StoryColumn.stage).trim().toLowerCase());
+        try {
+            return Enum.valueOf(Stage.class, getAsString(StoryColumn.stage).trim().toLowerCase());
+        } catch (IllegalArgumentException e) {
+            return Stage._;
+        }
     }
 
     /**
@@ -105,7 +109,11 @@ public class Story extends DataEntry {
      * @return
      */
     public CloseReason getCloseReason() {
-        return Enum.valueOf(CloseReason.class, getAsString(StoryColumn.closedReason).trim().toLowerCase());
+        try {
+            return Enum.valueOf(CloseReason.class, getAsString(StoryColumn.closedReason).trim().toLowerCase());
+        } catch (IllegalArgumentException e) {
+            return CloseReason._;
+        }
     }
 
     /**
@@ -113,7 +121,11 @@ public class Story extends DataEntry {
      * @return
      */
     public Story.Status getStatus() {
-        return Enum.valueOf(Story.Status.class, getAsString(StoryColumn.status).trim().toLowerCase());
+        try {
+            return Enum.valueOf(Story.Status.class, getAsString(StoryColumn.status).trim().toLowerCase());
+        } catch (IllegalArgumentException e) {
+            return Status._;
+        }
     }
 
     /**
@@ -123,7 +135,6 @@ public class Story extends DataEntry {
     public Source getSource() {
         try {
             return Enum.valueOf(Story.Source.class, getAsString(StoryColumn.source).trim().toLowerCase());
-
         } catch (IllegalArgumentException e) {
             return Source._;
         }

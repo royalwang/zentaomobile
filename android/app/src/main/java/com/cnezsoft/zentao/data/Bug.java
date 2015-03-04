@@ -146,7 +146,12 @@ public class Bug extends DataEntry {
         } else if(Helper.isNullOrEmpty(typeName)) {
             return Type._;
         }
-        return Enum.valueOf(Bug.Type.class, typeName);
+
+        try {
+            return Enum.valueOf(Bug.Type.class, typeName);
+        } catch (IllegalArgumentException e) {
+            return Type._;
+        }
     }
 
     /**
@@ -154,7 +159,11 @@ public class Bug extends DataEntry {
      * @return
      */
     public OS getOS() {
-        return Enum.valueOf(Bug.OS.class, getAsString(BugColumn.os).trim().toLowerCase());
+        try {
+            return Enum.valueOf(Bug.OS.class, getAsString(BugColumn.os).trim().toLowerCase());
+        } catch (IllegalArgumentException e) {
+            return OS._;
+        }
     }
 
     /**
@@ -162,7 +171,11 @@ public class Bug extends DataEntry {
      * @return
      */
     public Browser getBrowser() {
-        return Enum.valueOf(Browser.class, getAsString(BugColumn.browser).trim().toLowerCase());
+        try {
+            return Enum.valueOf(Browser.class, getAsString(BugColumn.browser).trim().toLowerCase());
+        } catch (IllegalArgumentException e) {
+            return Browser._;
+        }
     }
 
     /**
@@ -170,7 +183,11 @@ public class Bug extends DataEntry {
      * @return
      */
     public Bug.Status getStatus() {
-        return Enum.valueOf(Status.class, getAsString(BugColumn.status).trim().toLowerCase());
+        try {
+            return Enum.valueOf(Status.class, getAsString(BugColumn.status).trim().toLowerCase());
+        } catch (IllegalArgumentException e) {
+            return Status._;
+        }
     }
 
     /**
@@ -178,7 +195,11 @@ public class Bug extends DataEntry {
      * @return
      */
     public Resolution getResolution() {
-        return Enum.valueOf(Resolution.class, getAsString(BugColumn.resolution).trim().toLowerCase());
+        try {
+            return Enum.valueOf(Resolution.class, getAsString(BugColumn.resolution).trim().toLowerCase());
+        } catch (IllegalArgumentException e) {
+            return Resolution._;
+        }
     }
 
     /**

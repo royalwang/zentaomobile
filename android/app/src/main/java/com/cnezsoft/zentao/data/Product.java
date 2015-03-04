@@ -62,7 +62,11 @@ public class Product extends DataEntry {
      * @return
      */
     public Status getStatus() {
-        return Enum.valueOf(Status.class, getAsString(ProductColumn.status).trim().toLowerCase());
+        try {
+            return Enum.valueOf(Status.class, getAsString(ProductColumn.status).trim().toLowerCase());
+        } catch (IllegalArgumentException e) {
+            return Status._;
+        }
     }
 
     /**
@@ -76,7 +80,12 @@ public class Product extends DataEntry {
         } else if(Helper.isNullOrEmpty(typeName)) {
             return Acl._;
         }
-        return Enum.valueOf(Acl.class, typeName);
+
+        try {
+            return Enum.valueOf(Acl.class, typeName);
+        } catch (IllegalArgumentException e) {
+            return Acl._;
+        }
     }
 
     /**

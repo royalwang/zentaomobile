@@ -76,7 +76,11 @@ public class Project extends DataEntry {
      * @return
      */
     public Project.Type getProjectType() {
-        return Enum.valueOf(Type.class, getAsString(ProjectColumn.type).trim().toLowerCase());
+        try {
+            return Enum.valueOf(Type.class, getAsString(ProjectColumn.type).trim().toLowerCase());
+        } catch (IllegalArgumentException e) {
+            return Type._;
+        }
     }
 
     private Status status;
@@ -87,7 +91,11 @@ public class Project extends DataEntry {
      */
     public Status getStatus() {
         if(status == null) {
-            status = Enum.valueOf(Status.class, getAsString(ProjectColumn.status).trim().toLowerCase());
+            try {
+                status = Enum.valueOf(Status.class, getAsString(ProjectColumn.status).trim().toLowerCase());
+            } catch (IllegalArgumentException e) {
+                status = Status._;
+            }
         }
         return status;
     }
@@ -103,7 +111,12 @@ public class Project extends DataEntry {
         } else if(Helper.isNullOrEmpty(typeName)) {
             return Acl._;
         }
-        return Enum.valueOf(Acl.class, typeName);
+
+        try {
+            return Enum.valueOf(Acl.class, typeName);
+        } catch (IllegalArgumentException e) {
+            return Acl._;
+        }
     }
 
     /**
