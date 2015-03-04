@@ -49,12 +49,12 @@ public class ZentaoAPI
     /**
      * Concat zentao api url with params
      * @param params
-     * @param config
      * @param user
      * @return
      */
-    public static String concatUrl(Map<String, String> params, ZentaoConfig config, User user)
+    public static String concatUrl(Map<String, String> params, User user)
     {
+        ZentaoConfig config = user.getZentaoConfig();
         String moduleName = params.get("module");
         String methodName = params.get("method");
         String viewType = Helper.ifNullOrEmptyThen(params.get("viewType"), "json");
@@ -66,7 +66,7 @@ public class ZentaoAPI
         {
             if(moduleName.equals("user") && methodName.equals("login"))
             {
-                password = md5(user.getPasswordMD5() + config.getRand());
+                password = md5(user.getPasswordMd5() + config.getRand());
                 url += "user-login." + viewType
                     + "?account=" + user.getAccount()
                     + "&password=" + password
@@ -105,7 +105,7 @@ public class ZentaoAPI
             url += "/index.php?";
             if(moduleName.equals("user") && methodName.equals("login"))
             {
-                password = md5(user.getPasswordMD5() + config.getRand());
+                password = md5(user.getPasswordMd5() + config.getRand());
                 url += "m=user&f=login&account=" + user.getAccount() +
                         "&password=" + password + "&" + config.getSessionName() +
                         "=" + config.getSessionID() + "&t=" + viewType;
@@ -156,43 +156,38 @@ public class ZentaoAPI
      * Login in zentao
      * The method should called in async task
      *
-     * @param config
      * @param user
      * @return
      */
-    public static OperateResult<Boolean> login(ZentaoConfig config, User user)
+    public static OperateBundle<Boolean, User> login(User user)
     {
-        boolean result = false;
-        String message = null;
-        int code = 1;
+        if(user.getStatus() == User.Status.UNKNOWN) {
+            return new OperateBundle<>(false, "User information required.", user);
+        }
+
+        boolean result;
+        String message;
         Map<String, String> params = new HashMap<String, String>(){{put("module", "user"); put("method", "login");}};
-        JSONObject jsonResult = Http.getJSON(concatUrl(params, config, user));
+        JSONObject jsonResult = Http.getJSON(concatUrl(params, user));
 
         if(jsonResult != null) {
             String status = jsonResult.optString("status", "failed");
             result = status.equals("success");
-            code = result ? 0 : 2;
             message = jsonResult.optString("reason");
 
             if(result) {
                 try {
                     JSONObject jsonUser = jsonResult.getJSONObject("user");
-                    user.setEmail(jsonUser.optString("email"), false)
-                        .setRealname(jsonUser.optString("realname"), false)
-                        .setId(jsonUser.optString("realname"), false)
-                        .setRole(jsonUser.optString("role"), false)
-                        .setCompany(jsonUser.optString("company"), false)
-                        .setGender(jsonUser.optString("gender"), true);
+                    user.fromJSON(jsonUser);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
 
-            OperateResult<Boolean> operateResult = new OperateResult<>(result, message);
-            operateResult.setCode(code);
-            return operateResult;
+            final int code = result ? 0 : 2;
+            return new OperateBundle<Boolean, User>(result, message, user) {{setCode(code);}};
         } else {
-            return new OperateResult<Boolean>(false, "Can't get data from remote server.") {{setCode(4);}};
+            return new OperateBundle<Boolean, User>(false, "Can't get data from remote server.", user) {{setCode(4);}};
         }
     }
 
@@ -203,36 +198,35 @@ public class ZentaoAPI
      * @param user
      * @return
      */
-    public static OperateBundle<Boolean, ZentaoConfig> tryLogin(User user) {
-        if(user.checkUserStatus() == User.Status.Unknown) {
-            return new OperateBundle<Boolean, ZentaoConfig>(false){{setCode(5);}};
+    public static OperateBundle<Boolean, User> tryLogin(User user) {
+        if(user.getStatus() == User.Status.UNKNOWN) {
+            return new OperateBundle<Boolean, User>(false){{setCode(5);}};
         }
 
         ZentaoConfig config = getConfig(user.getAddress());
+        user.setZentaoConfig(config);
 
         // Check zentao version
         if(config == null) {
             // Can't connect to the zentao server.
-            return new OperateBundle<Boolean, ZentaoConfig>(false){{setCode(1);}};
+            return new OperateBundle<Boolean, User>(false){{setCode(1);}};
         }
         else if(!config.isPro() || config.getVersionNumber() < 4.3f ) {
             // Zentao version is not correct
-            return new OperateBundle<Boolean, ZentaoConfig>(false, config){{setCode(3);}};
+            return new OperateBundle<Boolean, User>(false, user){{setCode(3);}};
         }
 
-        OperateResult<Boolean> result = login(config, user);
-
-        return result.toOperateBundle(config);
+        return login(user);
     }
 
-    public static OperateBundle<Boolean, JSONObject> getDataItem(ZentaoConfig config, User user, EntryType entryType, String id) {
+    public static OperateBundle<Boolean, JSONObject> getDataItem(User user, EntryType entryType, String id) {
         Map<String, String> parmas = new HashMap<>();
         parmas.put("module", "api");
         parmas.put("method", "mobileGetInfo");
         parmas.put("type", entryType.name().toLowerCase());
         parmas.put("id", id);
 
-        JSONObject json = Http.getJSON(concatUrl(parmas, config, user), GZIP_REQUEST);
+        JSONObject json = Http.getJSON(concatUrl(parmas, user), GZIP_REQUEST);
         boolean result;
         String message;
         if(json != null) {
@@ -255,7 +249,6 @@ public class ZentaoAPI
 
     /**
      * Get data list
-     * @param config
      * @param user
      * @param type
      * @param entryType
@@ -264,7 +257,7 @@ public class ZentaoAPI
      * @param format
      * @return
      */
-    public static OperateBundle<Boolean, JSONObject> getDataList(ZentaoConfig config, User user, String type, EntryType entryType,
+    public static OperateBundle<Boolean, JSONObject> getDataList(User user, String type, EntryType entryType,
         int range, int records, String format) {
         JSONObject json;
         boolean result;
@@ -280,7 +273,7 @@ public class ZentaoAPI
         parmas.put("records", records + "");
         parmas.put("format", format);
 
-        json = Http.getJSON(concatUrl(parmas, config, user), GZIP_REQUEST);
+        json = Http.getJSON(concatUrl(parmas, user), GZIP_REQUEST);
         if(json != null) {
             String status = json.optString("status", "failed");
             result = status.equals("success");
@@ -304,24 +297,20 @@ public class ZentaoAPI
 
     /**
      * Get data list
-     * @param config
      * @param user
      * @param entryType
      * @return
      */
-    public static OperateBundle<Boolean, JSONObject> getDataList(ZentaoConfig config,
-            User user, EntryType entryType) {
-        return getDataList(config, user, "increment", entryType, 0, 1000, "index");
+    public static OperateBundle<Boolean, JSONObject> getDataList(User user, EntryType entryType) {
+        return getDataList(user, "increment", entryType, 0, 1000, "index");
     }
 
     /**
      * Get data list
-     * @param config
      * @param user
      * @return
      */
-    public static OperateBundle<Boolean, JSONObject> getDataList(ZentaoConfig config,
-            User user) {
-        return getDataList(config, user, "increment", EntryType.Default, 0, 1000, "index");
+    public static OperateBundle<Boolean, JSONObject> getDataList(User user) {
+        return getDataList(user, "increment", EntryType.Default, 0, 1000, "index");
     }
 }
