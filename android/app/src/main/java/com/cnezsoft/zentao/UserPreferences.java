@@ -3,10 +3,15 @@ package com.cnezsoft.zentao;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.cnezsoft.zentao.data.DataType;
+
+import java.net.PortUnreachableException;
+import java.util.Date;
+import java.util.Map;
 import java.util.Set;
 
 /**
- * User preferences
+ * UserOld preferences
  * Created by Catouse on 2015/1/14.
  */
 public class UserPreferences {
@@ -33,7 +38,7 @@ public class UserPreferences {
      * @return
      */
     public UserPreferences putString(String key, String value) {
-        editor.putString(identify + "::" + key, value);
+        editor.putString(identify.toString() + "::" + key, value);
         return this;
     }
 
@@ -44,7 +49,7 @@ public class UserPreferences {
      * @return
      */
     public UserPreferences putStringSet(String key, Set<String> values) {
-        editor.putStringSet(identify + "::" + key, values);
+        editor.putStringSet(identify.toString() + "::" + key, values);
         return this;
     }
 
@@ -55,7 +60,7 @@ public class UserPreferences {
      * @return
      */
     public UserPreferences putInt(String key, int value) {
-        editor.putInt(identify + "::" + key, value);
+        editor.putInt(identify.toString() + "::" + key, value);
         return this;
     }
 
@@ -66,7 +71,7 @@ public class UserPreferences {
      * @return
      */
     public UserPreferences putLong(String key, long value) {
-        editor.putLong(identify + "::" + key, value);
+        editor.putLong(identify.toString() + "::" + key, value);
         return this;
     }
 
@@ -77,7 +82,7 @@ public class UserPreferences {
      * @return
      */
     public UserPreferences putFloat(String key, float value) {
-        editor.putFloat(identify + "::" + key, value);
+        editor.putFloat(identify.toString() + "::" + key, value);
         return this;
     }
 
@@ -88,7 +93,7 @@ public class UserPreferences {
      * @return
      */
     public UserPreferences putBoolean(String key, boolean value) {
-        editor.putBoolean(identify + "::" + key, value);
+        editor.putBoolean(identify.toString() + "::" + key, value);
         return this;
     }
 
@@ -98,7 +103,7 @@ public class UserPreferences {
      * @return
      */
     public UserPreferences remove(String key) {
-        editor.remove(identify + "::" + key);
+        editor.remove(identify.toString() + "::" + key);
         return this;
     }
 
@@ -127,8 +132,11 @@ public class UserPreferences {
      * @return
      */
     public UserPreferences setIdentify(String identify) {
-        this.identify = identify;
-        if(editor != null) editor.putString(CURRENT_IDENTIFY, identify);
+        if(!this.identify.equals(identify)) {
+            this.identify = identify;
+            edit();
+            editor.putString(CURRENT_IDENTIFY, identify);
+        }
         return this;
     }
 
@@ -170,15 +178,6 @@ public class UserPreferences {
         getIdentify(true);
     }
 
-//    /**
-//     * Constructor with application context and name
-//     * @param context
-//     */
-//    public UserPreferences(Context context, String name) {
-//        preferences = context.getSharedPreferences(name, Context.MODE_PRIVATE);
-//        getIdentify(true);
-//    }
-
     /**
      * Register on user change listener
      * @param listener
@@ -202,7 +201,7 @@ public class UserPreferences {
      * @return
      */
     public String getString(String key, String defValue) {
-        return preferences.getString(identify + "::" + key, defValue);
+        return preferences.getString(identify.toString() + "::" + key, defValue);
     }
 
     /**
@@ -212,7 +211,7 @@ public class UserPreferences {
      * @return
      */
     public Set<String> getStringSet(String key, Set<String> defValues) {
-        return preferences.getStringSet(identify + "::" + key, defValues);
+        return preferences.getStringSet(identify.toString() + "::" + key, defValues);
     }
 
     /**
@@ -222,7 +221,7 @@ public class UserPreferences {
      * @return
      */
     public int getInt(String key, int defValue) {
-        return preferences.getInt(identify + "::" + key, defValue);
+        return preferences.getInt(identify.toString() + "::" + key, defValue);
     }
 
     /**
@@ -232,7 +231,7 @@ public class UserPreferences {
      * @return
      */
     public long getLong(String key, long defValue) {
-        return preferences.getLong(identify + "::" + key, defValue);
+        return preferences.getLong(identify.toString() + "::" + key, defValue);
     }
 
     /**
@@ -242,7 +241,7 @@ public class UserPreferences {
      * @return
      */
     public float getFloat(String key, float defValue) {
-        return preferences.getFloat(identify + "::" + key, defValue);
+        return preferences.getFloat(identify.toString() + "::" + key, defValue);
     }
 
     /**
@@ -252,7 +251,7 @@ public class UserPreferences {
      * @return
      */
     public boolean getBoolean(String key, boolean defValue) {
-        return preferences.getBoolean(identify + "::" + key, defValue);
+        return preferences.getBoolean(identify.toString() + "::" + key, defValue);
     }
 
     /**
@@ -261,6 +260,105 @@ public class UserPreferences {
      * @return
      */
     public boolean contains(String key) {
-        return preferences.contains(identify + "::" + key);
+        return preferences.contains(identify.toString() + "::" + key);
+    }
+
+    public Enum getEnum(Class<? extends Enum> emumType, String key, Enum delValue) {
+        String enumValue = getString(key, null);
+        try {
+            return enumValue != null ? Enum.valueOf(emumType, enumValue) : delValue;
+        } catch (Exception e) {
+            return delValue;
+        }
+    }
+
+    public Object get(DataType type, String key, Object defValue) {
+        switch (type) {
+            case DATETIME:
+                long value = getLong(key, -1);
+                return value > 0 ? new Date(value) : defValue;
+            case LONG:
+                return getLong(key, (long) defValue);
+            case BOOLEAN:
+                return getBoolean(key, (boolean) defValue);
+            case INT:
+                return getInt(key, (int) defValue);
+            case DOUBLE:
+            case FLOAT:
+                return getFloat(key, (float) defValue);
+            case ENUM:
+            case HTML:
+            case STRING:
+            default:
+                return getString(key, defValue == null ? null : defValue.toString());
+        }
+    }
+
+    public Object get(UserAttr attr) {
+        return get(attr.getType(), attr.name(), attr.getDefaultValue());
+    }
+
+    public UserPreferences put(DataType type, String key, Object value) {
+        if(value == null) {
+            remove(key);
+        } else {
+            switch (type) {
+                case DATETIME:
+                    putLong(key, ((Date) value).getTime());
+                    break;
+                case LONG:
+                    putLong(key, (long) value);
+                case BOOLEAN:
+                    putBoolean(key, (boolean) value);
+                case INT:
+                    putInt(key, (int) value);
+                case DOUBLE:
+                case FLOAT:
+                    putFloat(key, (float) value);
+                case ENUM:
+                case HTML:
+                case STRING:
+                default:
+                    putString(key, value.toString());
+            }
+        }
+        return this;
+    }
+
+    public UserPreferences put(UserAttr attr, Object value) {
+        return put(attr.getType(), attr.name(), value);
+    }
+
+    public User getUser() {
+        return getUser(null);
+    }
+
+    public User getUser(String identify) {
+        if(identify == null) {
+            getIdentify(true);
+        } else {
+            setIdentify(identify);
+        }
+        User user = new User();
+        if(identify != null) {
+            user.setStatus(User.Status.OFFLINE);
+            for(UserAttr attr: UserAttr.values()) {
+                user.put(attr, get(attr));
+            }
+        }
+        return user;
+    }
+
+    public void saveUser(User user) {
+        edit();
+        setIdentify(user.getIdentify());
+        for(Map.Entry<UserAttr, Object> entry: user.getValues().entrySet()) {
+            put(entry.getKey(), entry.getValue());
+        }
+        commit();
+    }
+
+    public void saveUserAttr(UserAttr attr, Object value) {
+        edit().put(attr, value).commit();
     }
 }
