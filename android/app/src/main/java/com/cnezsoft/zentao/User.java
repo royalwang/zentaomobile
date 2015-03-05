@@ -3,6 +3,7 @@ package com.cnezsoft.zentao;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 
+import com.cnezsoft.zentao.data.IColumn;
 import com.cnezsoft.zentao.data.Todo;
 
 import org.json.JSONException;
@@ -185,28 +186,35 @@ public class User {
     }
 
     public String toJSONString() {
+        JSONStringer jsonStringer;
         try {
-            JSONStringer stringer = new JSONStringer().object();
+            jsonStringer = new JSONStringer().object();
             for(UserAttr attr: UserAttr.values()) {
-                stringer.key(attr.name());
+                jsonStringer.key(attr.name());
                 switch (attr.getType()) {
                     case INT:
                     case LONG:
-                        stringer.value((long) get(attr));
-                        break;
-                    case DOUBLE:
-                        stringer.value((double) get(attr));
+                        jsonStringer.value((long) get(attr));
                         break;
                     case BOOLEAN:
-                        stringer.value((boolean) get(attr));
+                        jsonStringer.value((boolean) get(attr));
                         break;
+                    case FLOAT:
+                    case DOUBLE:
+                        jsonStringer.value((double) get(attr));
+                        break;
+                    case STRING:
+                        jsonStringer.value(getString(attr));
+                        break;
+                    case DATETIME:
                     default:
-                        stringer.value(get(attr));
+                        jsonStringer.value(get(attr));
                 }
             }
-            return stringer.endObject().toString();
+
+            return jsonStringer.key("status").value(getStatus().name()).endObject().toString();
         } catch (JSONException e) {
-            return "[EMPTY USER]";
+            return "{Empty User}";
         }
     }
 
@@ -225,7 +233,7 @@ public class User {
         } else {
             resId = R.string.text_hello_night;
         }
-        return String.format(context.getResources().getString(resId), getString(UserAttr.realName));
+        return String.format(context.getResources().getString(resId), getName());
     }
 
     public String getName() {

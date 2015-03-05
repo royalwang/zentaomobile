@@ -161,8 +161,8 @@ public class ZentaoAPI
      */
     public static OperateBundle<Boolean, User> login(User user)
     {
-        if(user.getStatus() == User.Status.UNKNOWN) {
-            return new OperateBundle<>(false, "User information required.", user);
+        if(!user.hasLoginCredentials()) {
+            return new OperateBundle<Boolean, User>(false, "User information required.", user) {{setCode(5);}};
         }
 
         boolean result;
@@ -199,7 +199,7 @@ public class ZentaoAPI
      * @return
      */
     public static OperateBundle<Boolean, User> tryLogin(User user) {
-        if(user.getStatus() == User.Status.UNKNOWN) {
+        if(!user.hasLoginCredentials()) {
             return new OperateBundle<Boolean, User>(false){{setCode(5);}};
         }
 

@@ -21,7 +21,7 @@ public class Bug extends DataEntry {
      * Bug type
      */
     public enum Type {
-        _,
+         _,
         codeerror,
         _interface,
         designchange,

@@ -163,6 +163,8 @@ public class UserPreferences {
             this.identify = identify;
             edit();
             editor.putString(CURRENT_IDENTIFY, identify);
+            commit();
+            Log.v("User preferences", "Set identify: " + identify);
         }
         return this;
     }
@@ -176,6 +178,7 @@ public class UserPreferences {
         if(load)
         {
             identify = preferences.getString(CURRENT_IDENTIFY, null);
+            Log.v("User preferences", "Get identify: " + identify);
         }
         return identify;
     }
@@ -408,7 +411,7 @@ public class UserPreferences {
 
     public User getUser(String identify) {
         if(identify == null) {
-            getIdentify(true);
+            identify = getIdentify(true);
         } else {
             setIdentify(identify);
         }
@@ -419,6 +422,7 @@ public class UserPreferences {
                 user.put(attr, get(attr));
             }
         }
+        Log.v("UserPreferences", "Load User with identify=" + identify + ": " + user.toJSONString());
         return user;
     }
 
@@ -429,6 +433,7 @@ public class UserPreferences {
             put(entry.getKey(), entry.getValue());
         }
         commit();
+        Log.v("UserPreferences", "Save User: " + user.toJSONString());
     }
 
     public void saveUserAttr(UserAttr attr, Object value) {

@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cnezsoft.zentao.colorswatch.MaterialColorName;
 import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
@@ -71,7 +72,7 @@ public class DetailActivity extends ZentaoActivity {
     protected DataEntry loadData() {
         getDAO();
         entry = DataEntryFactory.create(entryType, dao.query(entryType, entryId));
-        if(entry.isUnread()) {
+        if(entry!=null && entry.isUnread()) {
             entry.markRead();
             dao.save(entry);
         }
@@ -91,6 +92,14 @@ public class DetailActivity extends ZentaoActivity {
     }
 
     private void onDataLoad(DataEntry dataEntry) {
+        if(dataEntry == null) {
+            Toast.makeText(application,
+                    String.format(getString(R.string.text_entry_not_found_format), entryId, ZentaoApplication.getEnumText(this, entryType)),
+                    Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
+
         metaData.clear();
         display(dataEntry);
 

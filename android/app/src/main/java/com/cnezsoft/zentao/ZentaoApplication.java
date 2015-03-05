@@ -29,9 +29,9 @@ public class ZentaoApplication extends Application {
 
     public static final int LOGIN_REQUEST = 1;
     public static final String EXTRA_AUTO_LOGIN = "com.cnezsoft.zentao.extra.auto-login";
-    public static final String MESSAGE_IN_LOGIN = "com.cnezsoft.zentao.MESSAGE_IN_SYNC";
-    public static final String MESSAGE_OUT_LOGIN_FINISH = "com.cnezsoft.zentao.MESSAGE_OUT_SYNC";
-    public static final String MESSAGE_OUT_LOGIN_START = "com.cnezsoft.zentao.MESSAGE_IN_GET_ENTRY";
+    public static final String MESSAGE_IN_LOGIN = "com.cnezsoft.zentao.MESSAGE_IN_LOGIN";
+    public static final String MESSAGE_OUT_LOGIN_FINISH = "com.cnezsoft.zentao.MESSAGE_OUT_LOGIN_FINISH";
+    public static final String MESSAGE_OUT_LOGIN_START = "com.cnezsoft.zentao.MESSAGE_OUT_LOGIN_START";
 
     private User user;
     private UserPreferences userPreferences;
@@ -56,11 +56,14 @@ public class ZentaoApplication extends Application {
     }
 
     public User switchUser(String address, String account, String password) {
+        Log.v("APPLICATION", "switch user before: " + user.toJSONString());
         user = getUser(User.createIdentify(address, account));
         user.setAddress(address)
             .setAccount(account)
-            .setPassword(password);
+            .setPassword(password)
+            .setStatus(User.Status.OFFLINE);
         saveUser(user);
+        Log.v("APPLICATION", "switch user after: " + user.toJSONString());
         return user;
     }
 
@@ -96,7 +99,7 @@ public class ZentaoApplication extends Application {
      * @return
      */
     public boolean checkLogin() {
-        User.Status status = user.getStatus();
+        User.Status status = getUser().getStatus();
         Log.v("APPLICATION", "Check Login Before: " + status);
         boolean result;
         if(status == User.Status.OFFLINE) {
@@ -117,6 +120,16 @@ public class ZentaoApplication extends Application {
         openLoginActivity(activity);
     }
 
+    private OperateBundle<Boolean, User> tryLogin(User user) {
+        OperateBundle<Boolean, User> result = ZentaoAPI.tryLogin(user);
+        Log.v("APPLICATION", "Login result: " + result.getResult() + ", message: " + result.getMessage() + "(code: " + result.getCode() + ")");
+        if(result.getResult()) {
+            startService(new Intent(this, ZentaoSyncService.class));
+            sendBroadcast(new Intent(Synchronizer.MESSAGE_IN_SYNC));
+        }
+        return result;
+    }
+
     /**
      * Login in background
      * @return
@@ -126,7 +139,7 @@ public class ZentaoApplication extends Application {
             String identify = user.getIdentify();
             sendBroadcast(new Intent(MESSAGE_OUT_LOGIN_START)
                     .putExtra("identify", identify));
-            OperateBundle<Boolean, User> loginResult = ZentaoAPI.tryLogin(user);
+            OperateBundle<Boolean, User> loginResult = tryLogin(user);
             boolean result = loginResult.getResult();
 
             if(result) {
@@ -146,6 +159,7 @@ public class ZentaoApplication extends Application {
      * @param onLoginFinished
      */
     public void login(final CustomAsyncTask.OnPostExecuteHandler<OperateBundle<Boolean, User>> onLoginFinished) {
+        Log.v("APPLICATION", "Login in background async: " + getUser().toJSONString());
         if(getUser().hasLoginCredentials()) {
             final String identify = user.getIdentify();
             sendBroadcast(new Intent(MESSAGE_OUT_LOGIN_START)
@@ -154,7 +168,7 @@ public class ZentaoApplication extends Application {
             new CustomAsyncTask<User, Integer, OperateBundle<Boolean, User>>(new CustomAsyncTask.DoInBackgroundHandler<User, OperateBundle<Boolean, User>>() {
                 @Override
                 public OperateBundle<Boolean, User> doInBackground(User... params) {
-                    return ZentaoAPI.tryLogin(user);
+                    return tryLogin(user);
                 }
             }, new CustomAsyncTask.OnPostExecuteHandler<OperateBundle<Boolean, User>>() {
                 @Override
@@ -169,6 +183,7 @@ public class ZentaoApplication extends Application {
                 }
             }).execute(user);
         } else {
+            Log.v("APPLICATION", "Login in background async: User information required.");
             onLoginFinished.onPostExecute(new OperateBundle<Boolean, User>(false) {{setCode(5);}});
         }
     }
@@ -190,18 +205,28 @@ public class ZentaoApplication extends Application {
         return result;
     }
 
-    public void login(Activity fromActivity, CustomAsyncTask.OnPostExecuteHandler<Boolean> onLoginFinished) {
+    public void login(final Activity fromActivity, final CustomAsyncTask.OnPostExecuteHandler<Boolean> onLoginFinished) {
         User.Status status = getUser().getStatus();
 
         boolean result = (status == User.Status.ONLINE);
         if(status == User.Status.OFFLINE) {
-            result = login();
             new CustomAsyncTask<User, Integer, Boolean>(new CustomAsyncTask.DoInBackgroundHandler<User, Boolean>() {
                 @Override
                 public Boolean doInBackground(User... params) {
                     return login();
                 }
-            }, onLoginFinished).execute(user);
+            }, new CustomAsyncTask.OnPostExecuteHandler<Boolean>() {
+                @Override
+                public void onPostExecute(Boolean loginResult) {
+                    if(!loginResult) {
+                        openLoginActivity(fromActivity);
+                    }
+                    if(onLoginFinished != null) {
+                        onLoginFinished.onPostExecute(loginResult);
+                    }
+                }
+            }).execute(user);
+            return;
         }
         if(!result) {
             openLoginActivity(fromActivity);

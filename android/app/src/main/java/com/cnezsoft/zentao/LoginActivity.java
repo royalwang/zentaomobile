@@ -58,20 +58,20 @@ public class LoginActivity extends ZentaoActivity {
             autoLogin = intent.getBooleanExtra(ZentaoApplication.EXTRA_AUTO_LOGIN, false);
         }
 
-        listenMessage(ZentaoApplication.MESSAGE_OUT_LOGIN_START, ZentaoApplication.MESSAGE_OUT_LOGIN_FINISH);
+//        listenMessage(ZentaoApplication.MESSAGE_OUT_LOGIN_START, ZentaoApplication.MESSAGE_OUT_LOGIN_FINISH);
     }
 
-    @Override
-    protected void onReceiveMessage(Intent intent) {
-        String action = intent.getAction();
-        if(action.equals(ZentaoApplication.MESSAGE_OUT_LOGIN_START)) {
-            loginButton.setText(getString(R.string.button_loging));
-            loginButton.setEnabled(false);
-        } else if(action.equals(ZentaoApplication.MESSAGE_OUT_LOGIN_FINISH)) {
-            loginButton.setText(getString(R.string.label_login));
-            loginButton.setEnabled(true);
-        }
-    }
+//    @Override
+//    protected void onReceiveMessage(Intent intent) {
+//        String action = intent.getAction();
+//        if(action.equals(ZentaoApplication.MESSAGE_OUT_LOGIN_START)) {
+//            loginButton.setText(getString(R.string.button_loging));
+//            loginButton.setEnabled(false);
+//        } else if(action.equals(ZentaoApplication.MESSAGE_OUT_LOGIN_FINISH)) {
+//            loginButton.setText(getString(R.string.label_login));
+//            loginButton.setEnabled(true);
+//        }
+//    }
 
     /**
      * Dispatch onStart() to all fragments.  Ensure any created loaders are
@@ -126,16 +126,16 @@ public class LoginActivity extends ZentaoActivity {
     public void onLogin(View view) {
         application.switchUser(editAddress.getText().toString(), editAccount.getText().toString(), editPasswordMd5.getText().toString());
 
-//        loginButton.setText(getString(R.string.button_loging));
-//        loginButton.setEnabled(false);
+        loginButton.setText(getString(R.string.button_loging));
+        loginButton.setEnabled(false);
 
         final Activity activity = this;
 
         application.login(new CustomAsyncTask.OnPostExecuteHandler<OperateBundle<Boolean, User>>() {
             @Override
             public void onPostExecute(OperateBundle<Boolean, User> result) {
-//                loginButton.setText(getString(R.string.label_login));
-//                loginButton.setEnabled(true);
+                loginButton.setText(getString(R.string.label_login));
+                loginButton.setEnabled(true);
 
                 String[] loginMessages = getResources().getStringArray(R.array.login_messages);
                 if (result.getResult()) {

@@ -305,8 +305,14 @@ public class NavigationDrawerFragment extends Fragment {
                 if(status != User.Status.ONLINE) {
                     Activity activity = getActivity();
                     ZentaoApplication application = ((ZentaoApplication) activity.getApplicationContext());
-//                    application.login(activity, status == User.Status.OFFLINE);
-                    //todo: update user info
+                    application.login(new CustomAsyncTask.OnPostExecuteHandler<OperateBundle<Boolean, User>>() {
+                        @Override
+                        public void onPostExecute(OperateBundle<Boolean, User> booleanUserOperateBundle) {
+                            if(booleanUserOperateBundle.getResult()) {
+                                updateUserInfo();
+                            }
+                        }
+                    });
                 }
             }
         });

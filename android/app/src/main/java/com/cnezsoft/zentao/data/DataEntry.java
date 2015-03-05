@@ -610,7 +610,7 @@ public class DataEntry {
      * @return
      */
     public String toJSONString() {
-        JSONStringer jsonStringer = null;
+        JSONStringer jsonStringer;
         try {
             jsonStringer = new JSONStringer().object();
             String name;

@@ -48,8 +48,6 @@ public class MainActivity extends ZentaoActivity {
     private ListView dashboardList;
     private SimpleAdapter dashboardAdapter;
     private ArrayList<HashMap<String, ?>> dashboardItems;
-    private BroadcastReceiver syncReceiver = null;
-    private ArrayList<String> messages;
 
     @Override
     public void onResume() {
@@ -73,6 +71,7 @@ public class MainActivity extends ZentaoActivity {
             @Override
             public void onUserAttrChange(String name, Object value) {
                 ((TextView) findViewById(R.id.text_hello_user)).setText(user.getHelloText(context));
+                updateSummeries();
             }
         });
 
@@ -146,13 +145,11 @@ public class MainActivity extends ZentaoActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.v("MAIN", "On activity result. Request code=" + requestCode + ", Result code=" + resultCode);
         if(requestCode == ZentaoApplication.LOGIN_REQUEST)
         {
             // Show message
             Toast.makeText(application, getText(resultCode == RESULT_OK ? R.string.message_login_success : R.string.message_login_failed), Toast.LENGTH_SHORT).show();
-
-            // Start syncService
-            startService(new Intent(this, ZentaoSyncService.class));
 
             if(resultCode == RESULT_OK) {
                 new UpdateSummeries().execute(this);
@@ -161,6 +158,7 @@ public class MainActivity extends ZentaoActivity {
     }
 
     private void updateSummeries(ArrayList<HashMap<String, Object>> summeries) {
+        Log.v("MAIN", "Update Summeries.");
         dashboardItems.clear();
         for(HashMap<String, Object> summery: summeries) {
             EntryType type = (EntryType) summery.get("type");
