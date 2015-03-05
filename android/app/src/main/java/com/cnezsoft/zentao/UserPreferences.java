@@ -6,21 +6,50 @@ import android.content.SharedPreferences;
 import com.cnezsoft.zentao.data.DataType;
 
 import java.net.PortUnreachableException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  * UserOld preferences
  * Created by Catouse on 2015/1/14.
  */
 public class UserPreferences {
+
+    /**
+     * On user attribute change listner
+     */
+    public interface  OnUserAttrChangeListener {
+        void onUserAttrChange(String name, Object value);
+    }
+
     private final String PREFERENCES_NAME = "com.cnezsoft.zentao.userdata";
     private final String CURRENT_IDENTIFY = "#CURRENT_IDENTIFY";
     private final String USER_LIST = "#USER_LIST";
+    public final String COMMON_LISTENER_NAME = "?";
     private SharedPreferences preferences;
     private String identify;
     private SharedPreferences.Editor editor;
+    private HashMap<String, ArrayList<OnUserAttrChangeListener>> userAttrChangeListeners;
+
+    private String getIdentifiedKey(String key) {
+        if(key == null) {
+            throw new IllegalArgumentException("Key is null");
+        }
+        return identify.toString() + "::" + key;
+    }
+
+    private String getKeyFromIdentifyKey(String identifyKey) {
+        String prefix = identify.toString() + "::";
+        if(identifyKey.startsWith(prefix)) {
+            return identifyKey.substring(prefix.length());
+        }
+        return identifyKey;
+    }
 
     /**
      * Create a Editor if haven't.
@@ -38,7 +67,7 @@ public class UserPreferences {
      * @return
      */
     public UserPreferences putString(String key, String value) {
-        editor.putString(identify.toString() + "::" + key, value);
+        editor.putString(getIdentifiedKey(key), value);
         return this;
     }
 
@@ -49,7 +78,7 @@ public class UserPreferences {
      * @return
      */
     public UserPreferences putStringSet(String key, Set<String> values) {
-        editor.putStringSet(identify.toString() + "::" + key, values);
+        editor.putStringSet(getIdentifiedKey(key), values);
         return this;
     }
 
@@ -60,7 +89,7 @@ public class UserPreferences {
      * @return
      */
     public UserPreferences putInt(String key, int value) {
-        editor.putInt(identify.toString() + "::" + key, value);
+        editor.putInt(getIdentifiedKey(key), value);
         return this;
     }
 
@@ -71,7 +100,7 @@ public class UserPreferences {
      * @return
      */
     public UserPreferences putLong(String key, long value) {
-        editor.putLong(identify.toString() + "::" + key, value);
+        editor.putLong(getIdentifiedKey(key), value);
         return this;
     }
 
@@ -82,7 +111,7 @@ public class UserPreferences {
      * @return
      */
     public UserPreferences putFloat(String key, float value) {
-        editor.putFloat(identify.toString() + "::" + key, value);
+        editor.putFloat(getIdentifiedKey(key), value);
         return this;
     }
 
@@ -93,7 +122,7 @@ public class UserPreferences {
      * @return
      */
     public UserPreferences putBoolean(String key, boolean value) {
-        editor.putBoolean(identify.toString() + "::" + key, value);
+        editor.putBoolean(getIdentifiedKey(key), value);
         return this;
     }
 
@@ -103,7 +132,7 @@ public class UserPreferences {
      * @return
      */
     public UserPreferences remove(String key) {
-        editor.remove(identify.toString() + "::" + key);
+        editor.remove(getIdentifiedKey(key));
         return this;
     }
 
@@ -175,23 +204,48 @@ public class UserPreferences {
      */
     public UserPreferences(Context context) {
         preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+        preferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                if(userAttrChangeListeners != null) {
+                    String cleanKey = getKeyFromIdentifyKey(key);
+                    callListeners(cleanKey, userAttrChangeListeners.get(COMMON_LISTENER_NAME));
+                    if(!cleanKey.equals(key)) {
+                        callListeners(key, userAttrChangeListeners.get(key));
+                    }
+                    callListeners(key, userAttrChangeListeners.get(cleanKey));
+                }
+            }
+
+            private void callListeners(String key, ArrayList<OnUserAttrChangeListener> listeners) {
+                if(listeners != null) {
+                    UserAttr attr = Helper.getEnumValueFromName(UserAttr.class, key, null);
+                    if(attr != null) {
+                        for(OnUserAttrChangeListener listener: listeners) {
+                            listener.onUserAttrChange(key, get(attr));
+                        }
+                    } else {
+                        for(OnUserAttrChangeListener listener: listeners) {
+                            listener.onUserAttrChange(key, getString(key, null));
+                        }
+                    }
+                }
+            }
+
+        });
         getIdentify(true);
     }
 
-    /**
-     * Register on user change listener
-     * @param listener
-     */
-    public void registerOnUserChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
-        preferences.registerOnSharedPreferenceChangeListener(listener);
-    }
-
-    /**
-     * Unregister on user change listener
-     * @param listener
-     */
-    public void unregisterOnUserChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
-        preferences.unregisterOnSharedPreferenceChangeListener(listener);
+    public void setOnUserAttrChangeListener(String name, OnUserAttrChangeListener listener) {
+        if(userAttrChangeListeners == null) {
+            userAttrChangeListeners = new HashMap<>(1);
+        }
+        ArrayList<OnUserAttrChangeListener> listeners = userAttrChangeListeners.get(name);
+        if(listeners == null) {
+            listeners = new ArrayList<>();
+            userAttrChangeListeners.put(name, listeners);
+        }
+        listeners.add(listener);
     }
 
     /**
@@ -201,7 +255,7 @@ public class UserPreferences {
      * @return
      */
     public String getString(String key, String defValue) {
-        return preferences.getString(identify.toString() + "::" + key, defValue);
+        return preferences.getString(getIdentifiedKey(key), defValue);
     }
 
     /**
@@ -211,7 +265,7 @@ public class UserPreferences {
      * @return
      */
     public Set<String> getStringSet(String key, Set<String> defValues) {
-        return preferences.getStringSet(identify.toString() + "::" + key, defValues);
+        return preferences.getStringSet(getIdentifiedKey(key), defValues);
     }
 
     /**
@@ -221,7 +275,7 @@ public class UserPreferences {
      * @return
      */
     public int getInt(String key, int defValue) {
-        return preferences.getInt(identify.toString() + "::" + key, defValue);
+        return preferences.getInt(getIdentifiedKey(key), defValue);
     }
 
     /**
@@ -231,7 +285,7 @@ public class UserPreferences {
      * @return
      */
     public long getLong(String key, long defValue) {
-        return preferences.getLong(identify.toString() + "::" + key, defValue);
+        return preferences.getLong(getIdentifiedKey(key), defValue);
     }
 
     /**
@@ -241,7 +295,7 @@ public class UserPreferences {
      * @return
      */
     public float getFloat(String key, float defValue) {
-        return preferences.getFloat(identify.toString() + "::" + key, defValue);
+        return preferences.getFloat(getIdentifiedKey(key), defValue);
     }
 
     /**
@@ -251,7 +305,7 @@ public class UserPreferences {
      * @return
      */
     public boolean getBoolean(String key, boolean defValue) {
-        return preferences.getBoolean(identify.toString() + "::" + key, defValue);
+        return preferences.getBoolean(getIdentifiedKey(key), defValue);
     }
 
     /**
@@ -260,7 +314,7 @@ public class UserPreferences {
      * @return
      */
     public boolean contains(String key) {
-        return preferences.contains(identify.toString() + "::" + key);
+        return preferences.contains(getIdentifiedKey(key));
     }
 
     public Enum getEnum(Class<? extends Enum> emumType, String key, Enum delValue) {

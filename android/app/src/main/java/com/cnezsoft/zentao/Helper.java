@@ -12,6 +12,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.cnezsoft.zentao.cache.ImageCache;
+import com.cnezsoft.zentao.data.StoryColumn;
 
 import org.json.JSONArray;
 
@@ -310,6 +311,22 @@ public class Helper {
                     }
                 }
             });
+        }
+    }
+
+    /**
+     * Get enum value from name, if expect exception then return a fallback value
+     * @param enumType
+     * @param name
+     * @param fallbackValue
+     * @param <T>
+     * @return
+     */
+    public static <T extends Enum<T>> T getEnumValueFromName(Class<T> enumType, String name, T fallbackValue) {
+        try {
+            return Enum.valueOf(enumType, name);
+        } catch (IllegalArgumentException e) {
+            return fallbackValue;
         }
     }
 }
