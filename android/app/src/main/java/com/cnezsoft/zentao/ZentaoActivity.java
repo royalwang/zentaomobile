@@ -44,6 +44,17 @@ public class ZentaoActivity extends ActionBarActivity {
         messages.add(message);
     }
 
+    protected void listenMessage(String... newMessages) {
+        if(newMessages != null) {
+            if(messages == null) {
+                messages = new ArrayList<>(1);
+            }
+            for(String message: newMessages) {
+                messages.add(message);
+            }
+        }
+    }
+
     @Override
     protected void onPause() {
         if(syncReceiver != null) {

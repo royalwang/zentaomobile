@@ -1,5 +1,6 @@
 package com.cnezsoft.zentao;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,12 +21,12 @@ import com.joanzapata.android.iconify.Iconify;
  */
 public class LoginActivity extends ZentaoActivity {
 
-    private User user;
     private Button loginButton;
     private EditText editAddress;
     private EditText editAccount;
     private EditText editPasswordMd5;
     private boolean autoLogin = false;
+    private ZentaoApplication application;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,20 +44,34 @@ public class LoginActivity extends ZentaoActivity {
         editPasswordMd5.setCompoundDrawablesWithIntrinsicBounds(
                 new IconDrawable(this, Iconify.IconValue.fa_lock) {{sizeDp(24); colorRes(R.color.primary);}}, null, null, null);
 
-        ZentaoApplication context = (ZentaoApplication) getApplicationContext();
-        user = context.getUser();
+        application = (ZentaoApplication) getApplicationContext();
+        User user = application.getUser();
 
-        if(user.getStatus() != User.Status.Unknown)
+        if(user.hasLoginCredentials())
         {
             editAccount.setText(user.getAccount());
             editAddress.setText(user.getAddress());
-            editPasswordMd5.setText(user.getPasswordMD5WithFlag());
+            editPasswordMd5.setText(user.getPasswordMd5WithFlag());
         }
 
         Intent intent = getIntent();
         if(intent != null)
         {
             autoLogin = intent.getBooleanExtra(ZentaoApplication.EXTRA_AUTO_LOGIN, false);
+        }
+
+        listenMessage(ZentaoApplication.MESSAGE_OUT_LOGIN_START, ZentaoApplication.MESSAGE_OUT_LOGIN_FINISH);
+    }
+
+    @Override
+    protected void onReceiveMessage(Intent intent) {
+        String action = intent.getAction();
+        if(action.equals(ZentaoApplication.MESSAGE_OUT_LOGIN_START)) {
+            loginButton.setText(getString(R.string.button_loging));
+            loginButton.setEnabled(false);
+        } else if(action.equals(ZentaoApplication.MESSAGE_OUT_LOGIN_FINISH)) {
+            loginButton.setText(getString(R.string.label_login));
+            loginButton.setEnabled(true);
         }
     }
 
@@ -67,7 +82,7 @@ public class LoginActivity extends ZentaoActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if(autoLogin && user.getStatus() != User.Status.Unknown)
+        if(autoLogin && application.getUser().hasLoginCredentials())
         {
             onLogin(null);
         }
@@ -102,7 +117,7 @@ public class LoginActivity extends ZentaoActivity {
      */
     @Override
     public void finish() {
-        setResult(user.getStatus() == User.Status.Online ? RESULT_OK : RESULT_CANCELED);
+        setResult(application.getUser().getStatus() == User.Status.ONLINE ? RESULT_OK : RESULT_CANCELED);
         super.finish();
     }
 
@@ -111,46 +126,36 @@ public class LoginActivity extends ZentaoActivity {
      * @param view
      */
     public void onLogin(View view) {
-        user.setAddress(editAddress.getText().toString(), false)
-            .setAccount(editAccount.getText().toString(), false)
-            .setPassword(editPasswordMd5.getText().toString());
+        application.swtichUser(editAddress.getText().toString(), editAccount.getText().toString(), editPasswordMd5.getText().toString());
 
-        loginButton.setText(getString(R.string.button_loging));
-        loginButton.setEnabled(false);
-        new tryLoginTask().execute(user);
-    }
+//        loginButton.setText(getString(R.string.button_loging));
+//        loginButton.setEnabled(false);
 
-    /**
-     * Handle the login task result
-     * @param result
-     */
-    private void handleLoginResult(OperateBundle<Boolean, ZentaoConfig> result){
-        loginButton.setText(getString(R.string.label_login));
-        loginButton.setEnabled(true);
+        final Activity activity = this;
 
-        String[] loginMessages = getResources().getStringArray(R.array.login_messages);
-        if(result.getResult())
-        {
-//            user.setLastSyncTime(new Date(0)).save();
-            user.online();
-            ZentaoConfig zentaoConfig = result.getValue();
-            ((ZentaoApplication) getApplicationContext()).setZentaoConfig(zentaoConfig);
+        application.login(new CustomAsyncTask.OnPostExecuteHandler<OperateBundle<Boolean, User>>() {
+            @Override
+            public void onPostExecute(OperateBundle<Boolean, User> result) {
+//                loginButton.setText(getString(R.string.label_login));
+//                loginButton.setEnabled(true);
 
-            finish();
-        }
-        else
-        {
-            new AlertDialog.Builder(this)
-                .setTitle(getString(R.string.message_login_failed))
-                .setMessage(Helper.ifNullOrEmptyThen(result.getMessage(), loginMessages[result.getCode()]))
-                .setNeutralButton(android.R.string.ok,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        })
-                .show();
-        }
+                String[] loginMessages = getResources().getStringArray(R.array.login_messages);
+                if (result.getResult()) {
+                    finish();
+                } else {
+                    new AlertDialog.Builder(activity)
+                            .setTitle(getString(R.string.message_login_failed))
+                            .setMessage(Helper.ifNullOrEmptyThen(result.getMessage(), loginMessages[result.getCode()]))
+                            .setNeutralButton(android.R.string.ok,
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    })
+                            .show();
+                }
+            }
+        });
     }
 
     /**
@@ -160,22 +165,4 @@ public class LoginActivity extends ZentaoActivity {
     public void exploreZentaoPro(View view) {
         ZentaoApplication.openBrowser(this, "http://www.zentao.net/book/zentaoprohelp.html");
     }
-
-    /**
-     * The async task for login in Zentao server
-     */
-    private class tryLoginTask extends AsyncTask<User, Integer, OperateBundle<Boolean, ZentaoConfig>> {
-
-        protected OperateBundle<Boolean, ZentaoConfig> doInBackground(User... users) {
-            return ZentaoAPI.tryLogin(users[0]);
-        }
-
-        protected void onPostExecute(OperateBundle<Boolean, ZentaoConfig> result) {
-            try {
-                handleLoginResult(result);
-            } catch(WindowManager.BadTokenException e) {
-            }
-        }
-    }
-
 }
