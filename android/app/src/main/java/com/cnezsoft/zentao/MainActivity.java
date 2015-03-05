@@ -56,7 +56,7 @@ public class MainActivity extends ZentaoActivity {
         super.onResume();
 
         ((TextView) findViewById(R.id.text_hello_user)).setText(user.getHelloText(this));
-        ((TextView) findViewById(R.id.text_comany)).setText(user.getCompany());
+        ((TextView) findViewById(R.id.text_comany)).setText(user.getString(UserAttr.company));
     }
 
     @Override
@@ -66,19 +66,17 @@ public class MainActivity extends ZentaoActivity {
 
         // Check user status
         application = (ZentaoApplication) getApplicationContext();
-        user = application.getUser();
         final Context context = this;
 
         // hello to user
-        user.setOnUserInfoChangeListener(new User.OnUserInfoChangeListener() {
+        application.setOnUserAttrChangeListener(new String[]{UserAttr.account.name(), UserAttr.realName.name()}, new UserPreferences.OnUserAttrChangeListener() {
             @Override
-            public void onUserInfoChange(String name) {
-                if(name.equals(User.ACCOUNT) || name.equals(User.REALNAME)) {
-                    ((TextView) findViewById(R.id.text_hello_user)).setText(user.getHelloText(context));
-                }
+            public void onUserAttrChange(String name, Object value) {
+                ((TextView) findViewById(R.id.text_hello_user)).setText(user.getHelloText(context));
             }
         });
-        application.checkUserStatus(this);
+
+        application.login(this, null);
 
         dashboardItems = new ArrayList<>();
         dashboardList = (ListView) findViewById(R.id.list_dashboard);
@@ -243,7 +241,7 @@ public class MainActivity extends ZentaoActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             user = application.getUser();
-            if(user.getStatus() == User.Status.Unknown) {
+            if(user.getStatus() == User.Status.UNKNOWN) {
                 cancel(true);
             }
         }

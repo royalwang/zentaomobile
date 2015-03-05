@@ -1,11 +1,14 @@
 package com.cnezsoft.zentao;
 
+import android.content.Context;
+
 import com.cnezsoft.zentao.data.Todo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -175,6 +178,24 @@ public class User {
         } catch (JSONException e) {
             return "[EMPTY USER]";
         }
+    }
+
+    public String getHelloText(Context context) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int resId = 0;
+
+        if(hour < 11) {
+            resId = R.string.text_hello_morning;
+        } else if(hour < 14) {
+            resId = R.string.text_hello_noon;
+        } else if(hour < 18) {
+            resId = R.string.text_hello_afternoon;
+        } else {
+            resId = R.string.text_hello_night;
+        }
+        return String.format(context.getResources().getString(resId), getString(UserAttr.realName));
     }
 
     public static String createIdentify(String address, String account) {
