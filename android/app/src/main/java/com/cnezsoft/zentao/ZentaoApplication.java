@@ -117,7 +117,7 @@ public class ZentaoApplication extends Application {
      * Login in background
      * @return
      */
-    public boolean login(boolean async) {
+    public boolean login() {
         if(user.getStatus() != User.Status.UNKNOWN) {
             String identify = user.getIdentify();
             sendBroadcast(new Intent(MESSAGE_OUT_LOGIN_START)
@@ -154,23 +154,24 @@ public class ZentaoApplication extends Application {
         return result;
     }
 
-    /**
-     * The async task for login in Zentao server
-     */
-    private class LoginInBackgroundTask extends AsyncTask<Activity, Integer, Boolean> {
-        private Activity activity;
+    public void login(Activity fromActivity, CustomAsyncTask.OnPostExecuteHandler<Boolean> onLoginFinished) {
+        User.Status status = getUser().getStatus();
 
-        @Override
-        protected void onPreExecute() {
-
+        boolean result = (status == User.Status.ONLINE);
+        if(status == User.Status.OFFLINE) {
+            result = login();
+            new CustomAsyncTask<User, Integer, Boolean>(new CustomAsyncTask.DoInBackgroundHandler<User, Boolean>() {
+                @Override
+                public Boolean doInBackground(User... params) {
+                    return login();
+                }
+            }, onLoginFinished).execute(user);
         }
-
-        protected Boolean doInBackground(Activity... activities) {
-            this.activity = activities[0];
+        if(!result) {
+            openLoginActivity(fromActivity);
         }
-
-        protected void onPostExecute(boolean result) {
-
+        if(onLoginFinished != null) {
+            onLoginFinished.onPostExecute(result);
         }
     }
 
