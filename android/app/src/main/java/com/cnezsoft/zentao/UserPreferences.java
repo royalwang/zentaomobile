@@ -248,6 +248,12 @@ public class UserPreferences {
         listeners.add(listener);
     }
 
+    public void setOnUserAttrChangeListener(String[] names, OnUserAttrChangeListener listener) {
+        for(String name: names) {
+            setOnUserAttrChangeListener(name, listener);
+        }
+    }
+
     /**
      * Retrieve a string value from the user preferences.
      * @param key

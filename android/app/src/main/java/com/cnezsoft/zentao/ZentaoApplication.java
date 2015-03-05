@@ -70,6 +70,24 @@ public class ZentaoApplication extends Application {
     }
 
     /**
+     * Set OnUserAttrChangeListener to user preferences.
+     * @param name
+     * @param listener
+     */
+    public void setOnUserAttrChangeListener(String name, UserPreferences.OnUserAttrChangeListener listener) {
+        userPreferences.setOnUserAttrChangeListener(name, listener);
+    }
+
+    /**
+     * Set OnUserAttrChangeListener to user preferences.
+     * @param names
+     * @param listener
+     */
+    public void setOnUserAttrChangeListener(String[] names, UserPreferences.OnUserAttrChangeListener listener) {
+        userPreferences.setOnUserAttrChangeListener(names, listener);
+    }
+
+    /**
      * Check user status and try login in background if his status is offline
      * @return
      */
