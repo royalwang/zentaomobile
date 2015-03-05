@@ -17,7 +17,7 @@ public enum UserAttr {
     gender(DataType.STRING),
     dbVersion(DataType.LONG, 0),
     notifyEnable(DataType.BOOLEAN, true),
-    syncFrequency(DataType.ENUM, SyncFrequency.defaultOption().name()),
+    syncFrequency(DataType.LONG, SyncFrequency.defaultOption().name()),
     id(DataType.STRING),
     company(DataType.STRING);
 

@@ -75,8 +75,8 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
     private DataEntry entry;
     private int layout;
     private boolean firstLoad = true;
+    private ZentaoApplication application;
     private Menu menu = null;
-    private User user;
     private Drawable defaultImageDrawable;
     private ImageCache imageCache;
     private Pattern imgPattern = Pattern.compile("<img.+src=[\"']([^ \"']+)[\"']", Pattern.CASE_INSENSITIVE);
@@ -94,7 +94,7 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        user = ((ZentaoApplication) this.getApplicationContext()).getUser();
+        application = ((ZentaoApplication) this.getApplicationContext());
 
         // get arguments from intent
         Intent intent = getIntent();
@@ -300,7 +300,7 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
             @Override
             public Drawable getDrawable(String source) {
                 if(source.startsWith("data/upload/")) {
-                    source = user.getAddress() + "/" + source;
+                    source = application.getUser().getAddress() + "/" + source;
                 }
                 Bitmap bitmap = imageCache.getFromMemory(source);
                 if(bitmap != null) {
@@ -387,7 +387,7 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
                             while(imageMatcher.find()) {
                                 String source = imageMatcher.group(1);
                                 if(source.startsWith("data/upload/")) {
-                                    source = user.getAddress() + "/" + source;
+                                    source = application.getUser().getAddress() + "/" + source;
                                 }
                                 displayImage(imageContainer, source);
                             }

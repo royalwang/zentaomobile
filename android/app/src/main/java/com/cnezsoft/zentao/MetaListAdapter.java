@@ -1,9 +1,7 @@
 package com.cnezsoft.zentao;
 
 import android.content.Context;
-import android.text.Html;
 import android.text.Spanned;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +15,6 @@ import com.cnezsoft.zentao.control.ControlBindInfo;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
-import java.util.regex.Matcher;
 
 /**
  * Created by sunhao on 15/3/2.
@@ -34,7 +30,7 @@ public class MetaListAdapter extends BaseAdapter {
     private HashMap<Integer, String> idNameMap;
     private boolean clickable = false;
     private boolean dividerEnabled = true;
-    private User user;
+    private UserOld user;
     private ImageCache imageCache;
 
     public void setImageCache(ImageCache imageCache) {

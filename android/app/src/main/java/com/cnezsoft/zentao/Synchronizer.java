@@ -47,8 +47,6 @@ public class Synchronizer extends BroadcastReceiver {
     public static final String MESSAGE_OUT_GET_ENTRY = "com.cnezsoft.zentao.MESSAGE_OUT_GET_ENTRY";
 
     private Context context;
-    private User user;
-    private ZentaoConfig zentaoConfig;
 
     private Timer timer;
     private TimerTask timerTask;
@@ -68,15 +66,15 @@ public class Synchronizer extends BroadcastReceiver {
     public Synchronizer(Context context) {
         this.context = context;
         application = (ZentaoApplication) context.getApplicationContext();
-        user = application.getUser();
-
-        user.setOnSyncFrequenceChangeListner(new User.OnSyncFrequenceChangeListner() {
+        application.setOnUserAttrChangeListener(UserAttr.syncFrequency.name(), new UserPreferences.OnUserAttrChangeListener() {
             @Override
-            public void onSyncFrequenceChange(long millionseconds) {
+            public void onUserAttrChange(String name, Object value) {
                 if(running) {
-                    if(lastSyncFreg != user.getSyncFrequency()) {
-                        restart();
-                    }
+                    try {
+                        if(lastSyncFreg != (long) value) {
+                            restart();
+                        }
+                    } catch (ClassCastException ignore) {}
                 }
             }
         });
@@ -87,7 +85,9 @@ public class Synchronizer extends BroadcastReceiver {
      * @return
      */
     public boolean sync(EntryType entryType) {
-        if(!application.checkUserStatus()) return false;
+        if(!application.checkLogin()) return false;
+
+        User user = application.getUser();
         if(checkDatabaseEmpty) {
             DAO dao = new DAO(context);
             checkDatabaseEmpty = dao.isDatabaseEmpty();
@@ -95,15 +95,17 @@ public class Synchronizer extends BroadcastReceiver {
 
             if(checkDatabaseEmpty) {
                 Log.v("SYNC", "database is empty!");
-                user.setSyncTime(new Date(0));
+                user.put(UserAttr.lastSyncTime, new Date(0));
+                application.saveUser();
             }
         }
 
         if(user.withIncrementSync()) {
             Date thisSyncTime = new Date();
-            OperateBundle<Boolean, JSONObject> result = ZentaoAPI.getDataList(application.getZentaoConfig(), user, entryType);
+            OperateBundle<Boolean, JSONObject> result = ZentaoAPI.getDataList(user, entryType);
             if(saveData(result)) {
-                user.setSyncTime(thisSyncTime);
+                user.put(UserAttr.lastSyncTime, thisSyncTime);
+                application.saveUser();
                 return true;
             }
             return false;
@@ -126,6 +128,7 @@ public class Synchronizer extends BroadcastReceiver {
         OperateBundle<Boolean, JSONObject> result;
         boolean needMoreRequest = true;
         Date thisSyncTime = new Date();
+        User user = application.getUser();
         while (needMoreRequest) {
             needMoreRequest = false;
             for(Map.Entry<EntryType, Integer> entry: deepSyncConfig.entrySet()) {
@@ -136,7 +139,7 @@ public class Synchronizer extends BroadcastReceiver {
 
                 if(range < 0) continue;
 
-                result = ZentaoAPI.getDataList(application.getZentaoConfig(), user, "increment", entryType, range, 500, "index");
+                result = ZentaoAPI.getDataList(user, "increment", entryType, range, 500, "index");
                 if(saveData(result)) {
                     if(minIdKey == Integer.MAX_VALUE || itemCount < 500) {
                         range = -1;
@@ -151,7 +154,8 @@ public class Synchronizer extends BroadcastReceiver {
                 }
             }
         }
-        user.setSyncTime(thisSyncTime);
+        user.put(UserAttr.lastSyncTime, thisSyncTime);
+        application.saveUser();
         return true;
     }
 
@@ -167,9 +171,10 @@ public class Synchronizer extends BroadcastReceiver {
 
             if(data != null) {
                 DAO dao = new DAO(context);
-                DAOResult daoResult = dao.save(getEntriesFromJSON(data), user.withIncrementSync());
+                boolean withIncrementSync = application.getUser().withIncrementSync();
+                DAOResult daoResult = dao.save(getEntriesFromJSON(data), withIncrementSync);
                 dao.close();
-                if(user.withIncrementSync()) {
+                if(withIncrementSync) {
                     handleNotify(daoResult);
                 }
                 Log.v("SYNC", daoResult.toString());
@@ -232,10 +237,11 @@ public class Synchronizer extends BroadcastReceiver {
      * @return
      */
     public DataEntry getEntry(EntryType entryType, String id) {
+        User user = application.getUser();
         User.Status userStatus = user.getStatus();
         Log.v("SYNC", "getEntry " + entryType + ":" + id);
         Log.v("SYNC", "userStatus: " + userStatus.toString());
-        if(userStatus == User.Status.Offline) {
+        if(userStatus == User.Status.OFFLINE) {
             Long thisLoginTime = new Date().getTime();
             if((thisLoginTime - lastLoginTime) < maxLoginInterval) {
                 Log.w("SYNC", "Login required, but abort this time to prevent server lock.");
@@ -247,16 +253,15 @@ public class Synchronizer extends BroadcastReceiver {
             ZentaoApplication application = (ZentaoApplication) context.getApplicationContext();
             if(application.login()) {
                 user = application.getUser();
-                zentaoConfig = application.getZentaoConfig();
             } else {
                 return null;
             }
-        } else if(userStatus == User.Status.Unknown) {
+        } else if(userStatus == User.Status.UNKNOWN) {
             Log.w("SYNC", "Unknown user, sync stopped!");
             return null;
         }
 
-        OperateBundle<Boolean, JSONObject> result = ZentaoAPI.getDataItem(application.getZentaoConfig(), user, entryType, id);
+        OperateBundle<Boolean, JSONObject> result = ZentaoAPI.getDataItem(user, entryType, id);
         if(result.getResult()) {
             JSONObject data = result.getValue();
             Log.v("SYNC", "success: " + result.getMessage() + ", data: " + (data != null ? data.toString() : "no data."));
@@ -301,6 +306,7 @@ public class Synchronizer extends BroadcastReceiver {
         JSONArray deletes;
         String[] keys;
         int setLength;
+        String account = application.getUser().getAccount();
         Iterator<String> names = jsonData.keys();
         while (names.hasNext()) {
             name = names.next();
@@ -339,7 +345,7 @@ public class Synchronizer extends BroadcastReceiver {
                         case Todo:
                             for (int i = 0; i < setLength; ++i) {
                                 entry = new Todo(set.getJSONArray(i), keys);
-                                entry.put(TodoColumn.account, user.getAccount());
+                                entry.put(TodoColumn.account, account);
                                 entries.add(entry);
                                 itemCount++;
                                 minIdKey = Math.min(minIdKey, Integer.parseInt(entry.key()));
@@ -412,7 +418,7 @@ public class Synchronizer extends BroadcastReceiver {
                     context.sendBroadcast(intent);
                 }
             };
-
+            User user = application.getUser();
             Log.v("SYNC", "start " + user.getSyncFrequency());
             lastSyncFreg = user.getSyncFrequency();
             timer.schedule(timerTask, 1000, lastSyncFreg);

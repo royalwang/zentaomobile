@@ -18,7 +18,6 @@ import java.util.Date;
 
 public class SettingsActivity extends ZentaoActivity {
 
-    private User user;
     private ZentaoApplication application;
     private TextView textZentaoAddress;
     private TextView textZentaoUser;
@@ -34,7 +33,7 @@ public class SettingsActivity extends ZentaoActivity {
         setContentView(R.layout.activity_settings);
 
         application = (ZentaoApplication) this.getApplicationContext();
-        user = application.getUser();
+        final User user = application.getUser();
 
         textVersionName = (TextView) findViewById(R.id.text_version_name);
         textZentaoAddress = (TextView) findViewById(R.id.text_zentao_address);
@@ -45,7 +44,8 @@ public class SettingsActivity extends ZentaoActivity {
         switchDisplayNotify.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                user.setNotify(isChecked).save();
+                user.put(UserAttr.notifyEnable, isChecked);
+                application.saveUser();
             }
         });
     }
@@ -57,12 +57,12 @@ public class SettingsActivity extends ZentaoActivity {
     }
 
     private void refreshUserInfo() {
-        user.load();
+        User user = application.getUser();
         textVersionName.setText(application.getVersionName());
         textZentaoAddress.setText(user.getAddress());
         textZentaoUser.setText(user.getAccount());
-        textSyncFreqName.setText(user.getSyncFreqName(this));
-        switchDisplayNotify.setChecked(user.isNotify());
+        textSyncFreqName.setText(SyncFrequency.getFreqName(this, user.getSyncFrequency()));
+        switchDisplayNotify.setChecked(user.isNotifyEnable());
         textUserLastSyncTime.setText(String.format(getResources().getString(R.string.text_last_sync_time_format), user.getLastSyncTimeStr(this)));
     }
 
@@ -107,13 +107,15 @@ public class SettingsActivity extends ZentaoActivity {
     }
 
     public void changeFreq(View view) {
+        final User user = application.getUser();
         if(dialogBuilder == null) {
             dialogBuilder = new AlertDialog.Builder(this);
             dialogBuilder.setTitle("请选择同步频率");
             dialogBuilder.setItems(SyncFrequency.getAllItemsText(this), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    user.setSyncFrequency(SyncFrequency.values()[which]).save();
+                    user.put(UserAttr.syncFrequency, SyncFrequency.values()[which]);
+                    application.saveUser();
                     refreshUserInfo();
                     dialog.dismiss();
                 }
@@ -124,7 +126,7 @@ public class SettingsActivity extends ZentaoActivity {
     }
 
     public void openZentao(View view) {
-        ZentaoApplication.openBrowser(this, user.getAddress());
+        ZentaoApplication.openBrowser(this, application.getUser().getAddress());
     }
 
     public void onUserLogout(View view) {
@@ -133,7 +135,8 @@ public class SettingsActivity extends ZentaoActivity {
     }
 
     public void onResetSyncTime(View view) {
-        user.setLastSyncTime(new Date(0)).save();
+        application.getUser().put(UserAttr.lastSyncTime, new Date(0));
+        application.saveUser();
         refreshUserInfo();
     }
 

@@ -66,6 +66,10 @@ public class ZentaoApplication extends Application {
 
     public void saveUser(User user) {
         this.user = user;
+        saveUser();
+    }
+
+    public void saveUser() {
         userPreferences.saveUser(user);
     }
 

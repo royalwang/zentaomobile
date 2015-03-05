@@ -9,22 +9,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
-import android.widget.BaseAdapter;
-import android.widget.IconTextView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.cnezsoft.zentao.colorswatch.MaterialColorName;
@@ -34,14 +23,10 @@ import com.cnezsoft.zentao.data.DAO;
 import com.cnezsoft.zentao.data.DataEntry;
 import com.cnezsoft.zentao.data.DataEntryFactory;
 import com.cnezsoft.zentao.data.EntryType;
-import com.cnezsoft.zentao.data.ProjectColumn;
-import com.cnezsoft.zentao.data.StoryColumn;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
 import java.util.regex.Matcher;
 
 public class DetailActivity extends ZentaoActivity {
@@ -51,7 +36,6 @@ public class DetailActivity extends ZentaoActivity {
     protected int entryId;
     protected EntryType entryType;
     private ZentaoApplication application;
-    protected User user;
 
     private ArrayList<HashMap<String, Object>> metaData;
     private MetaListAdapter metaAdapter;
@@ -72,13 +56,6 @@ public class DetailActivity extends ZentaoActivity {
     private boolean loadFromRemote = true;
     private Menu menu;
     private MenuItem loadingMenuItem;
-
-    protected User getUser() {
-        if(user == null) {
-            user = application.getUser();
-        }
-        return user;
-    }
 
     protected void setLoadFromRemote(boolean loadFromRemote) {
         this.loadFromRemote = loadFromRemote;
@@ -199,7 +176,7 @@ public class DetailActivity extends ZentaoActivity {
                 find = true;
                 String source = imageMatcher.group(1);
                 if(source.startsWith("data/upload/")) {
-                    source = getUser().getAddress() + "/" + source;
+                    source = application.getUser().getAddress() + "/" + source;
                 }
                 imageSet.add(source);
                 imageMatcher.appendReplacement(sb, String.format(imageTextFormat, count++));

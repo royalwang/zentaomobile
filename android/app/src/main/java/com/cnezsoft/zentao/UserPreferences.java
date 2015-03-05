@@ -5,14 +5,11 @@ import android.content.SharedPreferences;
 
 import com.cnezsoft.zentao.data.DataType;
 
-import java.net.PortUnreachableException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 /**
  * UserOld preferences

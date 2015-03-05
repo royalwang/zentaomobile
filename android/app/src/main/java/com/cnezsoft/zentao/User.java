@@ -1,12 +1,14 @@
 package com.cnezsoft.zentao;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 
 import com.cnezsoft.zentao.data.Todo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+import org.ocpsoft.prettytime.PrettyTime;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -85,6 +87,14 @@ public class User {
         return password;
     }
 
+    public String getPasswordMd5WithFlag() {
+        String password = getString(UserAttr.passwordMd5);
+        if(password != null && !password.startsWith(PASSWORD_WITH_MD5_FLAG)) {
+            return PASSWORD_WITH_MD5_FLAG + password;
+        }
+        return password;
+    }
+
     public String getAccount() {
         return getString(UserAttr.account);
     }
@@ -117,11 +127,15 @@ public class User {
         if(zentaoConfig == null && status == Status.ONLINE) {
             status = Status.OFFLINE;
         }
-        if(Helper.isNullOrEmpty(getAccount()) || Helper.isNullOrEmpty(getAddress())
-                || Helper.isNullOrEmpty(getPasswordMd5())) {
+        if(!hasLoginCredentials()) {
             status = Status.UNKNOWN;
         }
         return status;
+    }
+
+    public boolean hasLoginCredentials() {
+        return !Helper.isNullOrEmpty(getAccount()) && !Helper.isNullOrEmpty(getAddress())
+                && !Helper.isNullOrEmpty(getPasswordMd5());
     }
 
     public User setStatus(Status status) {
@@ -139,6 +153,14 @@ public class User {
     public User online() {
         setStatus(Status.ONLINE);
         return this;
+    }
+
+    public boolean isOnline() {
+        return getStatus() == Status.ONLINE;
+    }
+
+    public boolean isOffline() {
+        return !isOnline();
     }
 
     public String getIdentify() {
@@ -196,6 +218,31 @@ public class User {
             resId = R.string.text_hello_night;
         }
         return String.format(context.getResources().getString(resId), getString(UserAttr.realName));
+    }
+
+    public String getName() {
+        String realname = getString(UserAttr.realName);
+        return Helper.isNullOrEmpty(realname) ? getAccount() : realname;
+    }
+
+    public String getLastSyncTimeStr(Context context) {
+        Date d = getLastSyncTime();
+        if(d.getTime() < 1000) {
+            return context.getString(R.string.text_never_happened);
+        }
+        return new PrettyTime().format(d);
+    }
+
+    public boolean withIncrementSync() {
+        return getLastSyncTime().getTime() > 1000;
+    }
+
+    public long getSyncFrequency() {
+        return (long) get(UserAttr.syncFrequency);
+    }
+
+    public boolean isNotifyEnable() {
+        return (boolean) get(UserAttr.notifyEnable);
     }
 
     public static String createIdentify(String address, String account) {

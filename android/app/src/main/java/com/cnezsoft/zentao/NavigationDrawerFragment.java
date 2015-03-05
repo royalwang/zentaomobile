@@ -275,9 +275,9 @@ public class NavigationDrawerFragment extends Fragment {
     private User.Status updateUserInfo() {
         User user = ((ZentaoApplication) getActivity().getApplicationContext()).getUser();
         User.Status status = user.getStatus();
-        if(status != User.Status.Unknown) {
+        if(status != User.Status.UNKNOWN) {
             textViewUserAccount.setText(user.getName()
-                    + (status == User.Status.Offline ? (" [" + (getString(R.string.text_offline)) + "]") : ""));
+                    + (status == User.Status.OFFLINE ? (" [" + (getString(R.string.text_offline)) + "]") : ""));
             textViewUserAddress.setText(user.getAddress());
             textViewUserLastSyncTime.setText(user.getLastSyncTimeStr(getActivity()));
         } else {
@@ -302,10 +302,11 @@ public class NavigationDrawerFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 User.Status status = updateUserInfo();
-                if(status != User.Status.Online) {
+                if(status != User.Status.ONLINE) {
                     Activity activity = getActivity();
                     ZentaoApplication application = ((ZentaoApplication) activity.getApplicationContext());
-                    application.login(activity, status == User.Status.Offline);
+//                    application.login(activity, status == User.Status.OFFLINE);
+                    //todo: update user info
                 }
             }
         });
