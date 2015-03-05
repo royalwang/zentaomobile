@@ -30,7 +30,6 @@ public class MetaListAdapter extends BaseAdapter {
     private HashMap<Integer, String> idNameMap;
     private boolean clickable = false;
     private boolean dividerEnabled = true;
-    private UserOld user;
     private ImageCache imageCache;
 
     public void setImageCache(ImageCache imageCache) {
@@ -51,7 +50,6 @@ public class MetaListAdapter extends BaseAdapter {
         this.layoutId = layoutId;
         this.viewIdSet = viewIdSet;
         this.nameSet = nameSet;
-        this.user = ((ZentaoApplication) context.getApplicationContext()).getUser();
 
         idNameMap = new HashMap<>();
         for(int i = 0; i < viewIdSet.length; ++i) {

@@ -55,7 +55,7 @@ public class ZentaoApplication extends Application {
         return user;
     }
 
-    public User swtichUser(String address, String account, String password) {
+    public User switchUser(String address, String account, String password) {
         user = getUser(User.createIdentify(address, account));
         user.setAddress(address)
             .setAccount(account)

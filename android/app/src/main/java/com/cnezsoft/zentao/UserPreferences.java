@@ -2,6 +2,7 @@ package com.cnezsoft.zentao;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.cnezsoft.zentao.data.DataType;
 
@@ -356,22 +357,37 @@ public class UserPreferences {
     }
 
     public UserPreferences put(DataType type, String key, Object value) {
+//        Log.v("User Preferences", type + ", key=" + key + ", object=" + value);
         if(value == null) {
             remove(key);
         } else {
             switch (type) {
                 case DATETIME:
-                    putLong(key, ((Date) value).getTime());
+                    long date;
+                    try {
+                        date = ((Date) value).getTime();
+                    } catch (ClassCastException e) {
+                        try {
+                            date = (long) value;
+                        } catch (ClassCastException e2) {
+                            date = (int) value;
+                        }
+                    }
+                    putLong(key, date);
                     break;
                 case LONG:
                     putLong(key, (long) value);
+                    break;
                 case BOOLEAN:
                     putBoolean(key, (boolean) value);
+                    break;
                 case INT:
                     putInt(key, (int) value);
+                    break;
                 case DOUBLE:
                 case FLOAT:
                     putFloat(key, (float) value);
+                    break;
                 case ENUM:
                 case HTML:
                 case STRING:

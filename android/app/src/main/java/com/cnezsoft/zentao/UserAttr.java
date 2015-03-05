@@ -15,9 +15,9 @@ public enum UserAttr {
     realName(DataType.STRING),
     role(DataType.STRING),
     gender(DataType.STRING),
-    dbVersion(DataType.LONG, 0),
+    dbVersion(DataType.LONG, 0l),
     notifyEnable(DataType.BOOLEAN, true),
-    syncFrequency(DataType.LONG, SyncFrequency.defaultOption().name()),
+    syncFrequency(DataType.LONG, SyncFrequency.defaultOption().getMilliseconds()),
     id(DataType.STRING),
     company(DataType.STRING);
 

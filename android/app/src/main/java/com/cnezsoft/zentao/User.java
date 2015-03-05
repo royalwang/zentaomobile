@@ -109,8 +109,16 @@ public class User {
     }
 
     public User setAddress(String address) {
+        if(!Helper.isNullOrEmpty(address) && !address.startsWith("http://") && !address.startsWith("https://"))
+        {
+            address = "http://" + address;
+        }
         put(UserAttr.address, address);
         return this;
+    }
+
+    public String getAddressIdentify() {
+        return getAddress().replace('/', '_').toLowerCase();
     }
 
     public Date getLastSyncTime() {

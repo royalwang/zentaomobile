@@ -4,12 +4,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -126,7 +124,7 @@ public class LoginActivity extends ZentaoActivity {
      * @param view
      */
     public void onLogin(View view) {
-        application.swtichUser(editAddress.getText().toString(), editAccount.getText().toString(), editPasswordMd5.getText().toString());
+        application.switchUser(editAddress.getText().toString(), editAccount.getText().toString(), editPasswordMd5.getText().toString());
 
 //        loginButton.setText(getString(R.string.button_loging));
 //        loginButton.setEnabled(false);
