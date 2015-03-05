@@ -118,7 +118,7 @@ public class ZentaoApplication extends Application {
      * @return
      */
     public boolean login() {
-        if(user.getStatus() != User.Status.UNKNOWN) {
+        if(getUser().hasLoginCredentials()) {
             String identify = user.getIdentify();
             sendBroadcast(new Intent(MESSAGE_OUT_LOGIN_START)
                     .putExtra("identify", identify));
@@ -134,6 +134,38 @@ public class ZentaoApplication extends Application {
             return result;
         } else {
             return false;
+        }
+    }
+
+    /**
+     * Login in background with async task
+     * @param onLoginFinished
+     */
+    public void login(final CustomAsyncTask.OnPostExecuteHandler<OperateBundle<Boolean, User>> onLoginFinished) {
+        if(getUser().hasLoginCredentials()) {
+            final String identify = user.getIdentify();
+            sendBroadcast(new Intent(MESSAGE_OUT_LOGIN_START)
+                    .putExtra("identify", identify));
+
+            new CustomAsyncTask<User, Integer, OperateBundle<Boolean, User>>(new CustomAsyncTask.DoInBackgroundHandler<User, OperateBundle<Boolean, User>>() {
+                @Override
+                public OperateBundle<Boolean, User> doInBackground(User... params) {
+                    return ZentaoAPI.tryLogin(user);
+                }
+            }, new CustomAsyncTask.OnPostExecuteHandler<OperateBundle<Boolean, User>>() {
+                @Override
+                public void onPostExecute(OperateBundle<Boolean, User> result) {
+                    if(result.getResult()) {
+                        saveUser(result.getValue().online());
+                    }
+                    sendBroadcast(new Intent(MESSAGE_OUT_LOGIN_FINISH)
+                            .putExtra("result", result.getResult())
+                            .putExtra("identify", identify));
+                    onLoginFinished.onPostExecute(result);
+                }
+            }).execute(user);
+        } else {
+            onLoginFinished.onPostExecute(new OperateBundle<Boolean, User>(false) {{setCode(5);}});
         }
     }
 
