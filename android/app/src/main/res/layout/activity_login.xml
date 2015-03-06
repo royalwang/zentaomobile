@@ -73,17 +73,33 @@
             android:layout_marginBottom="10dp"
             android:onClick="onLogin"
             style="@style/primaryButton" />
+        <RelativeLayout
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.widget.IconTextView
+                style="@style/transparentButton"
+                android:padding="@dimen/control_padding"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_explore_zentao_pro"
+                android:textColor="@color/secondary_text"
+                android:layout_gravity="right"
+                android:onClick="exploreZentaoPro"
+                android:clickable="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true" />
 
-        <android.widget.IconTextView
-            style="@style/transparentButton"
-            android:padding="@dimen/control_padding"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_explore_zentao_pro"
-            android:id="@+id/textView"
-            android:textColor="@color/secondary_text"
-            android:layout_gravity="right"
-            android:onClick="exploreZentaoPro"
-            android:clickable="true" />
+            <android.widget.IconTextView
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:padding="@dimen/control_padding"
+                android:layout_height="wrap_content"
+                android:text="@string/label_offline_use"
+                android:id="@+id/button_login_offline"
+                android:textColor="@color/green_500"
+                android:onClick="onLoginOffline"
+                style="@style/transparentButton" />
+            </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

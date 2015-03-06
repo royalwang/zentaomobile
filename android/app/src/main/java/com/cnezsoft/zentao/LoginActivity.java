@@ -52,26 +52,16 @@ public class LoginActivity extends ZentaoActivity {
             editPasswordMd5.setText(user.getPasswordMd5WithFlag());
         }
 
+        if(user.isOfflineAvalibale()) {
+            findViewById(R.id.button_login_offline).setVisibility(View.VISIBLE);
+        }
+
         Intent intent = getIntent();
         if(intent != null)
         {
             autoLogin = intent.getBooleanExtra(ZentaoApplication.EXTRA_AUTO_LOGIN, false);
         }
-
-//        listenMessage(ZentaoApplication.MESSAGE_OUT_LOGIN_START, ZentaoApplication.MESSAGE_OUT_LOGIN_FINISH);
     }
-
-//    @Override
-//    protected void onReceiveMessage(Intent intent) {
-//        String action = intent.getAction();
-//        if(action.equals(ZentaoApplication.MESSAGE_OUT_LOGIN_START)) {
-//            loginButton.setText(getString(R.string.button_loging));
-//            loginButton.setEnabled(false);
-//        } else if(action.equals(ZentaoApplication.MESSAGE_OUT_LOGIN_FINISH)) {
-//            loginButton.setText(getString(R.string.label_login));
-//            loginButton.setEnabled(true);
-//        }
-//    }
 
     /**
      * Dispatch onStart() to all fragments.  Ensure any created loaders are
@@ -162,5 +152,9 @@ public class LoginActivity extends ZentaoActivity {
      */
     public void exploreZentaoPro(View view) {
         ZentaoApplication.openBrowser(this, "http://www.zentao.net/book/zentaoprohelp.html");
+    }
+
+    public void onLoginOffline(View view) {
+        this.finish();
     }
 }

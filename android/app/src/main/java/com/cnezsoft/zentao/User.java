@@ -172,6 +172,10 @@ public class User {
         return !isOnline();
     }
 
+    public boolean isOfflineAvalibale() {
+        return withIncrementSync() && hasLoginCredentials();
+    }
+
     public String getIdentify() {
         return createIdentify(getAddress(), getAccount());
     }
