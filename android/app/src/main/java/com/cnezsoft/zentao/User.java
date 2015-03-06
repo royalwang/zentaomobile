@@ -1,11 +1,6 @@
 package com.cnezsoft.zentao;
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-
-import com.cnezsoft.zentao.data.IColumn;
-import com.cnezsoft.zentao.data.Todo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,7 +51,7 @@ public class User {
     }
 
     public User setPassword(String password) {
-        if(!password.startsWith(PASSWORD_WITH_MD5_FLAG)) {
+        if(!Helper.isNullOrEmpty(password) && !password.startsWith(PASSWORD_WITH_MD5_FLAG)) {
             password = PASSWORD_WITH_MD5_FLAG + ZentaoAPI.md5(password);
         }
         put(UserAttr.passwordMd5, password);
@@ -145,8 +140,11 @@ public class User {
     }
 
     public boolean hasLoginCredentials() {
-        return !Helper.isNullOrEmpty(getAccount()) && !Helper.isNullOrEmpty(getAddress())
-                && !Helper.isNullOrEmpty(getPasswordMd5());
+        if(!Helper.isNullOrEmpty(getAccount()) && !Helper.isNullOrEmpty(getAddress())) {
+            String pwdMd5 = getPasswordMd5();
+            return !Helper.isNullOrEmpty(pwdMd5) && !pwdMd5.equals(PASSWORD_WITH_MD5_FLAG);
+        }
+        return false;
     }
 
     public User setStatus(Status status) {
@@ -264,6 +262,9 @@ public class User {
     }
 
     public static String createIdentify(String address, String account) {
+        if(Helper.isNullOrEmpty(account) || Helper.isNullOrEmpty(account)) {
+            return null;
+        }
         return account + "@" + address;
     }
 

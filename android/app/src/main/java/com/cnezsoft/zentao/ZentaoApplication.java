@@ -9,13 +9,10 @@ import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.WindowManager;
 
 import com.cnezsoft.zentao.data.EntryType;
-import com.cnezsoft.zentao.data.Todo;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -53,7 +50,7 @@ public class ZentaoApplication extends Application {
 
     public User getUser(String identify) {
         getUser();
-        if(user == null || !user.getIdentify().equals(identify)) {
+        if(user == null || (identify != null && !identify.equals(user.getIdentify()))) {
             user = userPreferences.getUser(identify);
         }
         return user;

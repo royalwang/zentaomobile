@@ -1,21 +1,15 @@
 package com.cnezsoft.zentao;
 
-import android.os.Bundle;
-import android.text.Html;
 import android.widget.TextView;
 
 import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
 import com.cnezsoft.zentao.control.ControlBindInfo;
 import com.cnezsoft.zentao.data.DAO;
 import com.cnezsoft.zentao.data.DataEntry;
-import com.cnezsoft.zentao.data.EntryType;
 import com.cnezsoft.zentao.data.Project;
 import com.cnezsoft.zentao.data.ProjectColumn;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.regex.Matcher;
 
 /**
  * Project detail activity

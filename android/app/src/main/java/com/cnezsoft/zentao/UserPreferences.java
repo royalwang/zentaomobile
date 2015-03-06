@@ -159,7 +159,7 @@ public class UserPreferences {
      * @return
      */
     public UserPreferences setIdentify(String identify) {
-        if(!this.identify.equals(identify)) {
+        if(identify !=null && !identify.equals(this.identify)) {
             this.identify = identify;
             edit();
             editor.putString(CURRENT_IDENTIFY, identify);
