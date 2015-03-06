@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -110,12 +111,13 @@ public class SettingsActivity extends ZentaoActivity {
         final User user = application.getUser();
         if(dialogBuilder == null) {
             dialogBuilder = new AlertDialog.Builder(this);
-            dialogBuilder.setTitle("请选择同步频率");
+            dialogBuilder.setTitle(getString(R.string.text_select_sync_freq));
             dialogBuilder.setItems(SyncFrequency.getAllItemsText(this), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     user.put(UserAttr.syncFrequency, SyncFrequency.values()[which].getMilliseconds());
                     application.saveUser();
+                    sendBroadcast(new Intent(Synchronizer.MESSAGE_IN_SYNC_RESTART));
                     refreshUserInfo();
                     dialog.dismiss();
                 }

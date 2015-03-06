@@ -40,11 +40,15 @@ public class ZentaoApplication extends Application {
      * User getter
      * @return
      */
-    public User getUser() {
-        if(user == null) {
+    public User getUser(boolean forceLoad) {
+        if(forceLoad || user == null) {
             user = userPreferences.getUser();
         }
         return user;
+    }
+
+    public User getUser() {
+        return getUser(false);
     }
 
     public User getUser(String identify) {
@@ -125,6 +129,7 @@ public class ZentaoApplication extends Application {
         Log.v("APPLICATION", "Login result: " + result.getResult() + ", message: " + result.getMessage() + "(code: " + result.getCode() + ")");
         if(result.getResult()) {
             startService(new Intent(this, ZentaoSyncService.class));
+
             sendBroadcast(new Intent(Synchronizer.MESSAGE_IN_SYNC));
         }
         return result;

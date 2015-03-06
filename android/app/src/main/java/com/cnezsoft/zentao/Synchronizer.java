@@ -45,6 +45,8 @@ public class Synchronizer extends BroadcastReceiver {
     public static final String MESSAGE_OUT_SYNC = "com.cnezsoft.zentao.MESSAGE_OUT_SYNC";
     public static final String MESSAGE_IN_GET_ENTRY = "com.cnezsoft.zentao.MESSAGE_IN_GET_ENTRY";
     public static final String MESSAGE_OUT_GET_ENTRY = "com.cnezsoft.zentao.MESSAGE_OUT_GET_ENTRY";
+    public static final String MESSAGE_IN_SYNC_RESTART = "com.cnezsoft.zentao.MESSAGE_IN_SYNC_RESTART";
+    public static final String MESSAGE_OUT_SYNC_RESTART = "com.cnezsoft.zentao.MESSAGE_OUT_SYNC_RESTART";
 
     private Context context;
 
@@ -66,18 +68,6 @@ public class Synchronizer extends BroadcastReceiver {
     public Synchronizer(Context context) {
         this.context = context;
         application = (ZentaoApplication) context.getApplicationContext();
-        application.setOnUserAttrChangeListener(UserAttr.syncFrequency.name(), new UserPreferences.OnUserAttrChangeListener() {
-            @Override
-            public void onUserAttrChange(String name, Object value) {
-                if(running) {
-                    try {
-                        if(lastSyncFreg != (long) value) {
-                            restart();
-                        }
-                    } catch (ClassCastException ignore) {}
-                }
-            }
-        });
     }
 
     /**
@@ -419,10 +409,12 @@ public class Synchronizer extends BroadcastReceiver {
                 }
             };
             User user = application.getUser();
-            Log.v("SYNC", "start " + user.getSyncFrequency());
             lastSyncFreg = user.getSyncFrequency();
             timer.schedule(timerTask, 1000, lastSyncFreg);
+            Log.v("SYNC", "start " + lastSyncFreg);
             running = true;
+        } else {
+            Log.v("SYNC", "start failed. Task is already running.");
         }
     }
 
@@ -430,10 +422,12 @@ public class Synchronizer extends BroadcastReceiver {
      * Stop sync
      */
     public void stop() {
+        Log.v("SYNC", "stop " + lastSyncFreg);
         if(timer != null)
         {
             timer.cancel();
             timer.purge();
+            timer = null;
         }
         running = false;
     }
@@ -488,6 +482,11 @@ public class Synchronizer extends BroadcastReceiver {
 
                     intentOut = new Intent(MESSAGE_OUT_GET_ENTRY);
                     intentOut.putExtra("result", entry != null);
+                    break;
+                case MESSAGE_IN_SYNC_RESTART:
+                    application.getUser(true);
+                    restart();
+                    intentOut = new Intent(MESSAGE_OUT_SYNC_RESTART);
                     break;
             }
             return intentOut;

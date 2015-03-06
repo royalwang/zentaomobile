@@ -27,6 +27,7 @@ public class ZentaoSyncService extends Service {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Synchronizer.MESSAGE_IN_GET_ENTRY);
         intentFilter.addAction(Synchronizer.MESSAGE_IN_SYNC);
+        intentFilter.addAction(Synchronizer.MESSAGE_IN_SYNC_RESTART);
         registerReceiver(syncer, intentFilter);
 
         Log.v("SYNC", "Zentao sync server is running.");

@@ -2,6 +2,7 @@ package com.cnezsoft.zentao;
 
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
 import com.cnezsoft.zentao.data.IColumn;
 import com.cnezsoft.zentao.data.Todo;
@@ -67,6 +68,7 @@ public class User {
     }
 
     public void put(UserAttr attr, Object value) {
+//        Log.v("User", "put " + attr.name() + "=" + value);
         values.put(attr, value);
     }
 
