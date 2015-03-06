@@ -23,6 +23,8 @@ import java.util.HashMap;
  */
 public class ProductActivity extends SimpleListActivity {
 
+    private boolean showClosedProducts = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +48,7 @@ public class ProductActivity extends SimpleListActivity {
     @Override
     protected ArrayList<HashMap<String, Object>> loadData(Context... params) {
         DAO dao = new DAO(params[0]);
-        ArrayList<HashMap<String, Object>> result = dao.getProductsList(false);
+        ArrayList<HashMap<String, Object>> result = dao.getProductsList(!showClosedProducts);
         dao.close();
         return result;
     }
@@ -103,6 +105,7 @@ public class ProductActivity extends SimpleListActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_product, menu);
+        menu.findItem(R.id.action_show_closed_product).setChecked(showClosedProducts);
         return true;
     }
 
@@ -115,7 +118,9 @@ public class ProductActivity extends SimpleListActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_show_closed_product) {
-            return true;
+            showClosedProducts = !showClosedProducts;
+            item.setChecked(showClosedProducts);
+            executeUpdateListTask();
         }
 
         return super.onOptionsItemSelected(item);

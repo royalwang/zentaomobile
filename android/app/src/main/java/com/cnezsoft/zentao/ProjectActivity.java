@@ -22,6 +22,7 @@ public class ProjectActivity extends SimpleListActivity {
 
     NumberFormat percentageFormat;
     NumberFormat numberFormat;
+    private boolean showAllItems = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +60,7 @@ public class ProjectActivity extends SimpleListActivity {
     @Override
     protected ArrayList<HashMap<String, Object>> loadData(Context... params) {
         DAO dao = new DAO(params[0]);
-        ArrayList<HashMap<String, Object>> result = dao.getProjectsList(false);
+        ArrayList<HashMap<String, Object>> result = dao.getProjectsList(!showAllItems);
         dao.close();
         return result;
     }
@@ -95,6 +96,7 @@ public class ProjectActivity extends SimpleListActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_project, menu);
+        menu.findItem(R.id.action_show_all_items).setChecked(showAllItems);
         return true;
     }
 
@@ -107,7 +109,9 @@ public class ProjectActivity extends SimpleListActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_show_all_items) {
-            return true;
+            showAllItems = !showAllItems;
+            item.setChecked(showAllItems);
+            executeUpdateListTask();
         }
 
         return super.onOptionsItemSelected(item);

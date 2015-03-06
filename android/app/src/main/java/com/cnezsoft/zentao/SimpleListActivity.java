@@ -203,7 +203,7 @@ public class SimpleListActivity extends ZentaoActivity {
         }
     }
 
-    private void executeUpdateListTask() {
+    protected void executeUpdateListTask() {
         new UpdateListTask().execute(this);
     }
 
