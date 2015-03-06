@@ -392,7 +392,6 @@ public class DetailActivity extends ZentaoActivity {
 
     @Override
     protected void onReceiveMessage(Intent intent) {
-        Log.v("DETAIL", "Message: " + intent.getAction());
         String action = intent.getAction();
         if(action.equals(Synchronizer.MESSAGE_OUT_SYNC) || action.equals(Synchronizer.MESSAGE_OUT_GET_ENTRY)) {
             executeLoadData();

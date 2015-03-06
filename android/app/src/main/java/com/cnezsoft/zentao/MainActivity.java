@@ -145,7 +145,6 @@ public class MainActivity extends ZentaoActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.v("MAIN", "On activity result. Request code=" + requestCode + ", Result code=" + resultCode);
         if(requestCode == ZentaoApplication.LOGIN_REQUEST)
         {
             // Show message
@@ -158,7 +157,6 @@ public class MainActivity extends ZentaoActivity {
     }
 
     private void updateSummeries(ArrayList<HashMap<String, Object>> summeries) {
-        Log.v("MAIN", "Update Summeries.");
         dashboardItems.clear();
         for(HashMap<String, Object> summery: summeries) {
             EntryType type = (EntryType) summery.get("type");

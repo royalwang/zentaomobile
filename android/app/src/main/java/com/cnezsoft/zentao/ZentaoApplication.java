@@ -57,14 +57,14 @@ public class ZentaoApplication extends Application {
     }
 
     public User switchUser(String address, String account, String password) {
-        Log.v("APPLICATION", "switch user before: " + user.toJSONString());
+        // Log.v("APPLICATION", "switch user before: " + user.toJSONString());
         user = getUser(User.createIdentify(address, account));
         user.setAddress(address)
             .setAccount(account)
             .setPassword(password)
             .setStatus(User.Status.OFFLINE);
         saveUser(user);
-        Log.v("APPLICATION", "switch user after: " + user.toJSONString());
+        // Log.v("APPLICATION", "switch user after: " + user.toJSONString());
         return user;
     }
 
@@ -101,14 +101,12 @@ public class ZentaoApplication extends Application {
      */
     public boolean checkLogin() {
         User.Status status = getUser().getStatus();
-        Log.v("APPLICATION", "Check Login Before: " + status);
         boolean result;
         if(status == User.Status.OFFLINE) {
             result = login();
         } else {
             result = status == User.Status.ONLINE;
         }
-        Log.v("APPLICATION", "Check Login After: " + result);
         return result;
     }
 
@@ -123,7 +121,7 @@ public class ZentaoApplication extends Application {
 
     private OperateBundle<Boolean, User> tryLogin(User user) {
         OperateBundle<Boolean, User> result = ZentaoAPI.tryLogin(user);
-        Log.v("APPLICATION", "Login result: " + result.getResult() + ", message: " + result.getMessage() + "(code: " + result.getCode() + ")");
+        // Log.v("APPLICATION", "Login result: " + result.getResult() + ", message: " + result.getMessage() + "(code: " + result.getCode() + ")");
         if(result.getResult()) {
             startService(new Intent(this, ZentaoSyncService.class));
 
@@ -161,7 +159,6 @@ public class ZentaoApplication extends Application {
      * @param onLoginFinished
      */
     public void login(final CustomAsyncTask.OnPostExecuteHandler<OperateBundle<Boolean, User>> onLoginFinished) {
-        Log.v("APPLICATION", "Login in background async: " + getUser().toJSONString());
         if(getUser().hasLoginCredentials()) {
             final String identify = user.getIdentify();
             sendBroadcast(new Intent(MESSAGE_OUT_LOGIN_START)
@@ -185,7 +182,7 @@ public class ZentaoApplication extends Application {
                 }
             }).execute(user);
         } else {
-            Log.v("APPLICATION", "Login in background async: User information required.");
+            Log.w("APPLICATION", "Login in background async: User information required.");
             onLoginFinished.onPostExecute(new OperateBundle<Boolean, User>(false) {{setCode(5);}});
         }
     }

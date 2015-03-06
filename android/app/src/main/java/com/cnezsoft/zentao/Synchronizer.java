@@ -84,7 +84,6 @@ public class Synchronizer extends BroadcastReceiver {
             dao.close();
 
             if(checkDatabaseEmpty) {
-                Log.v("SYNC", "database is empty!");
                 user.put(UserAttr.lastSyncTime, new Date(0));
                 application.saveUser();
             }
@@ -105,7 +104,6 @@ public class Synchronizer extends BroadcastReceiver {
     }
 
     private boolean deepSync() {
-        Log.v("SYNC", "deep sync");
         HashMap<EntryType, Integer> deepSyncConfig = new HashMap<EntryType, Integer>(){{
             for(EntryType entryType: EntryType.values()) {
                 if(entryType != EntryType.Default) {
@@ -124,8 +122,6 @@ public class Synchronizer extends BroadcastReceiver {
             for(Map.Entry<EntryType, Integer> entry: deepSyncConfig.entrySet()) {
                 entryType = entry.getKey();
                 range = entry.getValue();
-
-                Log.v("SYNC", "deep sync: entryType=" + entryType + ", range="+range);
 
                 if(range < 0) continue;
 
@@ -157,7 +153,7 @@ public class Synchronizer extends BroadcastReceiver {
     private boolean saveData(OperateBundle<Boolean, JSONObject> result) {
         if(result.getResult()) {
             JSONObject data = result.getValue();
-            Log.v("SYNC", "success: " + result.getMessage() + ", data: " + (data != null ? data.toString() : "no data."));
+            // Log.v("SYNC", "success: " + result.getMessage() + ", data: " + (data != null ? data.toString() : "no data."));
 
             if(data != null) {
                 DAO dao = new DAO(context);
@@ -167,12 +163,11 @@ public class Synchronizer extends BroadcastReceiver {
                 if(withIncrementSync) {
                     handleNotify(daoResult);
                 }
-                Log.v("SYNC", daoResult.toString());
+                // Log.v("SYNC", daoResult.toString());
             }
             return true;
         }
 
-        Log.v("SYNC", "result: " + "false");
         return false;
     }
 
@@ -239,7 +234,6 @@ public class Synchronizer extends BroadcastReceiver {
             } else {
                 lastLoginTime = thisLoginTime;
             }
-            Log.v("SYNC", "The user is offline, now login again.");
             ZentaoApplication application = (ZentaoApplication) context.getApplicationContext();
             if(application.login()) {
                 user = application.getUser();
@@ -247,14 +241,14 @@ public class Synchronizer extends BroadcastReceiver {
                 return null;
             }
         } else if(userStatus == User.Status.UNKNOWN) {
-            Log.w("SYNC", "Unknown user, sync stopped!");
+            // Log.w("SYNC", "Unknown user, sync stopped!");
             return null;
         }
 
         OperateBundle<Boolean, JSONObject> result = ZentaoAPI.getDataItem(user, entryType, id);
         if(result.getResult()) {
             JSONObject data = result.getValue();
-            Log.v("SYNC", "success: " + result.getMessage() + ", data: " + (data != null ? data.toString() : "no data."));
+            // Log.v("SYNC", "success: " + result.getMessage() + ", data: " + (data != null ? data.toString() : "no data."));
 
             if(data != null) {
                 final DataEntry entry = DataEntryFactory.create(entryType, data);
@@ -265,14 +259,14 @@ public class Synchronizer extends BroadcastReceiver {
                 DAO dao = new DAO(context);
                 OperateResult<Boolean> daoResult = dao.save(new ArrayList<DataEntry>(1){{add(entry);}});
                 dao.close();
-                Log.v("SYNC", daoResult.toString());
+                // Log.v("SYNC", daoResult.toString());
                 return entry;
             }
 
             return null;
         }
 
-        Log.v("SYNC", "result: false, message: " + result.getMessage());
+        // Log.v("SYNC", "result: false, message: " + result.getMessage());
         return null;
     }
 
@@ -302,7 +296,6 @@ public class Synchronizer extends BroadcastReceiver {
             name = names.next();
             entryType = EntryType.fromName(name);
             if(entryType != null) {
-                Log.v("SYNC", "handle json data: " + entryType.toString());
 
                 try {
                     data = jsonData.getJSONObject(name);
@@ -326,7 +319,6 @@ public class Synchronizer extends BroadcastReceiver {
                 try {
                     set = data.getJSONArray("set");
                     setLength = set.length();
-                    Log.v("SYNC", "data set length: " + setLength);
                     if(setLength <= 0) continue;
 
                     keys = Helper.getStringArrayFromJSON(data.getJSONArray("key"));
@@ -388,7 +380,7 @@ public class Synchronizer extends BroadcastReceiver {
         }
 
         // todo items
-        Log.v("SYNC", entries.size() + " data to save in the database.");
+        // Log.v("SYNC", entries.size() + " data to save in the database.");
 
         return  entries;
     }
@@ -411,10 +403,10 @@ public class Synchronizer extends BroadcastReceiver {
             User user = application.getUser();
             lastSyncFreg = user.getSyncFrequency();
             timer.schedule(timerTask, 1000, lastSyncFreg);
-            Log.v("SYNC", "start " + lastSyncFreg);
+            // Log.v("SYNC", "start " + lastSyncFreg);
             running = true;
         } else {
-            Log.v("SYNC", "start failed. Task is already running.");
+            Log.w("SYNC", "start failed. Task is already running.");
         }
     }
 
@@ -422,7 +414,7 @@ public class Synchronizer extends BroadcastReceiver {
      * Stop sync
      */
     public void stop() {
-        Log.v("SYNC", "stop " + lastSyncFreg);
+        // Log.v("SYNC", "stop " + lastSyncFreg);
         if(timer != null)
         {
             timer.cancel();
@@ -438,7 +430,7 @@ public class Synchronizer extends BroadcastReceiver {
     public void restart() {
         stop();
         start();
-        Log.v("SYNC", "restart");
+        // Log.v("SYNC", "restart");
     }
 
     /**
@@ -448,7 +440,6 @@ public class Synchronizer extends BroadcastReceiver {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.v("SYNC", "onReceive: " + intent.getAction());
         new HandleMessage().execute(intent);
     }
 

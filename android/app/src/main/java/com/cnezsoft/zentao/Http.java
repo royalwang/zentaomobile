@@ -64,7 +64,7 @@ public class Http {
      * @return
      */
     public static String get(URL url, boolean gzip) {
-        Log.v("HTTP GET", "url:" + url.toString());
+        // Log.v("HTTP GET", "url:" + url.toString());
         try {
             HttpURLConnection c = (HttpURLConnection) url.openConnection();
             c.setRequestMethod("GET");
@@ -78,14 +78,14 @@ public class Http {
             }
             c.connect();
             int status = c.getResponseCode();
-            Log.v("HTTP GET", "Response Code: " + status);
+            // Log.v("HTTP GET", "Response Code: " + status);
 
             switch (status) {
                 case 200:
                 case 201:
                     InputStream inputStream = c.getInputStream();
                     String contentEncoding = c.getContentEncoding();
-                    Log.v("HTTP GET", "Content Encoding: " + contentEncoding);
+                    // Log.v("HTTP GET", "Content Encoding: " + contentEncoding);
                     if(contentEncoding != null && contentEncoding.contains("gzip")) {
                         inputStream = new GZIPInputStream(inputStream);
                     }
@@ -97,12 +97,12 @@ public class Http {
                     }
                     br.close();
                     String responseText = sb.toString();
-                    Log.v("HTTP GET", "Response Text: " + responseText);
+                    // Log.v("HTTP GET", "Response Text: " + responseText);
                     return responseText;
             }
 
         } catch (IOException e) {
-            Log.v("HTTP GET", "Failed: " + e.getMessage());
+            Log.w("HTTP GET", "Failed: " + e.getMessage());
         }
         return null;
     }

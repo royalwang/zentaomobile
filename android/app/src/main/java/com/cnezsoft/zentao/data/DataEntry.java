@@ -208,17 +208,14 @@ public class DataEntry {
                 @Override
                 public Drawable getDrawable(String source) {
                     InputStream is;
-                    Log.v("ENTRY", "getHTML source before: " + source);
                     if(source.startsWith("data/upload/")) {
                         source = addressPrefix + "/" + source;
                     }
-                    Log.v("ENTRY", "getHTML source after: " + source);
                     try {
                         is = (InputStream) new URL(source).getContent();
                         Drawable d = Drawable.createFromStream(is, "src");
                         d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
                         is.close();
-                        Log.v("ENTRY", "getHTML image ok!");
                         return d;
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -229,7 +226,6 @@ public class DataEntry {
             return Html.fromHtml(html, imageGetter, null);
         }
 
-        Log.v("ENTRY", "getHTML: " + html);
         return Html.fromHtml(html);
     }
 

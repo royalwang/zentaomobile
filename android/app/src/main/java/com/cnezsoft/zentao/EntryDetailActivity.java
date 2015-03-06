@@ -229,7 +229,6 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
             entry.fromCursor(data);
         } else {
             loader.forceLoad();
-            Log.v("DETAIL", "loader.forceLoad");
             return;
         }
 
@@ -241,8 +240,6 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
         }
 
         displayEntry();
-
-        Log.v("DETAIL", "onLoadFinished, firstLoad=" + firstLoad);
 
         if(firstLoad) {
             firstLoad = false;
@@ -268,7 +265,6 @@ public class EntryDetailActivity extends ZentaoActivity implements LoaderManager
     @Override
     protected void onReceiveMessage(Intent intent) {
         super.onReceiveMessage(intent);
-        Log.v("DETAIL", "onReceiveMessage: " + intent.getAction() + ", result: " + intent.getBooleanExtra("result", false));
     }
 
     private List<Map<String, Object>> getEntryData() {

@@ -30,7 +30,7 @@ public class ZentaoSyncService extends Service {
         intentFilter.addAction(Synchronizer.MESSAGE_IN_SYNC_RESTART);
         registerReceiver(syncer, intentFilter);
 
-        Log.v("SYNC", "Zentao sync server is running.");
+        // Log.v("SYNC", "Zentao sync server is running.");
     }
 
     /**
@@ -41,7 +41,7 @@ public class ZentaoSyncService extends Service {
      */
     @Override
     public void onDestroy() {
-        Log.v("SYNC", "Zentao sync server destroyed.");
+        // Log.v("SYNC", "Zentao sync server destroyed.");
         super.onDestroy();
     }
 

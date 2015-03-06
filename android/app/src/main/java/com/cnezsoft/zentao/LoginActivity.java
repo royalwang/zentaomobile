@@ -156,7 +156,6 @@ public class LoginActivity extends ZentaoActivity {
     }
 
     public void onLoginOffline(View view) {
-        Log.v("LOGIN", "onLoginOffline");
         finish();
     }
 }

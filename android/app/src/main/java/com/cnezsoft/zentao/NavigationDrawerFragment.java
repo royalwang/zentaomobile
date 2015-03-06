@@ -449,7 +449,6 @@ public class NavigationDrawerFragment extends Fragment {
     private void setSelectNav(AppNav nav) {
         int position = nav.getPosition();
         currentNav = nav;
-        Log.v("DRAWER", "nav:" + nav.name() + ", position:" + position);
         if(mDrawerListView != null) {
             mDrawerListView.setItemChecked(position, true);
         }
@@ -491,7 +490,6 @@ public class NavigationDrawerFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(STATE_SELECTED_POSITION, currentNav.getPosition());
-        Log.v("DRAWER", "onSaveInstanceState");
     }
 
     @Override

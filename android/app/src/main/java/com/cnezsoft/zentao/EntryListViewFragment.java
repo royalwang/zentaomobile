@@ -540,7 +540,6 @@ public class EntryListViewFragment extends ListFragment implements LoaderManager
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-        Log.v("LIST VIEW", "onListItemClick=" + position + ":" + id);
         Activity activity = getActivity();
         ((ZentaoApplication) activity.getApplicationContext()).openDetailActivity(activity, pageTab.getEntryType(), (int)id);
     }
