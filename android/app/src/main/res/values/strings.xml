@@ -119,4 +119,5 @@
     <string name="text_image_format">[图 %s]</string>
     <string name="text_entry_not_found_format">啊呵！没有找到编号为 %1$s 的 %2$s。</string>
     <string name="text_select_sync_freq">请选择同步频率</string>
+    <string name="text_entry_list_need_higher_version_format">您所使用的禅道版本过低，暂时无法使用 %s 列表功能。需要禅道专业版4.5以上，请及时联系管理员升级禅道体验最新功能。</string>
 </resources>

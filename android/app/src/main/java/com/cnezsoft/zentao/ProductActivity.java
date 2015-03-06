@@ -12,6 +12,7 @@ import com.cnezsoft.zentao.control.ControlBindInfo;
 import com.cnezsoft.zentao.data.DAO;
 import com.cnezsoft.zentao.data.EntryType;
 import com.cnezsoft.zentao.data.Product;
+import com.joanzapata.android.iconify.Iconify;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +27,14 @@ public class ProductActivity extends SimpleListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setAccentSwatch(EntryType.Product.accent());
+
+        ZentaoConfig config = getZentaoApplication().getUser().getZentaoConfig();
+        if(config != null && config.getVersionNumber() < 4.5f) {
+            displayMessage(Iconify.IconValue.fa_exclamation_circle,
+                    String.format(getString(R.string.text_entry_list_need_higher_version_format),
+                            ZentaoApplication.getEnumText(this, EntryType.Product)),
+                    MaterialColorSwatch.Red, 0);
+        }
     }
 
     /**

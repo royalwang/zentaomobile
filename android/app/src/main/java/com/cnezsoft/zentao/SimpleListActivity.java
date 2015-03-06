@@ -1,16 +1,26 @@
 package com.cnezsoft.zentao;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.InsetDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.cnezsoft.zentao.colorswatch.MaterialColor;
+import com.cnezsoft.zentao.colorswatch.MaterialColorSwatch;
 import com.cnezsoft.zentao.control.ControlBindInfo;
+import com.joanzapata.android.iconify.IconDrawable;
+import com.joanzapata.android.iconify.Iconify;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +32,7 @@ import java.util.HashMap;
 public class SimpleListActivity extends ZentaoActivity {
 
     protected ListView list;
+    protected TextView messagerView;
     protected SimpleAdapter adapter;
     protected ArrayList<HashMap<String, ?>> data;
 
@@ -52,6 +63,56 @@ public class SimpleListActivity extends ZentaoActivity {
      */
     protected void listenMessage() {
         listenMessage(Synchronizer.MESSAGE_OUT_SYNC);
+    }
+
+    protected void displayMessage(Iconify.IconValue icon, String message, MaterialColorSwatch swatch, long time) {
+        if(messagerView == null) {
+            messagerView = findTextViewById(R.id.messager);
+        }
+        final MaterialColor color = swatch.primary();
+        messagerView.setBackgroundColor(color.value());
+        messagerView.setTextColor(color.getInverseColor());
+        messagerView.setCompoundDrawables(new IconDrawable(this, icon) {{
+            sizeDp(24);
+            color(color.getInverseColor());
+        }}, null, null, null);
+        messagerView.setVisibility(View.VISIBLE);
+        messagerView.setText(message);
+
+        final Activity activity = this;
+        if(time > 0) {
+            Animation finalAnimation = AnimationUtils.loadAnimation(activity, R.anim.abc_slide_out_top);
+            finalAnimation.setStartOffset(time);
+            finalAnimation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    messagerView.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            messagerView.setAnimation(finalAnimation);
+        }
+    }
+
+    protected void displayMessage(Iconify.IconValue icon, String message, long time) {
+        displayMessage(icon, message, MaterialColorSwatch.Blue, time);
+    }
+
+    protected void displayMessage(String message, MaterialColorSwatch swatch, long time) {
+        displayMessage(null, message, swatch, time);
+    }
+
+    protected void displayMessage(String message, long time) {
+        displayMessage(null, message, time);
     }
 
     /**

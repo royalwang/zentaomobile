@@ -12,6 +12,7 @@ import com.cnezsoft.zentao.control.ControlBindInfo;
 import com.cnezsoft.zentao.data.DAO;
 import com.cnezsoft.zentao.data.EntryType;
 import com.cnezsoft.zentao.data.Project;
+import com.joanzapata.android.iconify.Iconify;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -31,6 +32,14 @@ public class ProjectActivity extends SimpleListActivity {
         super.onCreate(savedInstanceState);
 
         setAccentSwatch(EntryType.Project.accent());
+
+        ZentaoConfig config = getZentaoApplication().getUser().getZentaoConfig();
+        if(config != null && config.getVersionNumber() < 4.5f) {
+            displayMessage(Iconify.IconValue.fa_exclamation_circle,
+                    String.format(getString(R.string.text_entry_list_need_higher_version_format),
+                            ZentaoApplication.getEnumText(this, EntryType.Project)),
+                    MaterialColorSwatch.Red, 0);
+        }
     }
 
     /**

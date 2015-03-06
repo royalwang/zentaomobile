@@ -7,14 +7,26 @@
     <LinearLayout android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
+        <android.widget.IconTextView
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:id="@+id/messager"
+            android:textSize="12sp"
+            android:visibility="gone"
+            android:drawablePadding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
         <ListView
+            android:layout_weight="1"
             android:id="@+id/listview"
             android:layout_width="match_parent"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:clipToPadding="false"
             android:background="@color/white"
-            android:layout_height="match_parent"/>
+            android:layout_height="0dp"/>
         </LinearLayout>
 
 

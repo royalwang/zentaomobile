@@ -28,6 +28,14 @@ public class ZentaoActivity extends ActionBarActivity {
     private BroadcastReceiver syncReceiver = null;
     private ArrayList<String> messages;
     private MaterialColorSwatch swatch;
+    private ZentaoApplication application;
+
+    protected ZentaoApplication getZentaoApplication() {
+        if(application == null) {
+            application = (ZentaoApplication) getApplicationContext();
+        }
+        return application;
+    }
 
     protected MaterialColorSwatch getSwatch() {
         return swatch;
