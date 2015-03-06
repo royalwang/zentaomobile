@@ -87,6 +87,15 @@ public class DetailActivity extends ZentaoActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        if(dao != null) {
+            dao.close();
+            dao = null;
+        }
+        super.onDestroy();
+    }
+
     protected void executeLoadData() {
         new LoadDataTask().execute(this);
     }
