@@ -86,6 +86,4 @@ public class CustomAsyncTask<Params, Progress, Result> extends AsyncTask<Params,
             onPostExecuteHandler.onPostExecute(result);
         }
     }
-
-
 }

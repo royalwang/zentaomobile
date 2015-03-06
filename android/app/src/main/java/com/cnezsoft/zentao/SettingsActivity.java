@@ -114,7 +114,7 @@ public class SettingsActivity extends ZentaoActivity {
             dialogBuilder.setItems(SyncFrequency.getAllItemsText(this), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    user.put(UserAttr.syncFrequency, SyncFrequency.values()[which]);
+                    user.put(UserAttr.syncFrequency, SyncFrequency.values()[which].getMilliseconds());
                     application.saveUser();
                     refreshUserInfo();
                     dialog.dismiss();

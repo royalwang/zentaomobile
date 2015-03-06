@@ -360,7 +360,7 @@ public class UserPreferences {
     }
 
     public UserPreferences put(DataType type, String key, Object value) {
-//        Log.v("User Preferences", type + ", key=" + key + ", object=" + value);
+        Log.v("User Preferences", type + ", key=" + key + ", object=" + value);
         if(value == null) {
             remove(key);
         } else {
