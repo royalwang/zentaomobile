@@ -427,6 +427,10 @@ public class UserPreferences {
     }
 
     public void saveUser(User user) {
+        if(user.getIdentify() == null) {
+            Log.w("UserPreferences", "User save failed, unknown user.");
+            return;
+        }
         edit();
         setIdentify(user.getIdentify());
         for(Map.Entry<UserAttr, Object> entry: user.getValues().entrySet()) {
