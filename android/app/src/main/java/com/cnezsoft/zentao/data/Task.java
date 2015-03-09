@@ -200,4 +200,55 @@ public class Task extends DataEntry {
         float real = Math.max(estimate, consumed + left);
         progress = Math.min(1, real > 0 ? consumed / real : 0);
     }
+
+    private Story story;
+
+
+    public Story getStory() {
+        return story;
+    }
+
+    public void setStory(Story story) {
+        this.story = story;
+    }
+
+    public void setStory(Cursor cursor) {
+        if(cursor!=null) {
+            this.story = (Story) DataEntryFactory.create(EntryType.Story, cursor);
+        }
+    }
+
+    private Product product;
+
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public void setProduct(Cursor cursor) {
+        if(cursor!=null) {
+            this.product = (Product) DataEntryFactory.create(EntryType.Product, cursor);
+        }
+    }
+
+    private Project project;
+
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public void setProject(Cursor cursor) {
+        if(cursor!=null) {
+            this.project = (Project) DataEntryFactory.create(EntryType.Project, cursor);
+        }
+    }
 }

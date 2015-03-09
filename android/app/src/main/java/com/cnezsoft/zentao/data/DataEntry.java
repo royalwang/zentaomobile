@@ -318,7 +318,7 @@ public class DataEntry {
      */
     public Date getAsDate(IColumn col) {
         Long dateValue = getAsLong(col);
-        if(dateValue != null)
+        if(dateValue != null && dateValue > 100)
             return new Date(dateValue);
         return null;
     }
