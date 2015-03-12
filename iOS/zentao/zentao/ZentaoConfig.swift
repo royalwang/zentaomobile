@@ -38,6 +38,12 @@ struct ZentaoConfig {
         }
     }
     
+    var isPathInfoRequestType: Bool {
+        get {
+            return requestType!.uppercaseString == "PATH_INFO";
+        }
+    }
+    
     init(json: JSON) {
         version = json["version"].stringValue
         requestType = json["requestType"].stringValue
