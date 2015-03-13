@@ -8,10 +8,10 @@
 
 import Foundation
 
-class ZentaoAPI {
+struct ZentaoAPI {
 
     /// Concat api url
-    class func concatUrl(params: [String:String], withUser user: User) -> String {
+    static func concatUrl(params: [String:String], withUser user: User) -> String {
         let moduleName = params["module"] ?? "api"
         let methodName: String = params["method"]!
         let moduleNameIdentifier = moduleName.lowercaseString
@@ -79,7 +79,7 @@ class ZentaoAPI {
         return url;
     }
     
-    class func getConfig(address: String, complete: ((ZentaoConfig?) -> Void)) {
+    static func getConfig(address: String, complete: ((ZentaoConfig?) -> Void)) {
         HTTP.get(address + "/index.php?mode=getconfig", complete: {(json: JSON?) -> Void in
             if let jsonObj = json {
                 complete(ZentaoConfig(json:jsonObj))
@@ -89,7 +89,7 @@ class ZentaoAPI {
         })
     }
     
-    class func login(user: User, complete: ((result: Bool, error: String, message: String) -> Void)) {
+    static func login(user: User, complete: ((result: Bool, error: String, message: String) -> Void)) {
         getConfig(user.address) {
             if let config = $0 {
                 user.config = config
