@@ -44,6 +44,18 @@ struct ZentaoConfig {
         }
     }
     
+    var string: String {
+        get {
+            return "{version:\(version!), requestType:\(requestType!), requestFix:\(requestFix!), moduleVar:\(moduleVar!), methodVar:\(methodVar!), viewVar:\(viewVar!), sessionName:\(sessionName!), sessionID:\(sessionID!), rand:\(rand!), expiredTime:\(expiredTime!)}";
+        }
+    }
+    
+    var isZentaoAPIAvailable: Bool {
+        get {
+            return isPro && versionNumber > 4.3
+        }
+    }
+    
     init(json: JSON) {
         version = json["version"].stringValue
         requestType = json["requestType"].stringValue

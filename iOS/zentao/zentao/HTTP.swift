@@ -11,6 +11,7 @@ import Foundation
 /// Http helpers
 struct HTTP {
     static var withGZip = true
+    static var debug = 1
    
     static func get(url: String, success:((HTTPResponse) -> Void)!,
         failure:((NSError, HTTPResponse?) -> Void)!, gzip: Bool = withGZip) {
@@ -19,7 +20,19 @@ struct HTTP {
             request.requestSerializer = HTTPRequestSerializer()
             request.requestSerializer.headers["Accept-Encoding"] = "gzip"
         }
-        request.GET(url, parameters: nil, success: success, failure: failure)
+        request.GET(url, parameters: nil, success: {
+            if HTTP.debug > 0 {
+                println("HTTP GET \(url) (SUCCESS)")
+                println("HTTP GET ResponseText=\($0.text())")
+            }
+            success($0)
+        }, failure: {
+            if HTTP.debug > 0 {
+                println("HTTP GET \(url) (FAILED)")
+                println("HTTP GET Error=\($1)")
+            }
+            failure($0, $1)
+        })
     }
     
     static func get(url: String, success:((String?) -> Void)!,

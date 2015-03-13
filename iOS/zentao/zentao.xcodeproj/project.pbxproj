@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B6F65861AB1588400CCEDE6 /* ZentaoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65851AB1588400CCEDE6 /* ZentaoAPI.swift */; };
+		3B6F65881AB15BF200CCEDE6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65871AB15BF200CCEDE6 /* User.swift */; };
+		3B6F658A1AB1632A00CCEDE6 /* ZentaoConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65891AB1632A00CCEDE6 /* ZentaoConfig.swift */; };
+		3B6F658C1AB1664F00CCEDE6 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F658B1AB1664F00CCEDE6 /* SwiftyJSON.swift */; };
+		3B6F658F1AB16F6300CCEDE6 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F658E1AB16F6300CCEDE6 /* StringExtension.swift */; };
+		3B6F659F1AB1C92100CCEDE6 /* HTTPRequestSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F659E1AB1C92100CCEDE6 /* HTTPRequestSerializer.swift */; };
+		3B6F65A11AB1C93700CCEDE6 /* HTTPResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65A01AB1C93700CCEDE6 /* HTTPResponseSerializer.swift */; };
+		3B6F65A31AB1C96300CCEDE6 /* HTTPTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65A21AB1C96300CCEDE6 /* HTTPTask.swift */; };
+		3B6F65A51AB1C97E00CCEDE6 /* HTTPUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65A41AB1C97E00CCEDE6 /* HTTPUpload.swift */; };
+		3B6F65AA1AB1D84200CCEDE6 /* SJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65A91AB1D84200CCEDE6 /* SJSON.swift */; };
+		3B6F65AC1AB1D8C200CCEDE6 /* HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65AB1AB1D8C200CCEDE6 /* HTTP.swift */; };
 		3BA54D061AB01F630081877C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA54D051AB01F630081877C /* AppDelegate.swift */; };
 		3BA54D091AB01F630081877C /* zentao.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3BA54D071AB01F630081877C /* zentao.xcdatamodeld */; };
 		3BA54D0B1AB01F630081877C /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA54D0A1AB01F630081877C /* MasterViewController.swift */; };
@@ -28,6 +39,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3B6F65851AB1588400CCEDE6 /* ZentaoAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZentaoAPI.swift; sourceTree = "<group>"; };
+		3B6F65871AB15BF200CCEDE6 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		3B6F65891AB1632A00CCEDE6 /* ZentaoConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZentaoConfig.swift; sourceTree = "<group>"; };
+		3B6F658B1AB1664F00CCEDE6 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		3B6F658E1AB16F6300CCEDE6 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		3B6F65991AB18ACF00CCEDE6 /* zentao-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "zentao-Bridging-Header.h"; sourceTree = "<group>"; };
+		3B6F659E1AB1C92100CCEDE6 /* HTTPRequestSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequestSerializer.swift; sourceTree = "<group>"; };
+		3B6F65A01AB1C93700CCEDE6 /* HTTPResponseSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPResponseSerializer.swift; sourceTree = "<group>"; };
+		3B6F65A21AB1C96300CCEDE6 /* HTTPTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPTask.swift; sourceTree = "<group>"; };
+		3B6F65A41AB1C97E00CCEDE6 /* HTTPUpload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPUpload.swift; sourceTree = "<group>"; };
+		3B6F65A91AB1D84200CCEDE6 /* SJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SJSON.swift; sourceTree = "<group>"; };
+		3B6F65AB1AB1D8C200CCEDE6 /* HTTP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTP.swift; sourceTree = "<group>"; };
 		3BA54D001AB01F630081877C /* zentao.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = zentao.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BA54D041AB01F630081877C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3BA54D051AB01F630081877C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -60,6 +83,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B6F65841AB1586300CCEDE6 /* api */ = {
+			isa = PBXGroup;
+			children = (
+				3B6F65851AB1588400CCEDE6 /* ZentaoAPI.swift */,
+				3B6F65871AB15BF200CCEDE6 /* User.swift */,
+				3B6F65891AB1632A00CCEDE6 /* ZentaoConfig.swift */,
+			);
+			name = api;
+			sourceTree = "<group>";
+		};
+		3B6F658D1AB16F4400CCEDE6 /* ext */ = {
+			isa = PBXGroup;
+			children = (
+				3B6F658E1AB16F6300CCEDE6 /* StringExtension.swift */,
+			);
+			name = ext;
+			sourceTree = "<group>";
+		};
+		3B6F659D1AB1C8E300CCEDE6 /* http */ = {
+			isa = PBXGroup;
+			children = (
+				3B6F659E1AB1C92100CCEDE6 /* HTTPRequestSerializer.swift */,
+				3B6F65A01AB1C93700CCEDE6 /* HTTPResponseSerializer.swift */,
+				3B6F65A21AB1C96300CCEDE6 /* HTTPTask.swift */,
+				3B6F65A41AB1C97E00CCEDE6 /* HTTPUpload.swift */,
+				3B6F65AB1AB1D8C200CCEDE6 /* HTTP.swift */,
+			);
+			name = http;
+			sourceTree = "<group>";
+		};
+		3B6F65A71AB1CF3900CCEDE6 /* json */ = {
+			isa = PBXGroup;
+			children = (
+				3B6F658B1AB1664F00CCEDE6 /* SwiftyJSON.swift */,
+				3B6F65A91AB1D84200CCEDE6 /* SJSON.swift */,
+			);
+			name = json;
+			sourceTree = "<group>";
+		};
 		3BA54CF71AB01F630081877C = {
 			isa = PBXGroup;
 			children = (
@@ -81,6 +143,10 @@
 		3BA54D021AB01F630081877C /* zentao */ = {
 			isa = PBXGroup;
 			children = (
+				3B6F65A71AB1CF3900CCEDE6 /* json */,
+				3B6F659D1AB1C8E300CCEDE6 /* http */,
+				3B6F658D1AB16F4400CCEDE6 /* ext */,
+				3B6F65841AB1586300CCEDE6 /* api */,
 				3BA54D051AB01F630081877C /* AppDelegate.swift */,
 				3BA54D0A1AB01F630081877C /* MasterViewController.swift */,
 				3BA54D0C1AB01F630081877C /* DetailViewController.swift */,
@@ -89,6 +155,7 @@
 				3BA54D131AB01F630081877C /* LaunchScreen.xib */,
 				3BA54D071AB01F630081877C /* zentao.xcdatamodeld */,
 				3BA54D031AB01F630081877C /* Supporting Files */,
+				3B6F65991AB18ACF00CCEDE6 /* zentao-Bridging-Header.h */,
 			);
 			path = zentao;
 			sourceTree = "<group>";
@@ -163,7 +230,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0610;
-				ORGANIZATIONNAME = "SunHao@cnezsoft.com";
+				ORGANIZATIONNAME = cnezsoft.com;
 				TargetAttributes = {
 					3BA54CFF1AB01F630081877C = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -218,10 +285,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B6F65AC1AB1D8C200CCEDE6 /* HTTP.swift in Sources */,
+				3B6F65A31AB1C96300CCEDE6 /* HTTPTask.swift in Sources */,
+				3B6F658A1AB1632A00CCEDE6 /* ZentaoConfig.swift in Sources */,
+				3B6F65861AB1588400CCEDE6 /* ZentaoAPI.swift in Sources */,
+				3B6F65A51AB1C97E00CCEDE6 /* HTTPUpload.swift in Sources */,
 				3BA54D091AB01F630081877C /* zentao.xcdatamodeld in Sources */,
+				3B6F658C1AB1664F00CCEDE6 /* SwiftyJSON.swift in Sources */,
+				3B6F65881AB15BF200CCEDE6 /* User.swift in Sources */,
+				3B6F658F1AB16F6300CCEDE6 /* StringExtension.swift in Sources */,
+				3B6F65A11AB1C93700CCEDE6 /* HTTPResponseSerializer.swift in Sources */,
 				3BA54D061AB01F630081877C /* AppDelegate.swift in Sources */,
+				3B6F659F1AB1C92100CCEDE6 /* HTTPRequestSerializer.swift in Sources */,
 				3BA54D0B1AB01F630081877C /* MasterViewController.swift in Sources */,
 				3BA54D0D1AB01F630081877C /* DetailViewController.swift in Sources */,
+				3B6F65AA1AB1D84200CCEDE6 /* SJSON.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,9 +424,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = zentao/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "zentao/zentao-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -356,9 +437,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = zentao/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "zentao/zentao-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -415,6 +498,7 @@
 				3BA54D261AB01F630081877C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3BA54D271AB01F630081877C /* Build configuration list for PBXNativeTarget "zentaoTests" */ = {
 			isa = XCConfigurationList;
@@ -423,6 +507,7 @@
 				3BA54D291AB01F630081877C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
