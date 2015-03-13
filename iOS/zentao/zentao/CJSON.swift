@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class SJSON {
+public class CJSON {
     let json:JSON
     
     init(json: JSON) {

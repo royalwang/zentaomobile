@@ -50,7 +50,7 @@ public struct JSONResponseSerializer : HTTPResponseSerializer {
     */
     public func responseObjectFromResponse(response: NSURLResponse, data: NSData) -> (object: AnyObject?, error: NSError?) {
         var error: NSError?
-        let response: AnyObject? = SJSON(data: data, options: NSJSONReadingOptions.AllowFragments, error: &error)
+        let response: AnyObject? = CJSON(data: data, options: NSJSONReadingOptions.AllowFragments, error: &error)
         return (response,error)
     }
 }
