@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum EntryType : Int, AccentIconProtocol {
+enum EntryType : Int, AccentIconProtocol, NamedEnum {
     
     case Default = 0
     case Todo
@@ -28,27 +28,25 @@ enum EntryType : Int, AccentIconProtocol {
         AccentIcon(swatch: MaterialColorSwatch.Teal, icon: FontIcon.cube)
     ]
     
-    static let map = [Default: "Default", Todo: "Todo", Task: "Task", Bug: "Bug", Story: "Story", Product: "Product", Project: "Project"]
-
-    static var values: [EntryType] {
-        get {
-            return Array(map.keys)
-        }
-    }
+    static let values = [Default, Todo, Task, Bug, Story, Product, Project]
+    static let names = ["Default", "Todo", "Task", "Bug", "Story", "Product", "Project"]
     
-    static var names: [String] {
-        get {
-            return Array(map.values)
-        }
-    }
-    
-    static func fromName(name: String) -> EntryType? {
-        let lowerName = name.lowercaseString
-        for (type, name) in map {
-            if name.lowercaseString == lowerName {
-                return type
+    static func fromName(name: String, ignoreCase: Bool = true) -> EntryType? {
+        if ignoreCase {
+            let lowerName = name.lowercaseString
+            for (id, thisName) in enumerate(names) {
+                if thisName.lowercaseString == lowerName {
+                    return values[id]
+                }
+            }
+        } else {
+            for (id, thisName) in enumerate(names) {
+                if name == thisName {
+                    return values[id]
+                }
             }
         }
+
         return nil
     }
     
@@ -66,7 +64,13 @@ enum EntryType : Int, AccentIconProtocol {
     
     var name: String {
         get {
-            return EntryType.map[self]!
+            return EntryType.names[self.rawValue]
+        }
+    }
+    
+    var index: Int {
+        get {
+            return rawValue
         }
     }
 }
