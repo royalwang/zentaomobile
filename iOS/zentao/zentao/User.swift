@@ -16,6 +16,28 @@ class User {
     let address: String
     private var password: String
     var config: ZentaoConfig?
+    var lastSyncTime: NSDate? {
+        didSet {
+            println("User setted lastSyncTime to " + lastSyncTime!.toString())
+        }
+    }
+    var lastLoginTime: NSDate? {
+        didSet {
+            println("User setted lastLoginTime to " + lastLoginTime!.toString())
+        }
+    }
+    
+    var hasSynced: Bool {
+        get {
+            return lastSyncTime != nil
+        }
+    }
+    
+    var isNeverLogined: Bool {
+        get {
+            return lastLoginTime == nil
+        }
+    }
     
     init(var address: String, account: String, password: String) {
         self.account = account
@@ -63,4 +85,5 @@ class User {
         }
         password = passwordStr
     }
+
 }

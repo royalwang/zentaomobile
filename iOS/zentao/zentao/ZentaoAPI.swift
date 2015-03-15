@@ -98,7 +98,8 @@ struct ZentaoAPI {
                         (json: JSON?) -> Void in
                         if let jsonObj = json {
                             if jsonObj["status"].stringValue == "success" {
-                                complete(result: true, error: "", message: "")
+                                user.lastLoginTime = NSDate()
+                                complete(result: true, error: "", message: "User logined success.")
                             } else {
                                 complete(result: false, error: "WRONG_ACCOUNT", message: jsonObj["message"].string
                                     ?? "The account or password is not correct.")
@@ -114,5 +115,77 @@ struct ZentaoAPI {
                 complete(result: false, error: "WRONG_CONNECT", message: "Unable to connect to Zentao server.")
             }
         }
+    }
+    
+    static func getItem(entryType: EntryType, id: String, user: User, complete: ((result: Bool, jsonData: JSON?, message: String?) -> Void)) {
+        let params = [
+            "module": "api",
+            "method": "mobileGetInfo",
+            "type": entryType.name.lowercaseString,
+            "id": id]
+        HTTP.get(self.concatUrl(params, withUser: user)) {
+            (json: JSON?) in
+            if let jsonObj = json {
+                if jsonObj["status"].stringValue == "success" {
+                    let jsonData = jsonObj["data"]
+                    if jsonData.type == .Null || jsonData.isEmpty {
+                        complete(result: true, jsonData: nil, message: "Success, but no new data there.")
+                    } else {
+                        complete(result: true, jsonData: jsonData, message: nil)
+                    }
+                } else {
+                    complete(result: false, jsonData: nil, message: "The response from zentao server return in a wrong format.")
+                }
+                return
+            }
+            complete(result: false, jsonData: nil, message: "Can't connect to zentao server.")
+        }
+    }
+    
+    static func getItem(entryType: EntryType, id: Int, user: User, complete: ((result: Bool, jsonData: JSON?, message: String?) -> Void)) {
+        getItem(entryType, id: String(id), user: user, complete)
+    }
+    
+    static func getItemList(entryType: EntryType, user: User,
+        options: (type: String, range: Int, records: Int, format: String), complete:
+        ((result: Bool, jsonData: JSON?, message: String?) -> Void)) {
+            
+            let params = [
+                "module": "api",
+                "method": "mobileGetList",
+                "object": entryType == .Default ? "all" : entryType.name.lowercaseString,
+                "type": options.type,
+                "range": String(options.range),
+                "last": user.hasSynced ? String(Int(round(user.lastSyncTime!.timeIntervalSince1970))) : "0",
+                "records": String(options.records),
+                "format": String(options.format)]
+            
+            HTTP.get(self.concatUrl(params, withUser: user)) {
+                (json: JSON?) in
+                if let jsonObj = json {
+                    if jsonObj["status"].stringValue == "success" {
+                        let jsonData = jsonObj["data"]
+                        if jsonData.type == .Null || jsonData.isEmpty {
+                            complete(result: true, jsonData: nil, message: "Success, but no new data there.")
+                        } else {
+                            complete(result: true, jsonData: jsonData, message: nil)
+                        }
+                    } else {
+                        complete(result: false, jsonData: nil, message: "The response from zentao server return in a wrong format.")
+                    }
+                    return
+                }
+                complete(result: false, jsonData: nil, message: "Can't connect to zentao server.")
+            }
+    }
+    
+    static func getItemList(entryType: EntryType, user: User, complete:
+        ((result: Bool, jsonData: JSON?, message: String?) -> Void)) {
+            getItemList(entryType, user: user, options: ("increment", 0, 1000, "index"), complete)
+    }
+    
+    static func getItemList(user: User, complete:
+        ((result: Bool, jsonData: JSON?, message: String?) -> Void)) {
+            getItemList(.Default, user: user, options: ("increment", 0, 1000, "index"), complete)
     }
 }
