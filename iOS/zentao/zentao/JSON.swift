@@ -148,6 +148,12 @@ extension JSON: SequenceType{
         }
     }
     
+    var isNullOrEmpty: Bool {
+        get {
+            return self.type == .Null || isEmpty
+        }
+    }
+    
     /// If `type` is `.Array` or `.Dictionary`, return `array.count` or `dictonary.count` otherwise return `0`.
     public var count: Int {
         get {

@@ -128,7 +128,7 @@ struct ZentaoAPI {
             if let jsonObj = json {
                 if jsonObj["status"].stringValue == "success" {
                     let jsonData = jsonObj["data"]
-                    if jsonData.type == .Null || jsonData.isEmpty {
+                    if jsonData.isNullOrEmpty {
                         complete(result: true, jsonData: nil, message: "Success, but no new data there.")
                     } else {
                         complete(result: true, jsonData: jsonData, message: nil)
@@ -165,7 +165,7 @@ struct ZentaoAPI {
                 if let jsonObj = json {
                     if jsonObj["status"].stringValue == "success" {
                         let jsonData = jsonObj["data"]
-                        if jsonData.type == .Null || jsonData.isEmpty {
+                        if jsonData.isNullOrEmpty {
                             complete(result: true, jsonData: nil, message: "Success, but no new data there.")
                         } else {
                             complete(result: true, jsonData: jsonData, message: nil)
