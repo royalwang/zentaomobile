@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="1" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6751" systemVersion="14C1510" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="Bug" representedClassName="zentao.Bug" parentEntity="Entry" syncable="YES">
+    <entity name="Bug" representedClassName="Bug" parentEntity="Entry" syncable="YES">
         <attribute name="activatedCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="assignedDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="assignedTo" optional="YES" attributeType="String" syncable="YES"/>
@@ -52,7 +52,7 @@
         </attribute>
         <userInfo/>
     </entity>
-    <entity name="Product" representedClassName="zentao.Product" parentEntity="Entry" syncable="YES">
+    <entity name="Product" representedClassName="Product" parentEntity="Entry" syncable="YES">
         <attribute name="acl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="code" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="createdBy" optional="YES" attributeType="String" syncable="YES"/>
@@ -66,7 +66,7 @@
         <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="whitelist" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="Project" representedClassName="zentao.Project" parentEntity="Entry" syncable="YES">
+    <entity name="Project" representedClassName="Project" parentEntity="Entry" syncable="YES">
         <attribute name="acl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="begin" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="canceledBy" optional="YES" attributeType="String" syncable="YES"/>
@@ -94,7 +94,7 @@
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="whitelist" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="Story" representedClassName="zentao.Story" parentEntity="Entry" syncable="YES">
+    <entity name="Story" representedClassName="Story" parentEntity="Entry" syncable="YES">
         <attribute name="assignedDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="assignedTo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="closedBy" optional="YES" attributeType="String" syncable="YES"/>
@@ -124,7 +124,7 @@
         <attribute name="verify" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="version" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
     </entity>
-    <entity name="Task" representedClassName="zentao.Task" parentEntity="Entry" syncable="YES">
+    <entity name="Task" representedClassName="Task" parentEntity="Entry" syncable="YES">
         <attribute name="assignedBy" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="assignedDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="canceledBy" optional="YES" attributeType="String" syncable="YES"/>
@@ -157,7 +157,7 @@
         <attribute name="storyVersion" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="Todo" representedClassName="zentao.Todo" parentEntity="Entry" syncable="YES">
+    <entity name="Todo" representedClassName="Todo" parentEntity="Entry" syncable="YES">
         <attribute name="account" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="begin" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
@@ -169,13 +169,13 @@
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Event" positionX="252" positionY="195" width="126" height="58"/>
-        <element name="Todo" positionX="-90" positionY="191" width="128" height="178"/>
-        <element name="Product" positionX="-81" positionY="540" width="128" height="223"/>
-        <element name="Project" positionX="-261" positionY="194" width="128" height="433"/>
         <element name="Bug" positionX="250" positionY="306" width="128" height="598"/>
         <element name="Entry" positionX="-81" positionY="396" width="128" height="118"/>
+        <element name="Event" positionX="252" positionY="195" width="126" height="58"/>
+        <element name="Product" positionX="-81" positionY="540" width="128" height="223"/>
+        <element name="Project" positionX="-261" positionY="194" width="128" height="433"/>
         <element name="Story" positionX="27" positionY="495" width="128" height="463"/>
-        <element name="Task" positionX="36" positionY="603" width="128" height="510"/>
+        <element name="Task" positionX="36" positionY="603" width="128" height="508"/>
+        <element name="Todo" positionX="-90" positionY="191" width="128" height="178"/>
     </elements>
 </model>
