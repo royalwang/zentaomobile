@@ -51,10 +51,10 @@ struct ZentaoAPI {
             url += "/index.php?"
             if moduleNameIdentifier == "user" && methodNameIdentifier == "login" {
                 url += "m=user&f=login&account=\(user.account)"
-                    + "&password=\(user.passwordMD5WithRand)"
-                    + "&\(user.config!.sessionName)"
-                    + "=\(user.config!.sessionID)"
-                    + "&t=\(viewType)"
+                url += "&password=\(user.passwordMD5WithRand)"
+                url += "&\(user.config!.sessionName)"
+                url += "=\(user.config!.sessionID)"
+                url += "&t=\(viewType)"
                 return url;
             }
             

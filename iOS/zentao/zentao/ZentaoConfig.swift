@@ -14,7 +14,7 @@ import Foundation
 /// config as json like: {"version":"6.3","requestType":"PATH_INFO","pathType":"clean",
 /// "requestFix":"-","moduleVar":"m","methodVar":"f","viewVar":"t","sessionVar":"sid",
 /// "sessionName":"sid","sessionID":"joj7nhuq6mk0snot551oaju405","rand":4396,"expiredTime":"1440"}
-struct ZentaoConfig {
+struct ZentaoConfig: Printable {
     let version: String?
     let requestType: String?
     let requestFix: String?
@@ -44,7 +44,7 @@ struct ZentaoConfig {
         }
     }
     
-    var string: String {
+    var description: String {
         get {
             return "{version:\(version!), requestType:\(requestType!), requestFix:\(requestFix!), moduleVar:\(moduleVar!), methodVar:\(methodVar!), viewVar:\(viewVar!), sessionName:\(sessionName!), sessionID:\(sessionID!), rand:\(rand!), expiredTime:\(expiredTime!)}";
         }
