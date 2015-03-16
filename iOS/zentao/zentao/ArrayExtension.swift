@@ -264,81 +264,6 @@ extension Array {
     }
     
     /**
-    Produces an array of arrays, each containing n elements, each offset by step.
-    
-    :param: n The number of elements in each partition.
-    :param: step The number of elements to progress between each partition.  Set to n if not supplied.
-    :param: pad An array of elements to pad the last partition if it is not long enough to
-    contain n elements. If nil is passed or there are not enough pad elements
-    the last partition may less than n elements long.
-    :returns: Array partitioned into n element arrays, starting step elements apart.
-    */
-    func partition (var n: Int, var step: Int? = nil, pad: Array?) -> [Array] {
-        var result = [Array]()
-        
-        // If no step is supplied move n each step.
-        if step == nil {
-            step = n
-        }
-        
-        // Less than 1 results in an infinite loop.
-        if step < 1 {
-            step = 1
-        }
-        
-        // Allow 0 if user wants [[],[],[]] for some reason.
-        if n < 1 {
-            n = 0
-        }
-        
-        for i in stride(from: 0, to: count, by: step!) {
-            var end = i + n
-            
-            if end > count {
-                end = count
-            }
-            
-            result += [self[i..end]]
-            
-            if end != i + n {
-                break
-            }
-        }
-        
-        if let padding = pad {
-            let remaining = count % n
-            result[result.count - 1] += padding[0..<remaining] as Array
-        }
-        
-        return result
-    }
-    
-    /**
-    Produces an array of arrays, each containing n elements, each offset by step.
-    
-    :param: n The number of elements in each partition.
-    :param: step The number of elements to progress between each partition. Set to n if not supplied.
-    :returns: Array partitioned into n element arrays, starting step elements apart.
-    */
-    func partitionAll (var n: Int, var step: Int? = nil) -> [Array] {
-        var result = [Array]()
-        
-        // If no step is supplied move n each step.
-        if step == nil {
-            step = n
-        }
-        
-        if step < 1 { step = 1 } // Less than 1 results in an infinite loop.
-        if n < 1    { n = 0 }    // Allow 0 if user wants [[],[],[]] for some reason.
-        
-        for i in stride(from: 0, to: count, by: step!) {
-            result += [self[i..(i + n)]]
-        }
-        
-        return result
-    }
-    
-    /**
     Applies cond to each element in array, splitting it each time cond returns a new value.
     
     :param: cond Function which takes an element and produces an equatable result.
@@ -778,41 +703,6 @@ extension Array {
         var result: [U: Element] = [:]
         for item in self {
             result[keySelector(item)] = item
-        }
-        
-        return result
-    }
-    
-    /**
-    Flattens a nested Array self to an array of OutType objects.
-    
-    :returns: Flattened array
-    */
-    func flatten <OutType> () -> [OutType] {
-        var result = [OutType]()
-        let reflection = reflect(self)
-        
-        for i in 0..<reflection.count {
-            result += Ex.bridgeObjCObject(reflection[i].1.value) as [OutType]
-        }
-        
-        return result
-    }
-    
-    /**
-    Flattens a nested Array self to an array of AnyObject.
-    
-    :returns: Flattened array
-    */
-    func flattenAny () -> [AnyObject] {
-        var result = [AnyObject]()
-        
-        for item in self {
-            if let array = item as? NSArray {
-                result += array.flattenAny()
-            } else if let object = item as? NSObject {
-                result.append(object)
-            }
         }
         
         return result
