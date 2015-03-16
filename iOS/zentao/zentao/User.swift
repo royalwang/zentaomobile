@@ -8,34 +8,45 @@
 
 import Foundation
 
-class User {
+class User: Printable {
+    class func createIdentify(thisAddress: String, thisAccount: String) -> String? {
+        if thisAddress.isEmpty || thisAccount.isEmpty {
+            return nil
+        }
+        return "\(thisAccount)@\(thisAddress)"
+    }
+    
+    class func getAccountFromIdentify(identify: String) -> String? {
+        return identify.length > 1 ? identify[0...identify.indexOf("@")] : nil;
+    }
+    
+    class func getAdressFromIdentify(identify: String) -> String? {
+        return identify.length > 1 ? identify.subString(identify.indexOf("@")) : nil;
+    }
+    
     let password_with_md5_flag = "%%%PWD_FLAG%%% "
     let password_with_md5_flag_length = 15
     
     let account: String
     let address: String
     private var password: String
+    var notifyEnable: Bool = true
+    var syncFrequency: Int = 300 // seconds
+    var id: String?
+    var company: String?
+    var gender: String?
+    var role: String?
+    var realName: String?
+    var email: String?
     var config: ZentaoConfig?
     var lastSyncTime: NSDate? {
         didSet {
-            println("User setted lastSyncTime to " + lastSyncTime!.toString())
+            println("User setted lastSyncTime to " + (lastSyncTime != nil ? lastSyncTime!.toString() : "nil"))
         }
     }
     var lastLoginTime: NSDate? {
         didSet {
-            println("User setted lastLoginTime to " + lastLoginTime!.toString())
-        }
-    }
-    
-    var hasSynced: Bool {
-        get {
-            return lastSyncTime != nil
-        }
-    }
-    
-    var isNeverLogined: Bool {
-        get {
-            return lastLoginTime == nil
+            println("User setted lastLoginTime to " + (lastLoginTime != nil ? lastLoginTime!.toString() : "nil"))
         }
     }
     
@@ -50,6 +61,32 @@ class User {
         
         self.password = password
         setPassword(password)
+    }
+    
+    var description: String {
+        return "{address: \(address), account: \(account), password: \(passwordMD5WithFlag), lastSyncTime: \(lastSyncTime), lastLoginTime: \(lastLoginTime), notifyEnable: \(notifyEnable), syncFrequency: \(syncFrequency), id: \(id), company: \(company), gender: \(gender), role: \(role), realName: \(realName), email: \(email)}"
+    }
+    
+    var identify: String? {
+        return User.createIdentify(address, thisAccount: account)
+    }
+    
+    var hasLoginCredentials: Bool {
+        get {
+            return !address.isEmpty && !account.isEmpty && !passwordMD5.isEmpty
+        }
+    }
+    
+    var hasSynced: Bool {
+        get {
+            return lastSyncTime != nil
+        }
+    }
+    
+    var isNeverLogined: Bool {
+        get {
+            return lastLoginTime == nil
+        }
     }
     
     var passwordMD5WithRand: String {
@@ -85,5 +122,4 @@ class User {
         }
         password = passwordStr
     }
-
 }
