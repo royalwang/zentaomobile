@@ -9,6 +9,11 @@
 import Foundation
 
 class User: Printable {
+    
+    enum Status {
+        case Unknown, Offline, Online
+    }
+    
     class func createIdentify(thisAddress: String, thisAccount: String) -> String? {
         if thisAddress.isEmpty || thisAccount.isEmpty {
             return nil
@@ -61,6 +66,33 @@ class User: Printable {
         
         self.password = password
         setPassword(password)
+    }
+    
+    private var currentStatus = Status.Unknown
+    
+    var status: Status {
+        get {
+            if config == nil && currentStatus == .Online {
+                currentStatus = .Offline
+            }
+            
+            if !hasLoginCredentials {
+                currentStatus = .Unknown
+            }
+            
+            return currentStatus
+        }
+        set {
+            currentStatus = newValue
+        }
+    }
+    
+    var isOnline: Bool {
+        return status == .Online
+    }
+    
+    var isOffline: Bool {
+        return status != .Online
     }
     
     var zentao: String {

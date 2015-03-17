@@ -21,6 +21,10 @@ class UserProfile {
         }
     }
     
+    class func getUser(var identify: String = "", allowTemp: Bool = true) -> User? {
+        return sharedInstance.getUser(identify: identify, allowTemp: allowTemp)
+    }
+    
     let CURRENT_IDENTIFY = "#CURRENT_IDENTIFY"
     var onIdentifyChange: [(identify: String) -> Void]?
     let profile: NSUserDefaults
@@ -38,6 +42,11 @@ class UserProfile {
                 }
             }
         }
+    }
+    var tempUser: User?
+    
+    var user: User? {
+        return tempUser
     }
     
     private init() {
@@ -76,7 +85,7 @@ class UserProfile {
         return profile.synchronize()
     }
     
-    func getUser(var identify: String = "") -> User? {
+    func getUser(var identify: String = "", allowTemp: Bool = true) -> User? {
         if identify.isEmpty {
             identify = self.identify
             if identify.isEmpty {
@@ -86,21 +95,26 @@ class UserProfile {
             self.identify = identify
         }
         
+        if allowTemp && tempUser != nil && tempUser!.identify != nil
+            && tempUser!.identify! == identify {
+            return tempUser
+        }
+        
         let address = self["address"].string ?? ""
         let account = self["account"].string ?? ""
         let password = self["password"].string ?? ""
-        let user = User(address: address, account: account, password: password)
-        user.lastLoginTime = self["lastLoginTime"].date
-        user.lastSyncTime = self["lastSyncTime"].date
-        user.notifyEnable = self["notifyEnable"].bool ?? user.notifyEnable
-        user.syncFrequency = self["syncFrequency"].int ?? user.syncFrequency
-        user.id = self["id"].string
-        user.company = self["company"].string
-        user.gender = self["gender"].string
-        user.role = self["role"].string
-        user.realName = self["realName"].string
-        user.email = self["email"].string
-        return user
+        tempUser = User(address: address, account: account, password: password)
+        tempUser!.lastLoginTime = self["lastLoginTime"].date
+        tempUser!.lastSyncTime = self["lastSyncTime"].date
+        tempUser!.notifyEnable = self["notifyEnable"].bool ?? tempUser!.notifyEnable
+        tempUser!.syncFrequency = self["syncFrequency"].int ?? tempUser!.syncFrequency
+        tempUser!.id = self["id"].string
+        tempUser!.company = self["company"].string
+        tempUser!.gender = self["gender"].string
+        tempUser!.role = self["role"].string
+        tempUser!.realName = self["realName"].string
+        tempUser!.email = self["email"].string
+        return tempUser
     }
     
     func saveUser(user: User) -> Bool {
@@ -119,6 +133,7 @@ class UserProfile {
             self["role"] = user.role
             self["realName"] = user.realName
             self["email"] = user.email
+            tempUser = user
             return save()
         }
         return false
