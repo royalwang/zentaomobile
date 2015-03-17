@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 
+@objc(Story)
 class Story: Entry {
     
     override var entryType: EntryType {

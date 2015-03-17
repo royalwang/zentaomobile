@@ -27,7 +27,7 @@ class Entry: NSManagedObject {
     }
     
     subscript(attrName: String) -> AnyObject? {
-        return valueForKey(attr.name)
+        return valueForKey(attrName)
     }
     
     subscript(attr: EntryAttribute) -> AnyObject? {

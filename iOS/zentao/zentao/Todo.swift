@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 
+@objc(Todo)
 class Todo: Entry {
     
     override var entryType: EntryType {

@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 
+@objc(Bug)
 class Bug: Entry {
     
     override var entryType: EntryType {
