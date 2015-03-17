@@ -91,6 +91,34 @@ class CoreDataStore {
         return nil
     }
     
+    func query(type: EntityType, user: User, var predicate: String, sortDescriptor: [NSSortDescriptor], complete: ((finalResult: [Entity]?) -> Void)) -> NSPersistentStoreResult? {
+        if let context = self.managedObjectContext {
+            let fetchRequest = NSFetchRequest(entityName: type.name)
+            predicate = predicate.isEmpty ? "zentao is '\(user.zentao)'"
+                : "zentao is '\(user.zentao)' and (\(predicate))";
+            
+            fetchRequest.sortDescriptors = sortDescriptor
+            fetchRequest.predicate = NSPredicate(format: predicate)
+
+            let asyncFetchRequest = NSAsynchronousFetchRequest(fetchRequest: fetchRequest) {
+                result in
+                complete(finalResult: result.finalResult as [Entity]?)
+            }
+            
+            var error: NSError? = nil
+            return context.executeRequest(asyncFetchRequest, error: &error)
+        }
+        return nil
+    }
+    
+    func query(type: EntityType, user: User, var predicate: String, complete: ((finalResult: [Entity]?) -> Void)) -> NSPersistentStoreResult? {
+        return query(type, user: user, predicate: predicate, sortDescriptor: [NSSortDescriptor(key: "id", ascending: true, selector: Selector("localizedStandardCompare:"))], complete)
+    }
+    
+    func query(type: EntityType, user: User, complete: ((finalResult: [Entity]?) -> Void)) -> NSPersistentStoreResult? {
+        return query(type, user: user, predicate: "", complete: complete)
+    }
+    
     func query(type: EntityType, user: User, var predicate: String = "", var sortDescriptor: [NSSortDescriptor]? = nil) -> [Entity]? {
         if let context = self.managedObjectContext {
             let fetchRequest = NSFetchRequest(entityName: type.name)
