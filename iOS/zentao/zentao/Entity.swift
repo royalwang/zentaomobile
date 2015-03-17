@@ -65,4 +65,13 @@ class Entity: NSManagedObject {
             }
         }
     }
+    
+    override var description: String {
+        super.description
+        var desc = "{"
+        for attr in entityType.attributes {
+            desc += "\(attr.name): \(self[attr])"
+        }
+        return desc
+    }
 }
