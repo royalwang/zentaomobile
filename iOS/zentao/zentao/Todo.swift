@@ -10,9 +10,9 @@ import Foundation
 import CoreData
 
 @objc(Todo)
-class Todo: Entry {
+class Todo: Entity {
     
-    override var entryType: EntryType {
+    override var entityType: EntityType {
         return .Todo
     }
 

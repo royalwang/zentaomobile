@@ -117,11 +117,11 @@ struct ZentaoAPI {
         }
     }
     
-    static func getItem(entryType: EntryType, id: String, user: User, complete: ((result: Bool, jsonData: JSON?, message: String?) -> Void)) {
+    static func getItem(entityType: EntityType, id: String, user: User, complete: ((result: Bool, jsonData: JSON?, message: String?) -> Void)) {
         let params = [
             "module": "api",
             "method": "mobileGetInfo",
-            "type": entryType.name.lowercaseString,
+            "type": entityType.name.lowercaseString,
             "id": id]
         HTTP.get(self.concatUrl(params, withUser: user)) {
             (json: JSON?) in
@@ -142,18 +142,18 @@ struct ZentaoAPI {
         }
     }
     
-    static func getItem(entryType: EntryType, id: Int, user: User, complete: ((result: Bool, jsonData: JSON?, message: String?) -> Void)) {
-        getItem(entryType, id: String(id), user: user, complete)
+    static func getItem(entityType: EntityType, id: Int, user: User, complete: ((result: Bool, jsonData: JSON?, message: String?) -> Void)) {
+        getItem(entityType, id: String(id), user: user, complete)
     }
     
-    static func getItemList(entryType: EntryType, user: User,
+    static func getItemList(entityType: EntityType, user: User,
         options: (type: String, range: Int, records: Int, format: String), complete:
         ((result: Bool, jsonData: JSON?, message: String?) -> Void)) {
             
             let params = [
                 "module": "api",
                 "method": "mobileGetList",
-                "object": entryType == .Default ? "all" : entryType.name.lowercaseString,
+                "object": entityType == .Default ? "all" : entityType.name.lowercaseString,
                 "type": options.type,
                 "range": String(options.range),
                 "last": user.hasSynced ? String(Int(round(user.lastSyncTime!.timeIntervalSince1970))) : "0",
@@ -179,9 +179,9 @@ struct ZentaoAPI {
             }
     }
     
-    static func getItemList(entryType: EntryType, user: User, complete:
+    static func getItemList(entityType: EntityType, user: User, complete:
         ((result: Bool, jsonData: JSON?, message: String?) -> Void)) {
-            getItemList(entryType, user: user, options: ("increment", 0, 1000, "index"), complete)
+            getItemList(entityType, user: user, options: ("increment", 0, 1000, "index"), complete)
     }
     
     static func getItemList(user: User, complete:

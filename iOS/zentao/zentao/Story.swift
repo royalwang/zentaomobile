@@ -10,9 +10,9 @@ import Foundation
 import CoreData
 
 @objc(Story)
-class Story: Entry {
+class Story: Entity {
     
-    override var entryType: EntryType {
+    override var entityType: EntityType {
         return .Story
     }
 

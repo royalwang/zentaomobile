@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class Entry: NSManagedObject {
+class Entity: NSManagedObject {
 
     @NSManaged var delete: NSNumber
     @NSManaged var id: NSNumber
@@ -17,7 +17,7 @@ class Entry: NSManagedObject {
     @NSManaged var unread: NSNumber
     @NSManaged var zentao: String
     
-    var entryType: EntryType {
+    var entityType: EntityType {
         return .Default
     }
     
@@ -59,7 +59,7 @@ class Entry: NSManagedObject {
     }
     
     func from(apiValues values: [String: AnyObject]) {
-        for attr in entryType.attributes {
+        for attr in entityType.attributes {
             if values.has(attr.apiName) {
                 self[attr] = values[attr.apiName]
             }

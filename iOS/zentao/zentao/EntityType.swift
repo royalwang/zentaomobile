@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum EntryType : Int, AccentIconProtocol, NameValueEnum {
+enum EntityType : Int, AccentIconProtocol, NameValueEnum {
     
     case Default = 0
     case Todo
@@ -31,7 +31,7 @@ enum EntryType : Int, AccentIconProtocol, NameValueEnum {
     static let values = [Default, Todo, Task, Bug, Story, Product, Project]
     static let names = ["Default", "Todo", "Task", "Bug", "Story", "Product", "Project"]
     
-    static func fromName(name: String, ignoreCase: Bool = true) -> EntryType? {
+    static func fromName(name: String, ignoreCase: Bool = true) -> EntityType? {
         if ignoreCase {
             let lowerName = name.lowercaseString
             for (id, thisName) in enumerate(names) {
@@ -52,19 +52,19 @@ enum EntryType : Int, AccentIconProtocol, NameValueEnum {
     
     var swatch: MaterialColorSwatch {
         get {
-            return EntryType.accentIconMap[self.rawValue].swatch
+            return EntityType.accentIconMap[self.rawValue].swatch
         }
     }
     
     var icon: IconVal {
         get {
-            return EntryType.accentIconMap[self.rawValue].icon
+            return EntityType.accentIconMap[self.rawValue].icon
         }
     }
     
     var name: String {
         get {
-            return EntryType.names[self.rawValue]
+            return EntityType.names[self.rawValue]
         }
     }
     
@@ -84,7 +84,7 @@ enum EntryType : Int, AccentIconProtocol, NameValueEnum {
         EntryAttribute(name: "delete", type: .Int, apiName: "deleted")
     ]
     
-    static let todoAttributes = [
+    static let todoAttributes = EntityType.basicAttributes + [
         EntryAttribute(name: "name"),
         EntryAttribute(name: "begin", type: .Date),
         EntryAttribute(name: "end", type: .Date),
@@ -96,7 +96,7 @@ enum EntryType : Int, AccentIconProtocol, NameValueEnum {
         EntryAttribute.string("account")
     ]
     
-    static let taskAttributes = [
+    static let taskAttributes = EntityType.basicAttributes + [
         EntryAttribute.string("assignedBy"),
         EntryAttribute.date("assignedDate"),
         EntryAttribute.string("canceledBy"),
@@ -130,7 +130,7 @@ enum EntryType : Int, AccentIconProtocol, NameValueEnum {
         EntryAttribute.enumerate("type")
     ]
     
-    static let storyAttributes = [
+    static let storyAttributes = EntityType.basicAttributes + [
         EntryAttribute.date("assignedDate"),
         EntryAttribute.string("assignedTo"),
         EntryAttribute.string("closedBy"),
@@ -161,7 +161,7 @@ enum EntryType : Int, AccentIconProtocol, NameValueEnum {
         EntryAttribute.int("version")
     ]
     
-    static let bugAttributes = [
+    static let bugAttributes = EntityType.basicAttributes + [
         EntryAttribute.int("activatedCount"),
         EntryAttribute.date("assignedDate"),
         EntryAttribute.string("assignedTo"),
@@ -201,7 +201,7 @@ enum EntryType : Int, AccentIconProtocol, NameValueEnum {
         EntryAttribute.enumerate("type")
     ]
     
-    static let productAttributes = [
+    static let productAttributes = EntityType.basicAttributes + [
         EntryAttribute.enumerate("acl"),
         EntryAttribute.string("code"),
         EntryAttribute.string("createdBy"),
@@ -216,7 +216,7 @@ enum EntryType : Int, AccentIconProtocol, NameValueEnum {
         EntryAttribute.string("whitelist")
     ]
     
-    static let projectAttributes = [
+    static let projectAttributes = EntityType.basicAttributes + [
         EntryAttribute.enumerate("acl"),
         EntryAttribute.date("begin"),
         EntryAttribute.string("canceledBy"),
@@ -248,19 +248,19 @@ enum EntryType : Int, AccentIconProtocol, NameValueEnum {
     var attributes: [EntryAttribute] {
         switch self {
         case .Default:
-            return EntryType.basicAttributes
+            return EntityType.basicAttributes
         case .Todo:
-            return EntryType.todoAttributes
+            return EntityType.todoAttributes
         case .Task:
-            return EntryType.taskAttributes
+            return EntityType.taskAttributes
         case .Bug:
-            return EntryType.bugAttributes
+            return EntityType.bugAttributes
         case .Story:
-            return EntryType.storyAttributes
+            return EntityType.storyAttributes
         case .Product:
-            return EntryType.productAttributes
+            return EntityType.productAttributes
         case .Project:
-            return EntryType.projectAttributes
+            return EntityType.projectAttributes
         }
     }
 }
