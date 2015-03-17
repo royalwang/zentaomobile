@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class Product: DataEntry {
+class Product: Entry {
     
     override var entryType: EntryType {
         return .Product

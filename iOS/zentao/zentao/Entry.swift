@@ -15,6 +15,14 @@ class Entry: NSManagedObject {
     @NSManaged var zentao: String
     @NSManaged var unread: Bool
     @NSManaged var lastSyncTime: NSTimeInterval
-//    @NSManaged var deleted: Bool
-
+    @NSManaged var delete: Bool
+    
+    var entryType: EntryType {
+        return .Default
+    }
+    
+    func getRequired(zentao: String, id: Int) {
+        self.zentao = zentao
+        self.id = id
+    }
 }

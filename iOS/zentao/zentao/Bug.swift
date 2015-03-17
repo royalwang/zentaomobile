@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class Bug: DataEntry {
+class Bug: Entry {
     
     override var entryType: EntryType {
         return .Bug

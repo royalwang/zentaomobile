@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class Todo: DataEntry {
+class Todo: Entry {
     
     override var entryType: EntryType {
         return .Todo

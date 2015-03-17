@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class Task: DataEntry {
+class Task: Entry {
     
     override var entryType: EntryType {
         return .Task
