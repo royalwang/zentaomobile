@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class Task: Entry, DateEntry {
+class Task: Entry, DataEntry {
     
     let entryType = EntryType.Task
 

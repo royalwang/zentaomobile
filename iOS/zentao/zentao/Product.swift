@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class Product: Entry, DateEntry {
+class Product: Entry, DataEntry {
     
     let entryType = EntryType.Product
     
