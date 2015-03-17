@@ -65,15 +65,121 @@ class CoreDataStore {
     
     // MARK: - Core Data Saving support
     
-    func saveContext () {
+    func saveContext () -> Bool {
         if let moc = self.managedObjectContext {
             var error: NSError? = nil
-            if moc.hasChanges && !moc.save(&error) {
-                // Replace this implementation with code to handle the error appropriately.
-                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                NSLog("Unresolved error \(error), \(error!.userInfo)")
-                abort()
+            if moc.hasChanges {
+                let result = moc.save(&error)
+                if !result {
+                    println("Save context error: \(error)")
+                }
+                return result
             }
         }
+        return false
+    }
+    
+    // MARK: dao methods
+    
+    func newEntityForInsert(type: EntityType, user: User) -> Entity? {
+        if let context = self.managedObjectContext {
+            let entity: Entity = NSEntityDescription.insertNewObjectForEntityForName(type.name,
+                inManagedObjectContext: context) as Entity
+            entity.zentao = user.zentao
+            return entity
+        }
+        return nil
+    }
+    
+    func query(type: EntityType, user: User, var predicate: String = "", var sortDescriptor: [NSSortDescriptor]? = nil) -> [Entity]? {
+        if let context = self.managedObjectContext {
+            let fetchRequest = NSFetchRequest(entityName: type.name)
+            predicate = predicate.isEmpty ? "zentao is '\(user.zentao)'"
+                : "zentao is '\(user.zentao)' and (\(predicate))";
+            if sortDescriptor == nil {
+                sortDescriptor = [NSSortDescriptor(key: "id", ascending: true, selector: Selector("localizedStandardCompare:"))]
+            }
+            
+            fetchRequest.sortDescriptors = sortDescriptor!
+            fetchRequest.predicate = NSPredicate(format: predicate)
+            
+            var error: NSError? = nil
+            return context.executeFetchRequest(fetchRequest, error: &error) as [Entity]?
+        }
+        return nil
+    }
+    
+    func query(type: EntityType, user: User, id: Int) -> Entity? {
+        let result = query(type, user: user, predicate: "id is \(id)")
+        if let r = result {
+            if r.count > 0 {
+                return r[0]
+            }
+        }
+        return nil
+    }
+    
+    func query(id: NSManagedObjectID) -> Entity? {
+        if let context = self.managedObjectContext {
+            return (context.objectWithID(id) as Entity)
+        }
+        return nil
+    }
+    
+    func delete(entities: [Entity]) -> Int {
+        if let context = self.managedObjectContext {
+            if entities.count > 0 {
+                for entity in entities {
+                    context.deleteObject(entity)
+                }
+                if saveContext() {
+                    return entities.count
+                }
+            }
+        }
+        return 0;
+    }
+    
+    func delete(entity: Entity) -> Bool {
+        return delete([entity]) > 0
+    }
+    
+    func delete(type: EntityType, user: User, predicate: String) -> Int {
+        if let context = self.managedObjectContext {
+            let result = query(type, user: user, predicate: predicate)
+            if let r = result {
+                if r.count > 0 {
+                    for entity in r {
+                        context.deleteObject(entity)
+                    }
+                    if saveContext() {
+                        return r.count
+                    }
+                }
+            }
+        }
+        return 0
+    }
+    
+    func save(entities: [Entity]) -> Int {
+        if let context = self.managedObjectContext {
+            if entities.count > 0 {
+                for entity in entities {
+                    context.deleteObject(entity)
+                }
+                if saveContext() {
+                    return entities.count
+                }
+            }
+        }
+        return 0;
+    }
+    
+    func entityForSave(type: EntityType, user: User, id: Int) -> Entity {
+        var entity = query(type, user: user, id: id)
+        if entity == nil {
+            entity = newEntityForInsert(type, user: user)
+        }
+        return entity!
     }
 }

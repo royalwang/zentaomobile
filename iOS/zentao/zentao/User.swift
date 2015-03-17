@@ -63,6 +63,10 @@ class User: Printable {
         setPassword(password)
     }
     
+    var zentao: String {
+        return address.lowercaseString
+    }
+    
     var description: String {
         return "{address: \(address), account: \(account), password: \(passwordMD5WithFlag), lastSyncTime: \(lastSyncTime), lastLoginTime: \(lastLoginTime), notifyEnable: \(notifyEnable), syncFrequency: \(syncFrequency), id: \(id), company: \(company), gender: \(gender), role: \(role), realName: \(realName), email: \(email)}"
     }
