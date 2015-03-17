@@ -2,7 +2,7 @@
 //  Todo.swift
 //  zentao
 //
-//  Created by Sun Hao on 15/3/16.
+//  Created by Sun Hao on 15/3/17.
 //  Copyright (c) 2015年 cnezsoft.com. All rights reserved.
 //
 
@@ -14,19 +14,19 @@ class Todo: Entry {
     override var entryType: EntryType {
         return .Todo
     }
-    
-    @NSManaged var name: String
-    @NSManaged var begin: NSTimeInterval
-    @NSManaged var end: NSTimeInterval
-    @NSManaged var type: String
-    @NSManaged var status: String
-    @NSManaged var pri: Int16
-    @NSManaged var idvalue: Int32
-    @NSManaged var desc: String
+
     @NSManaged var account: String
-    
-    func getRequired(zentao: String, account: String, id: Int, name: String) {
-        super.getRequired(zentao, id: id)
+    @NSManaged var begin: NSDate
+    @NSManaged var desc: String
+    @NSManaged var end: NSDate
+    @NSManaged var idvalue: NSNumber
+    @NSManaged var name: String
+    @NSManaged var pri: NSNumber
+    @NSManaged var status: String
+    @NSManaged var type: String
+
+    func setRequired(zentao: String, account: String, id: Int, name: String) {
+        super.setRequired(zentao, id: id)
         self.account = account
         self.name = name
     }

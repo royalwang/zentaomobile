@@ -2,7 +2,7 @@
 //  Product.swift
 //  zentao
 //
-//  Created by Sun Hao on 15/3/16.
+//  Created by Sun Hao on 15/3/17.
 //  Copyright (c) 2015年 cnezsoft.com. All rights reserved.
 //
 
@@ -14,11 +14,11 @@ class Product: Entry {
     override var entryType: EntryType {
         return .Product
     }
-    
+
     @NSManaged var acl: String
     @NSManaged var code: String
     @NSManaged var createdBy: String
-    @NSManaged var createdDate: NSTimeInterval
+    @NSManaged var createdDate: NSDate
     @NSManaged var createdVersion: String
     @NSManaged var desc: String
     @NSManaged var name: String

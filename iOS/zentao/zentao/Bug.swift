@@ -2,7 +2,7 @@
 //  Bug.swift
 //  zentao
 //
-//  Created by Sun Hao on 15/3/16.
+//  Created by Sun Hao on 15/3/17.
 //  Copyright (c) 2015年 cnezsoft.com. All rights reserved.
 //
 
@@ -15,42 +15,42 @@ class Bug: Entry {
         return .Bug
     }
 
-    @NSManaged var activatedCount: Int32
-    @NSManaged var assignedDate: NSTimeInterval
+    @NSManaged var activatedCount: NSNumber
+    @NSManaged var assignedDate: NSDate
     @NSManaged var assignedTo: String
     @NSManaged var browser: String
     @NSManaged var closedBy: String
-    @NSManaged var closedDate: NSTimeInterval
-    @NSManaged var confirmed: Bool
-    @NSManaged var duplicateBug: Int32
+    @NSManaged var closedDate: NSDate
+    @NSManaged var confirmed: NSNumber
+    @NSManaged var duplicateBug: NSNumber
     @NSManaged var found: String
     @NSManaged var hardware: String
     @NSManaged var keywords: String
     @NSManaged var lastEditedBy: String
-    @NSManaged var lastEditedDate: NSTimeInterval
+    @NSManaged var lastEditedDate: NSDate
     @NSManaged var mailto: String
-    @NSManaged var module: Int32
+    @NSManaged var module: NSNumber
     @NSManaged var openedBuild: String
     @NSManaged var openedBy: String
-    @NSManaged var openedDate: NSTimeInterval
+    @NSManaged var openedDate: NSDate
     @NSManaged var os: String
-    @NSManaged var plan: Int32
-    @NSManaged var pri: Int16
-    @NSManaged var product: Int32
-    @NSManaged var project: Int32
+    @NSManaged var plan: NSNumber
+    @NSManaged var pri: NSNumber
+    @NSManaged var product: NSNumber
+    @NSManaged var project: NSNumber
     @NSManaged var resolution: String
     @NSManaged var resolvedBuild: String
     @NSManaged var resolvedBy: String
-    @NSManaged var resolvedDate: NSTimeInterval
-    @NSManaged var severity: Int16
+    @NSManaged var resolvedDate: NSDate
+    @NSManaged var severity: NSNumber
     @NSManaged var status: String
     @NSManaged var steps: String
-    @NSManaged var story: Int32
-    @NSManaged var storyVersion: Int32
-    @NSManaged var task: Int32
+    @NSManaged var story: NSNumber
+    @NSManaged var storyVersion: NSNumber
+    @NSManaged var task: NSNumber
     @NSManaged var title: String
-    @NSManaged var toStory: Int32
-    @NSManaged var toTask: Int32
+    @NSManaged var toStory: NSNumber
+    @NSManaged var toTask: NSNumber
     @NSManaged var type: String
 
 }

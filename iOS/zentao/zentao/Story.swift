@@ -2,7 +2,7 @@
 //  Story.swift
 //  zentao
 //
-//  Created by Sun Hao on 15/3/16.
+//  Created by Sun Hao on 15/3/17.
 //  Copyright (c) 2015年 cnezsoft.com. All rights reserved.
 //
 
@@ -15,33 +15,33 @@ class Story: Entry {
         return .Story
     }
 
-    @NSManaged var assignedDate: NSTimeInterval
+    @NSManaged var assignedDate: NSDate
     @NSManaged var assignedTo: String
     @NSManaged var closedBy: String
-    @NSManaged var closedDate: NSTimeInterval
+    @NSManaged var closedDate: NSDate
     @NSManaged var closedReason: String
-    @NSManaged var duplicateStory: Int32
-    @NSManaged var estimate: Float
-    @NSManaged var fromBug: Int32
+    @NSManaged var duplicateStory: NSNumber
+    @NSManaged var estimate: NSNumber
+    @NSManaged var fromBug: NSNumber
     @NSManaged var keywords: String
     @NSManaged var lastEditedBy: String
-    @NSManaged var lastEditedDate: NSTimeInterval
+    @NSManaged var lastEditedDate: NSDate
     @NSManaged var mailto: String
-    @NSManaged var module: Int32
+    @NSManaged var module: NSNumber
     @NSManaged var openedBy: String
-    @NSManaged var openedDate: NSTimeInterval
-    @NSManaged var plan: Int32
-    @NSManaged var pri: Int16
-    @NSManaged var product: Int32
+    @NSManaged var openedDate: NSDate
+    @NSManaged var plan: NSNumber
+    @NSManaged var pri: NSNumber
+    @NSManaged var product: NSNumber
     @NSManaged var reviewedBy: String
-    @NSManaged var reviewedDate: NSTimeInterval
+    @NSManaged var reviewedDate: NSDate
     @NSManaged var source: String
     @NSManaged var spec: String
     @NSManaged var stage: String
     @NSManaged var status: String
     @NSManaged var title: String
-    @NSManaged var toBug: Int32
+    @NSManaged var toBug: NSNumber
     @NSManaged var verify: String
-    @NSManaged var version: Int32
+    @NSManaged var version: NSNumber
 
 }
