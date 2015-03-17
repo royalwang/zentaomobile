@@ -73,4 +73,194 @@ enum EntryType : Int, AccentIconProtocol, NamedEnum {
             return rawValue
         }
     }
+    
+    
+    // Attributes
+    static let basicAttributes = [
+        EntryAttribute(name: "id", type: .Int),
+        EntryAttribute(name: "zentao", type: .Int, isApi: false),
+        EntryAttribute(name: "unread", type: .Int, isApi: false),
+        EntryAttribute(name: "lastSyncTime", type: .Int, isApi: false),
+        EntryAttribute(name: "delete", type: .Int, apiName: "deleted")
+    ]
+    
+    static let todoAttributes = [
+        EntryAttribute(name: "name"),
+        EntryAttribute(name: "begin", type: .Date),
+        EntryAttribute(name: "end", type: .Date),
+        EntryAttribute(name: "type", type: .Enum),
+        EntryAttribute(name: "status", type: .Enum),
+        EntryAttribute.int("pri"),
+        EntryAttribute.int("idvalue"),
+        EntryAttribute.html("desc"),
+        EntryAttribute.string("account")
+    ]
+    
+    static let taskAttributes = [
+        EntryAttribute.string("assignedBy"),
+        EntryAttribute.date("assignedDate"),
+        EntryAttribute.string("canceledBy"),
+        EntryAttribute.date("canceledDate"),
+        EntryAttribute.string("closedBy"),
+        EntryAttribute.date("closedDate"),
+        EntryAttribute.enumerate("closeReason"),
+        EntryAttribute.float("consumed"),
+        EntryAttribute.date("deadline"),
+        EntryAttribute.string("desc"),
+        EntryAttribute.string("doc"),
+        EntryAttribute.float("estimate"),
+        EntryAttribute.date("estStarted"),
+        EntryAttribute.string("finishedBy"),
+        EntryAttribute.date("finishedDate"),
+        EntryAttribute.int("fromBug"),
+        EntryAttribute.string("lastEditedBy"),
+        EntryAttribute.date("lastEditedDate"),
+        EntryAttribute.float("left"),
+        EntryAttribute.string("mialto"),
+        EntryAttribute.int("module"),
+        EntryAttribute.string("name"),
+        EntryAttribute.string("openedBy"),
+        EntryAttribute.date("openedDate"),
+        EntryAttribute.int("pri"),
+        EntryAttribute.int("project"),
+        EntryAttribute.string("realStarted"),
+        EntryAttribute.enumerate("status"),
+        EntryAttribute.int("story"),
+        EntryAttribute.int("storyVersion"),
+        EntryAttribute.enumerate("type")
+    ]
+    
+    static let storyAttributes = [
+        EntryAttribute.date("assignedDate"),
+        EntryAttribute.string("assignedTo"),
+        EntryAttribute.string("closedBy"),
+        EntryAttribute.date("closedDate"),
+        EntryAttribute.enumerate("closedReason"),
+        EntryAttribute.int("duplicateStory"),
+        EntryAttribute.float("estimate"),
+        EntryAttribute.int("fromBug"),
+        EntryAttribute.string("keywords"),
+        EntryAttribute.string("lastEditedBy"),
+        EntryAttribute.date("lastEditedDate"),
+        EntryAttribute.string("mailto"),
+        EntryAttribute.int("module"),
+        EntryAttribute.string("openedBy"),
+        EntryAttribute.date("openedDate"),
+        EntryAttribute.int("plan"),
+        EntryAttribute.int("pri"),
+        EntryAttribute.int("product"),
+        EntryAttribute.string("reviewedBy"),
+        EntryAttribute.date("reviewedDate"),
+        EntryAttribute.enumerate("source"),
+        EntryAttribute.html("spec"),
+        EntryAttribute.enumerate("stage"),
+        EntryAttribute.enumerate("status"),
+        EntryAttribute.string("title"),
+        EntryAttribute.int("toBug"),
+        EntryAttribute.html("verify"),
+        EntryAttribute.int("version")
+    ]
+    
+    static let bugAttributes = [
+        EntryAttribute.int("activatedCount"),
+        EntryAttribute.date("assignedDate"),
+        EntryAttribute.string("assignedTo"),
+        EntryAttribute.enumerate("browser"),
+        EntryAttribute.string("closedBy"),
+        EntryAttribute.date("closedDate"),
+        EntryAttribute.bool("confirmed"),
+        EntryAttribute.int("duplicateBug"),
+        EntryAttribute.string("found"),
+        EntryAttribute.string("hardware"),
+        EntryAttribute.string("keywords"),
+        EntryAttribute.string("lastEditedBy"),
+        EntryAttribute.date("lastEditedDate"),
+        EntryAttribute.string("mailto"),
+        EntryAttribute.int("module"),
+        EntryAttribute.string("openedBuild"),
+        EntryAttribute.string("openedBy"),
+        EntryAttribute.date("openedDate"),
+        EntryAttribute.enumerate("os"),
+        EntryAttribute.int("plan"),
+        EntryAttribute.int("pri"),
+        EntryAttribute.int("product"),
+        EntryAttribute.int("project"),
+        EntryAttribute.enumerate("resolution"),
+        EntryAttribute.string("resolvedBuild"),
+        EntryAttribute.string("resolvedBy"),
+        EntryAttribute.date("resolvedDate"),
+        EntryAttribute.int("severity"),
+        EntryAttribute.enumerate("status"),
+        EntryAttribute.html("steps"),
+        EntryAttribute.int("story"),
+        EntryAttribute.int("storyVersion"),
+        EntryAttribute.int("task"),
+        EntryAttribute.string("title"),
+        EntryAttribute.int("toStory"),
+        EntryAttribute.int("toTask"),
+        EntryAttribute.enumerate("type")
+    ]
+    
+    static let productAttributes = [
+        EntryAttribute.enumerate("acl"),
+        EntryAttribute.string("code"),
+        EntryAttribute.string("createdBy"),
+        EntryAttribute.date("createdDate"),
+        EntryAttribute.string("createdVersion"),
+        EntryAttribute.html("desc"),
+        EntryAttribute.string("name"),
+        EntryAttribute(name: "po", type: .String, apiName: "PO"),
+        EntryAttribute(name: "qd", type: .String, apiName: "QD"),
+        EntryAttribute(name: "rd", type: .String, apiName: "RD"),
+        EntryAttribute.enumerate("status"),
+        EntryAttribute.string("whitelist")
+    ]
+    
+    static let projectAttributes = [
+        EntryAttribute.enumerate("acl"),
+        EntryAttribute.date("begin"),
+        EntryAttribute.string("canceledBy"),
+        EntryAttribute.date("canceledDate"),
+        EntryAttribute.date("closeDate"),
+        EntryAttribute.string("closedBy"),
+        EntryAttribute.string("code"),
+        EntryAttribute.int("days"),
+        EntryAttribute.string("desc"),
+        EntryAttribute.date("end"),
+        EntryAttribute.bool("isCat"),
+        EntryAttribute.string("name"),
+        EntryAttribute.string("openedBy"),
+        EntryAttribute.date("openedDate"),
+        EntryAttribute.string("openedVersion"),
+        EntryAttribute.int("parent"),
+        EntryAttribute.int("pri"),
+        EntryAttribute(name: "po", type: .String, apiName: "PO"),
+        EntryAttribute(name: "qd", type: .String, apiName: "QD"),
+        EntryAttribute(name: "rd", type: .String, apiName: "RD"),
+        EntryAttribute(name: "pm", type: .String, apiName: "PM"),
+        EntryAttribute.string("statge"),
+        EntryAttribute.enumerate("status"),
+        EntryAttribute.string("team"),
+        EntryAttribute.enumerate("type"),
+        EntryAttribute.string("whitelist")
+    ]
+    
+    var attributes: [EntryAttribute] {
+        switch self {
+        case .Default:
+            return EntryType.basicAttributes
+        case .Todo:
+            return EntryType.todoAttributes
+        case .Task:
+            return EntryType.taskAttributes
+        case .Bug:
+            return EntryType.bugAttributes
+        case .Story:
+            return EntryType.storyAttributes
+        case .Product:
+            return EntryType.productAttributes
+        case .Project:
+            return EntryType.projectAttributes
+        }
+    }
 }
