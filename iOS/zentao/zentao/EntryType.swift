@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum EntryType : Int, AccentIconProtocol, NamedEnum {
+enum EntryType : Int, AccentIconProtocol, NameValueEnum {
     
     case Default = 0
     case Todo

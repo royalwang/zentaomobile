@@ -9,12 +9,9 @@
 import Foundation
 
 protocol NamedEnum {
-    typealias EnumType
-    
+
     class var names: [String] {get}
-    class var values: [EnumType] {get}
-    class func fromName(name: String, ignoreCase: Bool) -> EnumType?
-    
+  
     var rawValue: Int {get}
     var index: Int {get}
     var name: String {get}
