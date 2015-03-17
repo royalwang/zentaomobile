@@ -9,9 +9,11 @@
 import Foundation
 import CoreData
 
-class Product: Entry, DataEntry {
+class Product: DataEntry {
     
-    let entryType = EntryType.Product
+    override var entryType: EntryType {
+        return .Product
+    }
     
     @NSManaged var acl: String
     @NSManaged var code: String

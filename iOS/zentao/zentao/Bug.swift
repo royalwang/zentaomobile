@@ -9,9 +9,11 @@
 import Foundation
 import CoreData
 
-class Bug: Entry, DataEntry {
+class Bug: DataEntry {
     
-    let entryType = EntryType.Bug
+    override var entryType: EntryType {
+        return .Bug
+    }
 
     @NSManaged var activatedCount: Int32
     @NSManaged var assignedDate: NSTimeInterval

@@ -9,9 +9,11 @@
 import Foundation
 import CoreData
 
-class Project: Entry, DataEntry {
+class Project: DataEntry {
     
-    let entryType = EntryType.Project
+    override var entryType: EntryType {
+        return .Project
+    }
 
     @NSManaged var acl: String
     @NSManaged var begin: NSTimeInterval

@@ -9,9 +9,11 @@
 import Foundation
 import CoreData
 
-class Todo: Entry, DataEntry {
+class Todo: DataEntry {
     
-    let entryType = EntryType.Todo
+    override var entryType: EntryType {
+        return .Todo
+    }
     
     @NSManaged var name: String
     @NSManaged var begin: NSTimeInterval
@@ -24,9 +26,8 @@ class Todo: Entry, DataEntry {
     @NSManaged var account: String
     
     func getRequired(zentao: String, account: String, id: Int, name: String) {
-        self.zentao = zentao
+        super.getRequired(zentao, id: id)
         self.account = account
-        self.id = id
         self.name = name
     }
 }

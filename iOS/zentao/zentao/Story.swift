@@ -9,9 +9,11 @@
 import Foundation
 import CoreData
 
-class Story: Entry, DataEntry {
+class Story: DataEntry {
     
-    let entryType = EntryType.Story
+    override var entryType: EntryType {
+        return .Story
+    }
 
     @NSManaged var assignedDate: NSTimeInterval
     @NSManaged var assignedTo: String

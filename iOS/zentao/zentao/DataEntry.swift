@@ -8,7 +8,14 @@
 
 import Foundation
 
-protocol DataEntry {
+class DataEntry: Entry {
     
-    var entryType: EntryType {get}
+    var entryType: EntryType {
+        return .Default
+    }
+    
+    func getRequired(zentao: String, id: Int) {
+        self.zentao = zentao
+        self.id = id
+    }
 }
