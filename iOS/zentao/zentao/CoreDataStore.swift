@@ -189,20 +189,6 @@ class CoreDataStore {
         return 0
     }
     
-    func save(entities: [Entity]) -> Int {
-        if let context = self.managedObjectContext {
-            if entities.count > 0 {
-                for entity in entities {
-                    context.deleteObject(entity)
-                }
-                if saveContext() {
-                    return entities.count
-                }
-            }
-        }
-        return 0;
-    }
-    
     func entityForSave(type: EntityType, user: User, id: Int) -> Entity {
         var entity = query(type, user: user, id: id)
         if entity == nil {

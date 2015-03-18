@@ -113,9 +113,9 @@ class User: Printable {
         }
     }
     
-    var hasSynced: Bool {
+    var isNeverSynced: Bool {
         get {
-            return lastSyncTime != nil
+            return lastSyncTime == nil
         }
     }
     

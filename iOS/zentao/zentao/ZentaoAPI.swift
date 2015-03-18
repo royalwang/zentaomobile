@@ -156,7 +156,7 @@ struct ZentaoAPI {
                 "object": entityType == .Default ? "all" : entityType.name.lowercaseString,
                 "type": options.type,
                 "range": String(options.range),
-                "last": user.hasSynced ? String(Int(round(user.lastSyncTime!.timeIntervalSince1970))) : "0",
+                "last": !user.isNeverSynced ? String(Int(round(user.lastSyncTime!.timeIntervalSince1970))) : "0",
                 "records": String(options.records),
                 "format": String(options.format)]
             

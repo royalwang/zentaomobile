@@ -7,10 +7,15 @@
 //
 
 import Foundation
+import UIKit
 
 class ZentaoApp {
     
     var profile = UserProfile.sharedInstance
+    
+    var dataStore: CoreDataStore {
+        return (UIApplication.sharedApplication().delegate as AppDelegate).dataStore
+    }
     
     var user: User? {
         return profile.tempUser
@@ -49,6 +54,4 @@ class ZentaoApp {
         }
         complete(result: result)
     }
-    
-    
 }
