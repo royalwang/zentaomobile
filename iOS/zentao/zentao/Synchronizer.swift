@@ -109,7 +109,6 @@ class Synchronizer {
         return (dataStore.saveContext(), count, minIdKey)
     }
     
-    
     func getIdFrom(#jsonArry: JSON, keys: [String]) -> Int? {
         if let index = keys.indexOf("id") {
             if let values = jsonArry.arrayObject {

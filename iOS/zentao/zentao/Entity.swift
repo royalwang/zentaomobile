@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class Entity: NSManagedObject {
+class Entity: NSManagedObject, Printable {
 
     @NSManaged var delete: NSNumber
     @NSManaged var id: NSNumber
@@ -67,11 +67,12 @@ class Entity: NSManagedObject {
     }
     
     override var description: String {
-        super.description
         var desc = "{"
+        var valStr: String
         for attr in entityType.attributes {
-            desc += "\(attr.name): \(self[attr])"
+            valStr = self[attr] == nil ? "nil" : "\(self[attr]!)"
+            desc += "\(attr.name): \(valStr), "
         }
-        return desc
+        return desc + "objectID: \(objectID)}"
     }
 }

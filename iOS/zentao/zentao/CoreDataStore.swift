@@ -58,7 +58,7 @@ class CoreDataStore {
         if coordinator == nil {
             return nil
         }
-        var managedObjectContext = NSManagedObjectContext()
+        var managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = coordinator
         return managedObjectContext
         }()
@@ -94,8 +94,8 @@ class CoreDataStore {
     func query(type: EntityType, user: User, var predicate: String, sortDescriptor: [NSSortDescriptor], complete: ((finalResult: [Entity]?) -> Void)) -> NSPersistentStoreResult? {
         if let context = self.managedObjectContext {
             let fetchRequest = NSFetchRequest(entityName: type.name)
-            predicate = predicate.isEmpty ? "zentao is '\(user.zentao)'"
-                : "zentao is '\(user.zentao)' and (\(predicate))";
+            predicate = predicate.isEmpty ? "zentao == '\(user.zentao)'"
+                : "zentao == '\(user.zentao)' and (\(predicate))";
             
             fetchRequest.sortDescriptors = sortDescriptor
             fetchRequest.predicate = NSPredicate(format: predicate)
@@ -122,8 +122,8 @@ class CoreDataStore {
     func query(type: EntityType, user: User, var predicate: String = "", var sortDescriptor: [NSSortDescriptor]? = nil) -> [Entity]? {
         if let context = self.managedObjectContext {
             let fetchRequest = NSFetchRequest(entityName: type.name)
-            predicate = predicate.isEmpty ? "zentao is '\(user.zentao)'"
-                : "zentao is '\(user.zentao)' and (\(predicate))";
+            predicate = predicate.isEmpty ? "zentao == '\(user.zentao)'"
+                : "zentao == '\(user.zentao)' and (\(predicate))";
             if sortDescriptor == nil {
                 sortDescriptor = [NSSortDescriptor(key: "id", ascending: true, selector: Selector("localizedStandardCompare:"))]
             }
@@ -138,7 +138,7 @@ class CoreDataStore {
     }
     
     func query(type: EntityType, user: User, id: Int) -> Entity? {
-        let result = query(type, user: user, predicate: "id is \(id)")
+        let result = query(type, user: user, predicate: "id == \(id)")
         if let r = result {
             if r.count > 0 {
                 return r[0]
