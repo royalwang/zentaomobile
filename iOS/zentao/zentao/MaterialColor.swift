@@ -11,10 +11,10 @@ import UIKit
 
 extension MaterialColorSwatch {
     
-    struct Color {
+    struct Color: Printable {
         let val: Int
         
-        var UI: UIColor {
+        var uicolor: UIColor {
             get {
                 return UIColor(hex: val)
             }
@@ -49,11 +49,22 @@ extension MaterialColorSwatch {
                 return isInverseFront ? UIColor.whiteColor() : UIColor.blackColor();
             }
         }
+        
+        var description: String {
+            let hex = NSString(format:"%2X", val) as String
+            return "{\(hex), R: \(red), G: \(green), B: \(blue)}"
+        }
     }
     
     subscript(name: Name) -> Color {
         get {
             return Color(val: self[name.rawValue])
+        }
+    }
+    
+    var primaryColor: Color {
+        get {
+            return self[.C500]
         }
     }
 }
