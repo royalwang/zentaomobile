@@ -11,10 +11,26 @@ import UIKit
 
 class ZentaoApp {
     
-    var profile = UserProfile.sharedInstance
+    // Singleton
+    private struct SingletonKeeper {
+        static let instance = ZentaoApp()
+    }
+    
+    class var sharedInstance: ZentaoApp {
+        get {
+            return SingletonKeeper.instance
+        }
+    }
+    
+    private init() {}
+    
+    
+    var profile: UserProfile {
+        return UserProfile.sharedInstance
+    }
     
     var dataStore: CoreDataStore {
-        return (UIApplication.sharedApplication().delegate as AppDelegate).dataStore
+        return CoreDataStore.sharedInstance
     }
     
     var user: User? {

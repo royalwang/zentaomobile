@@ -27,6 +27,12 @@ class DetailViewController: UIViewController {
                 label.text = detail.valueForKey("timeStamp")!.description
             }
         }
+        
+        var label = UILabel(frame: CGRectMake(0, 90, 120, 40))
+        label.font = UIFont(name: "FontAwesome", size: 40)
+        label.text = String(format: "%C", 0xf001)
+        label.textColor = UIColor.redColor()
+        self.view.addSubview(label)
     }
 
     override func viewDidLoad() {

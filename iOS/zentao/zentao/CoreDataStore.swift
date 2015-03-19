@@ -11,6 +11,20 @@ import CoreData
 
 class CoreDataStore {
     
+    // Singleton
+    private struct SingletonKeeper {
+        static let instance = CoreDataStore()
+    }
+    
+    class var sharedInstance: CoreDataStore {
+        get {
+            return SingletonKeeper.instance
+        }
+    }
+    
+    private init() {}
+    
+    
     let storeName = "zentao"
     let storeFileName = "zentao.sqlite"
     
