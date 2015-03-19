@@ -40,7 +40,7 @@
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Entry" representedClassName="Entry" isAbstract="YES" syncable="YES">
-        <attribute name="deleted" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="delete" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="id" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
         <attribute name="lastSyncTime" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="unread" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
