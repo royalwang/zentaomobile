@@ -18,9 +18,20 @@ class ZentaoViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil);
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
 
-
         println("View did load in ZentaoViewController.")
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        if checkUserStatusOnDidAppear {
+            app.checkLogin() {
+                result in
+                println("Check user login: \(result)")
+                if !result {
+                    self.openLoginView()
+                }
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -64,6 +75,8 @@ class ZentaoViewController: UIViewController {
     
     var userKeyboardHeight: CGFloat = 150
     
+    var checkUserStatusOnDidAppear = true
+    
     var accentSwatch: MaterialColorSwatch? {
         didSet {
             if let swatch = accentSwatch {
@@ -78,6 +91,14 @@ class ZentaoViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    func openLoginView() {
+        let storyboard = self.storyboard
+        let loginVC: LoginViewController = storyboard?.instantiateViewControllerWithIdentifier("LoginViewController") as LoginViewController
+        loginVC.modalPresentationStyle = UIModalPresentationStyle.Popover
+        
+        self.presentViewController(loginVC, animated: true, completion: nil)
     }
 
 }

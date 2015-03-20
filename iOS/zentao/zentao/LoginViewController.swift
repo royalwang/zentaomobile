@@ -20,6 +20,7 @@ class LoginViewController: ZentaoViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardOnTouchesBegan = true
+        checkUserStatusOnDidAppear = false
         
         if let user = app.getUser() {
             if user.hasLoginCredentials {
