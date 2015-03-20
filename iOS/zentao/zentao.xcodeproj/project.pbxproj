@@ -7,17 +7,33 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B18CC771ABAA67000E560B7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18CC761ABAA67000E560B7 /* HomeViewController.swift */; };
+		3B18CC791ABAA74600E560B7 /* ZentaoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18CC781ABAA74600E560B7 /* ZentaoViewController.swift */; };
+		3B18CC7B1ABABFD700E560B7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18CC7A1ABABFD700E560B7 /* LoginViewController.swift */; };
+		3B18CC7D1ABACBBA00E560B7 /* IconUILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18CC7C1ABACBBA00E560B7 /* IconUILabel.swift */; };
+		3B505CBF1AB2D59100264CAF /* MaterialColorSwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B505CBE1AB2D59100264CAF /* MaterialColorSwatch.swift */; };
+		3B505CC21AB2D74C00264CAF /* MaterialColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B505CC11AB2D74C00264CAF /* MaterialColor.swift */; };
+		3B505CC61AB2DD4000264CAF /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B505CC41AB2DC0700264CAF /* fontawesome-webfont.ttf */; };
+		3B505CC81AB2E0D200264CAF /* FontAwesome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B505CC71AB2E0D200264CAF /* FontAwesome.swift */; };
+		3B505CCC1AB2EA6500264CAF /* AccentIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B505CCB1AB2EA6500264CAF /* AccentIcon.swift */; };
+		3B505CD01AB3113400264CAF /* NamedEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B505CCF1AB3113400264CAF /* NamedEnum.swift */; };
+		3B505CD21AB427DD00264CAF /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B505CD11AB427DD00264CAF /* DateExtension.swift */; };
+		3B505CD61AB4359C00264CAF /* NSDateTimeAgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B505CD51AB4359C00264CAF /* NSDateTimeAgo.swift */; };
+		3B5D30321AB8339C00D158AE /* ZentaoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5D30311AB8339C00D158AE /* ZentaoApp.swift */; };
 		3B6F65861AB1588400CCEDE6 /* ZentaoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65851AB1588400CCEDE6 /* ZentaoAPI.swift */; };
 		3B6F65881AB15BF200CCEDE6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65871AB15BF200CCEDE6 /* User.swift */; };
 		3B6F658A1AB1632A00CCEDE6 /* ZentaoConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65891AB1632A00CCEDE6 /* ZentaoConfig.swift */; };
-		3B6F658C1AB1664F00CCEDE6 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F658B1AB1664F00CCEDE6 /* SwiftyJSON.swift */; };
+		3B6F658C1AB1664F00CCEDE6 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F658B1AB1664F00CCEDE6 /* JSON.swift */; };
 		3B6F658F1AB16F6300CCEDE6 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F658E1AB16F6300CCEDE6 /* StringExtension.swift */; };
 		3B6F659F1AB1C92100CCEDE6 /* HTTPRequestSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F659E1AB1C92100CCEDE6 /* HTTPRequestSerializer.swift */; };
 		3B6F65A11AB1C93700CCEDE6 /* HTTPResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65A01AB1C93700CCEDE6 /* HTTPResponseSerializer.swift */; };
 		3B6F65A31AB1C96300CCEDE6 /* HTTPTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65A21AB1C96300CCEDE6 /* HTTPTask.swift */; };
 		3B6F65A51AB1C97E00CCEDE6 /* HTTPUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65A41AB1C97E00CCEDE6 /* HTTPUpload.swift */; };
-		3B6F65AA1AB1D84200CCEDE6 /* SJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65A91AB1D84200CCEDE6 /* SJSON.swift */; };
+		3B6F65AA1AB1D84200CCEDE6 /* CJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65A91AB1D84200CCEDE6 /* CJSON.swift */; };
 		3B6F65AC1AB1D8C200CCEDE6 /* HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65AB1AB1D8C200CCEDE6 /* HTTP.swift */; };
+		3B6F65B11AB2903B00CCEDE6 /* EntityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65B01AB2903B00CCEDE6 /* EntityType.swift */; };
+		3B6F65BB1AB2CDDF00CCEDE6 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65BA1AB2CDDF00CCEDE6 /* UIColorExtension.swift */; };
+		3BA0CB701AB978A6000ADE70 /* TaskQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA0CB6F1AB978A6000ADE70 /* TaskQueue.swift */; };
 		3BA54D061AB01F630081877C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA54D051AB01F630081877C /* AppDelegate.swift */; };
 		3BA54D091AB01F630081877C /* zentao.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3BA54D071AB01F630081877C /* zentao.xcdatamodeld */; };
 		3BA54D0B1AB01F630081877C /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA54D0A1AB01F630081877C /* MasterViewController.swift */; };
@@ -26,6 +42,24 @@
 		3BA54D121AB01F630081877C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BA54D111AB01F630081877C /* Images.xcassets */; };
 		3BA54D151AB01F630081877C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA54D131AB01F630081877C /* LaunchScreen.xib */; };
 		3BA54D211AB01F630081877C /* zentaoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA54D201AB01F630081877C /* zentaoTests.swift */; };
+		3BB92E471ABC131D00623E88 /* IconUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB92E461ABC131D00623E88 /* IconUIButton.swift */; };
+		3BEB6AB71AB7C7D900EC3281 /* EntryAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEB6AB61AB7C7D900EC3281 /* EntryAttribute.swift */; };
+		3BEB6AB91AB7FC6C00EC3281 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEB6AB81AB7FC6C00EC3281 /* Entity.swift */; };
+		3BEB6ABB1AB7FD3C00EC3281 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEB6ABA1AB7FD3C00EC3281 /* Todo.swift */; };
+		3BEB6ABD1AB7FDE300EC3281 /* Bug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEB6ABC1AB7FDE300EC3281 /* Bug.swift */; };
+		3BEB6ABF1AB7FDE400EC3281 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEB6ABE1AB7FDE400EC3281 /* Product.swift */; };
+		3BEB6AC11AB7FDE400EC3281 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEB6AC01AB7FDE400EC3281 /* Project.swift */; };
+		3BEB6AC31AB7FDE400EC3281 /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEB6AC21AB7FDE400EC3281 /* Story.swift */; };
+		3BEB6AC51AB7FDE400EC3281 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEB6AC41AB7FDE400EC3281 /* Task.swift */; };
+		3BEB6AC71AB8005300EC3281 /* NameValueEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEB6AC61AB8005300EC3281 /* NameValueEnum.swift */; };
+		3BEB6AC91AB805FC00EC3281 /* Synchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEB6AC81AB805FC00EC3281 /* Synchronizer.swift */; };
+		3BF5D4BC1AB5B44C00032433 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF5D4BB1AB5B44C00032433 /* UserProfile.swift */; };
+		3BF5D4BE1AB66C7B00032433 /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF5D4BD1AB66C7B00032433 /* UserDefaultsExtension.swift */; };
+		3BF5D4C21AB68BA300032433 /* DictionaryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF5D4C11AB68BA300032433 /* DictionaryExtension.swift */; };
+		3BF5D4C41AB68C7000032433 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF5D4C31AB68C7000032433 /* ArrayExtension.swift */; };
+		3BF5D4C61AB68CB000032433 /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF5D4C51AB68CB000032433 /* IntExtension.swift */; };
+		3BF5D4CC1AB6BE5800032433 /* RangeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF5D4CB1AB6BE5800032433 /* RangeExtension.swift */; };
+		3BF5D4D11AB6C4C000032433 /* CoreDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF5D4D01AB6C4C000032433 /* CoreDataStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,18 +73,35 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3B18CC761ABAA67000E560B7 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		3B18CC781ABAA74600E560B7 /* ZentaoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZentaoViewController.swift; sourceTree = "<group>"; };
+		3B18CC7A1ABABFD700E560B7 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		3B18CC7C1ABACBBA00E560B7 /* IconUILabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconUILabel.swift; sourceTree = "<group>"; };
+		3B505CBE1AB2D59100264CAF /* MaterialColorSwatch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialColorSwatch.swift; sourceTree = "<group>"; };
+		3B505CC11AB2D74C00264CAF /* MaterialColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialColor.swift; sourceTree = "<group>"; };
+		3B505CC41AB2DC0700264CAF /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.ttf"; sourceTree = "<group>"; };
+		3B505CC71AB2E0D200264CAF /* FontAwesome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontAwesome.swift; sourceTree = "<group>"; };
+		3B505CCB1AB2EA6500264CAF /* AccentIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccentIcon.swift; sourceTree = "<group>"; };
+		3B505CCE1AB2EF3600264CAF /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
+		3B505CCF1AB3113400264CAF /* NamedEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NamedEnum.swift; sourceTree = "<group>"; };
+		3B505CD11AB427DD00264CAF /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		3B505CD51AB4359C00264CAF /* NSDateTimeAgo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateTimeAgo.swift; sourceTree = "<group>"; };
+		3B5D30311AB8339C00D158AE /* ZentaoApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZentaoApp.swift; sourceTree = "<group>"; };
 		3B6F65851AB1588400CCEDE6 /* ZentaoAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZentaoAPI.swift; sourceTree = "<group>"; };
 		3B6F65871AB15BF200CCEDE6 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		3B6F65891AB1632A00CCEDE6 /* ZentaoConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZentaoConfig.swift; sourceTree = "<group>"; };
-		3B6F658B1AB1664F00CCEDE6 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		3B6F658B1AB1664F00CCEDE6 /* JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
 		3B6F658E1AB16F6300CCEDE6 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		3B6F65991AB18ACF00CCEDE6 /* zentao-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "zentao-Bridging-Header.h"; sourceTree = "<group>"; };
 		3B6F659E1AB1C92100CCEDE6 /* HTTPRequestSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequestSerializer.swift; sourceTree = "<group>"; };
 		3B6F65A01AB1C93700CCEDE6 /* HTTPResponseSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPResponseSerializer.swift; sourceTree = "<group>"; };
 		3B6F65A21AB1C96300CCEDE6 /* HTTPTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPTask.swift; sourceTree = "<group>"; };
 		3B6F65A41AB1C97E00CCEDE6 /* HTTPUpload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPUpload.swift; sourceTree = "<group>"; };
-		3B6F65A91AB1D84200CCEDE6 /* SJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SJSON.swift; sourceTree = "<group>"; };
+		3B6F65A91AB1D84200CCEDE6 /* CJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CJSON.swift; sourceTree = "<group>"; };
 		3B6F65AB1AB1D8C200CCEDE6 /* HTTP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTP.swift; sourceTree = "<group>"; };
+		3B6F65B01AB2903B00CCEDE6 /* EntityType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityType.swift; sourceTree = "<group>"; };
+		3B6F65BA1AB2CDDF00CCEDE6 /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		3BA0CB6F1AB978A6000ADE70 /* TaskQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskQueue.swift; sourceTree = "<group>"; };
 		3BA54D001AB01F630081877C /* zentao.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = zentao.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BA54D041AB01F630081877C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3BA54D051AB01F630081877C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -63,6 +114,26 @@
 		3BA54D1A1AB01F630081877C /* zentaoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = zentaoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BA54D1F1AB01F630081877C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3BA54D201AB01F630081877C /* zentaoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = zentaoTests.swift; sourceTree = "<group>"; };
+		3BB92E461ABC131D00623E88 /* IconUIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconUIButton.swift; sourceTree = "<group>"; };
+		3BEB6AB61AB7C7D900EC3281 /* EntryAttribute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntryAttribute.swift; sourceTree = "<group>"; };
+		3BEB6AB81AB7FC6C00EC3281 /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
+		3BEB6ABA1AB7FD3C00EC3281 /* Todo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
+		3BEB6ABC1AB7FDE300EC3281 /* Bug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bug.swift; sourceTree = "<group>"; };
+		3BEB6ABE1AB7FDE400EC3281 /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
+		3BEB6AC01AB7FDE400EC3281 /* Project.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
+		3BEB6AC21AB7FDE400EC3281 /* Story.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Story.swift; sourceTree = "<group>"; };
+		3BEB6AC41AB7FDE400EC3281 /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		3BEB6AC61AB8005300EC3281 /* NameValueEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameValueEnum.swift; sourceTree = "<group>"; };
+		3BEB6AC81AB805FC00EC3281 /* Synchronizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Synchronizer.swift; sourceTree = "<group>"; };
+		3BF5D4BB1AB5B44C00032433 /* UserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		3BF5D4BD1AB66C7B00032433 /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
+		3BF5D4C11AB68BA300032433 /* DictionaryExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryExtension.swift; sourceTree = "<group>"; };
+		3BF5D4C31AB68C7000032433 /* ArrayExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
+		3BF5D4C51AB68CB000032433 /* IntExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
+		3BF5D4CB1AB6BE5800032433 /* RangeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeExtension.swift; sourceTree = "<group>"; };
+		3BF5D4CD1AB6C28A00032433 /* zentao 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "zentao 2.xcdatamodel"; sourceTree = "<group>"; };
+		3BF5D4D01AB6C4C000032433 /* CoreDataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStore.swift; sourceTree = "<group>"; };
+		3BF5D4DC1AB6DF5C00032433 /* zentao_3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = zentao_3.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,12 +154,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B505CC51AB2DC3E00264CAF /* ui */ = {
+			isa = PBXGroup;
+			children = (
+				3B505CBE1AB2D59100264CAF /* MaterialColorSwatch.swift */,
+				3B505CC11AB2D74C00264CAF /* MaterialColor.swift */,
+				3B505CC41AB2DC0700264CAF /* fontawesome-webfont.ttf */,
+				3B505CC71AB2E0D200264CAF /* FontAwesome.swift */,
+				3B505CCB1AB2EA6500264CAF /* AccentIcon.swift */,
+				3B18CC7C1ABACBBA00E560B7 /* IconUILabel.swift */,
+				3BB92E461ABC131D00623E88 /* IconUIButton.swift */,
+			);
+			name = ui;
+			sourceTree = "<group>";
+		};
 		3B6F65841AB1586300CCEDE6 /* api */ = {
 			isa = PBXGroup;
 			children = (
 				3B6F65851AB1588400CCEDE6 /* ZentaoAPI.swift */,
 				3B6F65871AB15BF200CCEDE6 /* User.swift */,
 				3B6F65891AB1632A00CCEDE6 /* ZentaoConfig.swift */,
+				3BF5D4BB1AB5B44C00032433 /* UserProfile.swift */,
+				3BEB6AC81AB805FC00EC3281 /* Synchronizer.swift */,
+				3B5D30311AB8339C00D158AE /* ZentaoApp.swift */,
 			);
 			name = api;
 			sourceTree = "<group>";
@@ -97,6 +185,14 @@
 			isa = PBXGroup;
 			children = (
 				3B6F658E1AB16F6300CCEDE6 /* StringExtension.swift */,
+				3B6F65BA1AB2CDDF00CCEDE6 /* UIColorExtension.swift */,
+				3B505CD11AB427DD00264CAF /* DateExtension.swift */,
+				3B505CD51AB4359C00264CAF /* NSDateTimeAgo.swift */,
+				3BF5D4BD1AB66C7B00032433 /* UserDefaultsExtension.swift */,
+				3BF5D4C11AB68BA300032433 /* DictionaryExtension.swift */,
+				3BF5D4C31AB68C7000032433 /* ArrayExtension.swift */,
+				3BF5D4C51AB68CB000032433 /* IntExtension.swift */,
+				3BF5D4CB1AB6BE5800032433 /* RangeExtension.swift */,
 			);
 			name = ext;
 			sourceTree = "<group>";
@@ -116,15 +212,43 @@
 		3B6F65A71AB1CF3900CCEDE6 /* json */ = {
 			isa = PBXGroup;
 			children = (
-				3B6F658B1AB1664F00CCEDE6 /* SwiftyJSON.swift */,
-				3B6F65A91AB1D84200CCEDE6 /* SJSON.swift */,
+				3B6F658B1AB1664F00CCEDE6 /* JSON.swift */,
+				3B6F65A91AB1D84200CCEDE6 /* CJSON.swift */,
 			);
 			name = json;
+			sourceTree = "<group>";
+		};
+		3B6F65AF1AB2902700CCEDE6 /* data */ = {
+			isa = PBXGroup;
+			children = (
+				3BEB6AC41AB7FDE400EC3281 /* Task.swift */,
+				3BEB6AC21AB7FDE400EC3281 /* Story.swift */,
+				3BEB6AC01AB7FDE400EC3281 /* Project.swift */,
+				3BEB6ABE1AB7FDE400EC3281 /* Product.swift */,
+				3BEB6ABC1AB7FDE300EC3281 /* Bug.swift */,
+				3BEB6ABA1AB7FD3C00EC3281 /* Todo.swift */,
+				3BEB6AB81AB7FC6C00EC3281 /* Entity.swift */,
+				3B6F65B01AB2903B00CCEDE6 /* EntityType.swift */,
+				3B505CCF1AB3113400264CAF /* NamedEnum.swift */,
+				3BF5D4D01AB6C4C000032433 /* CoreDataStore.swift */,
+				3BEB6AB61AB7C7D900EC3281 /* EntryAttribute.swift */,
+				3BEB6AC61AB8005300EC3281 /* NameValueEnum.swift */,
+			);
+			name = data;
+			sourceTree = "<group>";
+		};
+		3BA0CB711AB978C3000ADE70 /* task */ = {
+			isa = PBXGroup;
+			children = (
+				3BA0CB6F1AB978A6000ADE70 /* TaskQueue.swift */,
+			);
+			name = task;
 			sourceTree = "<group>";
 		};
 		3BA54CF71AB01F630081877C = {
 			isa = PBXGroup;
 			children = (
+				3B505CCE1AB2EF3600264CAF /* MyPlayground.playground */,
 				3BA54D021AB01F630081877C /* zentao */,
 				3BA54D1D1AB01F630081877C /* zentaoTests */,
 				3BA54D011AB01F630081877C /* Products */,
@@ -143,14 +267,20 @@
 		3BA54D021AB01F630081877C /* zentao */ = {
 			isa = PBXGroup;
 			children = (
+				3BA0CB711AB978C3000ADE70 /* task */,
+				3B505CC51AB2DC3E00264CAF /* ui */,
+				3B6F65AF1AB2902700CCEDE6 /* data */,
 				3B6F65A71AB1CF3900CCEDE6 /* json */,
 				3B6F659D1AB1C8E300CCEDE6 /* http */,
 				3B6F658D1AB16F4400CCEDE6 /* ext */,
 				3B6F65841AB1586300CCEDE6 /* api */,
 				3BA54D051AB01F630081877C /* AppDelegate.swift */,
+				3BA54D0E1AB01F630081877C /* Main.storyboard */,
+				3B18CC781ABAA74600E560B7 /* ZentaoViewController.swift */,
+				3B18CC761ABAA67000E560B7 /* HomeViewController.swift */,
+				3B18CC7A1ABABFD700E560B7 /* LoginViewController.swift */,
 				3BA54D0A1AB01F630081877C /* MasterViewController.swift */,
 				3BA54D0C1AB01F630081877C /* DetailViewController.swift */,
-				3BA54D0E1AB01F630081877C /* Main.storyboard */,
 				3BA54D111AB01F630081877C /* Images.xcassets */,
 				3BA54D131AB01F630081877C /* LaunchScreen.xib */,
 				3BA54D071AB01F630081877C /* zentao.xcdatamodeld */,
@@ -265,6 +395,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B505CC61AB2DD4000264CAF /* fontawesome-webfont.ttf in Resources */,
 				3BA54D101AB01F630081877C /* Main.storyboard in Resources */,
 				3BA54D151AB01F630081877C /* LaunchScreen.xib in Resources */,
 				3BA54D121AB01F630081877C /* Images.xcassets in Resources */,
@@ -287,19 +418,52 @@
 			files = (
 				3B6F65AC1AB1D8C200CCEDE6 /* HTTP.swift in Sources */,
 				3B6F65A31AB1C96300CCEDE6 /* HTTPTask.swift in Sources */,
+				3B18CC7D1ABACBBA00E560B7 /* IconUILabel.swift in Sources */,
 				3B6F658A1AB1632A00CCEDE6 /* ZentaoConfig.swift in Sources */,
 				3B6F65861AB1588400CCEDE6 /* ZentaoAPI.swift in Sources */,
 				3B6F65A51AB1C97E00CCEDE6 /* HTTPUpload.swift in Sources */,
 				3BA54D091AB01F630081877C /* zentao.xcdatamodeld in Sources */,
-				3B6F658C1AB1664F00CCEDE6 /* SwiftyJSON.swift in Sources */,
+				3BEB6AB71AB7C7D900EC3281 /* EntryAttribute.swift in Sources */,
+				3B18CC771ABAA67000E560B7 /* HomeViewController.swift in Sources */,
+				3B6F65BB1AB2CDDF00CCEDE6 /* UIColorExtension.swift in Sources */,
+				3B6F658C1AB1664F00CCEDE6 /* JSON.swift in Sources */,
+				3B505CD01AB3113400264CAF /* NamedEnum.swift in Sources */,
+				3B505CBF1AB2D59100264CAF /* MaterialColorSwatch.swift in Sources */,
+				3B505CCC1AB2EA6500264CAF /* AccentIcon.swift in Sources */,
 				3B6F65881AB15BF200CCEDE6 /* User.swift in Sources */,
+				3BEB6AC11AB7FDE400EC3281 /* Project.swift in Sources */,
+				3BB92E471ABC131D00623E88 /* IconUIButton.swift in Sources */,
+				3BEB6AB91AB7FC6C00EC3281 /* Entity.swift in Sources */,
+				3BF5D4BE1AB66C7B00032433 /* UserDefaultsExtension.swift in Sources */,
+				3BEB6AC91AB805FC00EC3281 /* Synchronizer.swift in Sources */,
 				3B6F658F1AB16F6300CCEDE6 /* StringExtension.swift in Sources */,
 				3B6F65A11AB1C93700CCEDE6 /* HTTPResponseSerializer.swift in Sources */,
+				3B505CD21AB427DD00264CAF /* DateExtension.swift in Sources */,
+				3B5D30321AB8339C00D158AE /* ZentaoApp.swift in Sources */,
 				3BA54D061AB01F630081877C /* AppDelegate.swift in Sources */,
 				3B6F659F1AB1C92100CCEDE6 /* HTTPRequestSerializer.swift in Sources */,
+				3BEB6AC31AB7FDE400EC3281 /* Story.swift in Sources */,
+				3BF5D4C21AB68BA300032433 /* DictionaryExtension.swift in Sources */,
+				3B18CC7B1ABABFD700E560B7 /* LoginViewController.swift in Sources */,
 				3BA54D0B1AB01F630081877C /* MasterViewController.swift in Sources */,
+				3B505CC21AB2D74C00264CAF /* MaterialColor.swift in Sources */,
+				3B505CD61AB4359C00264CAF /* NSDateTimeAgo.swift in Sources */,
+				3BEB6ABD1AB7FDE300EC3281 /* Bug.swift in Sources */,
+				3BF5D4C61AB68CB000032433 /* IntExtension.swift in Sources */,
+				3BF5D4CC1AB6BE5800032433 /* RangeExtension.swift in Sources */,
 				3BA54D0D1AB01F630081877C /* DetailViewController.swift in Sources */,
-				3B6F65AA1AB1D84200CCEDE6 /* SJSON.swift in Sources */,
+				3B6F65B11AB2903B00CCEDE6 /* EntityType.swift in Sources */,
+				3BEB6ABF1AB7FDE400EC3281 /* Product.swift in Sources */,
+				3BF5D4C41AB68C7000032433 /* ArrayExtension.swift in Sources */,
+				3BEB6AC71AB8005300EC3281 /* NameValueEnum.swift in Sources */,
+				3BF5D4BC1AB5B44C00032433 /* UserProfile.swift in Sources */,
+				3B18CC791ABAA74600E560B7 /* ZentaoViewController.swift in Sources */,
+				3BEB6AC51AB7FDE400EC3281 /* Task.swift in Sources */,
+				3BF5D4D11AB6C4C000032433 /* CoreDataStore.swift in Sources */,
+				3BA0CB701AB978A6000ADE70 /* TaskQueue.swift in Sources */,
+				3B505CC81AB2E0D200264CAF /* FontAwesome.swift in Sources */,
+				3B6F65AA1AB1D84200CCEDE6 /* CJSON.swift in Sources */,
+				3BEB6ABB1AB7FD3C00EC3281 /* Todo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,7 +539,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -412,7 +576,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -515,9 +679,11 @@
 		3BA54D071AB01F630081877C /* zentao.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				3BF5D4CD1AB6C28A00032433 /* zentao 2.xcdatamodel */,
+				3BF5D4DC1AB6DF5C00032433 /* zentao_3.xcdatamodel */,
 				3BA54D081AB01F630081877C /* zentao.xcdatamodel */,
 			);
-			currentVersion = 3BA54D081AB01F630081877C /* zentao.xcdatamodel */;
+			currentVersion = 3BF5D4DC1AB6DF5C00032433 /* zentao_3.xcdatamodel */;
 			path = zentao.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
