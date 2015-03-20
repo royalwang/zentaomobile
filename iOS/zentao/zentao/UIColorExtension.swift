@@ -16,4 +16,14 @@ extension UIColor {
         let blue = CGFloat((hex & 0xFF)) / 255.0
         self.init(red:red, green:green, blue:blue, alpha:alpha)
     }
+    
+    func toImage() -> UIImage {
+        let rect = CGRectMake(0, 0, 1, 1)
+        UIGraphicsBeginImageContextWithOptions(rect.size, true, 0)
+        self.setFill()
+        UIRectFill(rect)
+        var image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
+    }
 }
