@@ -158,4 +158,13 @@ extension NSTimeInterval {
         let timeInterval = self
         return NSDate().dateByAddingTimeInterval(-timeInterval)
     }
+    
+    func delay(closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(self * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
+    }
 }
