@@ -35,7 +35,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             self.detailViewController = controllers[controllers.count-1].topViewController as? DetailViewController
         }
         
-        self.managedObjectContext = (UIApplication.sharedApplication().delegate! as AppDelegate).dataStore.managedObjectContext
+        self.managedObjectContext = (UIApplication.sharedApplication().delegate! as AppDelegate).app.dataStore.managedObjectContext
     }
 
     override func didReceiveMemoryWarning() {
