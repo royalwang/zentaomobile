@@ -98,21 +98,22 @@ struct ZentaoAPI {
                         (json: JSON?) -> Void in
                         if let jsonObj = json {
                             if jsonObj["status"].stringValue == "success" {
+                                user.status = .Online
                                 user.lastLoginTime = NSDate()
-                                complete(result: true, error: "", message: "User logined success.")
+                                complete(result: true, error: "", message: "登录成功！")
                             } else {
                                 complete(result: false, error: "WRONG_ACCOUNT", message: jsonObj["message"].string
-                                    ?? "The account or password is not correct.")
+                                    ?? "账号或密码错误。")
                             }
                         } else {
-                            complete(result: false, error: "LOGIN_FAILED", message: "Can't login to zentao server now.")
+                            complete(result: false, error: "LOGIN_FAILED", message: "暂时无法登录到禅道服务器。")
                         }
                     })
                 } else {
-                    complete(result: false, error: "WRONG_VERSION", message: "The Zentao version is not supported.")
+                    complete(result: false, error: "WRONG_VERSION", message: "此禅道版本不受支持，需要禅道专业版4.5及以上。")
                 }
             } else {
-                complete(result: false, error: "WRONG_CONNECT", message: "Unable to connect to Zentao server.")
+                complete(result: false, error: "WRONG_CONNECT", message: "暂时无法连接到禅道服务器。")
             }
         }
     }

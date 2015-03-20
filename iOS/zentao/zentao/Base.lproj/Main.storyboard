@@ -1,7 +1,171 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="RiF-Vu-IOE">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
-    <scenes/>
+    <customFonts key="customFonts">
+        <mutableArray key="fontawesome-webfont.ttf">
+            <string>FontAwesome</string>
+            <string>FontAwesome</string>
+            <string>FontAwesome</string>
+        </mutableArray>
+    </customFonts>
+    <scenes>
+        <!--登录-->
+        <scene sceneID="e9J-QH-Nii">
+            <objects>
+                <viewController title="登录" id="j2E-vJ-h18" customClass="LoginViewController" customModule="zentao" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1iM-6f-vc2"/>
+                        <viewControllerLayoutGuide type="bottom" id="knH-6u-vgh"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="QDJ-g2-8XC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg_zentao" translatesAutoresizingMaskIntoConstraints="NO" id="xcX-T6-J6U">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="616"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logo_inverse" translatesAutoresizingMaskIntoConstraints="NO" id="Lwp-rg-tek">
+                                <rect key="frame" x="199" y="146" width="203" height="61"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aKS-4T-kcD">
+                                <rect key="frame" x="144" y="253" width="312" height="206"/>
+                                <subviews>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" highlighted="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="禅道地址，例如zentao.com" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Ckv-HS-JGW">
+                                        <rect key="frame" x="54" y="28" width="229" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="URL"/>
+                                    </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8RZ-IO-Nhg">
+                                        <rect key="frame" x="18" y="29" width="28" height="28"/>
+                                        <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="21"/>
+                                        <color key="textColor" red="0.2592087720139552" green="0.71497619386302136" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ONr-uR-8Gn">
+                                        <rect key="frame" x="54" y="149" width="229" height="30"/>
+                                        <color key="backgroundColor" red="0.25920877199999998" green="0.7149761939" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="登录">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="loginBtnClick:" destination="j2E-vJ-h18" eventType="touchUpInside" id="Cte-qe-jFO"/>
+                                        </connections>
+                                    </button>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="用户名" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="H9p-8u-ehd">
+                                        <rect key="frame" x="54" y="66" width="229" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ar-6p-3A3">
+                                        <rect key="frame" x="18" y="66" width="28" height="28"/>
+                                        <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="21"/>
+                                        <color key="textColor" red="0.25920877199999998" green="0.7149761939" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="密码" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="fEL-vF-xAD">
+                                        <rect key="frame" x="54" y="105" width="229" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                    </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iXJ-rZ-P5R">
+                                        <rect key="frame" x="18" y="105" width="28" height="28"/>
+                                        <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="21"/>
+                                        <color key="textColor" red="0.25920877199999998" green="0.7149761939" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="xcX-T6-J6U" firstAttribute="leading" secondItem="QDJ-g2-8XC" secondAttribute="leadingMargin" constant="-16" id="3Kj-GD-EA2"/>
+                            <constraint firstItem="knH-6u-vgh" firstAttribute="top" secondItem="xcX-T6-J6U" secondAttribute="bottom" constant="-16" id="TEb-07-9gK"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="xcX-T6-J6U" secondAttribute="trailing" constant="-16" id="TZo-Bp-6TM"/>
+                            <constraint firstItem="xcX-T6-J6U" firstAttribute="top" secondItem="1iM-6f-vc2" secondAttribute="bottom" constant="-20" id="r2V-jO-sYe"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="accountText" destination="H9p-8u-ehd" id="c6P-vW-ZA7"/>
+                        <outlet property="addressText" destination="Ckv-HS-JGW" id="wBq-jT-2JQ"/>
+                        <outlet property="loginBtn" destination="ONr-uR-8Gn" id="wY6-fO-gBQ"/>
+                        <outlet property="loginForm" destination="aKS-4T-kcD" id="Zdb-b7-SgU"/>
+                        <outlet property="passwordText" destination="fEL-vF-xAD" id="8ya-AB-Fl8"/>
+                        <outlet property="zentaoLogoImg" destination="Lwp-rg-tek" id="Sd8-gF-lIX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="W9C-EE-ZfL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="861" y="-1165"/>
+        </scene>
+        <!--首页-->
+        <scene sceneID="MaK-2i-j5g">
+            <objects>
+                <viewController title="首页" id="ucR-OX-p9r" customClass="HomeViewController" customModule="zentao" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="S7c-8a-ARc"/>
+                        <viewControllerLayoutGuide type="bottom" id="ls4-YZ-RaI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="YgE-pD-ReC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="禅道" id="sHF-kg-UMZ">
+                        <barButtonItem key="rightBarButtonItem" title="登录" id="A53-pP-jnG">
+                            <connections>
+                                <segue destination="j2E-vJ-h18" kind="presentation" id="wbe-yd-8gh"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="G5J-Hj-ccK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="861" y="-448"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="FeF-uO-fqS">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="RiF-Vu-IOE" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="HNa-Tz-xjA">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="ucR-OX-p9r" kind="relationship" relationship="rootViewController" id="oDl-3k-gZg"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dI5-ZQ-bZp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="81" y="-448"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="kyb-5T-TCT">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="eLz-Xn-ncM" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="KUy-PR-KXP"/>
+                        <viewControllerLayoutGuide type="bottom" id="bbg-Jc-ok2"/>
+                    </layoutGuides>
+                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Gxe-oQ-ScH">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Al1-2z-dC1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="bg_zentao" width="1080" height="1440"/>
+        <image name="logo_inverse" width="200" height="56"/>
+    </resources>
+    <color key="tintColor" red="0.92549020051956177" green="0.92549020051956177" blue="0.92549020051956177" alpha="1" colorSpace="calibratedRGB"/>
 </document>
