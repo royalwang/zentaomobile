@@ -17,6 +17,8 @@ class LoginViewController: ZentaoViewController {
     @IBOutlet weak var loginForm: UIView!
     @IBOutlet weak var loginBtn: UIButton!
     
+    var onLoginSuccess: (() -> Void)?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardOnTouchesBegan = true
@@ -58,6 +60,7 @@ class LoginViewController: ZentaoViewController {
                 self.loginBtn.enabled = true
                 println("view login result: \(result), error: \(error), message: \(message)")
                 if result {
+                    self.onLoginSuccess?()
                     self.dismissViewControllerAnimated(true, nil)
                 } else {
                     UIAlertView(title: "登录失败", message: message, delegate: nil, cancelButtonTitle: "确认").show()

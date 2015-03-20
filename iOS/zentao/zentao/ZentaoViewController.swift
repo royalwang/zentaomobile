@@ -93,10 +93,14 @@ class ZentaoViewController: UIViewController {
         }
     }
     
+    func onLoginSuccess() {
+    }
+    
     func openLoginView() {
         let storyboard = self.storyboard
         let loginVC: LoginViewController = storyboard?.instantiateViewControllerWithIdentifier("LoginViewController") as LoginViewController
         loginVC.modalPresentationStyle = UIModalPresentationStyle.Popover
+        loginVC.onLoginSuccess = {self.onLoginSuccess()}
         
         self.presentViewController(loginVC, animated: true, completion: nil)
     }

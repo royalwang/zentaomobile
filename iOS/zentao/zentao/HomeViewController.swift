@@ -15,12 +15,15 @@ class HomeViewController: ZentaoViewController {
 
         // Do any additional setup after loading the view.
         self.accentSwatch = MaterialColorSwatch.Blue
-        println("View did load in HomeViewController.")
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func onLoginSuccess() {
+        println("login success message!")
     }
     
 
