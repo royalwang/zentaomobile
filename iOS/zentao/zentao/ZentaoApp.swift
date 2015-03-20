@@ -34,7 +34,7 @@ class ZentaoApp {
     }
     
     var user: User? {
-        return profile.tempUser
+        return profile.tempUser ?? profile.getUser()
     }
     
     func getUser(var identify: String = "", allowTemp: Bool = true) -> User? {
@@ -69,9 +69,11 @@ class ZentaoApp {
     func checkLogin(complete: (result: Bool) -> Void) {
         let status = user?.status ?? .Unknown
         var result = false
+        println("Check user login, status=\(status)")
         if status == .Offline {
             login() {
                 (r, error, message) in
+                println("Login in backgournd: result=\(result), error=\(error), message=\(message)")
                 complete(result: r)
             }
             return

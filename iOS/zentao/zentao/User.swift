@@ -10,8 +10,19 @@ import Foundation
 
 class User: Printable {
     
-    enum Status {
+    enum Status: Printable {
         case Unknown, Offline, Online
+        
+        var description: String {
+            switch self {
+            case .Unknown:
+                return "Unknown"
+            case .Offline:
+                return "Offline"
+            case .Online:
+                return "Online"
+            }
+        }
     }
     
     class func createIdentify(thisAddress: String, thisAccount: String) -> String? {
@@ -78,6 +89,8 @@ class User: Printable {
             
             if !hasLoginCredentials {
                 currentStatus = .Unknown
+            } else if currentStatus == .Unknown {
+                currentStatus = .Offline
             }
             
             return currentStatus
