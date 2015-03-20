@@ -80,7 +80,7 @@ class ZentaoViewController: UIViewController {
     
     var showNavigationBarShadow: Bool = true {
         didSet {
-//            self.navigationController?.navigationBar.clipsToBounds = !showNavigationBarShadow
+            self.navigationController?.navigationBar.clipsToBounds = !showNavigationBarShadow
         }
     }
     

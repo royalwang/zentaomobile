@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="RiF-Vu-IOE">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -15,7 +16,7 @@
         <!--登录-->
         <scene sceneID="e9J-QH-Nii">
             <objects>
-                <viewController title="登录" id="j2E-vJ-h18" customClass="LoginViewController" customModule="zentao" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="LoginViewController" storyboardIdentifier="LoginViewController" title="登录" id="j2E-vJ-h18" customClass="LoginViewController" customModule="zentao" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1iM-6f-vc2"/>
                         <viewControllerLayoutGuide type="bottom" id="knH-6u-vgh"/>
@@ -112,14 +113,53 @@
                     <view key="view" contentMode="scaleToFill" id="YgE-pD-ReC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <subviews>
+                            <view userInteractionEnabled="NO" tag="9999" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="edI-kz-70z">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="150"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.74999999999999978" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Company" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dNY-5J-euh">
+                                        <rect key="frame" x="70" y="82" width="300" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hello user" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ai-sA-hvN">
+                                        <rect key="frame" x="70" y="100" width="300" height="41"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <color key="textColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.12941176470588237" green="0.58823529411764708" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="nTv-NE-eVZ">
+                                <rect key="frame" x="0.0" y="150" width="600" height="450"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
+                        <constraints>
+                            <constraint firstItem="edI-kz-70z" firstAttribute="top" secondItem="S7c-8a-ARc" secondAttribute="bottom" constant="-64" id="8Kd-Bz-OsG"/>
+                            <constraint firstItem="nTv-NE-eVZ" firstAttribute="leading" secondItem="YgE-pD-ReC" secondAttribute="leadingMargin" constant="-16" id="HBy-wy-82H"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="edI-kz-70z" secondAttribute="trailing" constant="-16" id="Vh5-vG-raQ"/>
+                            <constraint firstItem="nTv-NE-eVZ" firstAttribute="top" secondItem="S7c-8a-ARc" secondAttribute="bottom" constant="86" id="d10-hp-pBY"/>
+                            <constraint firstItem="ls4-YZ-RaI" firstAttribute="top" secondItem="nTv-NE-eVZ" secondAttribute="bottom" id="hR7-89-EMu"/>
+                            <constraint firstItem="edI-kz-70z" firstAttribute="leading" secondItem="YgE-pD-ReC" secondAttribute="leadingMargin" constant="-16" id="kBW-7F-DHr"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="nTv-NE-eVZ" secondAttribute="trailing" constant="-16" id="wkJ-ZE-Vte"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="禅道" id="sHF-kg-UMZ">
-                        <barButtonItem key="rightBarButtonItem" title="登录" id="A53-pP-jnG">
-                            <connections>
-                                <segue destination="j2E-vJ-h18" kind="presentation" id="wbe-yd-8gh"/>
-                            </connections>
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="IMR-60-ZlO">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="vuu-Np-B13" customClass="IconUIButton" customModule="zentao" customModuleProvider="target">
+                                <rect key="frame" x="16" y="7" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="r2e-F6-0SU"/>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G5J-Hj-ccK" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -143,24 +183,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dI5-ZQ-bZp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="81" y="-448"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="kyb-5T-TCT">
-            <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="eLz-Xn-ncM" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="KUy-PR-KXP"/>
-                        <viewControllerLayoutGuide type="bottom" id="bbg-Jc-ok2"/>
-                    </layoutGuides>
-                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Gxe-oQ-ScH">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <toolbarItems/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Al1-2z-dC1" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
         </scene>
     </scenes>
     <resources>
