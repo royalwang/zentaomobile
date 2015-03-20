@@ -43,7 +43,14 @@ class UserProfile {
             }
         }
     }
-    var tempUser: User?
+    
+    var isTempUserSave = false
+    
+    var tempUser: User? {
+        didSet {
+            isTempUserSave = false
+        }
+    }
     
     var user: User? {
         return tempUser
@@ -115,6 +122,14 @@ class UserProfile {
         tempUser!.realName = self["realName"].string
         tempUser!.email = self["email"].string
         return tempUser
+    }
+    
+    func saveUser() -> Bool {
+        if let user = tempUser {
+            isTempUserSave = true
+            return saveUser(user)
+        }
+        return false
     }
     
     func saveUser(user: User) -> Bool {

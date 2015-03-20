@@ -41,19 +41,29 @@ class ZentaoApp {
         return profile.getUser(identify: identify, allowTemp: allowTemp)
     }
     
+    func switchUser(address: String, account: String, password: String) {
+        if let tempUser = user {
+            if User.createIdentify(address, thisAccount: account) == tempUser.identify {
+                tempUser.setPassword(password)
+                return
+            }
+        }
+        profile.tempUser = User(address: address, account: account, password: password)
+    }
+    
     func login(complete: ((result: Bool, error: String, message: String) -> Void)) {
         let u = self.user
         if u != nil && u!.hasLoginCredentials {
             ZentaoAPI.login(user!) {
                 (r, error, message) in
                 if r {
-                    self.profile.save()
+                    self.profile.saveUser()
                 }
                 complete(result: r, error: error, message: message)
             }
             return
         }
-        complete(result: false, error: "USER_INFO_REQUIRED", message: "The user info is not completion.")
+        complete(result: false, error: "USER_INFO_REQUIRED", message: "用户信息不完整.")
     }
     
     func checkLogin(complete: (result: Bool) -> Void) {
