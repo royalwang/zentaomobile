@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum MaterialColorSwatch : Int, NamedEnum {
+enum MaterialColorSwatch : Int, NamedEnum, Printable {
 
     enum Name : Int {
         case C50 = 0, C100, C200, C300, C400, C500, C600, C700, C800, C900, A100, A200, A400, A70
@@ -56,5 +56,9 @@ enum MaterialColorSwatch : Int, NamedEnum {
     
     var name: String {
         return MaterialColorSwatch.names[index]
+    }
+    
+    var description: String {
+        return name
     }
 }
