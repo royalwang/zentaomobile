@@ -10,6 +10,7 @@ import UIKit
 
 class ZentaoViewController: UIViewController {
     
+    let TAG_ACCENT_HEADER = 9999
     let app: ZentaoApp = (UIApplication.sharedApplication().delegate as AppDelegate).app
 
     override func viewDidLoad() {
@@ -77,17 +78,25 @@ class ZentaoViewController: UIViewController {
     
     var checkUserStatusOnDidAppear = true
     
+    var showNavigationBarShadow: Bool = true {
+        didSet {
+//            self.navigationController?.navigationBar.clipsToBounds = !showNavigationBarShadow
+        }
+    }
+    
     var accentSwatch: MaterialColorSwatch? {
         didSet {
             if let swatch = accentSwatch {
-                
                 if let nav = self.navigationController {
-                    nav.navigationBar.barTintColor = swatch.primaryColor.uicolor
-                    nav.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
-                    
+                    nav.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+                    nav.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+//                    nav.navigationBar.barTintColor = color
+                    nav.navigationBar.translucent = true
                     UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
                     
-                    println("Accent swatch changed to \(swatch.name)(#\(swatch.primaryColor.description))")
+                    let color = swatch.primaryColor.uicolor
+                    self.view.viewWithTag(TAG_ACCENT_HEADER)?.backgroundColor = color
+//                    println("Accent swatch changed to \(swatch.name)(#\(swatch.primaryColor.description))")
                 }
             }
         }

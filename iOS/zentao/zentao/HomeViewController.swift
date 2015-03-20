@@ -15,6 +15,7 @@ class HomeViewController: ZentaoViewController {
 
         // Do any additional setup after loading the view.
         self.accentSwatch = MaterialColorSwatch.Blue
+        self.showNavigationBarShadow = true
     }
 
     override func didReceiveMemoryWarning() {
