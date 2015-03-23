@@ -97,7 +97,7 @@ func LOG_OBJECT(body: AnyClass, filename: String = __FILE__, var functionName: S
 
 extension DebugLog.FileReader
 {
-    func readLogLine(index: Int) -> NSString!
+    func readLogLine(index: Int, funcString: String = "LOG_OBJECT") -> NSString!
     {
         var line: NSString!
         
@@ -113,9 +113,9 @@ extension DebugLog.FileReader
             }
         }
         
-        let logFuncString = "LOG_OBJECT\\(.*?\\)" as NSString
-        
+        let logFuncString = "\(funcString)\\(.*?\\)" as NSString
         var range = line.rangeOfString(logFuncString, options: .RegularExpressionSearch)
+        
         range.location += logFuncString.length-6
         range.length -= logFuncString.length-5
         
