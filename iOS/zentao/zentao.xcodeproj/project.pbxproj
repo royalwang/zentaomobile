@@ -7,11 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3B18CC771ABAA67000E560B7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18CC761ABAA67000E560B7 /* HomeViewController.swift */; };
 		3B18CC791ABAA74600E560B7 /* ZentaoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18CC781ABAA74600E560B7 /* ZentaoViewController.swift */; };
 		3B18CC7B1ABABFD700E560B7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18CC7A1ABABFD700E560B7 /* LoginViewController.swift */; };
 		3B18CC7D1ABACBBA00E560B7 /* IconUILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18CC7C1ABACBBA00E560B7 /* IconUILabel.swift */; };
-		3B505CBF1AB2D59100264CAF /* MaterialColorSwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B505CBE1AB2D59100264CAF /* MaterialColorSwatch.swift */; };
 		3B505CC21AB2D74C00264CAF /* MaterialColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B505CC11AB2D74C00264CAF /* MaterialColor.swift */; };
 		3B505CC61AB2DD4000264CAF /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B505CC41AB2DC0700264CAF /* fontawesome-webfont.ttf */; };
 		3B505CC81AB2E0D200264CAF /* FontAwesome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B505CC71AB2E0D200264CAF /* FontAwesome.swift */; };
@@ -33,12 +31,18 @@
 		3B6F65AC1AB1D8C200CCEDE6 /* HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65AB1AB1D8C200CCEDE6 /* HTTP.swift */; };
 		3B6F65B11AB2903B00CCEDE6 /* EntityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65B01AB2903B00CCEDE6 /* EntityType.swift */; };
 		3B6F65BB1AB2CDDF00CCEDE6 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65BA1AB2CDDF00CCEDE6 /* UIColorExtension.swift */; };
+		3B9DEEAE1ABFBB56004ACA43 /* DebugLog+ClassParsing.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DEEAD1ABFBB56004ACA43 /* DebugLog+ClassParsing.swift.swift */; };
+		3B9DEEB01ABFBB76004ACA43 /* DebugLog+FileReader.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DEEAF1ABFBB76004ACA43 /* DebugLog+FileReader.swift.swift */; };
+		3B9DEEB21ABFBB95004ACA43 /* DebugLog+Printable.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DEEB11ABFBB95004ACA43 /* DebugLog+Printable.swift.swift */; };
+		3B9DEEB41ABFBBA8004ACA43 /* DebugLog.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DEEB31ABFBBA8004ACA43 /* DebugLog.swift.swift */; };
+		3B9DEEB61ABFD16C004ACA43 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DEEB51ABFD16C004ACA43 /* Log.swift */; };
+		3B9DEEC21ABFF1CE004ACA43 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DEEC11ABFF1CE004ACA43 /* HomeViewController.swift */; };
+		3B9DEEC51ABFF1DA004ACA43 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B9DEEC31ABFF1DA004ACA43 /* Main.storyboard */; };
 		3BA0CB701AB978A6000ADE70 /* TaskQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA0CB6F1AB978A6000ADE70 /* TaskQueue.swift */; };
 		3BA54D061AB01F630081877C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA54D051AB01F630081877C /* AppDelegate.swift */; };
 		3BA54D091AB01F630081877C /* zentao.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3BA54D071AB01F630081877C /* zentao.xcdatamodeld */; };
 		3BA54D0B1AB01F630081877C /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA54D0A1AB01F630081877C /* MasterViewController.swift */; };
 		3BA54D0D1AB01F630081877C /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA54D0C1AB01F630081877C /* DetailViewController.swift */; };
-		3BA54D101AB01F630081877C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BA54D0E1AB01F630081877C /* Main.storyboard */; };
 		3BA54D121AB01F630081877C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BA54D111AB01F630081877C /* Images.xcassets */; };
 		3BA54D151AB01F630081877C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA54D131AB01F630081877C /* LaunchScreen.xib */; };
 		3BA54D211AB01F630081877C /* zentaoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA54D201AB01F630081877C /* zentaoTests.swift */; };
@@ -73,16 +77,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3B18CC761ABAA67000E560B7 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		3B18CC781ABAA74600E560B7 /* ZentaoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZentaoViewController.swift; sourceTree = "<group>"; };
 		3B18CC7A1ABABFD700E560B7 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		3B18CC7C1ABACBBA00E560B7 /* IconUILabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconUILabel.swift; sourceTree = "<group>"; };
-		3B505CBE1AB2D59100264CAF /* MaterialColorSwatch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialColorSwatch.swift; sourceTree = "<group>"; };
 		3B505CC11AB2D74C00264CAF /* MaterialColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialColor.swift; sourceTree = "<group>"; };
 		3B505CC41AB2DC0700264CAF /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.ttf"; sourceTree = "<group>"; };
 		3B505CC71AB2E0D200264CAF /* FontAwesome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontAwesome.swift; sourceTree = "<group>"; };
 		3B505CCB1AB2EA6500264CAF /* AccentIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccentIcon.swift; sourceTree = "<group>"; };
-		3B505CCE1AB2EF3600264CAF /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
 		3B505CCF1AB3113400264CAF /* NamedEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NamedEnum.swift; sourceTree = "<group>"; };
 		3B505CD11AB427DD00264CAF /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		3B505CD51AB4359C00264CAF /* NSDateTimeAgo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateTimeAgo.swift; sourceTree = "<group>"; };
@@ -101,6 +102,13 @@
 		3B6F65AB1AB1D8C200CCEDE6 /* HTTP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTP.swift; sourceTree = "<group>"; };
 		3B6F65B01AB2903B00CCEDE6 /* EntityType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityType.swift; sourceTree = "<group>"; };
 		3B6F65BA1AB2CDDF00CCEDE6 /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		3B9DEEAD1ABFBB56004ACA43 /* DebugLog+ClassParsing.swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DebugLog+ClassParsing.swift.swift"; sourceTree = "<group>"; };
+		3B9DEEAF1ABFBB76004ACA43 /* DebugLog+FileReader.swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DebugLog+FileReader.swift.swift"; sourceTree = "<group>"; };
+		3B9DEEB11ABFBB95004ACA43 /* DebugLog+Printable.swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DebugLog+Printable.swift.swift"; sourceTree = "<group>"; };
+		3B9DEEB31ABFBBA8004ACA43 /* DebugLog.swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugLog.swift.swift; sourceTree = "<group>"; };
+		3B9DEEB51ABFD16C004ACA43 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		3B9DEEC11ABFF1CE004ACA43 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		3B9DEEC41ABFF1DA004ACA43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3BA0CB6F1AB978A6000ADE70 /* TaskQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskQueue.swift; sourceTree = "<group>"; };
 		3BA54D001AB01F630081877C /* zentao.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = zentao.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BA54D041AB01F630081877C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -108,7 +116,6 @@
 		3BA54D081AB01F630081877C /* zentao.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = zentao.xcdatamodel; sourceTree = "<group>"; };
 		3BA54D0A1AB01F630081877C /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		3BA54D0C1AB01F630081877C /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		3BA54D0F1AB01F630081877C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3BA54D111AB01F630081877C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3BA54D141AB01F630081877C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		3BA54D1A1AB01F630081877C /* zentaoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = zentaoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -157,7 +164,6 @@
 		3B505CC51AB2DC3E00264CAF /* ui */ = {
 			isa = PBXGroup;
 			children = (
-				3B505CBE1AB2D59100264CAF /* MaterialColorSwatch.swift */,
 				3B505CC11AB2D74C00264CAF /* MaterialColor.swift */,
 				3B505CC41AB2DC0700264CAF /* fontawesome-webfont.ttf */,
 				3B505CC71AB2E0D200264CAF /* FontAwesome.swift */,
@@ -237,6 +243,18 @@
 			name = data;
 			sourceTree = "<group>";
 		};
+		3B9DEEAC1ABFBB30004ACA43 /* log */ = {
+			isa = PBXGroup;
+			children = (
+				3B9DEEAD1ABFBB56004ACA43 /* DebugLog+ClassParsing.swift.swift */,
+				3B9DEEAF1ABFBB76004ACA43 /* DebugLog+FileReader.swift.swift */,
+				3B9DEEB11ABFBB95004ACA43 /* DebugLog+Printable.swift.swift */,
+				3B9DEEB31ABFBBA8004ACA43 /* DebugLog.swift.swift */,
+				3B9DEEB51ABFD16C004ACA43 /* Log.swift */,
+			);
+			name = log;
+			sourceTree = "<group>";
+		};
 		3BA0CB711AB978C3000ADE70 /* task */ = {
 			isa = PBXGroup;
 			children = (
@@ -248,7 +266,6 @@
 		3BA54CF71AB01F630081877C = {
 			isa = PBXGroup;
 			children = (
-				3B505CCE1AB2EF3600264CAF /* MyPlayground.playground */,
 				3BA54D021AB01F630081877C /* zentao */,
 				3BA54D1D1AB01F630081877C /* zentaoTests */,
 				3BA54D011AB01F630081877C /* Products */,
@@ -267,6 +284,9 @@
 		3BA54D021AB01F630081877C /* zentao */ = {
 			isa = PBXGroup;
 			children = (
+				3B9DEEC31ABFF1DA004ACA43 /* Main.storyboard */,
+				3B9DEEC11ABFF1CE004ACA43 /* HomeViewController.swift */,
+				3B9DEEAC1ABFBB30004ACA43 /* log */,
 				3BA0CB711AB978C3000ADE70 /* task */,
 				3B505CC51AB2DC3E00264CAF /* ui */,
 				3B6F65AF1AB2902700CCEDE6 /* data */,
@@ -275,9 +295,7 @@
 				3B6F658D1AB16F4400CCEDE6 /* ext */,
 				3B6F65841AB1586300CCEDE6 /* api */,
 				3BA54D051AB01F630081877C /* AppDelegate.swift */,
-				3BA54D0E1AB01F630081877C /* Main.storyboard */,
 				3B18CC781ABAA74600E560B7 /* ZentaoViewController.swift */,
-				3B18CC761ABAA67000E560B7 /* HomeViewController.swift */,
 				3B18CC7A1ABABFD700E560B7 /* LoginViewController.swift */,
 				3BA54D0A1AB01F630081877C /* MasterViewController.swift */,
 				3BA54D0C1AB01F630081877C /* DetailViewController.swift */,
@@ -396,9 +414,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B505CC61AB2DD4000264CAF /* fontawesome-webfont.ttf in Resources */,
-				3BA54D101AB01F630081877C /* Main.storyboard in Resources */,
 				3BA54D151AB01F630081877C /* LaunchScreen.xib in Resources */,
 				3BA54D121AB01F630081877C /* Images.xcassets in Resources */,
+				3B9DEEC51ABFF1DA004ACA43 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,18 +436,19 @@
 			files = (
 				3B6F65AC1AB1D8C200CCEDE6 /* HTTP.swift in Sources */,
 				3B6F65A31AB1C96300CCEDE6 /* HTTPTask.swift in Sources */,
+				3B9DEEB61ABFD16C004ACA43 /* Log.swift in Sources */,
 				3B18CC7D1ABACBBA00E560B7 /* IconUILabel.swift in Sources */,
 				3B6F658A1AB1632A00CCEDE6 /* ZentaoConfig.swift in Sources */,
 				3B6F65861AB1588400CCEDE6 /* ZentaoAPI.swift in Sources */,
 				3B6F65A51AB1C97E00CCEDE6 /* HTTPUpload.swift in Sources */,
 				3BA54D091AB01F630081877C /* zentao.xcdatamodeld in Sources */,
 				3BEB6AB71AB7C7D900EC3281 /* EntryAttribute.swift in Sources */,
-				3B18CC771ABAA67000E560B7 /* HomeViewController.swift in Sources */,
 				3B6F65BB1AB2CDDF00CCEDE6 /* UIColorExtension.swift in Sources */,
 				3B6F658C1AB1664F00CCEDE6 /* JSON.swift in Sources */,
+				3B9DEEC21ABFF1CE004ACA43 /* HomeViewController.swift in Sources */,
 				3B505CD01AB3113400264CAF /* NamedEnum.swift in Sources */,
-				3B505CBF1AB2D59100264CAF /* MaterialColorSwatch.swift in Sources */,
 				3B505CCC1AB2EA6500264CAF /* AccentIcon.swift in Sources */,
+				3B9DEEB01ABFBB76004ACA43 /* DebugLog+FileReader.swift.swift in Sources */,
 				3B6F65881AB15BF200CCEDE6 /* User.swift in Sources */,
 				3BEB6AC11AB7FDE400EC3281 /* Project.swift in Sources */,
 				3BB92E471ABC131D00623E88 /* IconUIButton.swift in Sources */,
@@ -439,6 +458,7 @@
 				3B6F658F1AB16F6300CCEDE6 /* StringExtension.swift in Sources */,
 				3B6F65A11AB1C93700CCEDE6 /* HTTPResponseSerializer.swift in Sources */,
 				3B505CD21AB427DD00264CAF /* DateExtension.swift in Sources */,
+				3B9DEEB21ABFBB95004ACA43 /* DebugLog+Printable.swift.swift in Sources */,
 				3B5D30321AB8339C00D158AE /* ZentaoApp.swift in Sources */,
 				3BA54D061AB01F630081877C /* AppDelegate.swift in Sources */,
 				3B6F659F1AB1C92100CCEDE6 /* HTTPRequestSerializer.swift in Sources */,
@@ -448,6 +468,7 @@
 				3BA54D0B1AB01F630081877C /* MasterViewController.swift in Sources */,
 				3B505CC21AB2D74C00264CAF /* MaterialColor.swift in Sources */,
 				3B505CD61AB4359C00264CAF /* NSDateTimeAgo.swift in Sources */,
+				3B9DEEAE1ABFBB56004ACA43 /* DebugLog+ClassParsing.swift.swift in Sources */,
 				3BEB6ABD1AB7FDE300EC3281 /* Bug.swift in Sources */,
 				3BF5D4C61AB68CB000032433 /* IntExtension.swift in Sources */,
 				3BF5D4CC1AB6BE5800032433 /* RangeExtension.swift in Sources */,
@@ -462,6 +483,7 @@
 				3BF5D4D11AB6C4C000032433 /* CoreDataStore.swift in Sources */,
 				3BA0CB701AB978A6000ADE70 /* TaskQueue.swift in Sources */,
 				3B505CC81AB2E0D200264CAF /* FontAwesome.swift in Sources */,
+				3B9DEEB41ABFBBA8004ACA43 /* DebugLog.swift.swift in Sources */,
 				3B6F65AA1AB1D84200CCEDE6 /* CJSON.swift in Sources */,
 				3BEB6ABB1AB7FD3C00EC3281 /* Todo.swift in Sources */,
 			);
@@ -486,10 +508,10 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		3BA54D0E1AB01F630081877C /* Main.storyboard */ = {
+		3B9DEEC31ABFF1DA004ACA43 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				3BA54D0F1AB01F630081877C /* Base */,
+				3B9DEEC41ABFF1DA004ACA43 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -591,6 +613,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = zentao/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "zentao/zentao-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
