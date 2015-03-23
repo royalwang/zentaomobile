@@ -10,7 +10,6 @@ import UIKit
 
 class ZentaoViewController: UIViewController {
     
-    let TAG_ACCENT_HEADER = 9999
     let app: ZentaoApp = (UIApplication.sharedApplication().delegate as AppDelegate).app
 
     override func viewDidLoad() {
@@ -95,7 +94,7 @@ class ZentaoViewController: UIViewController {
                     UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
                     
                     let color = swatch.primary.hue.color
-                    self.view.viewWithTag(TAG_ACCENT_HEADER)?.backgroundColor = color
+                    self.view.viewWithTag(R.Tag.accent_header)?.backgroundColor = color
                     
                     let hex = NSString(format:"%2X", swatch.primary.hue) as String
                     println("Accent swatch changed to \(swatch.name)(#\(hex))")
