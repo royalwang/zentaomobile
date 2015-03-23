@@ -69,7 +69,7 @@ class ZentaoApp {
     func checkLogin(complete: (result: Bool) -> Void) {
         let status = user?.status ?? .Unknown
         var result = false
-        println("Check user login, status=\(status)")
+        Log.info("Check user login, status=\(status)")
         if status == .Offline {
             login() {
                 (r, error, message) in
