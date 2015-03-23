@@ -8,6 +8,6 @@ zentaomobile是禅道的手机客户端应用。
 安卓版已出（支持禅道专业版4.4+，需要android4.2+），欢迎下载试用。
 立即去下载： [http://easysoft.github.io/zentaomobile/](http://easysoft.github.io/zentaomobile/)。
 
-![slides](https://cloud.githubusercontent.com/assets/472425/6163679/5dfea922-b2d0-11e4-8500-7b8e92de1893.gif)
+![slides](https://cloud.githubusercontent.com/assets/472425/6553268/050cf904-c68a-11e4-8300-71d5d20ea74c.gif)
 
 
