@@ -84,7 +84,7 @@ class ZentaoViewController: UIViewController {
         }
     }
     
-    var accentSwatch: MaterialColorSwatch? {
+    var accentSwatch: MaterialColor.Swatch? {
         didSet {
             if let swatch = accentSwatch {
                 if let nav = self.navigationController {
@@ -94,9 +94,11 @@ class ZentaoViewController: UIViewController {
                     nav.navigationBar.translucent = true
                     UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
                     
-                    let color = swatch.primaryColor.uicolor
+                    let color = swatch.primary.hue.color
                     self.view.viewWithTag(TAG_ACCENT_HEADER)?.backgroundColor = color
-//                    println("Accent swatch changed to \(swatch.name)(#\(swatch.primaryColor.description))")
+                    
+                    let hex = NSString(format:"%2X", swatch.primary.hue) as String
+                    println("Accent swatch changed to \(swatch.name)(#\(hex))")
                 }
             }
         }

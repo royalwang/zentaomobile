@@ -14,7 +14,7 @@ class HomeViewController: ZentaoViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.accentSwatch = MaterialColorSwatch.Blue
+        self.accentSwatch = MaterialColor.Blue
         self.showNavigationBarShadow = false
     }
 

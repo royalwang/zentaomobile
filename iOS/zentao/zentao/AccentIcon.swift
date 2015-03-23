@@ -9,11 +9,11 @@
 import Foundation
 
 protocol AccentIconProtocol {
-    var swatch: MaterialColorSwatch {get}
+    var swatch: MaterialColor.Swatch {get}
     var icon: IconVal {get}
 }
 
 struct AccentIcon : AccentIconProtocol {
-    let swatch: MaterialColorSwatch
+    let swatch: MaterialColor.Swatch
     let icon: IconVal
 }

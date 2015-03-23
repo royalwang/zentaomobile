@@ -19,13 +19,13 @@ enum EntityType : Int, AccentIconProtocol, NameValueEnum {
     case Project
     
     private static let accentIconMap = [
-        AccentIcon(swatch: MaterialColorSwatch.Grey, icon: FontIcon.question),
-        AccentIcon(swatch: MaterialColorSwatch.LightBlue, icon: FontIcon.check_square_o),
-        AccentIcon(swatch: MaterialColorSwatch.Green, icon: FontIcon.tasks),
-        AccentIcon(swatch: MaterialColorSwatch.Pink, icon: FontIcon.bug),
-        AccentIcon(swatch: MaterialColorSwatch.Purple, icon: FontIcon.lightbulb_o),
-        AccentIcon(swatch: MaterialColorSwatch.Indigo, icon: FontIcon.folder_o),
-        AccentIcon(swatch: MaterialColorSwatch.Teal, icon: FontIcon.cube)
+        AccentIcon(swatch: MaterialColor.Grey, icon: FontIcon.question),
+        AccentIcon(swatch: MaterialColor.LightBlue, icon: FontIcon.check_square_o),
+        AccentIcon(swatch: MaterialColor.Green, icon: FontIcon.tasks),
+        AccentIcon(swatch: MaterialColor.Pink, icon: FontIcon.bug),
+        AccentIcon(swatch: MaterialColor.Purple, icon: FontIcon.lightbulb_o),
+        AccentIcon(swatch: MaterialColor.Indigo, icon: FontIcon.folder_o),
+        AccentIcon(swatch: MaterialColor.Teal, icon: FontIcon.cube)
     ]
     
     static let values = [Default, Todo, Task, Bug, Story, Product, Project]
@@ -50,7 +50,7 @@ enum EntityType : Int, AccentIconProtocol, NameValueEnum {
         return nil
     }
     
-    var swatch: MaterialColorSwatch {
+    var swatch: MaterialColor.Swatch {
         get {
             return EntityType.accentIconMap[self.rawValue].swatch
         }
