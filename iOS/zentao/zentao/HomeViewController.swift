@@ -56,7 +56,7 @@ class HomeViewController: ZentaoViewController, UITableViewDelegate, UITableView
                 hello = "晚上好"
             }
             
-            helloUserLabel.text = "\(hello)，\(user.displayName)"
+            helloUserLabel.text = "\(user.displayName)，\(hello)！"
         }
     }
     
