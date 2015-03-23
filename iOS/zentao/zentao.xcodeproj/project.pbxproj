@@ -38,6 +38,8 @@
 		3B9DEEB61ABFD16C004ACA43 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DEEB51ABFD16C004ACA43 /* Log.swift */; };
 		3B9DEEC21ABFF1CE004ACA43 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DEEC11ABFF1CE004ACA43 /* HomeViewController.swift */; };
 		3B9DEEC51ABFF1DA004ACA43 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B9DEEC31ABFF1DA004ACA43 /* Main.storyboard */; };
+		3B9DEEC81ABFF938004ACA43 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DEEC71ABFF938004ACA43 /* Tag.swift */; };
+		3B9DEECA1ABFFA3A004ACA43 /* R.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DEEC91ABFFA3A004ACA43 /* R.swift */; };
 		3BA0CB701AB978A6000ADE70 /* TaskQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA0CB6F1AB978A6000ADE70 /* TaskQueue.swift */; };
 		3BA54D061AB01F630081877C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA54D051AB01F630081877C /* AppDelegate.swift */; };
 		3BA54D091AB01F630081877C /* zentao.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3BA54D071AB01F630081877C /* zentao.xcdatamodeld */; };
@@ -109,6 +111,8 @@
 		3B9DEEB51ABFD16C004ACA43 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		3B9DEEC11ABFF1CE004ACA43 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		3B9DEEC41ABFF1DA004ACA43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3B9DEEC71ABFF938004ACA43 /* Tag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		3B9DEEC91ABFFA3A004ACA43 /* R.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.swift; sourceTree = "<group>"; };
 		3BA0CB6F1AB978A6000ADE70 /* TaskQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskQueue.swift; sourceTree = "<group>"; };
 		3BA54D001AB01F630081877C /* zentao.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = zentao.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BA54D041AB01F630081877C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -255,6 +259,15 @@
 			name = log;
 			sourceTree = "<group>";
 		};
+		3B9DEEC61ABFF91A004ACA43 /* values */ = {
+			isa = PBXGroup;
+			children = (
+				3B9DEEC71ABFF938004ACA43 /* Tag.swift */,
+				3B9DEEC91ABFFA3A004ACA43 /* R.swift */,
+			);
+			name = values;
+			sourceTree = "<group>";
+		};
 		3BA0CB711AB978C3000ADE70 /* task */ = {
 			isa = PBXGroup;
 			children = (
@@ -284,6 +297,7 @@
 		3BA54D021AB01F630081877C /* zentao */ = {
 			isa = PBXGroup;
 			children = (
+				3B9DEEC61ABFF91A004ACA43 /* values */,
 				3B9DEEC31ABFF1DA004ACA43 /* Main.storyboard */,
 				3B9DEEC11ABFF1CE004ACA43 /* HomeViewController.swift */,
 				3B9DEEAC1ABFBB30004ACA43 /* log */,
@@ -448,6 +462,7 @@
 				3B9DEEC21ABFF1CE004ACA43 /* HomeViewController.swift in Sources */,
 				3B505CD01AB3113400264CAF /* NamedEnum.swift in Sources */,
 				3B505CCC1AB2EA6500264CAF /* AccentIcon.swift in Sources */,
+				3B9DEEC81ABFF938004ACA43 /* Tag.swift in Sources */,
 				3B9DEEB01ABFBB76004ACA43 /* DebugLog+FileReader.swift.swift in Sources */,
 				3B6F65881AB15BF200CCEDE6 /* User.swift in Sources */,
 				3BEB6AC11AB7FDE400EC3281 /* Project.swift in Sources */,
@@ -463,6 +478,7 @@
 				3BA54D061AB01F630081877C /* AppDelegate.swift in Sources */,
 				3B6F659F1AB1C92100CCEDE6 /* HTTPRequestSerializer.swift in Sources */,
 				3BEB6AC31AB7FDE400EC3281 /* Story.swift in Sources */,
+				3B9DEECA1ABFFA3A004ACA43 /* R.swift in Sources */,
 				3BF5D4C21AB68BA300032433 /* DictionaryExtension.swift in Sources */,
 				3B18CC7B1ABABFD700E560B7 /* LoginViewController.swift in Sources */,
 				3BA54D0B1AB01F630081877C /* MasterViewController.swift in Sources */,

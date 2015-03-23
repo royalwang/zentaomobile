@@ -83,6 +83,7 @@ class User: Printable {
         if !json.isNullOrEmpty {
             id = json["id"].string
             email = json["email"].string
+            company = json["company"].string
             realName = json["realname"].string
             gender = json["gender"].string
             role = json["role"].string

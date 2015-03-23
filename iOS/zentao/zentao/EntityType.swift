@@ -30,6 +30,7 @@ enum EntityType : Int, AccentIconProtocol, NameValueEnum {
     
     static let values = [Default, Todo, Task, Bug, Story, Product, Project]
     static let names = ["Default", "Todo", "Task", "Bug", "Story", "Product", "Project"]
+    static let displayNames = ["默认", "待办", "任务", "Bug", "需求", "产品", "项目"]
     
     static func fromName(name: String, ignoreCase: Bool = true) -> EntityType? {
         if ignoreCase {
@@ -65,6 +66,12 @@ enum EntityType : Int, AccentIconProtocol, NameValueEnum {
     var name: String {
         get {
             return EntityType.names[self.rawValue]
+        }
+    }
+    
+    var displayName: String {
+        get {
+            return EntityType.displayNames[self.rawValue]
         }
     }
     

@@ -8,11 +8,13 @@
 
 import UIKit
 
-class HomeViewController: ZentaoViewController {
+class HomeViewController: ZentaoViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var companyLabel: UILabel!
     @IBOutlet weak var helloUserLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
+    
+    let items = EntityType.values - .Default
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +23,10 @@ class HomeViewController: ZentaoViewController {
         self.accentSwatch = MaterialColor.Blue
         self.showNavigationBarShadow = false
         
+        // Register class to tableview
+        tableView.dataSource = self
+        tableView.delegate = self
+
         sayHelloToUser()
     }
 
@@ -35,7 +41,7 @@ class HomeViewController: ZentaoViewController {
     }
     
     func sayHelloToUser() {
-        if let user = app.user {
+        if let user = app.getUser() {
             companyLabel.text = user.company
 
             let hour = NSDate().hour()
@@ -54,6 +60,36 @@ class HomeViewController: ZentaoViewController {
         }
     }
     
+    // MARK: - Table View
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.items.count;
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        var cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("cell") as UITableViewCell
+        let entityType = self.items[indexPath.row]
+        let contentView = cell.contentView
+        let icon = contentView.viewWithTag(R.Tag.icon) as IconUILabel
+        let title = contentView.viewWithTag(R.Tag.title) as UILabel
+        let subtitle = contentView.viewWithTag(R.Tag.subtitle) as UILabel
+        let amount = contentView.viewWithTag(R.Tag.amount) as UILabel
+        let description = contentView.viewWithTag(R.Tag.description) as UILabel
+        
+        icon.text = entityType.icon.text
+        icon.textColor = entityType.swatch.P300.hue.color
+        title.text = entityType.displayName
+        subtitle.text = entityType.name
+        amount.text = "0"
+        amount.textColor = entityType.swatch.primary.hue.color
+        
+        Log.d(cell.frame.height)
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        Log.d("You selected cell #\(indexPath.row)!")
+    }
+
 
     /*
     // MARK: - Navigation
@@ -64,5 +100,4 @@ class HomeViewController: ZentaoViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
 }
