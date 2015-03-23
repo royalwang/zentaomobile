@@ -79,6 +79,20 @@ class User: Printable {
         setPassword(password)
     }
     
+    func fromJSON(json: JSON) {
+        if !json.isNullOrEmpty {
+            id = json["id"].string
+            email = json["email"].string
+            realName = json["realname"].string
+            gender = json["gender"].string
+            role = json["role"].string
+        }
+    }
+    
+    var displayName: String {
+        return realName ?? account
+    }
+    
     private var currentStatus = Status.Unknown
     
     var status: Status {

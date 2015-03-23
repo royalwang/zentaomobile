@@ -98,6 +98,7 @@ struct ZentaoAPI {
                         (json: JSON?) -> Void in
                         if let jsonObj = json {
                             if jsonObj["status"].stringValue == "success" {
+                                user.fromJSON(jsonOBj["user"])
                                 user.status = .Online
                                 user.lastLoginTime = NSDate()
                                 complete(result: true, error: "", message: "登录成功！")
