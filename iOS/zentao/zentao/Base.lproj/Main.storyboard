@@ -152,13 +152,13 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6KX-sn-096">
-                                                    <rect key="frame" x="72" y="11" width="410" height="28"/>
+                                                    <rect key="frame" x="70" y="11" width="412" height="28"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5eU-r9-kXk">
-                                                    <rect key="frame" x="72" y="37" width="410" height="20"/>
+                                                    <rect key="frame" x="70" y="37" width="412" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -169,7 +169,7 @@
                                                         <constraint firstAttribute="height" constant="21" id="1NY-JN-bk1"/>
                                                         <constraint firstAttribute="width" constant="80" id="aQK-y6-9Cb"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -192,9 +192,9 @@
                                                 <constraint firstItem="wz1-dl-4C1" firstAttribute="top" secondItem="Htb-Hu-fBC" secondAttribute="topMargin" constant="27" id="WBK-Av-RNc"/>
                                                 <constraint firstItem="5eU-r9-kXk" firstAttribute="top" secondItem="Htb-Hu-fBC" secondAttribute="topMargin" constant="29" id="bvr-V7-q6E"/>
                                                 <constraint firstItem="6KX-sn-096" firstAttribute="top" secondItem="Htb-Hu-fBC" secondAttribute="topMargin" constant="3" id="erl-gf-24u"/>
-                                                <constraint firstItem="6KX-sn-096" firstAttribute="leading" secondItem="Htb-Hu-fBC" secondAttribute="leadingMargin" constant="64" id="ffI-KK-9af"/>
+                                                <constraint firstItem="6KX-sn-096" firstAttribute="leading" secondItem="Htb-Hu-fBC" secondAttribute="leadingMargin" constant="62" id="ffI-KK-9af"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="5eU-r9-kXk" secondAttribute="trailing" constant="110" id="m4f-Z6-Lt8"/>
-                                                <constraint firstItem="5eU-r9-kXk" firstAttribute="leading" secondItem="Htb-Hu-fBC" secondAttribute="leadingMargin" constant="64" id="tG2-7k-VMj"/>
+                                                <constraint firstItem="5eU-r9-kXk" firstAttribute="leading" secondItem="Htb-Hu-fBC" secondAttribute="leadingMargin" constant="62" id="tG2-7k-VMj"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>

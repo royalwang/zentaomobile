@@ -75,11 +75,11 @@ class HomeViewController: ZentaoViewController, UITableViewDelegate, UITableView
         let amount = contentView.viewWithTag(R.Tag.amount) as UILabel
         let description = contentView.viewWithTag(R.Tag.description) as UILabel
         
-        icon.text = entityType.icon.text
-        icon.textColor = entityType.swatch.P300.hue.color
-        title.text = entityType.displayName
-        subtitle.text = entityType.name
-        amount.text = "0"
+        icon.text        = entityType.icon.text
+        icon.textColor   = entityType.swatch.P400.hue.color
+        title.text       = entityType.displayName
+        subtitle.text    = entityType.name
+        amount.text      = "0"
         amount.textColor = entityType.swatch.primary.hue.color
         
         Log.d(cell.frame.height)
