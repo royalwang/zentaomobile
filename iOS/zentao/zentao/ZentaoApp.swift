@@ -22,16 +22,17 @@ class ZentaoApp {
         }
     }
     
-    private init() {}
+    lazy var syncher: Synchronizer = {
+        return Synchronizer()
+    }()
     
-    
-    var profile: UserProfile {
+    lazy var profile: UserProfile = {
         return UserProfile.sharedInstance
-    }
+    }()
     
-    var dataStore: CoreDataStore {
+    lazy var dataStore: CoreDataStore = {
         return CoreDataStore.sharedInstance
-    }
+    }()
     
     var user: User? {
         return profile.tempUser ?? profile.getUser()

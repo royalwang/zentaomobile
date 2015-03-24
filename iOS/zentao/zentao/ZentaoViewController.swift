@@ -29,6 +29,9 @@ class ZentaoViewController: UIViewController {
                 println("Check user login: \(result)")
                 if !result {
                     self.openLoginView()
+                } else {
+                    self.app.syncher.start()
+                    self.onLoginSuccess()
                 }
             }
         }
@@ -103,14 +106,17 @@ class ZentaoViewController: UIViewController {
         }
     }
     
-    func onLoginSuccess() {
+    func onLoginSuccess(isLoginInBackground: Bool = false) {
     }
     
     func openLoginView() {
         let storyboard = self.storyboard
         let loginVC: LoginViewController = storyboard?.instantiateViewControllerWithIdentifier("LoginViewController") as LoginViewController
         loginVC.modalPresentationStyle = UIModalPresentationStyle.Popover
-        loginVC.onLoginSuccess = {self.onLoginSuccess()}
+        loginVC.onLoginSuccess = {
+            self.app.syncher.start()
+            self.onLoginSuccess(isLoginInBackground: true)
+        }
         
         self.presentViewController(loginVC, animated: true, completion: nil)
     }

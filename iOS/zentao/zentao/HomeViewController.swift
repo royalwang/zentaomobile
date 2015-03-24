@@ -35,8 +35,7 @@ class HomeViewController: ZentaoViewController, UITableViewDelegate, UITableView
         // Dispose of any resources that can be recreated.
     }
     
-    override func onLoginSuccess() {
-        println("login success message!")
+    override func onLoginSuccess(isLoginInBackground: Bool = false) {
         sayHelloToUser()
     }
     

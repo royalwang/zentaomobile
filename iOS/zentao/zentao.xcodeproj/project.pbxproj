@@ -18,6 +18,7 @@
 		3B505CD21AB427DD00264CAF /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B505CD11AB427DD00264CAF /* DateExtension.swift */; };
 		3B505CD61AB4359C00264CAF /* NSDateTimeAgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B505CD51AB4359C00264CAF /* NSDateTimeAgo.swift */; };
 		3B5D30321AB8339C00D158AE /* ZentaoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5D30311AB8339C00D158AE /* ZentaoApp.swift */; };
+		3B657AB21AC0F43A00198C91 /* EventCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B657AB11AC0F43A00198C91 /* EventCenter.swift */; };
 		3B6F65861AB1588400CCEDE6 /* ZentaoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65851AB1588400CCEDE6 /* ZentaoAPI.swift */; };
 		3B6F65881AB15BF200CCEDE6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65871AB15BF200CCEDE6 /* User.swift */; };
 		3B6F658A1AB1632A00CCEDE6 /* ZentaoConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65891AB1632A00CCEDE6 /* ZentaoConfig.swift */; };
@@ -90,6 +91,7 @@
 		3B505CD11AB427DD00264CAF /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		3B505CD51AB4359C00264CAF /* NSDateTimeAgo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateTimeAgo.swift; sourceTree = "<group>"; };
 		3B5D30311AB8339C00D158AE /* ZentaoApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZentaoApp.swift; sourceTree = "<group>"; };
+		3B657AB11AC0F43A00198C91 /* EventCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCenter.swift; sourceTree = "<group>"; };
 		3B6F65851AB1588400CCEDE6 /* ZentaoAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZentaoAPI.swift; sourceTree = "<group>"; };
 		3B6F65871AB15BF200CCEDE6 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		3B6F65891AB1632A00CCEDE6 /* ZentaoConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZentaoConfig.swift; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 			isa = PBXGroup;
 			children = (
 				3BA0CB6F1AB978A6000ADE70 /* TaskQueue.swift */,
+				3B657AB11AC0F43A00198C91 /* EventCenter.swift */,
 			);
 			name = task;
 			sourceTree = "<group>";
@@ -448,6 +451,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B657AB21AC0F43A00198C91 /* EventCenter.swift in Sources */,
 				3B6F65AC1AB1D8C200CCEDE6 /* HTTP.swift in Sources */,
 				3B6F65A31AB1C96300CCEDE6 /* HTTPTask.swift in Sources */,
 				3B9DEEB61ABFD16C004ACA43 /* Log.swift in Sources */,
