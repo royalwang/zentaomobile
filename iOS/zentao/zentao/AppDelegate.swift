@@ -11,14 +11,60 @@ import CoreData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate/*, UISplitViewControllerDelegate*/ {
+    
+    var timer: NSTimer?
 
     var window: UIWindow?
     var app: ZentaoApp {
         return ZentaoApp.sharedInstance
     }
+    
+    // MARK: Timer
+    
+    func startTimer() -> Bool {
+        if let user = app.getUser() {
+            let interval = NSTimeInterval(user.syncFrequency)
+            if timer != nil && timer!.timeInterval != interval {
+                stopTimer()
+            }
+            if timer == nil {
+                timer = NSTimer.scheduledTimerWithTimeInterval(interval,
+                    target: self, selector: Selector("onTimerTick:"), userInfo: nil, repeats: true)
+                NSRunLoop.mainRunLoop().addTimer(timer!, forMode: NSRunLoopCommonModes)
+                Log.s("Timer started and running, repeat every \(interval) seconds.")
+            } else {
+                Log.i("Timer is already running, repeat every \(interval) seconds.")
+            }
+        }
+        return timer != nil
+    }
+    
+    func stopTimer() {
+        timer?.invalidate()
+        timer = nil
+        Log.i("Timer is stoped.")
+    }
+    
+    func restartTimer() {
+        stopTimer()
+        startTimer()
+        Log.i("Timer restarted.")
+    }
+    
+    func onTimerTick(timer: NSTimer) {
+        Log.i("Timer tick.")
+        EventCenter.shared.trigger(R.Event.timer_tick, sender: self)
+    }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-
+        
+        // init timer
+        EventCenter.shared.bind(self).on(R.Event.start_timer) += {
+            self.startTimer()
+            return
+        }
+        EventCenter.shared.on(R.Event.stop_timer) += {self.stopTimer()}
+        EventCenter.shared.on(R.Event.login_success) >> (R.Event.start_timer, self)
         return true
     }
     
@@ -46,20 +92,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate/*, UISplitViewControllerDe
         // Saves changes in the application's managed object context before the application terminates.
 //        self.app.dataStore.saveContext()
     }
-
-    // MARK: - Split view
-    /*
-    func splitViewController(splitViewController: UISplitViewController, collapseSecondaryViewController secondaryViewController:UIViewController!, ontoPrimaryViewController primaryViewController:UIViewController!) -> Bool {
-        if let secondaryAsNavController = secondaryViewController as? UINavigationController {
-            if let topAsDetailController = secondaryAsNavController.topViewController as? DetailViewController {
-                if topAsDetailController.detailItem == nil {
-                    // Return true to indicate that we have handled the collapse by doing nothing; the secondary controller will be discarded.
-                    return true
-                }
-            }
-        }
-        return false
-    }
-    */
 }
 

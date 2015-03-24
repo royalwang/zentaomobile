@@ -10,6 +10,7 @@
 		3B18CC791ABAA74600E560B7 /* ZentaoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18CC781ABAA74600E560B7 /* ZentaoViewController.swift */; };
 		3B18CC7B1ABABFD700E560B7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18CC7A1ABABFD700E560B7 /* LoginViewController.swift */; };
 		3B18CC7D1ABACBBA00E560B7 /* IconUILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18CC7C1ABACBBA00E560B7 /* IconUILabel.swift */; };
+		3B243B3C1AC146C500EA5535 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B243B3B1AC146C500EA5535 /* Event.swift */; };
 		3B505CC21AB2D74C00264CAF /* MaterialColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B505CC11AB2D74C00264CAF /* MaterialColor.swift */; };
 		3B505CC61AB2DD4000264CAF /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B505CC41AB2DC0700264CAF /* fontawesome-webfont.ttf */; };
 		3B505CC81AB2E0D200264CAF /* FontAwesome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B505CC71AB2E0D200264CAF /* FontAwesome.swift */; };
@@ -83,6 +84,7 @@
 		3B18CC781ABAA74600E560B7 /* ZentaoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZentaoViewController.swift; sourceTree = "<group>"; };
 		3B18CC7A1ABABFD700E560B7 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		3B18CC7C1ABACBBA00E560B7 /* IconUILabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconUILabel.swift; sourceTree = "<group>"; };
+		3B243B3B1AC146C500EA5535 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		3B505CC11AB2D74C00264CAF /* MaterialColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialColor.swift; sourceTree = "<group>"; };
 		3B505CC41AB2DC0700264CAF /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.ttf"; sourceTree = "<group>"; };
 		3B505CC71AB2E0D200264CAF /* FontAwesome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontAwesome.swift; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 			children = (
 				3B9DEEC71ABFF938004ACA43 /* Tag.swift */,
 				3B9DEEC91ABFFA3A004ACA43 /* R.swift */,
+				3B243B3B1AC146C500EA5535 /* Event.swift */,
 			);
 			name = values;
 			sourceTree = "<group>";
@@ -491,6 +494,7 @@
 				3B9DEEAE1ABFBB56004ACA43 /* DebugLog+ClassParsing.swift.swift in Sources */,
 				3BEB6ABD1AB7FDE300EC3281 /* Bug.swift in Sources */,
 				3BF5D4C61AB68CB000032433 /* IntExtension.swift in Sources */,
+				3B243B3C1AC146C500EA5535 /* Event.swift in Sources */,
 				3BF5D4CC1AB6BE5800032433 /* RangeExtension.swift in Sources */,
 				3BA54D0D1AB01F630081877C /* DetailViewController.swift in Sources */,
 				3B6F65B11AB2903B00CCEDE6 /* EntityType.swift in Sources */,

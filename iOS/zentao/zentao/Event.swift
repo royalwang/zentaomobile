@@ -16,5 +16,10 @@ extension R {
         
         static let sync_start = "sync_start"
         static let sync_finish = "sync_finish"
+        static let timer_started = "timer_started"
+        static let timer_stoped = "timer_stoped"
+        static let start_timer = "start_timer"
+        static let stop_timer = "stop_timer"
+        static let timer_tick = "timer_tick"
     }
 }

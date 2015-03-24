@@ -29,8 +29,6 @@ class ZentaoViewController: UIViewController {
                 Log.v("Check user login result: \(result)")
                 if !result {
                     self.openLoginView()
-                } else {
-                    self.app.syncher.start()
                 }
             }
         }
