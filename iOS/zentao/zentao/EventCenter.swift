@@ -131,6 +131,7 @@ class EventCenter {
     }
     
     private func handleEvents(name: String, sender: AnyObject?, userInfo: [NSObject : AnyObject]?) {
+        Log.i("handle event [\(name)] from sender '\(sender)' with userInfo=\(userInfo)")
         if events.has(name) {
             var eventsForRemove: [Event] = []
             for targetEvents in events[name]!.values {
@@ -166,6 +167,8 @@ class EventCenter {
                 self.handleEvents(name, sender: notify.object, userInfo: notify.userInfo)
             }
         }
+        
+        Log.i("on [\(name)]")
     }
     
     func clear() {
@@ -265,7 +268,19 @@ class EventCenter {
     }
     
     func trigger(name: String, sender: AnyObject? = nil, userInfo: [NSObject : AnyObject]? = nil) {
-        NSNotificationCenter.defaultCenter().postNotificationName(name, object: sender, userInfo: userInfo)
+        if observers.has(name) {
+            NSNotificationCenter.defaultCenter().postNotificationName(name, object: sender, userInfo: userInfo)
+            Log.i("trigger [\(name)] from '\(sender)' with userInfo=\(userInfo)")
+        }
+        Log.i("trigger [\(name)] failed, because observer not found.")
+    }
+    
+    func trigger(name: String, sender: AnyObject?, userInfo: [NSString : AnyObject]) {
+        trigger(name, sender: sender, userInfo: userInfo as [NSObject : AnyObject])
+    }
+    
+    func trigger(name: String, sender: AnyObject?, userInfo: AnyObject) {
+        trigger(name, sender: sender, userInfo: [NSString(string: "userInfo"): userInfo])
     }
     
     func bind(target: AnyObject) -> EventCenter {
@@ -273,13 +288,19 @@ class EventCenter {
         return self
     }
     
-    func on(name: String) {
+    func unbind(target: AnyObject) {
+        off(target)
+    }
+    
+    func on(name: String) -> EventCenter {
         tempName = name
+        return self
     }
     
     func on(event: Event) -> EventCenter {
         assert(tempName != nil, "Should given a name first.")
         on(tempName!, target: tempTarget, event: event)
+        tempName = nil
         return self
     }
     
@@ -352,77 +373,77 @@ class EventCenter {
 infix operator  +=~ {}
 infix operator  +=! {}
 
-func += (inout center: EventCenter, event: Event) -> Int {
+func += (center: EventCenter, event: Event) -> Int {
     center.on(event)
     return event.id
 }
 
-func += (inout center: EventCenter, handler: Event.ClosureWithSenderAndUserInfo) -> Int {
+func += (center: EventCenter, handler: Event.ClosureWithSenderAndUserInfo) -> Int {
     return center += Event(handler)
 }
 
-func += (inout center: EventCenter, handler: Event.ClosureWithSender) -> Int {
+func += (center: EventCenter, handler: Event.ClosureWithSender) -> Int {
     return center += Event(handler)
 }
 
-func += (inout center: EventCenter, handler: Event.ClosureVoid) -> Int {
+func += (center: EventCenter, handler: Event.ClosureVoid) -> Int {
     return center += Event(handler)
 }
 
-func +=! (inout center: EventCenter, event: Event) -> Int {
+func +=! (center: EventCenter, event: Event) -> Int {
     event.queue = .Background
     return center += event
 }
 
-func +=! (inout center: EventCenter, handler: Event.ClosureWithSenderAndUserInfo) -> Int {
+func +=! (center: EventCenter, handler: Event.ClosureWithSenderAndUserInfo) -> Int {
     return center += Event(queue: .Background, handler)
 }
 
-func +=! (inout center: EventCenter, handler: Event.ClosureWithSender) -> Int {
+func +=! (center: EventCenter, handler: Event.ClosureWithSender) -> Int {
     return center += Event(queue: .Background, handler)
 }
 
-func +=! (inout center: EventCenter, handler: Event.ClosureVoid) -> Int {
+func +=! (center: EventCenter, handler: Event.ClosureVoid) -> Int {
     return center += Event(queue: .Background, handler)
 }
 
-func +=~ (inout center: EventCenter, event: Event) -> Int {
+func +=~ (center: EventCenter, event: Event) -> Int {
     event.queue = .LowPriority
     return center += event
 }
 
-func +=~ (inout center: EventCenter, handler: Event.ClosureWithSenderAndUserInfo) -> Int {
+func +=~ (center: EventCenter, handler: Event.ClosureWithSenderAndUserInfo) -> Int {
     return center += Event(queue: .LowPriority, handler)
 }
 
-func +=~ (inout center: EventCenter, handler: Event.ClosureWithSender) -> Int {
+func +=~ (center: EventCenter, handler: Event.ClosureWithSender) -> Int {
     return center += Event(queue: .LowPriority, handler)
 }
 
-func +=~ (inout center: EventCenter, handler: Event.ClosureVoid) -> Int {
+func +=~ (center: EventCenter, handler: Event.ClosureVoid) -> Int {
     return center += Event(queue: .LowPriority, handler)
 }
 
-func -= (inout center: EventCenter, target: AnyObject) {
+func -= (center: EventCenter, target: AnyObject) {
     center.off(target)
 }
 
-func -= (inout center: EventCenter, name: String) {
+func -= (center: EventCenter, name: String) {
     center.off(name)
 }
 
-func -= (inout center: EventCenter, id: Int) -> Bool {
+func -= (center: EventCenter, id: Int) -> Bool {
     return center.off(id)
 }
 
-func -= (inout center: EventCenter, event: Event) -> Bool {
+func -= (center: EventCenter, event: Event) -> Bool {
     return center.off(event)
 }
 
-func -= (inout center: EventCenter, eventInfo: (target: AnyObject, name: String)) {
+func -= (center: EventCenter, eventInfo: (target: AnyObject, name: String)) {
     center.off(eventInfo.target, name: eventInfo.name)
 }
 
-func -= (inout center: EventCenter, eventInfo: (target: AnyObject, name: String, id: Int)) {
+func -= (center: EventCenter, eventInfo: (target: AnyObject, name: String, id: Int)) {
     center.off(eventInfo.target, name: eventInfo.name, id: eventInfo.id)
 }
