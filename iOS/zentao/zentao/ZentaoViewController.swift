@@ -26,7 +26,7 @@ class ZentaoViewController: UIViewController {
         if checkUserStatusOnDidAppear {
             app.checkLogin() {
                 result in
-                println("Check user login: \(result)")
+                Log.v("Check user login result: \(result)")
                 if !result {
                     self.openLoginView()
                 } else {
@@ -99,7 +99,7 @@ class ZentaoViewController: UIViewController {
                     self.view.viewWithTag(R.Tag.accent_header)?.backgroundColor = color
                     
                     let hex = NSString(format:"%2X", swatch.primary.hue) as String
-                    println("Accent swatch changed to \(swatch.name)(#\(hex))")
+                    Log.v("Accent swatch changed to \(swatch.name)(#\(hex))")
                 }
             }
         }
@@ -109,10 +109,6 @@ class ZentaoViewController: UIViewController {
         let storyboard = self.storyboard
         let loginVC: LoginViewController = storyboard?.instantiateViewControllerWithIdentifier("LoginViewController") as LoginViewController
         loginVC.modalPresentationStyle = UIModalPresentationStyle.Popover
-//        loginVC.onLoginSuccess = {
-//            self.app.syncher.start()
-//        }
-//        
         self.presentViewController(loginVC, animated: true, completion: nil)
     }
 

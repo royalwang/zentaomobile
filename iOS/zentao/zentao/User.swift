@@ -47,7 +47,7 @@ class User: Printable {
     let address: String
     private var password: String
     var notifyEnable: Bool = true
-    var syncFrequency: Int = 300 // seconds
+    var syncFrequency: Int = 5 // seconds
     var id: String?
     var company: String?
     var gender: String?
@@ -57,12 +57,12 @@ class User: Printable {
     var config: ZentaoConfig?
     var lastSyncTime: NSDate? {
         didSet {
-            println("User setted lastSyncTime to " + (lastSyncTime != nil ? lastSyncTime!.toString() : "nil"))
+            Log.v("User set lastSyncTime=" + (lastSyncTime != nil ? lastSyncTime!.toString() : "nil"))
         }
     }
     var lastLoginTime: NSDate? {
         didSet {
-            println("User setted lastLoginTime to " + (lastLoginTime != nil ? lastLoginTime!.toString() : "nil"))
+            Log.v("User set lastLoginTime=" + (lastLoginTime != nil ? lastLoginTime!.toString() : "nil"))
         }
     }
     

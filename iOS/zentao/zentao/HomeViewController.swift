@@ -80,13 +80,10 @@ class HomeViewController: ZentaoViewController, UITableViewDelegate, UITableView
         subtitle.text    = entityType.name
         amount.text      = "0"
         amount.textColor = entityType.swatch.primary.hue.color
-        
-        Log.d(cell.frame.height)
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        Log.d("You selected cell #\(indexPath.row)!")
     }
 
 
