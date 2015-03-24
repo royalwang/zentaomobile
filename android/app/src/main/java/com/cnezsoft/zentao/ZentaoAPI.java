@@ -132,7 +132,7 @@ public class ZentaoAPI
                 }
             }
 
-            url += "&type=" + viewType + "&" + config.getSessionName() + "=" + config.getSessionID();
+            url += "&" + config.getSessionName() + "=" + config.getSessionID();
         }
         return url;
     }
