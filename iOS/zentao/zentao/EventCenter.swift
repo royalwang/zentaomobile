@@ -114,7 +114,7 @@ class EventCenter {
         static let instance = EventCenter()
     }
     
-    class var sharedInstance: EventCenter {
+    class var shared: EventCenter {
         get {
             return SingletonKeeper.instance
         }
@@ -124,6 +124,7 @@ class EventCenter {
     private lazy var events: [String: [UInt: [Event]]] = {return [:]}()
     private let GLOBAL_TRAGET_ID = UInt.min
     private var tempTarget: AnyObject?
+    private var tempName: String?
     private lazy var observers: [String: NSObjectProtocol] = {return [:]}()
     
     private init() {
@@ -184,13 +185,6 @@ class EventCenter {
         }
     }
     
-    func off(name: String) {
-        if observers.has(name) {
-            NSNotificationCenter.defaultCenter().removeObserver(observers[name]!)
-        }
-        events[name] = nil
-    }
-    
     func off(target: AnyObject) {
         let targetId = ObjectIdentifier(target).uintValue()
         for (name, _) in events {
@@ -199,6 +193,13 @@ class EventCenter {
         }
     }
     
+    func off(name: String) {
+        if observers.has(name) {
+            NSNotificationCenter.defaultCenter().removeObserver(observers[name]!)
+        }
+        events[name] = nil
+    }
+
     func off(target: AnyObject, name: String) {
         let targetId = ObjectIdentifier(target).uintValue()
         if events.has(name) {
@@ -272,6 +273,46 @@ class EventCenter {
         return self
     }
     
+    func on(name: String) {
+        tempName = name
+    }
+    
+    func on(event: Event) -> EventCenter {
+        assert(tempName != nil, "Should given a name first.")
+        on(tempName!, target: tempTarget, event: event)
+        return self
+    }
+    
+    func on(queue: Event.Queue, handler: Event.ClosureWithSenderAndUserInfo) -> EventCenter {
+        on(Event(queue: queue, handler))
+        return self
+    }
+    
+    func on(queue: Event.Queue, handler: Event.ClosureWithSender) -> EventCenter {
+        on(Event(queue: queue, handler))
+        return self
+    }
+    
+    func on(queue: Event.Queue, handler: Event.ClosureVoid) -> EventCenter {
+        on(Event(queue: queue, handler))
+        return self
+    }
+    
+    func on(handler: Event.ClosureWithSenderAndUserInfo) -> EventCenter {
+        on(Event(handler))
+        return self
+    }
+    
+    func on(handler: Event.ClosureWithSender) -> EventCenter {
+        on(Event(handler))
+        return self
+    }
+    
+    func on(handler: Event.ClosureVoid) -> EventCenter {
+        on(Event(handler))
+        return self
+    }
+    
     func on(name: String, event: Event) -> EventCenter {
         on(name, target: tempTarget, event: event)
         return self
@@ -306,4 +347,82 @@ class EventCenter {
         on(name, target: tempTarget, event: Event(handler))
         return self
     }
+}
+
+infix operator  +=~ {}
+infix operator  +=! {}
+
+func += (inout center: EventCenter, event: Event) -> Int {
+    center.on(event)
+    return event.id
+}
+
+func += (inout center: EventCenter, handler: Event.ClosureWithSenderAndUserInfo) -> Int {
+    return center += Event(handler)
+}
+
+func += (inout center: EventCenter, handler: Event.ClosureWithSender) -> Int {
+    return center += Event(handler)
+}
+
+func += (inout center: EventCenter, handler: Event.ClosureVoid) -> Int {
+    return center += Event(handler)
+}
+
+func +=! (inout center: EventCenter, event: Event) -> Int {
+    event.queue = .Background
+    return center += event
+}
+
+func +=! (inout center: EventCenter, handler: Event.ClosureWithSenderAndUserInfo) -> Int {
+    return center += Event(queue: .Background, handler)
+}
+
+func +=! (inout center: EventCenter, handler: Event.ClosureWithSender) -> Int {
+    return center += Event(queue: .Background, handler)
+}
+
+func +=! (inout center: EventCenter, handler: Event.ClosureVoid) -> Int {
+    return center += Event(queue: .Background, handler)
+}
+
+func +=~ (inout center: EventCenter, event: Event) -> Int {
+    event.queue = .LowPriority
+    return center += event
+}
+
+func +=~ (inout center: EventCenter, handler: Event.ClosureWithSenderAndUserInfo) -> Int {
+    return center += Event(queue: .LowPriority, handler)
+}
+
+func +=~ (inout center: EventCenter, handler: Event.ClosureWithSender) -> Int {
+    return center += Event(queue: .LowPriority, handler)
+}
+
+func +=~ (inout center: EventCenter, handler: Event.ClosureVoid) -> Int {
+    return center += Event(queue: .LowPriority, handler)
+}
+
+func -= (inout center: EventCenter, target: AnyObject) {
+    center.off(target)
+}
+
+func -= (inout center: EventCenter, name: String) {
+    center.off(name)
+}
+
+func -= (inout center: EventCenter, id: Int) -> Bool {
+    return center.off(id)
+}
+
+func -= (inout center: EventCenter, event: Event) -> Bool {
+    return center.off(event)
+}
+
+func -= (inout center: EventCenter, eventInfo: (target: AnyObject, name: String)) {
+    center.off(eventInfo.target, name: eventInfo.name)
+}
+
+func -= (inout center: EventCenter, eventInfo: (target: AnyObject, name: String, id: Int)) {
+    center.off(eventInfo.target, name: eventInfo.name, id: eventInfo.id)
 }
