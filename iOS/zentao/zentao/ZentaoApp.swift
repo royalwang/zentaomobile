@@ -22,9 +22,7 @@ class ZentaoApp {
         }
     }
     
-    lazy var syncher: Synchronizer = {
-        return Synchronizer()
-    }()
+    let syncher: Synchronizer = Synchronizer()
     
     lazy var profile: UserProfile = {
         return UserProfile.sharedInstance

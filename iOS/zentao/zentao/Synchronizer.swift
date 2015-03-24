@@ -9,11 +9,22 @@
 import Foundation
 
 class Synchronizer {
+   
+    lazy var app: ZentaoApp = {
+        return ZentaoApp.sharedInstance
+    }()
     
-    let app: ZentaoApp
+    init(){
+        EventCenter.shared.bind(self).on(R.Event.timer_tick) += {
+            self.sync()
+        }
+    }
     
-    init(app: ZentaoApp) {
-        self.app = app
+    func sync() {
+        sync(.Default) {
+            result in
+            Log.v(result)
+        }
     }
     
     func sync(entityType: EntityType, complete: ((result: Bool) -> Void)) {
@@ -116,5 +127,9 @@ class Synchronizer {
             }
         }
         return nil
+    }
+    
+    deinit {
+        EventCenter.shared.unbind(self)
     }
 }

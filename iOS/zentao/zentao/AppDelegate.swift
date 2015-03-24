@@ -92,5 +92,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate/*, UISplitViewControllerDe
         // Saves changes in the application's managed object context before the application terminates.
 //        self.app.dataStore.saveContext()
     }
+    
+    deinit {
+        EventCenter.shared.unbind(self)
+    }
 }
 
