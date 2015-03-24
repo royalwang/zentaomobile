@@ -121,6 +121,8 @@ class UserProfile {
         tempUser!.role = self["role"].string
         tempUser!.realName = self["realName"].string
         tempUser!.email = self["email"].string
+        
+        Log.v("👵 GET USER: \(user)")
         return tempUser
     }
     
@@ -149,6 +151,7 @@ class UserProfile {
             self["realName"] = user.realName
             self["email"] = user.email
             tempUser = user
+            Log.v("👵 SAVE USER: \(user)")
             return save()
         }
         return false

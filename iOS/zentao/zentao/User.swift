@@ -57,12 +57,12 @@ class User: Printable {
     var config: ZentaoConfig?
     var lastSyncTime: NSDate? {
         didSet {
-            Log.v("User set lastSyncTime=" + (lastSyncTime != nil ? lastSyncTime!.toString() : "nil"))
+            Log.v("User set lastSyncTime=" + (lastSyncTime != nil ? "\(lastSyncTime!)" : "nil"))
         }
     }
     var lastLoginTime: NSDate? {
         didSet {
-            Log.v("User set lastLoginTime=" + (lastLoginTime != nil ? lastLoginTime!.toString() : "nil"))
+            Log.v("User set lastLoginTime=" + (lastLoginTime != nil ? "\(lastLoginTime!)" : "nil"))
         }
     }
     

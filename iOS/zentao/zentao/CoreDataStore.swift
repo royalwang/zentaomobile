@@ -85,7 +85,7 @@ class CoreDataStore {
             if moc.hasChanges {
                 let result = moc.save(&error)
                 if !result {
-                    println("Save context error: \(error)")
+                    Log.e("ERROR on save context: \(error)")
                 }
                 return result
             }
@@ -100,6 +100,9 @@ class CoreDataStore {
             let entity: Entity = NSEntityDescription.insertNewObjectForEntityForName(type.name,
                 inManagedObjectContext: context) as Entity
             entity.zentao = user.zentao
+            if type == .Todo {
+                (entity as Todo).account = user.account
+            }
             return entity
         }
         return nil
@@ -207,6 +210,7 @@ class CoreDataStore {
         var entity = query(type, user: user, id: id)
         if entity == nil {
             entity = newEntityForInsert(type, user: user)
+//            Log.v("new entity for save.")
         }
         return entity!
     }

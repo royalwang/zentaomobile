@@ -40,7 +40,7 @@ struct Log {
         } else {
             var prefix = "\(type.icon)[\(filename):\(line)]"
             while(prefix.length < 30) {
-                prefix += " "
+                prefix += "·"
             }
             println("\(prefix) \(body)♢")
         }

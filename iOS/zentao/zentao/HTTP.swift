@@ -20,12 +20,12 @@ struct HTTP {
             request.requestSerializer.headers["Accept-Encoding"] = "gzip"
         }
         request.GET(url, parameters: nil, success: {
-            Log.v("HTTP GET \(url) (SUCCESS)")
-            Log.v("HTTP GET ResponseText=\($0.text())")
+            Log.v("🌏HTTP GET \(url) (SUCCESS)")
+            Log.v("  HTTP GET ResponseText=\($0.text()?.limitLength(100))")
             success($0)
         }, failure: {
-            Log.w("HTTP GET \(url) (FAILED)")
-            Log.w("HTTP GET Error=\($1)")
+            Log.w("🌏HTTP GET \(url) (FAILED)")
+            Log.w("  HTTP GET Error=\($1)")
             failure($0, $1)
         })
     }

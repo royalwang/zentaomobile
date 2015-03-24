@@ -227,4 +227,8 @@ extension String
             return prefix + (lastChar != lastChar.uppercaseString ? suffix : suffix.uppercaseString)
         }
     }
+    
+    func limitLength(limit: Int, surfix: String = "…") -> String {
+        return self.length > limit ? (self.subString(0, length: limit) + surfix) : self
+    }
 }

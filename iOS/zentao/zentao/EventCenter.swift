@@ -392,8 +392,8 @@ class EventCenter {
     }
 }
 
-infix operator  +=~ {}
-infix operator  +=! {}
+//infix operator  +=~ {}
+//infix operator  +=! {}
 
 func += (center: EventCenter, event: Event) -> Int {
     center.on(event)
