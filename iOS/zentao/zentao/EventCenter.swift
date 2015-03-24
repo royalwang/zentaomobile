@@ -130,13 +130,15 @@ class EventCenter {
     private init() {
     }
     
-    private func handleEvents(name: String, sender: AnyObject?, userInfo: [NSObject : AnyObject]?) {
-        Log.i("handle event [\(name)] from sender '\(sender)' with userInfo=\(userInfo)")
+    private func handleEvents(name: String, sender: AnyObject?, userInfo: [NSObject : AnyObject]?) -> Int {
+        var result = 0
         if events.has(name) {
             var eventsForRemove: [Event] = []
             for targetEvents in events[name]!.values {
                 for event in targetEvents {
-                    event.execute(sender, userInfo: userInfo)
+                    if event.execute(sender, userInfo: userInfo) {
+                        result++
+                    }
                     if !event.hasChance {
                         eventsForRemove.append(event)
                     }
@@ -146,6 +148,8 @@ class EventCenter {
                 off(eventsForRemove)
             }
         }
+        Log.i("HANDLE 🌟\(result) events [\(name)] from sender '\(sender)' with userInfo=\(userInfo)")
+        return result
     }
     
     func on(name: String, target: AnyObject?, event: Event) {
@@ -165,10 +169,11 @@ class EventCenter {
         if !observers.has(name) {
             observers[name] = NSNotificationCenter.defaultCenter().addObserverForName(name, object: nil, queue: NSOperationQueue.mainQueue()) { (notify) -> Void in
                 self.handleEvents(name, sender: notify.object, userInfo: notify.userInfo)
+                return
             }
         }
         
-        Log.i("on [\(name)]")
+        Log.i("ON [\(name)], BIND on target=\(target)")
     }
     
     func clear() {
@@ -270,9 +275,10 @@ class EventCenter {
     func trigger(name: String, sender: AnyObject? = nil, userInfo: [NSObject : AnyObject]? = nil) {
         if observers.has(name) {
             NSNotificationCenter.defaultCenter().postNotificationName(name, object: sender, userInfo: userInfo)
-            Log.i("trigger [\(name)] from '\(sender)' with userInfo=\(userInfo)")
+            Log.i("TRIGGER [\(name)] from '\(sender)' with userInfo=\(userInfo)")
+        } else {
+            Log.w("TRIGGER [\(name)] failed, because observer not found.")
         }
-        Log.i("trigger [\(name)] failed, because observer not found.")
     }
     
     func trigger(name: String, sender: AnyObject?, userInfo: [NSString : AnyObject]) {
@@ -368,6 +374,22 @@ class EventCenter {
         on(name, target: tempTarget, event: Event(handler))
         return self
     }
+    
+    func then(name: String, sender: AnyObject? = nil, userInfo: [NSObject : AnyObject]? = nil) -> Int {
+        let event = Event({
+            self.trigger(name, sender: sender, userInfo: userInfo)
+        })
+        on(event)
+        return event.id
+    }
+    
+    func then(name: String, sender: AnyObject?, userInfo: [NSString : AnyObject]) -> Int {
+        return then(name, sender: sender, userInfo: userInfo as [NSObject : AnyObject])
+    }
+    
+    func then(name: String, sender: AnyObject?, userInfo: AnyObject) -> Int {
+        return then(name, sender: sender, userInfo: [NSString(string: "userInfo"): userInfo])
+    }
 }
 
 infix operator  +=~ {}
@@ -388,6 +410,18 @@ func += (center: EventCenter, handler: Event.ClosureWithSender) -> Int {
 
 func += (center: EventCenter, handler: Event.ClosureVoid) -> Int {
     return center += Event(handler)
+}
+
+func >> (center: EventCenter, trigger: String) -> Int {
+    return center.then(trigger)
+}
+
+func >> (center: EventCenter, trigger: (name: String, sender: AnyObject)) -> Int {
+    return center.then(trigger.name, sender: trigger.sender)
+}
+
+func >> (center: EventCenter, trigger: (name: String, sender: AnyObject, userInfo: AnyObject)) -> Int {
+    return center.then(trigger.name, sender: trigger.sender, userInfo: trigger.userInfo)
 }
 
 func +=! (center: EventCenter, event: Event) -> Int {
