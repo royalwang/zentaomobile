@@ -38,7 +38,11 @@ struct Log {
             let bodyString = body != nil ? "\(body)" : ""
             println("\(type.icon)[\(filename).\(functionName):\(line)] \(bodyString)")
         } else {
-            println("\(type.icon)[\(filename):\(line)] \(body)")
+            var prefix = "\(type.icon)[\(filename):\(line)]"
+            while(prefix.length < 30) {
+                prefix += " "
+            }
+            println("\(prefix) \(body)♢")
         }
     }
     
