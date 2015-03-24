@@ -60,6 +60,8 @@ class ZentaoApp {
                 if r {
                     self.profile.saveUser()
                 }
+                Log.v("Zentao app login: result=\(r), error=\(error), message=\(message)")
+                EventCenter.shared.trigger(r ? R.Event.login_success : R.Event.login_fail, sender: self, userInfo: ["user": u!])
                 complete(result: r, error: error, message: message)
             }
             return
@@ -82,5 +84,9 @@ class ZentaoApp {
             result = status == .Online
         }
         complete(result: result)
+    }
+    
+    deinit {
+        EventCenter.shared.unbind(self)
     }
 }

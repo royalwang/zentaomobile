@@ -28,15 +28,15 @@ class HomeViewController: ZentaoViewController, UITableViewDelegate, UITableView
         tableView.delegate = self
 
         sayHelloToUser()
+        EventCenter.shared.bind(self).on(R.Event.login_success) += {
+            self.sayHelloToUser()
+            Log.s("say hello to user from event center")
+        }
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    override func onLoginSuccess(isLoginInBackground: Bool = false) {
-        sayHelloToUser()
     }
     
     func sayHelloToUser() {
