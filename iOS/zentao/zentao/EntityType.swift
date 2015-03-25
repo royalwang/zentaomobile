@@ -20,7 +20,7 @@ enum EntityType : Int, AccentIconProtocol, NameValueEnum {
     
     private static let accentIconMap = [
         AccentIcon(swatch: MaterialColor.Grey, icon: FontIcon.question),
-        AccentIcon(swatch: MaterialColor.LightBlue, icon: FontIcon.check_square_o),
+        AccentIcon(swatch: MaterialColor.Blue, icon: FontIcon.check_square_o),
         AccentIcon(swatch: MaterialColor.Green, icon: FontIcon.tasks),
         AccentIcon(swatch: MaterialColor.Pink, icon: FontIcon.bug),
         AccentIcon(swatch: MaterialColor.Purple, icon: FontIcon.lightbulb_o),
