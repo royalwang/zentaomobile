@@ -134,7 +134,7 @@ public class LoginActivity extends ZentaoActivity {
                 } else {
                     new AlertDialog.Builder(activity)
                             .setTitle(getString(R.string.message_login_failed))
-                            .setMessage(Helper.ifNullOrEmptyThen(result.getMessage(), loginMessages[result.getCode()]))
+                            .setMessage(Helper.ifNullOrEmptyThen(loginMessages[result.getCode()], result.getMessage()))
                             .setNeutralButton(android.R.string.ok,
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {

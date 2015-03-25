@@ -187,7 +187,7 @@ public class ZentaoAPI
             final int code = result ? 0 : 2;
             return new OperateBundle<Boolean, User>(result, message, user) {{setCode(code);}};
         } else {
-            return new OperateBundle<Boolean, User>(false, "Can't get data from remote server.", user) {{setCode(4);}};
+            return new OperateBundle<Boolean, User>(false, "Can't get data form zentao server.", user) {{setCode(4);}};
         }
     }
 
