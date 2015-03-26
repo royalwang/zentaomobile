@@ -10,7 +10,7 @@ import Foundation
 
 protocol EntityPageTab: NamedEnum {
     
-    class var entityType: EntityType {get}
+    var entityType: EntityType {get}
     class var all: [EntityPageTab] {get}
     class var defaultTab: EntityPageTab {get}
     

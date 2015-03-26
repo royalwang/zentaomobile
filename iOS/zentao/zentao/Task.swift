@@ -17,7 +17,7 @@ class Task: Entity {
         case OpenedBy
         case FinishedBy
         
-        static let entityType = EntityType.Task
+        var entityType: EntityType {return EntityType.Task}
         static let names = ["指派给我", "由我创建", "由我完成"]
         static let values: [PageTab] = [.AssignedTo, .OpenedBy, .FinishedBy]
         static var defaultTab: EntityPageTab {

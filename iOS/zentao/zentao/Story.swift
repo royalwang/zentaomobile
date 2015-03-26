@@ -17,7 +17,7 @@ class Story: Entity {
         case OpenedBy
         case ReviewBy
         
-        static let entityType = EntityType.Story
+        var entityType: EntityType {return EntityType.Story}
         static let names = ["指派给我", "由我创建", "由我评审"]
         static let values: [PageTab] = [.AssignedTo, .OpenedBy, .ReviewBy]
         static var defaultTab: EntityPageTab {

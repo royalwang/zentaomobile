@@ -17,7 +17,7 @@ class Product: Entity {
         case Working = 0
         case Closed
         
-        static let entityType = EntityType.Product
+        var entityType: EntityType {return EntityType.Product}
         static let names = ["研发中", "已关闭"]
         static let values: [PageTab] = [.Working, .Closed]
         static var defaultTab: EntityPageTab {

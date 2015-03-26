@@ -18,7 +18,7 @@ class Project: Entity {
         case Going
         case Closed
         
-        static let entityType = EntityType.Project
+        var entityType: EntityType {return EntityType.Project}
         static let names = ["我负责的", "活动中", "已关闭"]
         static let values: [PageTab] = [.AssignedTo, .Going, .Closed]
         static var defaultTab: EntityPageTab {
