@@ -30,18 +30,26 @@ class EntityListViewController: ZentaoViewController {
         for tab in tabs {
             menu.insertSegmentWithTitle(tab.name, atIndex: tab.index, animated: false)
         }
-        menu.selectedSegmentIndex = currentTab!.index
-        app.shareBundle[bundleName] = currentTab!.index
+        selectTab(currentTab!)
+        
+        if let entityListPageViewController: EntityListPageViewController  = self.childViewControllers.first as? EntityListPageViewController {
+            entityListPageViewController.tab = currentTab!
+        }
     }
-    @IBAction func onMenuChange(sender: UISegmentedControl) {
+    
+    func selectTab(tab: EntityPageTab) {
         let bundleName = "\(entityTab.name).SelectedTab"
-        app.shareBundle[bundleName] = sender.selectedSegmentIndex
+        menu.selectedSegmentIndex = tab.index
+        app.shareBundle[bundleName] = tab.index
+    }
+    
+    @IBAction func onMenuChange(sender: UISegmentedControl) {
         
         let tab = entityTab.tabs[sender.selectedSegmentIndex]
+        selectTab(tab)
         
         if let entityListPageViewController: EntityListPageViewController  = self.childViewControllers.first as? EntityListPageViewController {
             entityListPageViewController.tab = tab
-            entityListPageViewController.entityTab = entityTab
         }
     }
     
