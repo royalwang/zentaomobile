@@ -94,7 +94,13 @@ class ZentaoViewController: UIViewController {
                     UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
                     
                     let color = swatch.primary.hue.color
-                    self.view.viewWithTag(R.Tag.accent_header)?.backgroundColor = color
+                    
+                    UIView.animateWithDuration(0.5) {
+                        self.view.viewWithTag(R.Tag.accent_header)?.layer.backgroundColor = color.CGColor
+                        return
+                    }
+                    
+//                    self.view.viewWithTag(R.Tag.accent_header)?.backgroundColor = color
                     
                     let hex = NSString(format:"%2X", swatch.primary.hue) as String
                     Log.v("Accent swatch changed to \(swatch.name)(#\(hex))")
