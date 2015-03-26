@@ -362,6 +362,9 @@
                                     <segment title="由我创建"/>
                                     <segment title="由我完成"/>
                                 </segments>
+                                <connections>
+                                    <action selector="onMenuChange:" destination="teh-9b-CCI" eventType="valueChanged" id="T77-nN-Mxx"/>
+                                </connections>
                             </segmentedControl>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w4p-wf-L03">
                                 <rect key="frame" x="0.0" y="51" width="600" height="435"/>

@@ -10,10 +10,43 @@ import UIKit
 
 class EntityListViewController: ZentaoViewController {
     
-    @IBOutlet weak var listTableView: ListTableView!
+    @IBOutlet weak var menu: UISegmentedControl!
+    
+    var entityTab: EntityType = .Todo {
+        didSet {
+            switchTab(entityTab)
+        }
+    }
+    
+    func switchTab(type: EntityType) {
+        let tabs = type.tabs
+        let bundleName = "\(type.name).SelectedTab"
+        var currentTab = type.defaultTab
+        if let tabIndexInBundle = (app.shareBundle[bundleName] as? Int) {
+            currentTab = tabs[tabIndexInBundle]
+        }
+        
+        menu.removeAllSegments()
+        for tab in tabs {
+            menu.insertSegmentWithTitle(tab.name, atIndex: tab.index, animated: false)
+        }
+        menu.selectedSegmentIndex = currentTab!.index
+        app.shareBundle[bundleName] = currentTab!.index
+    }
+    @IBAction func onMenuChange(sender: UISegmentedControl) {
+        let bundleName = "\(entityTab.name).SelectedTab"
+        app.shareBundle[bundleName] = sender.selectedSegmentIndex
+        
+        let tab = entityTab.tabs[sender.selectedSegmentIndex]
+        
+        if let entityListPageViewController: EntityListPageViewController  = self.childViewControllers.first as? EntityListPageViewController {
+            entityListPageViewController.tab = tab
+            entityListPageViewController.entityTab = entityTab
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
 
     override func didReceiveMemoryWarning() {
