@@ -198,7 +198,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="IHm-wT-hPE" kind="show" id="HpF-vZ-A4e"/>
+                                            <segue destination="IHm-wT-hPE" kind="show" identifier="homeToList" id="HpF-vZ-A4e"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -266,7 +266,7 @@
         <!--禅道-->
         <scene sceneID="9NY-1H-OLJ">
             <objects>
-                <viewController id="BFC-pb-b6q" customClass="ListViewController" customModule="zentao" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ListViewController" id="BFC-pb-b6q" customClass="ListViewController" customModule="zentao" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="21j-lA-iww"/>
                         <viewControllerLayoutGuide type="bottom" id="bkE-Um-xz7"/>

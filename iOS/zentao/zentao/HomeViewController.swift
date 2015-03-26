@@ -84,7 +84,15 @@ class HomeViewController: ZentaoViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.app.shareBundle["SelectedTab"] = EntityType.values[indexPath.row + 1]
     }
+    
+//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+//        if segue.identifier == "homeToList" {
+//            let vc = segue.destinationViewController as ListViewController
+//            Log.d("Entity tab set to \(choosedTab.name) in 'Home'.")
+//        }
+//    }
 
 
     /*

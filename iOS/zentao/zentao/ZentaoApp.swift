@@ -22,6 +22,8 @@ class ZentaoApp {
         }
     }
     
+    var shareBundle: [String:Any] = [:]
+    
     let syncher: Synchronizer = Synchronizer()
     
     lazy var profile: UserProfile = {

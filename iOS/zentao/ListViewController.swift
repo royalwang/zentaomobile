@@ -14,14 +14,33 @@ class ListViewController: ZentaoViewController, UITabBarDelegate {
     @IBOutlet var menuTabBarCollection: [UITabBar]!
     @IBOutlet weak var titleBar: UINavigationItem!
     
+    var entityTab: EntityType {
+        get {
+            return (app.shareBundle["SelectedTab"] as? EntityType) ?? .Todo
+        }
+        set {
+            app.shareBundle["SelectedTab"] = newValue
+        }
+    }
+    
+    func switchTab(tab: EntityType) {
+        Log.d("Switch tab to\(tab)")
+        self.accentSwatch = tab.swatch
+        menuTabBar.selectedImageTintColor = tab.swatch.primary.hue.color
+        titleBar.title = tab.displayName
+        
+        menuTabBar.selectedItem = menuTabBar.items![tab.index - 1] as? UITabBarItem
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        self.accentSwatch = MaterialColor.Purple
         self.showNavigationBarShadow = false
         menuTabBar.delegate = self
         menuTabBar.selectedImageTintColor = MaterialColor.Red.primary.hue.color
+        
+        switchTab(entityTab)
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,9 +51,8 @@ class ListViewController: ZentaoViewController, UITabBarDelegate {
     
     func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem!) {
         let entityType = EntityType.values[item.tag]
-        self.accentSwatch = entityType.swatch
-        menuTabBar.selectedImageTintColor = entityType.swatch.primary.hue.color
-        titleBar.title = entityType.displayName
+        entityTab = entityType
+        switchTab(entityType)
     }
 
     /*
