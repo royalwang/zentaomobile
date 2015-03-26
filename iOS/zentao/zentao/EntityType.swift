@@ -81,6 +81,25 @@ enum EntityType : Int, AccentIconProtocol, NameValueEnum {
         }
     }
     
+    var tabs: [EntityPageTab] {
+        switch self {
+        case .Todo:
+            return zentao.Todo.PageTab.all
+        case .Task:
+            return zentao.Task.PageTab.all
+        case .Bug:
+            return zentao.Bug.PageTab.all
+        case .Story:
+            return zentao.Story.PageTab.all
+        case .Product:
+            return zentao.Product.PageTab.all
+        case .Project:
+            return zentao.Project.PageTab.all
+        default:
+            return []
+        }
+    }
+    
     
     // Attributes
     static let basicAttributes = [

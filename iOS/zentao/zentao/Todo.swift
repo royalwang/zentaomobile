@@ -12,6 +12,45 @@ import CoreData
 @objc(Todo)
 class Todo: Entity {
     
+    enum PageTab: Int, EntityPageTab {
+        case Today = 0
+        case Undone
+        case Done
+        
+        static let entityType = EntityType.Todo
+        static let names = ["今天", "未完成", "已完成"]
+        static let values: [PageTab] = [.Today, .Undone, .Done]
+        static var all: [EntityPageTab] {
+//            return values
+            return values.map {
+                (var val) -> EntityPageTab in
+                return val
+            }
+        }
+        
+        var index: Int {
+            return rawValue
+        }
+        
+        var name: String {
+            return PageTab.names[rawValue]
+        }
+        
+        var prev: EntityPageTab? {
+            if index == 0 {
+                return nil
+            }
+            return PageTab.values[index - 1]
+        }
+        
+        var next: EntityPageTab? {
+            if index == (PageTab.values.count - 1) {
+                return nil
+            }
+            return PageTab.values[index + 1]
+        }
+    }
+    
     override var entityType: EntityType {
         return .Todo
     }

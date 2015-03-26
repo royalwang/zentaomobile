@@ -12,6 +12,46 @@ import CoreData
 @objc(Project)
 class Project: Entity {
     
+    enum PageTab: Int, EntityPageTab {
+        
+        case AssignedTo = 0
+        case Going
+        case Closed
+        
+        static let entityType = EntityType.Project
+        static let names = ["我负责的", "活动中", "已关闭"]
+        static let values: [PageTab] = [.AssignedTo, .Going, .Closed]
+        static var all: [EntityPageTab] {
+            //            return values
+            return values.map {
+                (var val) -> EntityPageTab in
+                return val
+            }
+        }
+        
+        var index: Int {
+            return rawValue
+        }
+        
+        var name: String {
+            return PageTab.names[rawValue]
+        }
+        
+        var prev: EntityPageTab? {
+            if index == 0 {
+                return nil
+            }
+            return PageTab.values[index - 1]
+        }
+        
+        var next: EntityPageTab? {
+            if index == (PageTab.values.count - 1) {
+                return nil
+            }
+            return PageTab.values[index + 1]
+        }
+    }
+    
     override var entityType: EntityType {
         return .Project
     }
