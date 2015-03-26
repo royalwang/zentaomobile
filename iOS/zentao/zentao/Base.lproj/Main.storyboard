@@ -297,7 +297,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YIf-NO-qYX">
                                 <rect key="frame" x="0.0" y="64" width="600" height="486"/>
                                 <connections>
-                                    <segue destination="teh-9b-CCI" kind="embed" id="PBc-Q8-VaK"/>
+                                    <segue destination="teh-9b-CCI" kind="embed" id="7zj-gg-ebv"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -355,42 +355,73 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="486"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="z5d-I2-Ypv">
-                                <rect key="frame" x="190" y="8" width="220" height="29"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="z5d-I2-Ypv">
+                                <rect key="frame" x="190" y="11" width="220" height="29"/>
                                 <segments>
                                     <segment title="指派给我"/>
                                     <segment title="由我创建"/>
                                     <segment title="由我完成"/>
                                 </segments>
                             </segmentedControl>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="5OE-VU-foo">
-                                <rect key="frame" x="0.0" y="44" width="600" height="443"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="zN5-X0-WCl">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zN5-X0-WCl" id="6Jo-Da-Ejq">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w4p-wf-L03">
+                                <rect key="frame" x="0.0" y="51" width="600" height="435"/>
+                                <connections>
+                                    <segue destination="KzF-hO-71y" kind="embed" id="aOF-9g-cra"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="deviceRGB"/>
                         <constraints>
-                            <constraint firstItem="z5d-I2-Ypv" firstAttribute="top" secondItem="4yG-Ym-cD3" secondAttribute="bottom" constant="8" id="7y1-dK-H2D"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="w4p-wf-L03" secondAttribute="trailing" constant="-16" id="2Nr-xD-hAb"/>
+                            <constraint firstItem="z5d-I2-Ypv" firstAttribute="top" secondItem="4yG-Ym-cD3" secondAttribute="bottom" constant="11" id="7y1-dK-H2D"/>
+                            <constraint firstItem="w4p-wf-L03" firstAttribute="leading" secondItem="yi9-5m-O9Y" secondAttribute="leadingMargin" constant="-16" id="Ntk-vD-zzV"/>
+                            <constraint firstItem="b8a-6M-cnR" firstAttribute="top" secondItem="w4p-wf-L03" secondAttribute="bottom" id="OrJ-a3-Idx"/>
+                            <constraint firstItem="w4p-wf-L03" firstAttribute="top" secondItem="4yG-Ym-cD3" secondAttribute="bottom" constant="51" id="Xc1-b3-sxg"/>
                             <constraint firstAttribute="centerX" secondItem="z5d-I2-Ypv" secondAttribute="centerX" id="qeg-3k-iWO"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
                     <connections>
-                        <outlet property="listTableView" destination="5OE-VU-foo" id="jG0-hS-fxf"/>
+                        <outlet property="menu" destination="z5d-I2-Ypv" id="uCX-jl-d6u"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zpu-5Z-IMG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2913" y="-458.5"/>
+            <point key="canvasLocation" x="2954" y="-458"/>
+        </scene>
+        <!--Entity List Table View Controller-->
+        <scene sceneID="3q1-Ri-GXZ">
+            <objects>
+                <tableViewController id="qQj-wG-1cD" customClass="EntityListTableViewController" customModule="zentao" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="TMt-5m-Lyi">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="PIa-np-Oqt">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PIa-np-Oqt" id="l9B-xw-q7t">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="qQj-wG-1cD" id="OHr-0f-KWs"/>
+                            <outlet property="delegate" destination="qQj-wG-1cD" id="x2b-nd-9YJ"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mfX-vb-Vud" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4369" y="-379"/>
+        </scene>
+        <!--Entity List Page View Controller-->
+        <scene sceneID="qep-u2-JLh">
+            <objects>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="KzF-hO-71y" customClass="EntityListPageViewController" customModule="zentao" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Oet-B7-e2u" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3693" y="-458"/>
         </scene>
     </scenes>
     <resources>
