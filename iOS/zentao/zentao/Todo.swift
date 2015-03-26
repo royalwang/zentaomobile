@@ -20,6 +20,9 @@ class Todo: Entity {
         static let entityType = EntityType.Todo
         static let names = ["今天", "未完成", "已完成"]
         static let values: [PageTab] = [.Today, .Undone, .Done]
+        static var defaultTab: EntityPageTab {
+            return PageTab.Undone
+        }
         static var all: [EntityPageTab] {
 //            return values
             return values.map {

@@ -20,6 +20,9 @@ class Product: Entity {
         static let entityType = EntityType.Product
         static let names = ["研发中", "已关闭"]
         static let values: [PageTab] = [.Working, .Closed]
+        static var defaultTab: EntityPageTab {
+            return PageTab.Working
+        }
         static var all: [EntityPageTab] {
             //            return values
             return values.map {

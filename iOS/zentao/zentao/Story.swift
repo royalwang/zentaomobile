@@ -20,6 +20,9 @@ class Story: Entity {
         static let entityType = EntityType.Story
         static let names = ["指派给我", "由我创建", "由我评审"]
         static let values: [PageTab] = [.AssignedTo, .OpenedBy, .ReviewBy]
+        static var defaultTab: EntityPageTab {
+            return PageTab.AssignedTo
+        }
         static var all: [EntityPageTab] {
             //            return values
             return values.map {

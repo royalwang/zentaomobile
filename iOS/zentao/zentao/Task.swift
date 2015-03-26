@@ -20,6 +20,9 @@ class Task: Entity {
         static let entityType = EntityType.Task
         static let names = ["指派给我", "由我创建", "由我完成"]
         static let values: [PageTab] = [.AssignedTo, .OpenedBy, .FinishedBy]
+        static var defaultTab: EntityPageTab {
+            return PageTab.AssignedTo
+        }
         static var all: [EntityPageTab] {
             //            return values
             return values.map {

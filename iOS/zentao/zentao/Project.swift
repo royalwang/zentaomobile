@@ -21,6 +21,9 @@ class Project: Entity {
         static let entityType = EntityType.Project
         static let names = ["我负责的", "活动中", "已关闭"]
         static let values: [PageTab] = [.AssignedTo, .Going, .Closed]
+        static var defaultTab: EntityPageTab {
+            return PageTab.AssignedTo
+        }
         static var all: [EntityPageTab] {
             //            return values
             return values.map {

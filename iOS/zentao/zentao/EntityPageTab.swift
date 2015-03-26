@@ -12,6 +12,7 @@ protocol EntityPageTab: NamedEnum {
     
     class var entityType: EntityType {get}
     class var all: [EntityPageTab] {get}
+    class var defaultTab: EntityPageTab {get}
     
     var next: EntityPageTab? {get}
     var prev: EntityPageTab? {get}
