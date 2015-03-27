@@ -30,8 +30,10 @@ class Synchronizer {
     
     func sync() {
         isRunning = true
+        EventCenter.shared.trigger(R.Event.sync_start, sender: self)
         sync(.Default) {
             result in
+            EventCenter.shared.trigger(R.Event.sync_finish, sender: self, userInfo: ["result" : result])
             if result {
                 Log.s("SYNC SUCCESS.")
             } else {
@@ -118,11 +120,11 @@ class Synchronizer {
         deepSyncRequest(complete)
     }
     
-    func saveData(data: JSON) -> (result: Bool, count: Int, minIdKey: Int, operations: [EntityType: [String: Int]]) {
+    func saveData(data: JSON) -> (result: Bool, count: Int, minIdKey: Int, operations: [String: [String: Int]]) {
         let dataStore = app.dataStore
         let user = app.getUser()!
         var count = 0, minIdKey = Int.max
-        var operations: [EntityType: [String: Int]] = [:]
+        var operations: [String: [String: Int]] = [:]
         for entityType in EntityType.values {
             let set = data[entityType.name.lowercaseString]
             let keySet = set["key"].arrayObject as [String]?
@@ -150,20 +152,28 @@ class Synchronizer {
             let total = operation["add"]! + operation["delete"]! + operation["update"]!
             if total > 0 {
                 operation["total"] = total
-                operations[entityType] = operation
+                operations[entityType.name] = operation
             }
         }
+        
         #if DEBUG
         Log.v("READY to save data: ")
-        for (entityType, operation) in operations {
+        for (name, operation) in operations {
             let add = operation["add"]!
             let update = operation["update"]!
             let delete = operation["delete"]!
             let total = operation["total"]!
-            Log.v("\t\t\(entityType.name)\t\t+ \(add)\t\t* \(update)\t\t- \(delete)\t\t= \(total)")
+            Log.v("\t\t\(name)\t\t+ \(add)\t\t* \(update)\t\t- \(delete)\t\t= \(total)")
         }
         #endif
-        return (dataStore.saveContext(), count, minIdKey, operations)
+        
+        let result = dataStore.saveContext()
+        
+        if result && count > 0 {
+            EventCenter.shared.trigger(R.Event.data_stored, sender: self, userInfo: operations)
+        }
+        
+        return (result, count, minIdKey, operations)
     }
     
     func getIdFrom(#jsonArry: JSON, keys: [String]) -> Int? {

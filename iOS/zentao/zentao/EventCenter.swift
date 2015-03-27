@@ -153,23 +153,29 @@ class EventCenter {
     }
     
     func on(name: String, target: AnyObject?, event: Event) {
+        let names = split(name) {$0 == " "}
         let targetId = target != nil ? ObjectIdentifier(target!).uintValue() : GLOBAL_TRAGET_ID
-        event.targetId = targetId
-        event.name = name
-        if events.has(name) {
-            if events[name]!.has(targetId) {
-                events[name]![targetId]?.append(event)
-            } else {
-                events[name]![targetId] = [event]
-            }
-        } else {
-            events[name] = [targetId: [event]]
+        let notificationCenterCallback: (NSNotification!) -> Void = {
+            (notify) -> Void in
+            self.handleEvents(name, sender: notify.object, userInfo: notify.userInfo)
+            return
         }
+        event.name = name
+        event.targetId = targetId
         
-        if !observers.has(name) {
-            observers[name] = NSNotificationCenter.defaultCenter().addObserverForName(name, object: nil, queue: NSOperationQueue.mainQueue()) { (notify) -> Void in
-                self.handleEvents(name, sender: notify.object, userInfo: notify.userInfo)
-                return
+        for n in names {
+            if events.has(n) {
+                if events[n]!.has(targetId) {
+                    events[n]![targetId]?.append(event)
+                } else {
+                    events[n]![targetId] = [event]
+                }
+            } else {
+                events[n] = [targetId: [event]]
+            }
+            
+            if !observers.has(n) {
+                observers[n] = NSNotificationCenter.defaultCenter().addObserverForName(n, object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: notificationCenterCallback)
             }
         }
         

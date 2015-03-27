@@ -21,5 +21,6 @@ extension R {
         static let start_timer = "start_timer"
         static let stop_timer = "stop_timer"
         static let timer_tick = "timer_tick"
+        static let data_stored = "data_stored"
     }
 }
