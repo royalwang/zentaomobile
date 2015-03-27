@@ -18,7 +18,8 @@ class Task: Entity {
         case FinishedBy
         
         var entityType: EntityType {return EntityType.Task}
-        static let names = ["指派给我", "由我创建", "由我完成"]
+        static let displayNames = ["指派给我", "由我创建", "由我完成"]
+        static let names = ["assignedTo", "openedBy", "finishedBy"]
         static let values: [PageTab] = [.AssignedTo, .OpenedBy, .FinishedBy]
         static var defaultTab: EntityQueryType {
             return PageTab.AssignedTo
@@ -33,6 +34,10 @@ class Task: Entity {
         
         var index: Int {
             return rawValue
+        }
+        
+        var displayName: String {
+            return PageTab.displayNames[rawValue]
         }
         
         var name: String {

@@ -16,11 +16,12 @@ class Project: Entity {
         
         case AssignedTo = 0
         case Going
-        case Closed
+        case Finished
         
         var entityType: EntityType {return EntityType.Project}
-        static let names = ["我负责的", "活动中", "已关闭"]
-        static let values: [PageTab] = [.AssignedTo, .Going, .Closed]
+        static let displayNames = ["我负责的", "活动中", "已完成"]
+        static let names = ["assignedTo", "going", "finished"]
+        static let values: [PageTab] = [.AssignedTo, .Going, .Finished]
         static var defaultTab: EntityQueryType {
             return PageTab.AssignedTo
         }
@@ -38,6 +39,10 @@ class Project: Entity {
         
         var name: String {
             return PageTab.names[rawValue]
+        }
+        
+        var displayName: String {
+            return PageTab.displayNames[rawValue]
         }
         
         var prev: EntityQueryType? {

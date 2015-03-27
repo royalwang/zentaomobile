@@ -18,7 +18,8 @@ class Product: Entity {
         case Closed
         
         var entityType: EntityType {return EntityType.Product}
-        static let names = ["研发中", "已关闭"]
+        static let names = ["working", "closed"]
+        static let displayNames = ["研发中", "已关闭"]
         static let values: [PageTab] = [.Working, .Closed]
         static var defaultTab: EntityQueryType {
             return PageTab.Working
@@ -37,6 +38,10 @@ class Product: Entity {
         
         var name: String {
             return PageTab.names[rawValue]
+        }
+        
+        var displayName: String {
+            return PageTab.displayNames[rawValue]
         }
         
         var prev: EntityQueryType? {

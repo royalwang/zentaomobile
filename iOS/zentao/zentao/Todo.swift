@@ -18,7 +18,8 @@ class Todo: Entity {
         case Done
         
         var entityType: EntityType {return EntityType.Todo}
-        static let names = ["今天", "未完成", "已完成"]
+        static let displayNames = ["今天", "未完成", "已完成"]
+        static let names = ["today", "undone", "done"]
         static let values: [PageTab] = [.Today, .Undone, .Done]
         static var defaultTab: EntityQueryType {
             return PageTab.Undone
@@ -36,6 +37,10 @@ class Todo: Entity {
         
         var name: String {
             return PageTab.names[rawValue]
+        }
+        
+        var displayName: String {
+            return PageTab.displayNames[rawValue]
         }
         
         var prev: EntityQueryType? {

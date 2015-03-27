@@ -154,6 +154,45 @@ class CoreDataStore {
         return nil
     }
     
+    func query(queryType: EntityQueryType, user: User, predicate: String = "", var sortDescriptor: [NSSortDescriptor]? = nil) -> [Entity]? {
+        var pred: String = ""
+        let entityType = queryType.entityType
+        switch entityType {
+        case .Todo:
+            switch queryType as Todo.PageTab {
+            case .Today:
+                let now = NSDate().dateAtStartOfDay().timeIntervalSince1970
+                pred = "begin >= \(now)"
+            case .Undone:
+                pred = "status != 'done'"
+            case .Done:
+                pred = "status == 'done'"
+            }
+        case .Task, .Bug, .Story:
+            pred = "\(queryType.name) == '\(user.account)'"
+        case .Product:
+            switch queryType as Product.PageTab {
+            case .Closed:
+                pred = "status == 'closed'"
+            case .Working:
+                pred = "status != 'closed'"
+            }
+        case .Project:
+            switch queryType as Project.PageTab {
+            case .AssignedTo:
+                pred = "pm == '\(user.account)'"
+            case .Finished:
+                pred = "status == 'done'"
+            case .Going:
+                pred = "status != 'done'"
+            }
+        default:
+            return nil
+        }
+        pred = predicate.isEmpty ? pred : "\(pred) and (\(predicate))"
+        return query(entityType, user: user, predicate: pred, sortDescriptor: sortDescriptor)
+    }
+    
     func query(type: EntityType, user: User, id: Int) -> Entity? {
         let result = query(type, user: user, predicate: "id == \(id)")
         if let r = result {

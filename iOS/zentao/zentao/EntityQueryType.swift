@@ -13,7 +13,9 @@ protocol EntityQueryType: NamedEnum {
     var entityType: EntityType {get}
     class var all: [EntityQueryType] {get}
     class var defaultTab: EntityQueryType {get}
+    class var displayNames: [String] {get}
     
+    var displayName: String {get}
     var next: EntityQueryType? {get}
     var prev: EntityQueryType? {get}
     

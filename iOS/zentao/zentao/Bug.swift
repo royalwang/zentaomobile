@@ -18,7 +18,8 @@ class Bug: Entity {
         case SolvedBy
         
         var entityType: EntityType {return EntityType.Bug}
-        static let names = ["指派给我", "由我创建", "由我解决"]
+        static let names = ["assignedTo", "openedBy", "resolvedBy"]
+        static let displayNames = ["指派给我", "由我创建", "由我解决"]
         static let values: [PageTab] = [.AssignedTo, .OpenedBy, .SolvedBy]
         static var defaultTab: EntityQueryType {
             return PageTab.AssignedTo
@@ -37,6 +38,10 @@ class Bug: Entity {
         
         var name: String {
             return PageTab.names[rawValue]
+        }
+        
+        var displayName: String {
+            return PageTab.displayNames[rawValue]
         }
         
         var prev: EntityQueryType? {

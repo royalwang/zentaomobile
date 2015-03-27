@@ -18,7 +18,8 @@ class Story: Entity {
         case ReviewBy
         
         var entityType: EntityType {return EntityType.Story}
-        static let names = ["指派给我", "由我创建", "由我评审"]
+        static let displayNames = ["指派给我", "由我创建", "由我评审"]
+        static let names = ["assignedTo", "openedBy", "reviewedBy"]
         static let values: [PageTab] = [.AssignedTo, .OpenedBy, .ReviewBy]
         static var defaultTab: EntityQueryType {
             return PageTab.AssignedTo
@@ -37,6 +38,10 @@ class Story: Entity {
         
         var name: String {
             return PageTab.names[rawValue]
+        }
+        
+        var displayName: String {
+            return PageTab.displayNames[rawValue]
         }
         
         var prev: EntityQueryType? {
