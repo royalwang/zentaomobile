@@ -95,7 +95,7 @@ class ZentaoViewController: UIViewController {
                     
                     let color = swatch.primary.hue.color
                     
-                    UIView.animateWithDuration(0.5) {
+                    UIView.animateWithDuration(0.3) {
                         self.view.viewWithTag(R.Tag.accent_header)?.layer.backgroundColor = color.CGColor
                         return
                     }

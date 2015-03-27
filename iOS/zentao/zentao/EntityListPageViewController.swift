@@ -11,12 +11,7 @@ import UIKit
 class EntityListPageViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
 
     let app: ZentaoApp = (UIApplication.sharedApplication().delegate as AppDelegate).app
-    var visibleTab: EntityPageTab? {
-        didSet {
-            Log.d(">> visibleTab: \(visibleTab!.entityType.displayName) - \(visibleTab!.name)")
-        }
-    }
-    
+    var visibleTab: EntityPageTab?
     var tab: EntityPageTab? {
         didSet {
             if let t = tab {
