@@ -28,7 +28,7 @@ class EntityListViewController: ZentaoViewController {
         
         menu.removeAllSegments()
         for tab in tabs {
-            menu.insertSegmentWithTitle(tab.name, atIndex: tab.index, animated: false)
+            menu.insertSegmentWithTitle(tab.displayName, atIndex: tab.index, animated: false)
         }
         selectTab(currentTab!)
         
