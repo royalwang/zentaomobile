@@ -42,6 +42,8 @@ class EntityListPageViewController: UIPageViewController, UIPageViewControllerDa
         return tab!.entityType
     }
     
+    var pendingController: EntityListTableViewController?
+    
     var controllerCache: [Int:UIViewController] = [:]
     
     override func viewDidLoad() {
@@ -64,8 +66,14 @@ class EntityListPageViewController: UIPageViewController, UIPageViewControllerDa
     
     // delegate
     func pageViewController(pageViewController: UIPageViewController, willTransitionToViewControllers pendingViewControllers: [AnyObject]) {
-        visibleTab = (pendingViewControllers.first as EntityListTableViewController).tab
-        tab = visibleTab
+        pendingController = pendingViewControllers.first as? EntityListTableViewController
+    }
+    
+    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [AnyObject], transitionCompleted completed: Bool) {
+        if completed && pendingController != nil {
+            visibleTab = pendingController!.tab
+            tab = visibleTab
+        }
     }
     
     // UIPageViewControllerDataSource
