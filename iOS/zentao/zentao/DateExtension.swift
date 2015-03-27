@@ -421,22 +421,22 @@ extension NSDate {
         return NSDate(timeIntervalSinceReferenceDate: interval)
     }
     
+    func setTime(hout: Int = 0, minute: Int = 0, second: Int = 0) -> NSDate {
+        var components = self.components()
+        components.hour = hout
+        components.minute = minute
+        components.second = second
+        return NSCalendar.currentCalendar().dateFromComponents(components)!
+    }
+    
     func dateAtStartOfDay() -> NSDate
     {
-        var components = self.components()
-        components.hour = 0
-        components.minute = 0
-        components.second = 0
-        return NSCalendar.currentCalendar().dateFromComponents(components)!
+        return setTime(hout: 0, minute: 0, second: 0)
     }
     
     func dateAtEndOfDay() -> NSDate
     {
-        var components = self.components()
-        components.hour = 23
-        components.minute = 59
-        components.second = 59
-        return NSCalendar.currentCalendar().dateFromComponents(components)!
+        return setTime(hout: 23, minute: 59, second: 59)
     }
     
     func dateAtStartOfWeek() -> NSDate
