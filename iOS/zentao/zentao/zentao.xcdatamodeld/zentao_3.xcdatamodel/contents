@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="1" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6751" systemVersion="14C1510" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="1" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6751" systemVersion="14C1514" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Bug" representedClassName="Bug" parentEntity="Entry" syncable="YES">
         <attribute name="activatedCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="assignedDate" optional="YES" attributeType="Date" syncable="YES"/>
@@ -125,8 +125,8 @@
         <attribute name="version" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
     </entity>
     <entity name="Task" representedClassName="Task" parentEntity="Entry" syncable="YES">
-        <attribute name="assignedBy" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="assignedDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="assignedTo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="canceledBy" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="canceledDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="closedBy" optional="YES" attributeType="String" syncable="YES"/>
@@ -175,7 +175,7 @@
         <element name="Product" positionX="-81" positionY="540" width="128" height="223"/>
         <element name="Project" positionX="-261" positionY="194" width="128" height="433"/>
         <element name="Story" positionX="27" positionY="495" width="128" height="463"/>
-        <element name="Task" positionX="36" positionY="603" width="128" height="508"/>
+        <element name="Task" positionX="36" positionY="603" width="128" height="510"/>
         <element name="Todo" positionX="-90" positionY="191" width="128" height="178"/>
     </elements>
 </model>

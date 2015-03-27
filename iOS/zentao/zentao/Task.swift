@@ -77,7 +77,7 @@ class Task: Entity {
         return .Task
     }
 
-    @NSManaged var assignedBy: String
+    @NSManaged var assignedTo: String
     @NSManaged var assignedDate: NSDate
     @NSManaged var canceledBy: String
     @NSManaged var canceledDate: NSDate

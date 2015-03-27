@@ -142,7 +142,7 @@ enum EntityType : Int, AccentIconProtocol, NameValueEnum {
     ]
     
     static let taskAttributes = EntityType.basicAttributes + [
-        EntryAttribute.string("assignedBy"),
+        EntryAttribute.string("assignedTo"),
         EntryAttribute.date("assignedDate"),
         EntryAttribute.string("canceledBy"),
         EntryAttribute.date("canceledDate"),
