@@ -16,9 +16,15 @@ extension R {
         static let title = 1001
         static let subtitle = 1002
         static let description = 1003
+        static let id = 1004
+        static let status = 1005
+        static let tag = 1006
         
         static let amount = 1010
         static let information = 1020
         static let attribute = 1030
+        
+        static let icon_back = 1040
+        
     }
 }
