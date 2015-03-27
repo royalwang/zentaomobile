@@ -136,7 +136,7 @@ class CoreDataStore {
         return query(type, user: user, predicate: "", complete: complete)
     }
     
-    func query(type: EntityType, user: User, var predicate: String = "", var sortDescriptor: [NSSortDescriptor]? = nil) -> [Entity]? {
+    func query(type: EntityType, user: User, var predicate: String = "", predicateArguments: [AnyObject]? = nil, var sortDescriptor: [NSSortDescriptor]? = nil) -> [Entity]? {
         if let context = self.managedObjectContext {
             let fetchRequest = NSFetchRequest(entityName: type.name)
             predicate = predicate.isEmpty ? "zentao == '\(user.zentao)'"
@@ -146,7 +146,7 @@ class CoreDataStore {
             }
             
             fetchRequest.sortDescriptors = sortDescriptor!
-            fetchRequest.predicate = NSPredicate(format: predicate)
+            fetchRequest.predicate = NSPredicate(format: predicate, argumentArray: predicateArguments)
             
             var error: NSError? = nil
             return context.executeFetchRequest(fetchRequest, error: &error) as [Entity]?
@@ -157,12 +157,14 @@ class CoreDataStore {
     func query(queryType: EntityQueryType, user: User, predicate: String = "", var sortDescriptor: [NSSortDescriptor]? = nil) -> [Entity]? {
         var pred: String = ""
         let entityType = queryType.entityType
+        var predicateArguments: [AnyObject]?
         switch entityType {
         case .Todo:
             switch queryType as Todo.PageTab {
             case .Today:
-                let now = NSDate().dateAtStartOfDay().timeIntervalSince1970
-                pred = "begin >= \(now)"
+                let now = NSDate().dateAtStartOfDay()
+                pred = "begin >= %@"
+                predicateArguments = [now]
             case .Undone:
                 pred = "status != 'done'"
             case .Done:
@@ -190,7 +192,7 @@ class CoreDataStore {
             return nil
         }
         pred = predicate.isEmpty ? pred : "\(pred) and (\(predicate))"
-        return query(entityType, user: user, predicate: pred, sortDescriptor: sortDescriptor)
+        return query(entityType, user: user, predicate: pred, predicateArguments: predicateArguments, sortDescriptor: sortDescriptor)
     }
     
     func query(type: EntityType, user: User, id: Int) -> Entity? {
