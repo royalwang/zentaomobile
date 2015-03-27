@@ -15,18 +15,17 @@ class EntityListPageViewController: UIPageViewController, UIPageViewControllerDa
     var tab: EntityPageTab? {
         didSet {
             if let t = tab {
-                if oldValue == nil || t.entityType != oldValue!.entityType || t.index != oldValue!.index {
+                if !t.equalTo(oldValue) {
                     if let controller = self.parentViewController as? EntityListViewController {
                         controller.selectTab(t)
                     }
-                    if let currentTab = visibleTab {
-                        if currentTab.entityType != t.entityType || currentTab.index != t.index {
-                            setViewControllers([self.getController(t)!], direction: .Forward, animated: true, completion: nil)
-                            visibleTab = t
-                        }
+                    
+                    if !t.equalTo(visibleTab) {
+                        setViewControllers([self.getController(t)!], direction: .Forward, animated: true, completion: nil)
+                        visibleTab = t
                     }
                 }
-                if oldValue == nil || t.entityType != oldValue!.entityType {
+                if !t.equalTypeTo(oldValue) {
                     dataSource = nil
                     dataSource = self
                     controllerCache.removeAll(keepCapacity: true)
@@ -79,12 +78,12 @@ class EntityListPageViewController: UIPageViewController, UIPageViewControllerDa
     }
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
-        let oldTab = (viewController as EntityListTableViewController).tab
+        let oldTab = (viewController as EntityListTableViewController).tab!
         return getController(oldTab.prev)
     }
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
-        let oldTab = (viewController as EntityListTableViewController).tab
+        let oldTab = (viewController as EntityListTableViewController).tab!
         return getController(oldTab.next)
     }
     

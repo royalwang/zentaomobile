@@ -52,6 +52,20 @@ class Task: Entity {
             }
             return PageTab.values[index + 1]
         }
+        
+        func equalTypeTo(tab: EntityPageTab?) -> Bool {
+            if let t = tab {
+                return self.entityType == t.entityType
+            }
+            return false
+        }
+        
+        func equalTo(tab: EntityPageTab?) -> Bool {
+            if let t = tab {
+                return self.entityType == t.entityType && self.index == t.index
+            }
+            return false
+        }
     }
     
     override var entityType: EntityType {

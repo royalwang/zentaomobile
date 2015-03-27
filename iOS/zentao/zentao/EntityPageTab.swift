@@ -16,4 +16,7 @@ protocol EntityPageTab: NamedEnum {
     
     var next: EntityPageTab? {get}
     var prev: EntityPageTab? {get}
+    
+    func equalTo(tab: EntityPageTab?) -> Bool
+    func equalTypeTo(tab: EntityPageTab?) -> Bool
 }

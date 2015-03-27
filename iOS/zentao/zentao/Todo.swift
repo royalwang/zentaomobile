@@ -24,7 +24,6 @@ class Todo: Entity {
             return PageTab.Undone
         }
         static var all: [EntityPageTab] {
-//            return values
             return values.map {
                 (var val) -> EntityPageTab in
                 return val
@@ -51,6 +50,20 @@ class Todo: Entity {
                 return nil
             }
             return PageTab.values[index + 1]
+        }
+        
+        func equalTo(tab: EntityPageTab?) -> Bool {
+            if let t = tab {
+                return self.entityType == t.entityType && self.index == t.index
+            }
+            return false
+        }
+        
+        func equalTypeTo(tab: EntityPageTab?) -> Bool {
+            if let t = tab {
+                return self.entityType == t.entityType
+            }
+            return false
         }
     }
     

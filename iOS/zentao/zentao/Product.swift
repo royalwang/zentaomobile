@@ -52,6 +52,20 @@ class Product: Entity {
             }
             return PageTab.values[index + 1]
         }
+        
+        func equalTo(tab: EntityPageTab?) -> Bool {
+            if let t = tab {
+                return self.entityType == t.entityType && self.index == t.index
+            }
+            return false
+        }
+        
+        func equalTypeTo(tab: EntityPageTab?) -> Bool {
+            if let t = tab {
+                return self.entityType == t.entityType
+            }
+            return false
+        }
     }
     
     override var entityType: EntityType {
