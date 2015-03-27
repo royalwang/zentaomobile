@@ -77,14 +77,6 @@ class EntityListPageViewController: UIPageViewController, UIPageViewControllerDa
     }
     
     // UIPageViewControllerDataSource
-    func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int {
-        return entityTab.tabs.count - 1
-    }
-    
-    func presentationIndexForPageViewController(pageViewController: UIPageViewController) -> Int {
-        return tab!.index
-    }
-    
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
         let oldTab = (viewController as EntityListTableViewController).tab!
         return getController(oldTab.prev)
