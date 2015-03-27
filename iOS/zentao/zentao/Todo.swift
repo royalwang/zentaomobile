@@ -12,7 +12,7 @@ import CoreData
 @objc(Todo)
 class Todo: Entity {
     
-    enum PageTab: Int, EntityPageTab {
+    enum PageTab: Int, EntityQueryType {
         case Today = 0
         case Undone
         case Done
@@ -20,12 +20,12 @@ class Todo: Entity {
         var entityType: EntityType {return EntityType.Todo}
         static let names = ["今天", "未完成", "已完成"]
         static let values: [PageTab] = [.Today, .Undone, .Done]
-        static var defaultTab: EntityPageTab {
+        static var defaultTab: EntityQueryType {
             return PageTab.Undone
         }
-        static var all: [EntityPageTab] {
+        static var all: [EntityQueryType] {
             return values.map {
-                (var val) -> EntityPageTab in
+                (var val) -> EntityQueryType in
                 return val
             }
         }
@@ -38,28 +38,28 @@ class Todo: Entity {
             return PageTab.names[rawValue]
         }
         
-        var prev: EntityPageTab? {
+        var prev: EntityQueryType? {
             if index == 0 {
                 return nil
             }
             return PageTab.values[index - 1]
         }
         
-        var next: EntityPageTab? {
+        var next: EntityQueryType? {
             if index == (PageTab.values.count - 1) {
                 return nil
             }
             return PageTab.values[index + 1]
         }
         
-        func equalTo(tab: EntityPageTab?) -> Bool {
+        func equalTo(tab: EntityQueryType?) -> Bool {
             if let t = tab {
                 return self.entityType == t.entityType && self.index == t.index
             }
             return false
         }
         
-        func equalTypeTo(tab: EntityPageTab?) -> Bool {
+        func equalTypeTo(tab: EntityQueryType?) -> Bool {
             if let t = tab {
                 return self.entityType == t.entityType
             }

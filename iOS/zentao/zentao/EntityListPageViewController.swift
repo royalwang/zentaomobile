@@ -11,8 +11,8 @@ import UIKit
 class EntityListPageViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
 
     let app: ZentaoApp = (UIApplication.sharedApplication().delegate as AppDelegate).app
-    var visibleTab: EntityPageTab?
-    var tab: EntityPageTab? {
+    var visibleTab: EntityQueryType?
+    var tab: EntityQueryType? {
         didSet {
             if let t = tab {
                 if !t.equalTo(oldValue) {
@@ -95,7 +95,7 @@ class EntityListPageViewController: UIPageViewController, UIPageViewControllerDa
         return getController(oldTab.next)
     }
     
-    func getController(thisTab: EntityPageTab?) -> UIViewController? {
+    func getController(thisTab: EntityQueryType?) -> UIViewController? {
         if let t = thisTab {
             if let controller = controllerCache[t.index] {
                 return controller

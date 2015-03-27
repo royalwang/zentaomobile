@@ -81,7 +81,7 @@ enum EntityType : Int, AccentIconProtocol, NameValueEnum {
         }
     }
     
-    var tabs: [EntityPageTab] {
+    var tabs: [EntityQueryType] {
         switch self {
         case .Todo:
             return zentao.Todo.PageTab.all
@@ -100,7 +100,7 @@ enum EntityType : Int, AccentIconProtocol, NameValueEnum {
         }
     }
     
-    var defaultTab: EntityPageTab? {
+    var defaultTab: EntityQueryType? {
         switch self {
         case .Todo:
             return zentao.Todo.PageTab.defaultTab

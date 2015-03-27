@@ -54,7 +54,7 @@
 		3BDC4DEE1AC27ED700EF0BC9 /* ListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDC4DED1AC27ED700EF0BC9 /* ListTableView.swift */; };
 		3BDC4DF81AC3AD1D00EF0BC9 /* EntityListPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDC4DF71AC3AD1D00EF0BC9 /* EntityListPageViewController.swift */; };
 		3BDC4DFA1AC3AD9D00EF0BC9 /* EntityListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDC4DF91AC3AD9D00EF0BC9 /* EntityListTableViewController.swift */; };
-		3BDC4DFC1AC3D38300EF0BC9 /* EntityPageTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDC4DFB1AC3D38300EF0BC9 /* EntityPageTab.swift */; };
+		3BDC4DFC1AC3D38300EF0BC9 /* EntityQueryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDC4DFB1AC3D38300EF0BC9 /* EntityQueryType.swift */; };
 		3BDC4DFE1AC3D79700EF0BC9 /* NameValueEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDC4DFD1AC3D79700EF0BC9 /* NameValueEnum.swift */; };
 		3BDC4E031AC3E73B00EF0BC9 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDC4E021AC3E73B00EF0BC9 /* ListViewController.swift */; };
 		3BDC4E061AC3E74600EF0BC9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BDC4E041AC3E74600EF0BC9 /* Main.storyboard */; };
@@ -139,7 +139,7 @@
 		3BDC4DED1AC27ED700EF0BC9 /* ListTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableView.swift; sourceTree = "<group>"; };
 		3BDC4DF71AC3AD1D00EF0BC9 /* EntityListPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityListPageViewController.swift; sourceTree = "<group>"; };
 		3BDC4DF91AC3AD9D00EF0BC9 /* EntityListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityListTableViewController.swift; sourceTree = "<group>"; };
-		3BDC4DFB1AC3D38300EF0BC9 /* EntityPageTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityPageTab.swift; sourceTree = "<group>"; };
+		3BDC4DFB1AC3D38300EF0BC9 /* EntityQueryType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityQueryType.swift; sourceTree = "<group>"; };
 		3BDC4DFD1AC3D79700EF0BC9 /* NameValueEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameValueEnum.swift; sourceTree = "<group>"; };
 		3BDC4E021AC3E73B00EF0BC9 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		3BDC4E051AC3E74600EF0BC9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -259,7 +259,7 @@
 				3BDC4DFD1AC3D79700EF0BC9 /* NameValueEnum.swift */,
 				3BF5D4D01AB6C4C000032433 /* CoreDataStore.swift */,
 				3BEB6AB61AB7C7D900EC3281 /* EntryAttribute.swift */,
-				3BDC4DFB1AC3D38300EF0BC9 /* EntityPageTab.swift */,
+				3BDC4DFB1AC3D38300EF0BC9 /* EntityQueryType.swift */,
 			);
 			name = data;
 			sourceTree = "<group>";
@@ -497,7 +497,7 @@
 				3BB92E471ABC131D00623E88 /* IconUIButton.swift in Sources */,
 				3BEB6AB91AB7FC6C00EC3281 /* Entity.swift in Sources */,
 				3BF5D4BE1AB66C7B00032433 /* UserDefaultsExtension.swift in Sources */,
-				3BDC4DFC1AC3D38300EF0BC9 /* EntityPageTab.swift in Sources */,
+				3BDC4DFC1AC3D38300EF0BC9 /* EntityQueryType.swift in Sources */,
 				3BEB6AC91AB805FC00EC3281 /* Synchronizer.swift in Sources */,
 				3B6F658F1AB16F6300CCEDE6 /* StringExtension.swift in Sources */,
 				3B6F65A11AB1C93700CCEDE6 /* HTTPResponseSerializer.swift in Sources */,

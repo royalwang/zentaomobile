@@ -37,7 +37,7 @@ class EntityListViewController: ZentaoViewController {
         }
     }
     
-    func selectTab(tab: EntityPageTab) {
+    func selectTab(tab: EntityQueryType) {
         let bundleName = "\(entityTab.name).SelectedTab"
         menu.selectedSegmentIndex = tab.index
         app.shareBundle[bundleName] = tab.index

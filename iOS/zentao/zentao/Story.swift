@@ -12,7 +12,7 @@ import CoreData
 @objc(Story)
 class Story: Entity {
     
-    enum PageTab: Int, EntityPageTab {
+    enum PageTab: Int, EntityQueryType {
         case AssignedTo = 0
         case OpenedBy
         case ReviewBy
@@ -20,13 +20,13 @@ class Story: Entity {
         var entityType: EntityType {return EntityType.Story}
         static let names = ["指派给我", "由我创建", "由我评审"]
         static let values: [PageTab] = [.AssignedTo, .OpenedBy, .ReviewBy]
-        static var defaultTab: EntityPageTab {
+        static var defaultTab: EntityQueryType {
             return PageTab.AssignedTo
         }
-        static var all: [EntityPageTab] {
+        static var all: [EntityQueryType] {
             //            return values
             return values.map {
-                (var val) -> EntityPageTab in
+                (var val) -> EntityQueryType in
                 return val
             }
         }
@@ -39,28 +39,28 @@ class Story: Entity {
             return PageTab.names[rawValue]
         }
         
-        var prev: EntityPageTab? {
+        var prev: EntityQueryType? {
             if index == 0 {
                 return nil
             }
             return PageTab.values[index - 1]
         }
         
-        var next: EntityPageTab? {
+        var next: EntityQueryType? {
             if index == (PageTab.values.count - 1) {
                 return nil
             }
             return PageTab.values[index + 1]
         }
         
-        func equalTo(tab: EntityPageTab?) -> Bool {
+        func equalTo(tab: EntityQueryType?) -> Bool {
             if let t = tab {
                 return self.entityType == t.entityType && self.index == t.index
             }
             return false
         }
         
-        func equalTypeTo(tab: EntityPageTab?) -> Bool {
+        func equalTypeTo(tab: EntityQueryType?) -> Bool {
             if let t = tab {
                 return self.entityType == t.entityType
             }
