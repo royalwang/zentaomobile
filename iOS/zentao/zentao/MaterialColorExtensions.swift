@@ -19,4 +19,8 @@ extension MaterialColor {
         Indigo,
         Green
     ]
+    
+    static func specialFromId(id: Int) -> MaterialColor.Swatch {
+        return MaterialColor.index(id % MaterialColor.count)!
+    }
 }
