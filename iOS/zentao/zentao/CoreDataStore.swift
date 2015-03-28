@@ -108,15 +108,22 @@ class CoreDataStore {
         return nil
     }
     
-    func query(type: EntityType, user: User, var predicate: String, sortDescriptor: [NSSortDescriptor], complete: ((finalResult: [Entity]?) -> Void)) -> NSPersistentStoreResult? {
+    func createFetchRequest(type: EntityType, user: User, var predicate: String = "", predicateArguments: [AnyObject]? = nil, var sortDescriptor: [NSSortDescriptor]? = nil) -> NSFetchRequest {
+        let fetchRequest = NSFetchRequest(entityName: type.name)
+        predicate = predicate.isEmpty ? "zentao == '\(user.zentao)'"
+            : "zentao == '\(user.zentao)' and (\(predicate))";
+        if sortDescriptor == nil {
+            sortDescriptor = [NSSortDescriptor(key: "id", ascending: false, selector: Selector("localizedStandardCompare:"))]
+        }
+        
+        fetchRequest.sortDescriptors = sortDescriptor!
+        fetchRequest.predicate = NSPredicate(format: predicate, argumentArray: predicateArguments)
+        return fetchRequest
+    }
+    
+    func query(type: EntityType, user: User, var predicate: String, sortDescriptor: [NSSortDescriptor]?, complete: ((finalResult: [Entity]?) -> Void)) -> NSPersistentStoreResult? {
         if let context = self.managedObjectContext {
-            let fetchRequest = NSFetchRequest(entityName: type.name)
-            predicate = predicate.isEmpty ? "zentao == '\(user.zentao)'"
-                : "zentao == '\(user.zentao)' and (\(predicate))";
-            
-            fetchRequest.sortDescriptors = sortDescriptor
-            fetchRequest.predicate = NSPredicate(format: predicate)
-
+            let fetchRequest = createFetchRequest(type, user: user, predicate: predicate, predicateArguments: nil, sortDescriptor: sortDescriptor)
             let asyncFetchRequest = NSAsynchronousFetchRequest(fetchRequest: fetchRequest) {
                 result in
                 complete(finalResult: result.finalResult as [Entity]?)
@@ -129,32 +136,24 @@ class CoreDataStore {
     }
     
     func query(type: EntityType, user: User, var predicate: String, complete: ((finalResult: [Entity]?) -> Void)) -> NSPersistentStoreResult? {
-        return query(type, user: user, predicate: predicate, sortDescriptor: [NSSortDescriptor(key: "id", ascending: true, selector: Selector("localizedStandardCompare:"))], complete)
+        return query(type, user: user, predicate: predicate, sortDescriptor: nil, complete)
     }
     
     func query(type: EntityType, user: User, complete: ((finalResult: [Entity]?) -> Void)) -> NSPersistentStoreResult? {
         return query(type, user: user, predicate: "", complete: complete)
     }
     
-    func query(type: EntityType, user: User, var predicate: String = "", predicateArguments: [AnyObject]? = nil, var sortDescriptor: [NSSortDescriptor]? = nil) -> [Entity]? {
+    func query(type: EntityType, user: User, predicate: String = "", predicateArguments: [AnyObject]? = nil, sortDescriptor: [NSSortDescriptor]? = nil) -> [Entity]? {
         if let context = self.managedObjectContext {
-            let fetchRequest = NSFetchRequest(entityName: type.name)
-            predicate = predicate.isEmpty ? "zentao == '\(user.zentao)'"
-                : "zentao == '\(user.zentao)' and (\(predicate))";
-            if sortDescriptor == nil {
-                sortDescriptor = [NSSortDescriptor(key: "id", ascending: false, selector: Selector("localizedStandardCompare:"))]
-            }
-            
-            fetchRequest.sortDescriptors = sortDescriptor!
-            fetchRequest.predicate = NSPredicate(format: predicate, argumentArray: predicateArguments)
-            
+            let fetchRequest = createFetchRequest(type, user: user, predicate: predicate, predicateArguments: predicateArguments, sortDescriptor: sortDescriptor)
             var error: NSError? = nil
             return context.executeFetchRequest(fetchRequest, error: &error) as [Entity]?
         }
         return nil
     }
     
-    func query(queryType: EntityQueryType, user: User, predicate: String = "", var sortDescriptor: [NSSortDescriptor]? = nil) -> [Entity]? {
+    func query(queryType: EntityQueryType, user: User, predicate: String = "",
+        var sortDescriptor: [NSSortDescriptor]? = nil) -> [Entity]? {
         var pred: String = ""
         let entityType = queryType.entityType
         var predicateArguments: [AnyObject]?
@@ -192,7 +191,8 @@ class CoreDataStore {
             return nil
         }
         pred = predicate.isEmpty ? pred : "\(pred) and (\(predicate))"
-        return query(entityType, user: user, predicate: pred, predicateArguments: predicateArguments, sortDescriptor: sortDescriptor)
+        return query(entityType, user: user, predicate: pred,
+            predicateArguments: predicateArguments, sortDescriptor: sortDescriptor)
     }
     
     func query(type: EntityType, user: User, id: Int) -> Entity? {
@@ -208,6 +208,26 @@ class CoreDataStore {
     func query(id: NSManagedObjectID) -> Entity? {
         if let context = self.managedObjectContext {
             return (context.objectWithID(id) as Entity)
+        }
+        return nil
+    }
+    
+    func count(type: EntityType, user: User, predicate: String = "",
+        predicateArguments: [AnyObject]? = nil,
+        sortDescriptor: [NSSortDescriptor]? = nil) -> Int? {
+        if let context = self.managedObjectContext {
+            let fetchRequest = createFetchRequest(type, user: user,
+                predicate: predicate, predicateArguments: predicateArguments,
+                sortDescriptor: sortDescriptor)
+            var error: NSError? = nil
+            return context.countForFetchRequest(fetchRequest, error: &error)
+        }
+        return nil
+    }
+    
+    func contains(type: EntityType, user: User, id: Int) -> Bool? {
+        if let count = count(type, user: user, predicate: "id == \(id)") {
+            return count > 0
         }
         return nil
     }
@@ -251,8 +271,60 @@ class CoreDataStore {
         var entity = query(type, user: user, id: id)
         if entity == nil {
             entity = newEntityForInsert(type, user: user)
-//            Log.v("new entity for save.")
         }
         return entity!
+    }
+    
+    // MARK: Special query
+    func getBugCountOfProduct(user: User, productId: Int) -> Int {
+        return count(EntityType.Bug, user: user,
+            predicate: "product = \(productId) AND status ='\(Bug.Status.active.name)'") ?? 0
+    }
+    
+    func getBugCountOfProject(user: User, projectId: Int) -> Int {
+        return count(EntityType.Bug, user: user,
+            predicate: "project = \(projectId) AND status ='\(Bug.Status.active.name)'") ?? 0
+    }
+    
+    func getStoryCountOfProduct(user: User, productId: Int, status: Story.Status) -> Int {
+        return count(EntityType.Story, user: user,
+            predicate: "product = \(productId) AND status ='\(status.name)'") ?? 0
+    }
+    
+    func getStoryCountOfProduct(user: User, productId: Int) -> (active: Int, changed: Int, draft: Int) {
+        return (active: getStoryCountOfProduct(user, productId: productId, status: .active),
+            changed: getStoryCountOfProduct(user, productId: productId, status: .changed),
+            draft: getStoryCountOfProduct(user, productId: productId, status: .draft))
+    }
+    
+    func getProjectTasks(user: User, projectId: Int) -> [Task]? {
+        return query(EntityType.Task, user: user,
+            predicate: "project = \(projectId)") as [Task]?
+    }
+    
+    func getProjectHours(user: User, project: Project)
+        -> (estimate: Float, consumed: Float, left: Float, progress: Float, hour: Float) {
+        var estimate: Float = 0.0, consumed: Float = 0.0, left: Float = 0.0
+        var progress: Float = 0.0, hour: Float = 0.0
+            
+        if let tasks = getProjectTasks(user, projectId: project.id.integerValue) {
+            let statusCancelName = Task.Status.cancel.name
+            let closedReasonName = "cancel"
+            for task in tasks {
+                estimate += task.estimate.floatValue
+                consumed += task.consumed.floatValue
+                if task.status != statusCancelName
+//                    && task.closeReason != closedReasonName
+                {
+                    left += task.left.floatValue
+                }
+            }
+            
+            let real = consumed + left
+            progress = min(1, real > 0 ? (consumed / real) : 0)
+            hour = project.status == Project.Status.done.name ? consumed : -left
+        }
+        
+        return (estimate: estimate, consumed: consumed, left: left, progress: progress, hour: hour)
     }
 }
