@@ -74,6 +74,7 @@
 		3BF5D4C61AB68CB000032433 /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF5D4C51AB68CB000032433 /* IntExtension.swift */; };
 		3BF5D4CC1AB6BE5800032433 /* RangeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF5D4CB1AB6BE5800032433 /* RangeExtension.swift */; };
 		3BF5D4D11AB6C4C000032433 /* CoreDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF5D4D01AB6C4C000032433 /* CoreDataStore.swift */; };
+		3BFC55751AC584F100D30145 /* MaterialColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFC55741AC584F100D30145 /* MaterialColorExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -161,6 +162,7 @@
 		3BF5D4CD1AB6C28A00032433 /* zentao 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "zentao 2.xcdatamodel"; sourceTree = "<group>"; };
 		3BF5D4D01AB6C4C000032433 /* CoreDataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStore.swift; sourceTree = "<group>"; };
 		3BF5D4DC1AB6DF5C00032433 /* zentao_3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = zentao_3.xcdatamodel; sourceTree = "<group>"; };
+		3BFC55741AC584F100D30145 /* MaterialColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialColorExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +192,7 @@
 				3B505CCB1AB2EA6500264CAF /* AccentIcon.swift */,
 				3B18CC7C1ABACBBA00E560B7 /* IconUILabel.swift */,
 				3BB92E461ABC131D00623E88 /* IconUIButton.swift */,
+				3BFC55741AC584F100D30145 /* MaterialColorExtensions.swift */,
 			);
 			name = ui;
 			sourceTree = "<group>";
@@ -514,6 +517,7 @@
 				3BF5D4C21AB68BA300032433 /* DictionaryExtension.swift in Sources */,
 				3B18CC7B1ABABFD700E560B7 /* LoginViewController.swift in Sources */,
 				3BA54D0B1AB01F630081877C /* MasterViewController.swift in Sources */,
+				3BFC55751AC584F100D30145 /* MaterialColorExtensions.swift in Sources */,
 				3B505CC21AB2D74C00264CAF /* MaterialColor.swift in Sources */,
 				3B505CD61AB4359C00264CAF /* NSDateTimeAgo.swift in Sources */,
 				3B9DEEAE1ABFBB56004ACA43 /* DebugLog+ClassParsing.swift.swift in Sources */,
