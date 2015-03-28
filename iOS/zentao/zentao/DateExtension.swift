@@ -353,6 +353,13 @@ extension NSDate {
         return (comp1.year == comp2.year)
     }
     
+    func isSameMonthAsDate(date: NSDate) -> Bool
+    {
+        let comp1 = NSDate.components(fromDate: self)
+        let comp2 = NSDate.components(fromDate: date)
+        return (comp1.year == comp2.year && comp1.month == comp2.month)
+    }
+    
     func isThisYear() -> Bool
     {
         return self.isSameYearAsDate(NSDate())
