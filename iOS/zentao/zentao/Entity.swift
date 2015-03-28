@@ -45,7 +45,17 @@ class Entity: NSManagedObject, Printable {
             case .Float:
                 setValue(newValue as? Float, forKey: attr.name)
             case .Date:
-                setValue(newValue as? NSDate, forKey: attr.name)
+                var date: NSDate?
+                if let d = newValue as? NSDate {
+                    date = d
+                } else if let dateInt = newValue as? Int {
+                    date = NSDate(timeIntervalSince1970: Double(dateInt))
+                } else if let dateStr = newValue as? String {
+                    date = NSDate(fromString: dateStr, format: DateFormat.Custom("yyyy-MM-dd hh:mm:ss"))
+                } else {
+                    date = nil
+                }
+                setValue(date, forKey: attr.name)
             }
         }
     }
