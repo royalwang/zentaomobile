@@ -142,7 +142,7 @@ class CoreDataStore {
             predicate = predicate.isEmpty ? "zentao == '\(user.zentao)'"
                 : "zentao == '\(user.zentao)' and (\(predicate))";
             if sortDescriptor == nil {
-                sortDescriptor = [NSSortDescriptor(key: "id", ascending: true, selector: Selector("localizedStandardCompare:"))]
+                sortDescriptor = [NSSortDescriptor(key: "id", ascending: false, selector: Selector("localizedStandardCompare:"))]
             }
             
             fetchRequest.sortDescriptors = sortDescriptor!
