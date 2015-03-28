@@ -72,6 +72,71 @@ class Todo: Entity {
         }
     }
     
+    /**
+    * Todo status enum
+    */
+    enum Status: Int, AccentIconProtocol, NamedEnum {
+        
+        case wait = 0
+        case done
+        case doing
+        
+        static let names = ["wait", "done", "doing"]
+        static let values = [Status.wait, .done, .doing]
+        private static let accentIconMap = [
+            AccentIcon(swatch: MaterialColor.Grey, icon: FontIcon.clock_o),
+            AccentIcon(swatch: MaterialColor.Green, icon: FontIcon.check),
+            AccentIcon(swatch: MaterialColor.Pink, icon: FontIcon.play)
+        ]
+        
+        static func fromName(name: String, ignoreCase: Bool = true) -> Status? {
+            if ignoreCase {
+                let lowerName = name.lowercaseString
+                for (id, thisName) in enumerate(names) {
+                    if thisName.lowercaseString == lowerName {
+                        return values[id]
+                    }
+                }
+            } else {
+                for (id, thisName) in enumerate(names) {
+                    if name == thisName {
+                        return values[id]
+                    }
+                }
+            }
+            
+            return nil
+        }
+        
+        var swatch: MaterialColor.Swatch {
+            get {
+                return Status.accentIconMap[self.rawValue].swatch
+            }
+        }
+        
+        var icon: IconVal {
+            get {
+                return Status.accentIconMap[self.rawValue].icon
+            }
+        }
+        
+        var name: String {
+            get {
+                return Status.names[self.rawValue]
+            }
+        }
+        
+        var index: Int {
+            get {
+                return rawValue
+            }
+        }
+    }
+    
+    var statusValue: Status {
+        return Status.fromName(status) ?? .wait
+    }
+    
     override var entityType: EntityType {
         return .Todo
     }
