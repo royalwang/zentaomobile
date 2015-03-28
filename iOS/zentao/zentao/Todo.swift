@@ -83,6 +83,7 @@ class Todo: Entity {
         
         static let names = ["wait", "done", "doing"]
         static let values = [Status.wait, .done, .doing]
+        static let displayNames = ["未开始", "已完成", "进行中"]
         private static let accentIconMap = [
             AccentIcon(swatch: MaterialColor.Grey, icon: FontIcon.clock_o),
             AccentIcon(swatch: MaterialColor.Green, icon: FontIcon.check),
@@ -124,6 +125,10 @@ class Todo: Entity {
             get {
                 return Status.names[self.rawValue]
             }
+        }
+        
+        var displayName: String {
+            return Status.displayNames[self.rawValue]
         }
         
         var index: Int {

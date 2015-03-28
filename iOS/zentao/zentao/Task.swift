@@ -73,6 +73,83 @@ class Task: Entity {
         }
     }
     
+    /**
+    * Task status enum
+    */
+    enum Status: Int, AccentIconProtocol, NamedEnum {
+        
+        case wait = 0
+        case doing
+        case done
+        case pause
+        case cancel
+        case closed
+        
+        
+        static let names = ["wait", "doing", "done", "pause", "cancel", "closed"]
+        static let values = [Status.wait, .doing, .done, .pause, .cancel, .closed]
+        static let displayNames = ["未开始", "进行中", "已完成", "已暂停", "已取消", "已关闭"]
+        private static let accentIconMap = [
+            AccentIcon(swatch: MaterialColor.Grey, icon: FontIcon.clock_o),
+            AccentIcon(swatch: MaterialColor.Pink, icon: FontIcon.play),
+            AccentIcon(swatch: MaterialColor.Green, icon: FontIcon.check),
+            AccentIcon(swatch: MaterialColor.Orange, icon: FontIcon.pause),
+            AccentIcon(swatch: MaterialColor.Grey, icon: FontIcon.ban),
+            AccentIcon(swatch: MaterialColor.Grey, icon: FontIcon.dot_circle_o)
+        ]
+        
+        static func fromName(name: String, ignoreCase: Bool = true) -> Status? {
+            if ignoreCase {
+                let lowerName = name.lowercaseString
+                for (id, thisName) in enumerate(names) {
+                    if thisName.lowercaseString == lowerName {
+                        return values[id]
+                    }
+                }
+            } else {
+                for (id, thisName) in enumerate(names) {
+                    if name == thisName {
+                        return values[id]
+                    }
+                }
+            }
+            
+            return nil
+        }
+        
+        var swatch: MaterialColor.Swatch {
+            get {
+                return Status.accentIconMap[self.rawValue].swatch
+            }
+        }
+        
+        var icon: IconVal {
+            get {
+                return Status.accentIconMap[self.rawValue].icon
+            }
+        }
+        
+        var name: String {
+            get {
+                return Status.names[self.rawValue]
+            }
+        }
+        
+        var displayName: String {
+            return Status.displayNames[self.rawValue]
+        }
+        
+        var index: Int {
+            get {
+                return rawValue
+            }
+        }
+    }
+    
+    var statusValue: Status {
+        return Status.fromName(status) ?? .wait
+    }
+    
     override var entityType: EntityType {
         return .Task
     }

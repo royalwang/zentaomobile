@@ -47,7 +47,7 @@ class User: Printable {
     let address: String
     private var password: String
     var notifyEnable: Bool = true
-    var syncFrequency: Int = 5 // seconds
+    var syncFrequency: Int = 15 // seconds
     var id: String?
     var company: String?
     var gender: String?

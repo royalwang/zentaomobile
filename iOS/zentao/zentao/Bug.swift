@@ -73,6 +73,78 @@ class Bug: Entity {
         }
     }
     
+    /**
+    * Bug status enum
+    */
+    enum Status: Int, AccentIconProtocol, NamedEnum {
+        
+        case unknown = 0
+        case active
+        case resolved
+        case closed
+        
+        static let names = ["unknown", "active", "resolved", "closed"]
+        static let values = [Status.unknown, .active, .resolved, .closed]
+        static let displayNames = ["未知", "激活", "已解决", "已关闭"]
+        private static let accentIconMap = [
+            AccentIcon(swatch: MaterialColor.Grey, icon: FontIcon.question),
+            AccentIcon(swatch: MaterialColor.Purple, icon: FontIcon.flag),
+            AccentIcon(swatch: MaterialColor.Green, icon: FontIcon.check),
+            AccentIcon(swatch: MaterialColor.Grey, icon: FontIcon.dot_circle_o)
+        ]
+        
+        static func fromName(name: String, ignoreCase: Bool = true) -> Status? {
+            if ignoreCase {
+                let lowerName = name.lowercaseString
+                for (id, thisName) in enumerate(names) {
+                    if thisName.lowercaseString == lowerName {
+                        return values[id]
+                    }
+                }
+            } else {
+                for (id, thisName) in enumerate(names) {
+                    if name == thisName {
+                        return values[id]
+                    }
+                }
+            }
+            
+            return nil
+        }
+        
+        var swatch: MaterialColor.Swatch {
+            get {
+                return Status.accentIconMap[self.rawValue].swatch
+            }
+        }
+        
+        var icon: IconVal {
+            get {
+                return Status.accentIconMap[self.rawValue].icon
+            }
+        }
+        
+        var name: String {
+            get {
+                return Status.names[self.rawValue]
+            }
+        }
+        
+        var displayName: String {
+            return Status.displayNames[self.rawValue]
+        }
+        
+        var index: Int {
+            get {
+                return rawValue
+            }
+        }
+    }
+    
+    var statusValue: Status {
+        return Status.fromName(status) ?? .unknown
+    }
+    
     override var entityType: EntityType {
         return .Bug
     }
