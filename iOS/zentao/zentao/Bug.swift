@@ -148,6 +148,10 @@ class Bug: Entity {
     override var entityType: EntityType {
         return .Bug
     }
+    
+    override var displayName: String {
+        return title
+    }
 
     @NSManaged var activatedCount: NSNumber
     @NSManaged var assignedDate: NSDate

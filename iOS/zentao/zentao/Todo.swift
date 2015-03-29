@@ -145,6 +145,10 @@ class Todo: Entity {
     override var entityType: EntityType {
         return .Todo
     }
+    
+    override var displayName: String {
+        return name
+    }
 
     @NSManaged var account: String
     @NSManaged var begin: NSDate

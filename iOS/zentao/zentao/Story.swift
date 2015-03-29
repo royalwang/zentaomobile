@@ -150,6 +150,10 @@ class Story: Entity {
     override var entityType: EntityType {
         return .Story
     }
+    
+    override var displayName: String {
+        return title
+    }
 
     @NSManaged var assignedDate: NSDate
     @NSManaged var assignedTo: String

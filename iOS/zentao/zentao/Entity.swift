@@ -21,6 +21,10 @@ class Entity: NSManagedObject, Printable {
         return .Default
     }
     
+    var displayName: String {
+        return ""
+    }
+    
     func setRequired(zentao: String, id: Int) {
         self.zentao = zentao
         self.id = id

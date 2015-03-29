@@ -153,6 +153,10 @@ class Task: Entity {
     override var entityType: EntityType {
         return .Task
     }
+    
+    override var displayName: String {
+        return name
+    }
 
     @NSManaged var assignedTo: String
     @NSManaged var assignedDate: NSDate

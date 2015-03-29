@@ -149,6 +149,10 @@ class Project: Entity {
     override var entityType: EntityType {
         return .Project
     }
+    
+    override var displayName: String {
+        return name
+    }
 
     @NSManaged var acl: String
     @NSManaged var begin: NSDate

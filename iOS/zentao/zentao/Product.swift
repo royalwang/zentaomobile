@@ -164,6 +164,10 @@ class Product: Entity {
         }
         return ""
     }
+    
+    override var displayName: String {
+        return name
+    }
 
     @NSManaged var acl: String
     @NSManaged var code: String
