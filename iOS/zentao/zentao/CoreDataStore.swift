@@ -110,8 +110,9 @@ class CoreDataStore {
     
     func createFetchRequest(type: EntityType, user: User, var predicate: String = "", predicateArguments: [AnyObject]? = nil, var sortDescriptor: [NSSortDescriptor]? = nil) -> NSFetchRequest {
         let fetchRequest = NSFetchRequest(entityName: type.name)
-        predicate = predicate.isEmpty ? "zentao == '\(user.zentao)'"
-            : "zentao == '\(user.zentao)' and (\(predicate))";
+        let requiredPredicate = type != .Todo ? "zentao == '\(user.zentao)'" : "zentao == '\(user.zentao)' AND account == '\(user.account)'"
+        predicate = predicate.isEmpty ?
+            requiredPredicate : "\(requiredPredicate) AND (\(predicate))";
         if sortDescriptor == nil {
             sortDescriptor = [NSSortDescriptor(key: "id", ascending: false, selector: Selector("localizedStandardCompare:"))]
         }
@@ -326,5 +327,45 @@ class CoreDataStore {
         }
         
         return (estimate: estimate, consumed: consumed, left: left, progress: progress, hour: hour)
+    }
+    
+    typealias EntitySummery = (title: String, subtitle: String, amount: Int, amountType: String)
+    
+    func getSummery(entityType: EntityType, user: User) -> EntitySummery? {
+        if let defaultTab = entityType.defaultTab {
+            var subtitle = ""
+            var amount = 0, amountType = defaultTab.displayName
+            
+            if let entities = query(entityType.defaultTab!, user: user) {
+                amount = entities.count
+                if amount > 0 {
+                    var unread = 0
+                    let first = entities.first!
+                    subtitle = "#\(first.id) \(first.displayName)"
+                    for entity in entities {
+                        if entity.unread.boolValue {
+                            unread++
+                        }
+                    }
+                    if unread > 0 {
+                        amount = 0
+                        amountType = "新\(entityType.displayName)"
+                    }
+                }
+            }
+            
+            return (title: entityType.displayName, subtitle: subtitle, amount: amount, amountType: amountType)
+        }
+        return nil
+    }
+    
+    func getSummery(user: User) -> [EntitySummery] {
+        var summeries: [EntitySummery] = []
+        for entityType in EntityType.values {
+            if let summery = getSummery(entityType, user: user) {
+                summeries.append(summery)
+            }
+        }
+        return summeries
     }
 }
