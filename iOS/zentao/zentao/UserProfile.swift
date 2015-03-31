@@ -26,6 +26,7 @@ class UserProfile {
     }
     
     let CURRENT_IDENTIFY = "#CURRENT_IDENTIFY"
+    var onUserDataSaved: ((result: Bool) -> Void)?
     var onIdentifyChange: [(identify: String) -> Void]?
     let profile: NSUserDefaults
     var identify: String {
@@ -89,7 +90,11 @@ class UserProfile {
     }
     
     func save() -> Bool {
-        return profile.synchronize()
+        let result = profile.synchronize()
+        if let callback = onUserDataSaved {
+            callback(result: result)
+        }
+        return result
     }
     
     func getUser(var identify: String = "", allowTemp: Bool = true) -> User? {

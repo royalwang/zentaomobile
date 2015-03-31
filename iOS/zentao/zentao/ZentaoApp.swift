@@ -27,7 +27,14 @@ class ZentaoApp {
     let syncher: Synchronizer = Synchronizer()
     
     lazy var profile: UserProfile = {
-        return UserProfile.sharedInstance
+        let pf = UserProfile.sharedInstance
+        pf.onUserDataSaved = {
+            result in
+            if result {
+                EventCenter.shared.trigger(R.Event.user_saved, sender: self)
+            }
+        }
+        return pf
     }()
     
     lazy var dataStore: CoreDataStore = {
@@ -50,6 +57,13 @@ class ZentaoApp {
             }
         }
         profile.tempUser = User(address: address, account: account, password: password)
+    }
+    
+    func logout(complete: (Void) -> Void) {
+        if let user = self.user {
+            user.status = .ForceOffline
+        }
+        complete()
     }
     
     func login(complete: ((result: Bool, error: String, message: String) -> Void)) {

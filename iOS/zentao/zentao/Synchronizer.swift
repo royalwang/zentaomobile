@@ -19,13 +19,16 @@ class Synchronizer {
     var isRunning = false
     
     init(){
-        EventCenter.shared.bind(self).on(R.Event.timer_tick) +=! {
+        let trySyncBlock: Event.ClosureVoid = {
             if !self.isRunning {
                 self.sync()
             } else {
                 Log.w("Synchronizer is running and skip this tick.")
             }
         }
+
+        EventCenter.shared.bind(self).on(R.Event.timer_tick) +=! trySyncBlock
+        EventCenter.shared.bind(self).on(R.Event.try_sync) +=! trySyncBlock
     }
     
     func sync() {

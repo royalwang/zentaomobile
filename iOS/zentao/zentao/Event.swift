@@ -22,5 +22,7 @@ extension R {
         static let stop_timer = "stop_timer"
         static let timer_tick = "timer_tick"
         static let data_stored = "data_stored"
+        static let user_saved = "user_saved"
+        static let try_sync = "try_sync"
     }
 }
