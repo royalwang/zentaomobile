@@ -19,6 +19,8 @@
 		3B505CD21AB427DD00264CAF /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B505CD11AB427DD00264CAF /* DateExtension.swift */; };
 		3B505CD61AB4359C00264CAF /* NSDateTimeAgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B505CD51AB4359C00264CAF /* NSDateTimeAgo.swift */; };
 		3B5D19751ACA388C00A461B2 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5D19741ACA388C00A461B2 /* SettingViewController.swift */; };
+		3B5D19791ACA77BB00A461B2 /* SettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5D19781ACA77BB00A461B2 /* SettingTableViewController.swift */; };
+		3B5D197B1ACA817700A461B2 /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3B5D197A1ACA817700A461B2 /* NSDateTimeAgo.bundle */; };
 		3B5D30321AB8339C00D158AE /* ZentaoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5D30311AB8339C00D158AE /* ZentaoApp.swift */; };
 		3B657AB21AC0F43A00198C91 /* EventCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B657AB11AC0F43A00198C91 /* EventCenter.swift */; };
 		3B6F65861AB1588400CCEDE6 /* ZentaoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65851AB1588400CCEDE6 /* ZentaoAPI.swift */; };
@@ -101,6 +103,8 @@
 		3B505CD11AB427DD00264CAF /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		3B505CD51AB4359C00264CAF /* NSDateTimeAgo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateTimeAgo.swift; sourceTree = "<group>"; };
 		3B5D19741ACA388C00A461B2 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		3B5D19781ACA77BB00A461B2 /* SettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingTableViewController.swift; sourceTree = "<group>"; };
+		3B5D197A1ACA817700A461B2 /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NSDateTimeAgo.bundle; sourceTree = "<group>"; };
 		3B5D30311AB8339C00D158AE /* ZentaoApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZentaoApp.swift; sourceTree = "<group>"; };
 		3B657AB11AC0F43A00198C91 /* EventCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCenter.swift; sourceTree = "<group>"; };
 		3B6F65851AB1588400CCEDE6 /* ZentaoAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZentaoAPI.swift; sourceTree = "<group>"; };
@@ -303,6 +307,7 @@
 		3BA54CF71AB01F630081877C = {
 			isa = PBXGroup;
 			children = (
+				3B5D197A1ACA817700A461B2 /* NSDateTimeAgo.bundle */,
 				3BA54D021AB01F630081877C /* zentao */,
 				3BA54D1D1AB01F630081877C /* zentaoTests */,
 				3BA54D011AB01F630081877C /* Products */,
@@ -326,6 +331,8 @@
 				3B9DEEC61ABFF91A004ACA43 /* values */,
 				3B9DEEC11ABFF1CE004ACA43 /* HomeViewController.swift */,
 				3BDC4DEB1AC2603C00EF0BC9 /* EntityListViewController.swift */,
+				3B5D19741ACA388C00A461B2 /* SettingViewController.swift */,
+				3B5D19781ACA77BB00A461B2 /* SettingTableViewController.swift */,
 				3BDC4DF71AC3AD1D00EF0BC9 /* EntityListPageViewController.swift */,
 				3BDC4DF91AC3AD9D00EF0BC9 /* EntityListTableViewController.swift */,
 				3B9DEEAC1ABFBB30004ACA43 /* log */,
@@ -347,7 +354,6 @@
 				3BA54D031AB01F630081877C /* Supporting Files */,
 				3B6F65991AB18ACF00CCEDE6 /* zentao-Bridging-Header.h */,
 				3BDC4DED1AC27ED700EF0BC9 /* ListTableView.swift */,
-				3B5D19741ACA388C00A461B2 /* SettingViewController.swift */,
 			);
 			path = zentao;
 			sourceTree = "<group>";
@@ -458,6 +464,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B505CC61AB2DD4000264CAF /* fontawesome-webfont.ttf in Resources */,
+				3B5D197B1ACA817700A461B2 /* NSDateTimeAgo.bundle in Resources */,
 				3BA54D151AB01F630081877C /* LaunchScreen.xib in Resources */,
 				3BA54D121AB01F630081877C /* Images.xcassets in Resources */,
 				3BDC4E061AC3E74600EF0BC9 /* Main.storyboard in Resources */,
@@ -492,6 +499,7 @@
 				3BEB6AB71AB7C7D900EC3281 /* EntryAttribute.swift in Sources */,
 				3B6F65BB1AB2CDDF00CCEDE6 /* UIColorExtension.swift in Sources */,
 				3B6F658C1AB1664F00CCEDE6 /* JSON.swift in Sources */,
+				3B5D19791ACA77BB00A461B2 /* SettingTableViewController.swift in Sources */,
 				3B9DEEC21ABFF1CE004ACA43 /* HomeViewController.swift in Sources */,
 				3B505CD01AB3113400264CAF /* NamedEnum.swift in Sources */,
 				3B505CCC1AB2EA6500264CAF /* AccentIcon.swift in Sources */,
