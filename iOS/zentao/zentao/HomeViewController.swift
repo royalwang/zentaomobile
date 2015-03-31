@@ -14,7 +14,7 @@ class HomeViewController: ZentaoViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var helloUserLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
-    let items = EntityType.values - .Default
+    var dataSet: [CoreDataStore.EntitySummery]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +32,29 @@ class HomeViewController: ZentaoViewController, UITableViewDelegate, UITableView
             self.sayHelloToUser()
             Log.s("say hello to user from event center")
         }
+        
+        loadData()
+        
+        EventCenter.shared.bind(self).on(R.Event.data_stored) += {
+            self.loadData()
+        }
+    }
+    
+    func loadData() {
+        let task = TaskQueue()
+        task.tasks +=! {
+            _, next in
+            let store = self.app.dataStore
+            let user = self.app.getUser()!
+            self.dataSet = store.getSummery(user)
+            next(nil)
+        }
+        
+        task.tasks += {
+            self.tableView.reloadData()
+        }
+        
+        task.run()
     }
 
     override func didReceiveMemoryWarning() {
@@ -61,12 +84,12 @@ class HomeViewController: ZentaoViewController, UITableViewDelegate, UITableView
     
     // MARK: - Table View
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.items.count;
+        return dataSet?.count ?? (EntityType.values.count - 1);
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("cell") as UITableViewCell
-        let entityType = self.items[indexPath.row]
+        let entityType = dataSet?[indexPath.row].type ?? EntityType.values[indexPath.row]
         let contentView = cell.contentView
         let icon = contentView.viewWithTag(R.Tag.icon) as IconUILabel
         let title = contentView.viewWithTag(R.Tag.title) as UILabel
@@ -77,9 +100,18 @@ class HomeViewController: ZentaoViewController, UITableViewDelegate, UITableView
         icon.text        = entityType.icon.text
         icon.textColor   = entityType.swatch.P400.hue.color
         title.text       = entityType.displayName
-        subtitle.text    = entityType.name
         amount.text      = "0"
-        amount.textColor = entityType.swatch.primary.hue.color
+        amount.textColor = Color.lightGrayColor()
+        
+        if let summery = dataSet?[indexPath.row] {
+            subtitle.text = summery.subtitle
+            amount.text = "\(summery.amount)"
+            description.text = summery.amountType
+            if summery.amount > 0 {
+                amount.textColor = entityType.swatch.primary.hue.color
+            }
+        }
+        
         return cell
     }
     
