@@ -11,7 +11,7 @@ import Foundation
 class User: Printable {
     
     enum Status: Printable {
-        case Unknown, Offline, Online
+        case Unknown, Offline, Online, ForceOffline
         
         var description: String {
             switch self {
@@ -19,6 +19,8 @@ class User: Printable {
                 return "Unknown"
             case .Offline:
                 return "Offline"
+            case .ForceOffline:
+                return "ForceOffline"
             case .Online:
                 return "Online"
             }
@@ -90,8 +92,36 @@ class User: Printable {
         }
     }
     
+    var lastSyncTimeText: String {
+        return lastSyncTime?.timeAgo ?? "从未同步"
+    }
+    
+    var syncFrequencyText: String {
+        let hour: Int = syncFrequency / 3600
+        let min: Int = (syncFrequency % 3600) / 60
+        let seconds: Int = syncFrequency % 60
+        var text = ""
+        if hour > 0 {
+            text += "\(hour)小时"
+        }
+        if min > 0 {
+            text += "\(min)分钟"
+        }
+        if seconds > 0 {
+            text += "\(seconds)秒"
+        }
+        return text
+    }
+    
     var displayName: String {
         return realName ?? account
+    }
+    
+    var displayAccount: String {
+        if realName == nil || realName! == account {
+            return account
+        }
+        return "\(realName!) (\(account))"
     }
     
     private var currentStatus = Status.Unknown
@@ -108,10 +138,15 @@ class User: Printable {
                 currentStatus = .Offline
             }
             
+            if currentStatus == .ForceOffline {
+                return .Unknown
+            }
+            
             return currentStatus
         }
         set {
             currentStatus = newValue
+            Log.d("User status set to \(newValue.description)")
         }
     }
     
