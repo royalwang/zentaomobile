@@ -18,6 +18,7 @@
 		3B505CD01AB3113400264CAF /* NamedEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B505CCF1AB3113400264CAF /* NamedEnum.swift */; };
 		3B505CD21AB427DD00264CAF /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B505CD11AB427DD00264CAF /* DateExtension.swift */; };
 		3B505CD61AB4359C00264CAF /* NSDateTimeAgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B505CD51AB4359C00264CAF /* NSDateTimeAgo.swift */; };
+		3B5D19751ACA388C00A461B2 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5D19741ACA388C00A461B2 /* SettingViewController.swift */; };
 		3B5D30321AB8339C00D158AE /* ZentaoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5D30311AB8339C00D158AE /* ZentaoApp.swift */; };
 		3B657AB21AC0F43A00198C91 /* EventCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B657AB11AC0F43A00198C91 /* EventCenter.swift */; };
 		3B6F65861AB1588400CCEDE6 /* ZentaoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F65851AB1588400CCEDE6 /* ZentaoAPI.swift */; };
@@ -99,6 +100,7 @@
 		3B505CCF1AB3113400264CAF /* NamedEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NamedEnum.swift; sourceTree = "<group>"; };
 		3B505CD11AB427DD00264CAF /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		3B505CD51AB4359C00264CAF /* NSDateTimeAgo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateTimeAgo.swift; sourceTree = "<group>"; };
+		3B5D19741ACA388C00A461B2 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		3B5D30311AB8339C00D158AE /* ZentaoApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZentaoApp.swift; sourceTree = "<group>"; };
 		3B657AB11AC0F43A00198C91 /* EventCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCenter.swift; sourceTree = "<group>"; };
 		3B6F65851AB1588400CCEDE6 /* ZentaoAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZentaoAPI.swift; sourceTree = "<group>"; };
@@ -345,6 +347,7 @@
 				3BA54D031AB01F630081877C /* Supporting Files */,
 				3B6F65991AB18ACF00CCEDE6 /* zentao-Bridging-Header.h */,
 				3BDC4DED1AC27ED700EF0BC9 /* ListTableView.swift */,
+				3B5D19741ACA388C00A461B2 /* SettingViewController.swift */,
 			);
 			path = zentao;
 			sourceTree = "<group>";
@@ -494,6 +497,7 @@
 				3B505CCC1AB2EA6500264CAF /* AccentIcon.swift in Sources */,
 				3BDC4DEE1AC27ED700EF0BC9 /* ListTableView.swift in Sources */,
 				3B9DEEC81ABFF938004ACA43 /* Tag.swift in Sources */,
+				3B5D19751ACA388C00A461B2 /* SettingViewController.swift in Sources */,
 				3B9DEEB01ABFBB76004ACA43 /* DebugLog+FileReader.swift.swift in Sources */,
 				3B6F65881AB15BF200CCEDE6 /* User.swift in Sources */,
 				3BEB6AC11AB7FDE400EC3281 /* Project.swift in Sources */,
