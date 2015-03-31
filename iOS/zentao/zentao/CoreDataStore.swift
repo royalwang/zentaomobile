@@ -329,7 +329,7 @@ class CoreDataStore {
         return (estimate: estimate, consumed: consumed, left: left, progress: progress, hour: hour)
     }
     
-    typealias EntitySummery = (title: String, subtitle: String, amount: Int, amountType: String)
+    typealias EntitySummery = (type: EntityType, subtitle: String, amount: Int, amountType: String)
     
     func getSummery(entityType: EntityType, user: User) -> EntitySummery? {
         if let defaultTab = entityType.defaultTab {
@@ -354,7 +354,7 @@ class CoreDataStore {
                 }
             }
             
-            return (title: entityType.displayName, subtitle: subtitle, amount: amount, amountType: amountType)
+            return (type: entityType, subtitle: subtitle, amount: amount, amountType: amountType)
         }
         return nil
     }
