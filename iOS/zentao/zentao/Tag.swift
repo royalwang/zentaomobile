@@ -11,6 +11,7 @@ import Foundation
 extension R {
     struct Tag {
         static let accent_header = 9999
+        static let custom_navbar = 9998
         
         static let icon = 1000
         static let title = 1001

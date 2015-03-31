@@ -8,12 +8,12 @@
 
 import UIKit
 
-class SettingViewController: UIViewController {
-
+class SettingViewController: ZentaoViewController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        self.accentSwatch = MaterialColor.Blue
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,6 +21,9 @@ class SettingViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func onDoneClick(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, nil)
+    }
 
     /*
     // MARK: - Navigation
