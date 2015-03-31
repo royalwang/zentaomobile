@@ -86,25 +86,28 @@ class ZentaoViewController: UIViewController {
     var accentSwatch: MaterialColor.Swatch? {
         didSet {
             if let swatch = accentSwatch {
-                if let nav = self.navigationController {
-                    nav.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
-                    nav.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
-//                    nav.navigationBar.barTintColor = color
-                    nav.navigationBar.translucent = true
-                    UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
-                    
-                    let color = swatch.primary.hue.color
-                    
-                    UIView.animateWithDuration(0.3) {
-                        self.view.viewWithTag(R.Tag.accent_header)?.layer.backgroundColor = color.CGColor
-                        return
-                    }
-                    
-//                    self.view.viewWithTag(R.Tag.accent_header)?.backgroundColor = color
-                    
-                    let hex = NSString(format:"%2X", swatch.primary.hue) as String
-                    Log.v("Accent swatch changed to \(swatch.name)(#\(hex))")
+                var navbar: UINavigationBar? = self.navigationController?.navigationBar
+                if navbar == nil {
+                    navbar = self.view.viewWithTag(R.Tag.custom_navbar) as? UINavigationBar
                 }
+                
+                if let nav = navbar {
+                    nav.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+                    nav.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+                    nav.translucent = true
+                }
+                
+                UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+                
+                let color = swatch.primary.hue.color
+                
+                UIView.animateWithDuration(0.3) {
+                    self.view.viewWithTag(R.Tag.accent_header)?.layer.backgroundColor = color.CGColor
+                    return
+                }
+                
+                let hex = NSString(format:"%2X", swatch.primary.hue) as String
+                Log.v("Accent swatch changed to \(swatch.name)(#\(hex))")
             }
         }
     }
